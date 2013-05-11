@@ -1,4 +1,4 @@
-/* Maus Tracker */
+/* mouse tracker */
 
 var canvas,
 	c, // c is the canvas' context 2D
@@ -21,8 +21,8 @@ function loop() {
 		canvas.height = window.innerHeight;
 	}
 	c.clearRect(0,0,canvas.width, canvas.height);
-	c.strokeStyle = "cyan";
-	c.lineWidth = "6";
+	c.strokeStyle = "#eee";
+	c.lineWidth = "10";
 
 	c.beginPath();
 	c.arc(posX, posY, 50, 0, Math.PI*2, true);
