@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<title>Touch detects</title>
+<body>
+<h1>Touch detects</h1>
+<output></output>
+</body>
+<script>
+var o = document.getElementsByTagName('output')[0];
+
+o.innerHTML += "'ontouchstart' in window : ";
+o.innerHTML += 'ontouchstart' in window;
+o.innerHTML += '<br>';
+
+o.innerHTML += "'ontouchend' in document : ";
+o.innerHTML += 'ontouchend' in document;
+o.innerHTML += '<br>';
+
+
+
+o.innerHTML += "navigator.msMaxTouchPoints > 0 : ";
+o.innerHTML += navigator.msMaxTouchPoints > 0;
+o.innerHTML += '<br>';
+
+</script>
