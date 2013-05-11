@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<title>CSS-based dropdown</title>
+<meta name="viewport" content="width=400px">
+<style>
+ul, ul.menu, ul.menu li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul.menu li { display: block; float: left; 	background: red;
+	border: 1px black solid; }
+
+ul.menu ul li { background: orange; }
+
+ul.menu li ul li { float: none; }
+
+ul.menu li a {
+	display: block;
+	padding: 1em;
+	margin: 0;
+	color: white;
+	text-decoration: none;
+}
+ul.menu ul { display: none; }
+ul.menu li:hover ul {
+	display: block;
+}
+</style>
+<body>
+<ul class="menu">
+	<li><a href="">Menu 1</a></li>
+	<li><a href="">Menu 2</a>
+		<ul>
+			<li><a href="">Item 1</a></li>
+			<li><a href="">Item 2</a></li>
+			<li><a href="">Item 3</a></li>
+		</ul>
+	</li>
+	<li><a href="">Menu 3</a>
+		<ul>
+			<li><a href="">Item 1</a></li>
+			<li><a href="">Item 2</a></li>
+			<li><a href="">Item 3</a></li>
+		</ul>
+	</li>
+</ul>

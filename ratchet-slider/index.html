@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<title>Touch slider</title>
+<meta name="viewport" content="width=600px">
+<style>
+
+h1 { font-size: 1.2em; }
+
+.slider {
+	width: 50%;
+	overflow: hidden;
+}
+.slider ul {
+	position: relative;
+	transition: all 0s cubic-bezier(0, 0, 1, 1) 0;
+	white-space: nowrap;
+	margin: 0; padding: 0
+}
+.slider li {
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
+	width: 100%;
+	white-space: nowrap;
+	margin: 0; padding: 0;
+}
+
+.slider li img { 
+	min-width: 50%;
+	max-width: 100%;
+	white-space: nowrap;
+	margin: 0; padding: 0;
+}
+</style>
+<script src="sliders.js"></script>
+<body>
+<h1>Touch slider</h1>
+<div class="slider">
+  <ul>
+    <li>
+      <img src="slide-1.jpg">
+    </li>
+    <li>
+      <img src="slide-2.jpg">
+    </li>
+    <li>
+      <img src="slide-3.jpg">
+    </li>
+    <li>
+      <img src="slide-4.jpg">
+    </li>
+  </ul>
+</div>
+<p>Generalised <a href="https://github.com/maker/ratchet/blob/master/lib/js/sliders.js"><code>sliders.js</code></a> adapted to non-webkit-only from <a href="http://maker.github.com/ratchet/">Ratchet</a>.</p>
+</body>

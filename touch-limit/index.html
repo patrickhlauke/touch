@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Debouncing/throttling touchmove and mousemove</title>
+<meta name="viewport" content="width=350px">
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+<script type='text/javascript' src="https://raw.github.com/m-gagne/limit.js/master/limit.js"></script>
+<style type='text/css'>
+  body { font-family:"Verdana"; }
+  h1 { font-size: 1.2em; font-weight: bold; }
+  .status div div { width: 160px; display: inline-block; }
+  .status div div:last-child { width: 40px; text-align: right; }
+</style>
+<script>
+$(window).load(function(){
+var unlimitedCalls = 0,
+    debounceCalls = 0,
+    throttleCalls = 0;
+
+$(document).bind('mousemove', function(e) {
+  $("#unlimited").children().last().text(unlimitedCalls++);
+}); // no limit applied
+
+$(document).bind('mousemove', function(e) {
+  $("#debounce").children().last().text(debounceCalls++);
+}.debounce(150)); // debounce with a 150 millisecond limit
+
+$(document).bind('mousemove', function(e) {
+  $("#throttle").children().last().text(throttleCalls++);
+}.throttle(150)); // throttle with a 150 millisecond limit    
+
+$(document).bind('touchmove', function(e) {
+  e.preventDefault();
+  $("#unlimited").children().last().text(unlimitedCalls++);
+}); // no limit applied
+
+$(document).bind('touchmove', function(e) {
+  e.preventDefault();
+  $("#debounce").children().last().text(debounceCalls++);
+}.debounce(150)); // debounce with a 150 millisecond limit
+
+$(document).bind('touchmove', function(e) {
+  e.preventDefault();
+  $("#throttle").children().last().text(throttleCalls++);
+}.throttle(150)); // throttle with a 150 millisecond limit 
+
+});  
+</script>
+
+
+</head>
+<body>
+<h1>Debouncing/throttling</h1>
+<p>Uses <a href="https://github.com/m-gagne/limit.js">limit.js</a> to debounce and throttle events.</p> 
+<div class="status">
+<div id="unlimited">
+<div>Unlimited calls:</div>
+<div>0</div>
+</div>
+<div id="debounce">
+<div>Debounced calls:</div>
+<div>0</div>
+</div>
+<div id="throttle">
+<div>Throttled calls:</div>
+<div>0</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<head>
+<title>Particle party with touch</title>
+<meta name="viewport" content="width=850, user-scalable=no">
+<script src="particleSystem.js"></script>
+<style>
+html, body { background: #999; color: #fff; margin: 0; padding: 0; }
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 0.9em;
+	line-height: 1.2;
+	width: 400px;
+	padding: 0 10px;
+}
+h1 { font-size: 1em; }
+canvas { margin: 5px 0; }
+</style>
+</head>
+<body>
+<h1>Particle party with touch</h1>
+<canvas width="400" height="400" id="emitter-canvas"></canvas>
+<script>
+window.addEventListener('load',function() {
+	var emitter = new Emitter(document.getElementById('emitter-canvas'));
+	emitter.init(); 
+}, false);
+</script>
+</body>
