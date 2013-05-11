@@ -38,13 +38,13 @@ function loop() {
 	rotation = angle;
 
 	/* Draw main circle */
-	c.strokeStyle = "#fff";
+	c.strokeStyle = "#eee";
 	c.lineWidth = 6;
 	c.beginPath();
 	c.arc(posx, posy, size/2, 0, Math.PI*2, true);
 	c.stroke();
 	/* Draw rotation value */
-	c.strokeStyle = "#c00";
+	c.strokeStyle = "#bbb";
 	c.lineWidth = size/4;
 	c.beginPath();
 	c.arc(posx, posy, size/4, 0, rotation, true);

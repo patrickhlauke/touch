@@ -3,12 +3,11 @@ body {
 	margin: 0px;
 }
 canvas {
-	background-color:#402724;
+	background-color:#222;
 	display:block; 
 	position:absolute; 
 }
 .container {
 	width:auto;
 	text-align:center;
-	background-color:#ff0000;
 }
