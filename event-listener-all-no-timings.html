@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Event listener (shows only events, no timings)</title>
+<meta name="viewport" content="width=device-width">
+<style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+output {
+	display: block;
+	padding: 1em;
+	font-size: 0.75em;
+	background: #ddd;
+	height: 20em;
+	overflow:auto;
+}
+
+output strong {
+	color: #f00;
+	text-decoration: underline;
+}
+
+button {
+	width: 100%;
+	height: 4rem;
+	margin: 0 0 1rem;
+	padding: 0.15rem 1.5rem;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+
+	background: #ddd;
+	background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+	background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+	background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+	background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+	background: -o-linear-gradient(top, #65a9d7, #3e779d);
+	background: linear-gradient(to bottom, #65a9d7 0%,#3e779d 100%);
+
+	-webkit-box-shadow: rgba(0,0,0,0.4) 0 0.1rem 0, inset rgba(255,255,255,0.4) 0 0.1rem 0;
+	-moz-box-shadow: rgba(0,0,0,0.4) 0 0.1rem 0, inset rgba(255,255,255,0.4) 0 0.1rem 0;
+	box-shadow: rgba(0,0,0,0.4) 0 0.1rem 0, inset rgba(255,255,255,0.4) 0 0.1rem 0;
+
+	border: 0.1rem solid #0a3c59;
+	border-radius: 0.2rem;
+	font: 1.6rem/3.8rem Arial, Sans-serif;
+	color: #06426c;
+	text-align: center;
+	text-shadow: 0.1rem 0.1rem 0 #7ea4bd;
+	text-decoration: none;
+	outline: none;
+
+	transition: color .1s linear;
+}
+
+button:focus, button:hover {
+	color: #fff;
+	text-shadow: 0.1rem 0.1rem 0 #1e4158;
+}
+
+button:active  {
+	border-color: #008aaa;
+
+	background: #008aaa;
+	background: #65a9d7;
+	background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
+	background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+	background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+	background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+	background: -o-linear-gradient(top, #3e779d, #65a9d7);
+	background: linear-gradient(top, #3e779d, #65a9d7);
+	
+	color: #fff
+}
+
+button::-moz-focus-inner {
+  border: none;
+  outline: none;
+}
+</style>
+<script>
+window.addEventListener('load', function() {
+	var t = 0;
+	var events = [
+	'MSPointerDown',
+	'MSPointerUp',
+	'MSPointerCancel',
+	'MSPointerMove',
+	'MSPointerOver',
+	'MSPointerOut',
+	'MSGotPointerCapture',
+	'MSLostPointerCapture',
+	'pointerdown',
+	'pointerup',
+	'pointercancel',
+	'pointermove',
+	'pointerover',
+	'pointerout',
+	'gotpointercapture',
+	'lostpointercapture',
+	'touchstart',
+	'touchmove',
+	'touchend',
+	'touchenter',
+	'touchleave',
+	'mouseover',
+	'mousemove',
+	'mouseout',
+	'mousedown',
+	'mouseup',
+	'focus',
+	'blur',
+	'click'
+	];
+	var b = document.getElementsByTagName('button')[0];
+	var o = document.getElementsByTagName('output')[0],
+	report = function(e) {
+		o.innerHTML += e.type;
+		o.innerHTML += '<br>';
+	}
+	for (var i=0; i<events.length; i++) {
+		b.addEventListener(events[i], report, false);
+	}
+}, false);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<p>Lists all relevant events, but without timing info.</p>
+<button class="button">Test button!</button>
+<output></output>
+</body></html>
