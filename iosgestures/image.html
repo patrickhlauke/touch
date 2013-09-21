@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>iOS Gestures applied</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+html,body { overflow: hidden; }
+img {
+	display: block;
+	position: absolute;
+	z-index:1;
+	-webkit-transform: scale(0.5);
+	transform: scale(0.5);
+	top: 0px; left: 0px; /* though this won't be flush, due to transform (actual top and left = half the width/height of image */
+	border: 20px transparent solid;
+	background-color: #eee;
+	background-origin: border-box;
+	background-image: url(./images/centermarks.png), url(./images/centermarks.png), url(./images/centermarks.png), url(./images/centermarks.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/bullseye.png), url(./images/colourbar.png);
+	background-repeat: no-repeat;
+	background-position: center bottom, center top, left center, right center, 0 15%,  0 85%,  100% 15%,  100% 85%, 15% 0, 85% 0, 15% 100%, 85% 100%, 100% 70%;
+	margin: 0; padding: 0;
+}
+
+</style>
+<script>
+window.addEventListener('load', function() {
+	document.getElementsByTagName('img')[0].addEventListener('gesturechange', function(e) {
+		e.preventDefault();
+    	e.target.style.webkitTransform = e.target.style.transform =
+        'scale(' + e.scale*0.5  + ') rotate(' + e.rotation + 'deg)';
+	}, false);
+}, false);
+</script>
+</head>
+<body>
+<h1>iOS Gestures applied</h1>
+<img src="./images/1.jpg" alt="Image 1">
+</body>
+</html>

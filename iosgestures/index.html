@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>iOS Gestures</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+
+output {
+	display: block;
+	padding: 1em;
+	font-size: 0.75em;
+	background: #ddd;
+	color: #000;
+	height: 20em;
+	overflow:auto;
+}
+</style>
+<script>
+window.addEventListener('load', function() {
+	document.body.addEventListener('gesturechange', function(e) {
+		var o = document.getElementsByTagName('output')[0];
+		o.innerHTML = 'Scale:'+e.scale+' Rotation:'+e.rotation;
+	}, false);
+}, false);
+</script>
+</head>
+<body>
+<h1>iOS Gestures</h1>
+<p>Simple demonstration of the proprietary <code>GestureEvent</code> support in iOS Safari (not part of the W3C Touch Events specification).</p>
+<output>...</output>
+</body>
+</html>
