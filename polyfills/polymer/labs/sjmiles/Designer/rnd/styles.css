@@ -1,0 +1,60 @@
+#source {
+  cursor: pointer;
+  border: 1px solid orange;
+  padding: 8px;
+  position: absolute;
+  top:0;
+  z-index: 1000;
+}
+
+#droppy {
+  border: 3px solid magenta;
+  position: absolute;
+  pointer-events: none;
+}
+
+#flexy {
+  height: 200px;
+}
+
+.boxey {
+  position: relative;
+  border: 2px solid green;
+  cursor: pointer;
+}
+
+.hidey {
+  display: none;
+}
+
+.lefty {
+  top:0;
+  right:auto;
+  bottom:0;
+  left:0;
+}
+
+.righty {
+  top:0;
+  right:0;
+  bottom:0;
+  left:auto;
+}
+
+.topy {
+  top:0;
+  right:0;
+  bottom:auto;
+  left:0;
+}
+
+.bottomy {
+  top:auto;
+  right:0;
+  bottom:0;
+  left:0;
+}
+
+.selected {
+  border: 2px solid orange;
+}

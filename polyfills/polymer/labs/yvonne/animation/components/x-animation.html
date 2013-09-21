@@ -1,0 +1,173 @@
+<script src="../../../polymer/platform/WebAnimations/web-animations.js"></script>
+<element name="x-animation">
+  <script>
+    Polymer.register(this, {
+      animation: null,
+      target: null,
+      // animation
+      properties: null,
+      accumulate: null,
+      composite: null,
+      // timing
+      duration: null,
+      fillMode: null,
+      easing: null,
+      iterationCount: null,
+      startDelay: null,
+      direction: null,
+      ready: function() {
+        this.asyncApply();
+      },
+      play: function() {
+        // TODO: need to dirty check to make sure all side effects are
+        // applied before playing the animation.
+        window.dirtyCheck();
+        this.completeApply();
+        if (this.animation) {
+          this.cancel();
+          this.player = document.timeline.play(this.animation);
+          this.player.paused = false;
+          this.player.currentTime = 0;
+          this.monitor();
+        }
+      },
+      cancel: function() {
+        if (this.player) {
+          this.player.source = null;
+        }
+      },
+      apply: function() {
+        this.applyJob && this.applyJob.stop();
+        this.applyJob = null;
+        this.animation = null;
+        this.animation = this.makeAnimation();
+        if (this.autoplay && this.animation) {
+          this.play();
+        }
+        if (this.animation) {
+          this.asyncApplyParent();
+        }
+        return this.animation;
+      },
+      makeAnimation: function() {
+        //this.target && console.log('makeAnimation target', this.target, 'animation', this.animationProps, 'timing', this.timingProps);
+        return this.target ? new Animation(this.target, this.animationProps, this.timingProps) : null;
+      },
+      asyncApply: function() {
+        this.applyJob = this.job(this.applyJob, this.apply);
+      },
+      completeApply: function() {
+        this.applyJob && this.applyJob.complete();
+      },
+      animationChanged: function() {
+        // TODO: attributes are not case sensitive.
+        this.send('animationchange');
+      },
+      targetChanged: function() {
+        this.asyncApply();
+      },
+      propertiesChanged: function() {
+        this.asyncApply();
+      },
+      durationChanged: function() {
+        this.asyncApply();
+      },
+      fillModeChanged: function() {
+        this.asyncApply();
+      },
+      easingChanged: function() {
+        this.asyncApply();
+      },
+      iterationCountChanged: function() {
+        this.asyncApply();
+      },
+      startDelayChanged: function() {
+        this.asyncApply();
+      },
+      directionChanged: function() {
+        this.asyncApply();
+      },
+      asyncApplyParent: function() {
+        var p = this.parentNode;
+        if (p && p.asyncApply) {
+          p.asyncApply();
+        }
+      },
+      doOnChildren: function(inFn) {
+        Array.prototype.forEach.call(this.children, inFn, this);
+      },
+      get timingProps() {
+        var props = {};
+        var timing = {
+          fillMode: 'fillMode',
+          easing: 'timingFunction',
+          startDelay: 'startDelay',
+          direction: 'direction',
+          duration: 'duration'
+        };
+        for (t in timing) {
+          this[t] !== null && (props[timing[t]] = this[t]);
+        }
+        return props;
+      },
+      get animationProps() {
+        var props = {};
+        if (!this.properties) {
+          this.doOnChildren(function(c) {
+            if (c.tagName.toLowerCase() === 'x-property') {
+              var property = c.name;
+              var values = [];
+              this.doOnChildren.call(c, function(f) {
+                values.push(f.properties);
+              });
+              props[property] = values;
+            }
+          });
+        }
+        return this.properties || props;
+      },
+      monitor: function() {
+        // TODO(sorvell): adding brittle support for an end event
+        if (this.player && this.player.source &&
+            this.player.source._isPastEndOfActiveInterval()) {
+          this.complete();
+        } else {
+          webkitRequestAnimationFrame(this.monitor.bind(this));
+        }
+      },
+      // intended for user implementation
+      complete: function() {
+        this.send('complete');
+      }
+    });
+  </script>
+</element>
+<element name="x-property">
+  <script>
+    Polymer.register(this, {
+      name: null
+    });
+  </script>
+</element>
+<element name="x-keyframe">
+  <script>
+    Polymer.register(this, {
+      offset: null,
+      value: null,
+      easing: null,
+      get properties() {
+        var props = {
+          // TODO bug in webanimations polyfill
+          value: String(this.value) || "",
+        };
+        if (this.offset !== null) {
+          props.offset = this.offset;
+        }
+        if (this.easing) {
+          props.timingFunction = this.easing;
+        }
+        return props;
+      }
+    });
+  </script>
+</element>

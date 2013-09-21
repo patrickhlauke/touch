@@ -1,0 +1,64 @@
+<?doctype html>
+<html>
+	<head>
+		<title>Custom Elements + Layout Animation</title>
+		<link rel="import" href="../../polymer-elements/polymer-animation/web-animations.html">
+		<script src="../layoutAnimationShim/src/layout-animation.js"></script>
+		<script src="../../polymer/polymer.js"></script>
+		<style>
+			x-container > div {
+				border: 1px solid black;
+				margin: 5px;
+				padding: 5px;
+			}
+			x-container.row > div {
+				display: inline-block;
+				height: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<element name="x-container">
+			<template>
+				Hi!
+				<content></content>
+			</template>
+			<script>
+				Polymer.register(this);
+			</script>
+		</element>
+		<x-container id="container" class="">
+			<div>foo</div>
+			<div>bar</div>
+			<div>baz</div>
+		</x-container>
+		<button onclick="doAnimate()">click me</button>
+		<script>
+			function doAnimate() {
+				registerLayoutKeyframes('morph', [{
+					offset: 0,
+					properties: {
+						layoutWidth: 'from()',
+						layoutHeight: 'from()',
+						layoutTop: 'from()',
+						layoutLeft: 'from()'
+					}
+				}, {
+					offset: 1,
+					properties: {
+						layoutWidth: 'to()',
+						layoutHeight: 'to()',
+						layoutTop: 'to()',
+						layoutLeft: 'to()'
+					}
+				}]);
+				var els = document.querySelectorAll('x-container > div');
+				setLayoutTransition(els, 'morph', 1);
+				setLayoutEffect(els, 'transform');
+				transitionThis(function() {
+					container.classList.toggle('row');
+				});
+			}
+		</script>
+	</body>
+</html>

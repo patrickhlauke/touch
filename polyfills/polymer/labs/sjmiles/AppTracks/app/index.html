@@ -1,0 +1,107 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Tracks Layout</title>
+  <link href="index.css" rel="stylesheet">
+  <script src="lib/polymer.min.js"></script>
+  <script src="src/tracks.js"></script>
+  <script src="src/tracks_app.js"></script>
+</head>
+<body>
+  <polymer-element name="tracks-app">
+    <template>
+      <polymer-ui-toolbar id="toolbar">
+        <polymer-ui-icon-button icon="menu" on-click="toggleLayout">Go</polymer-ui-icon-button>
+        <span flex>Toolbar</span>
+        <polymer-ui-icon-button icon="settings" on-click="toggleLayout">Go</polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-sidebar-menu v-flex label="Sidebar" id="sidebar">
+        <polymer-ui-menu-item>polymer-elements</polymer-ui-menu-item>
+        <polymer-ui-menu-item>polymer-ui-elements</polymer-ui-menu-item>
+        <polymer-ui-menu-item>more-elements</polymer-ui-menu-item>
+      </polymer-ui-sidebar-menu>
+
+      <div id="workspace" flex>
+      </div>
+
+      <polymer-ui-toolbar id="outputToolbar">
+        <span flex>Info</span>
+        <polymer-ui-icon-button icon="drawer" active="{{outputLayout}}" on-click="toggleLayout">Go</polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="search"on-click="toggleLayout">Go</polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <div id="output" v-flex>
+        <h2>Documentation</h2>
+        <h1>Verbiage</h1>
+        <p>In backbone record integer LED amplified internet protocol a extension reflective. Array kilohertz LED. Wavelength extension patch supporting wave an by prompt.</p>
+        <p>Log protocol serial includes vector ethernet bus PC source.</p>
+        <p>Feedback dithering prototype vector dynamic application network encapsulated record current. Transport microscopic debugged terminal. Sampling adaptive system recognition graphene an. Serial by key high-level dithering capacitance hyperlinked. Recognition prompt servicing fixed converter PC. Deviation alternating current.</p>
+      </div>
+
+      <style>
+        #sidebar {
+          position: absolute !important;
+        }
+        #workspace {
+          border: 5px dashed orange;
+          background-color: white;
+        }
+        #output {
+          width: 400px;
+          background-color: whitesmoke;
+          padding: 16px;
+          box-sizing: border-box;
+        }
+        * {
+          -webkit-transition: top, right, bottom, left;
+          -webkit-transition-duration: 0.3s;
+        }
+        polymer-ui-toolbar {
+          display: block;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+          height: 78px;
+          line-height: 78px;
+          padding-left: 8px;
+          font-size: 21px;
+          background: #333333 -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.9));
+          background: #333333 -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.9));
+          background: #333333 -ms-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.9));
+          color: #ededed;
+        }
+        polymer-ui-sidebar-menu {
+          display: block;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          padding: 10px;
+          font-size: 15px;
+          font-weight: bold;
+          background: -webkit-linear-gradient(-60deg, #3d3d3d, #353535);
+          background: -moz-linear-gradient(-60deg, #3d3d3d, #353535);
+          background: -ms-linear-gradient(-60deg, #3d3d3d, #353535);
+        }
+        polymer-ui-menu-item {
+          padding: 8px;
+          display: block;
+          color: #EEEEEE;
+        }
+        polymer-ui-icon-button {
+          cursor: pointer;
+          background-color: #001e48;
+          border-radius: 16px;
+          padding: 4px 6px 6px;
+          margin: 0 8px;
+        }
+        polymer-ui-icon-button:hover {
+          color: #111;
+          background-color: #0062eb;
+        }
+      </style>
+    </template>
+  </polymer-element>
+
+  <tracks-app theme="polymer-ui-dark-theme"></tracks-app>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<polymer-element name="bs-accordion-item" attributes="open" class="accordion-group">
+  <template>
+    <style>
+      @host {
+        :scope { display: block; }
+      }
+    </style>
+    <div class="accordion-heading">
+      <a id="collapse" class="accordion-toggle" on-tap="toggleAll">
+        <content select=".header"></content>
+      </a>
+    </div>
+    <div id="collapseTarget" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <content id="content" select=".content"></content>
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer('bs-accordion-item', {
+      applyAuthorStyles: true,
+      open: false,
+      openChanged: function() {
+        this.open ? this.collapseAction('show') : this.collapseAction('hide');
+      },
+      toggleAll: function() {
+        var items = this.parentNode.querySelectorAll(this.localName);
+        Array.prototype.forEach.call(items, function(n) {
+          n.open = (n == this);
+        }, this);
+      },
+      toggle: function() {
+        this.collapseAction('toggle');
+      },
+      collapseAction: function(action) {
+        $(this.$.collapseTarget).collapse(action);
+      }
+    });
+  </script>
+</polymer-element>

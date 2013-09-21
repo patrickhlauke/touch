@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<style>
+.container {
+  width: 400px;
+  height: 400px;
+  border: 5px solid green;
+  border-radius: 20px;
+  padding: 10px;
+  background-image: url('http://www.mathsisfun.com/activity/images/coin-grid.gif');
+}
+
+.endContainer {
+  width: 800px;
+  height: 200px;
+  position: absolute;
+  border: 5px solid green;
+  border-radius: 20px;
+  padding: 10px;
+  background-image: url('http://www.mathsisfun.com/activity/images/coin-grid.gif');
+  opacity: 0;
+}
+
+.containerMirror {
+  width: 400px;
+  height: 400px;
+  border: 5px;
+  border-radius: 20px;
+  position: absolute;
+  padding: 10px;
+  left: 10px;
+  top: 28px;
+  display: -webkit-flex;
+  -webkit-flex-flow: row wrap;
+  -webkit-justify-content: space-between;
+}
+
+.endContainerMirror {
+  width: 800px;
+  height: 200px;
+  border: 5px;
+  border-radius: 20px;
+  position: absolute;
+  padding: 10px;
+  left: 10px;
+  top: 28px;
+  margin: 100px;
+  display: -webkit-flex;
+  -webkit-flex-row: row wrap;
+  -webkit-justify-content: space-between;
+  opacity: 0;
+}
+
+.firstImg {
+  width: 380px;
+  height: 100px;
+  background-image: url('http://placekitten.com/380/100');
+}
+
+.first {
+  -webkit-flex-basis: 400px;
+  -webkit-flex-grow: 1;
+}
+
+.second {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  background-image: url('http://placekitten.com/200/200');
+</style>
+<script src="../../../platform/WebAnimations/web-animations.js"></script>
+<script>
+
+var effects = ["none", "crossfade", "transform", "layout", "transfade"];
+
+var animations = [];
+
+var DURATION = 2;
+
+var timing = {
+  duration: DURATION,
+  direction: 'alternate',
+  iterationCount: Infinity
+};
+
+var ltiming = {
+  duration: DURATION,
+  direction: 'alternate',
+  iterationCount: Infinity,
+  timingFunction: 'linear'
+};
+
+for (var i = 0; i < effects.length; i++) {
+  for (var j = 0; j < effects.length; j++) {
+    var div = document.createElement("div")
+    div.innerHTML = effects[i] + " " + effects[j] + 
+      "<div class='container'></div><div class='endContainer'></div>" + 
+      "<div class='containerMirror'><div class='first'>" +
+      "<div class='firstImg'></div> " +
+      "This is a bunch of text that I am writing " +
+      "as a filler. The only real requirement is that it is long enough to do interesting " +
+      "things with wrap. The text itself doesn't have to be interesting, which is perhaps " +
+      "fortunate as I am not a writer.</div><div class='second'></div></div>" + 
+      "<div class='endContainerMirror'><div class='first'>" +
+      "<div class='firstImg'></div> " +
+      "This is a bunch of text that I am writing " +
+      "as a filler. The only real requirement is that it is long enough to do interesting " +
+      "things with wrap. The text itself doesn't have to be interesting, which is perhaps " +
+      "fortunate as I am not a writer.</div><div class='second'></div></div>"
+    document.documentElement.appendChild(div);
+
+    var container = div.querySelector('.container');
+    var endContainer = div.querySelector('.endContainer');
+    endContainer.style.top = container.getBoundingClientRect().top + 100 + 'px';
+    endContainer.style.left = container.getBoundingClientRect().left + 100 + 'px';
+
+    var containerMirror = div.querySelector('.containerMirror');
+    containerMirror.style.top = container.getBoundingClientRect().top + 10 + 'px';
+
+    var endContainerMirror = div.querySelector('.endContainerMirror');
+    endContainerMirror.style.top = container.getBoundingClientRect().top + 10 + 'px';
+
+    if (effects[i] == 'transform') {
+      animations.push(new SeqGroup([
+        new ParGroup([
+          new Animation(container,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(300px, 0px, 0px) scale(2, 0.5)"],
+              opacity: ["1", "1"] },
+            DURATION),
+          new Animation(endContainer, { opacity: ["0", "0"] }, DURATION)
+        ]),
+        new ParGroup([
+          new Animation(container, { opacity: ["0", "0"] }, DURATION),
+          new Animation(endContainer,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(-300px, 0px, 0px) scale(0.5, 2)"],
+              opacity: ["1", "1"] },
+            DURATION)
+        ])
+      ], { iterationCount: Infinity }));
+    }
+
+    if (effects[i] == 'transfade') {
+      animations.push(new SeqGroup([
+        new ParGroup([
+          new Animation(container,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(300px, 0px, 0px) scale(2, 0.5)"],
+              opacity: ["1", "0"] },
+            DURATION),
+          new Animation(endContainer, 
+            { transform: ["translate3d(-300px, 0px, 0px) scale(0.5, 2)",
+                          "translate3d(0px, 0px, 0px) scale(1, 1)"],
+              opacity: ["0", "1"] }, DURATION)
+        ]),
+        new ParGroup([
+          new Animation(container, 
+            { transform: ["translate3d(300px, 0px, 0px) scale(2, 0.5)",
+                          "translate3d(0px, 0px, 0px, scale(1, 1)"],
+              opacity: ["0", "1"] }, DURATION),
+          new Animation(endContainer,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(-300px, 0px, 0px) scale(0.5, 2)"],
+              opacity: ["1", "0"] },
+            DURATION)
+        ])
+      ], { iterationCount: Infinity }));
+    }
+
+    if (effects[i] == 'layout') {
+      animations.push(new Animation(container,
+        { marginLeft: ["0px", "100px"], width: ["400px", "800px"], 
+          height: ["400px", "200px"], marginTop: ["0px", "100px"],
+          marginBottom: ["0px", "100px"] },
+        timing));
+    }
+
+    if (effects[i] == 'layout' || effects[i] == 'transform' || effects[i] == 'transfade') {
+      if (effects[j] != 'transform' && effects[j] != 'transfade') {
+        animations.push(new Animation(containerMirror,
+          { clip: ["rect(0px, 420px, 420px, 0px)", "rect(0px, 820px, 220px, 0px)"] }, timing));
+        animations.push(new Animation(endContainerMirror,
+          { clip: ["rect(0px, 420px, 420px, 0px)", "rect(0px, 820px, 220px, 0px)"] }, timing));
+      }
+      if (effects[j] == 'none' || effects[j] == 'crossfade') {
+        animations.push(new Animation(containerMirror,
+          { transform: ["translate(0px, 0px)", "translate(100px, 100px)"] }, timing));
+        animations.push(new Animation(endContainerMirror,
+          { transform: ["translate(-100px, -100px)", "translate(0px, 0px)"] }, timing));
+      }
+    }
+
+    if (effects[i] == 'none') {
+      if (effects[j] == 'crossfade') {
+        animations.push(new SeqGroup([
+          new ParGroup([
+            new Animation(containerMirror,
+              { clip: ["rect(0px, 420px, 420px, 0px)", "rect(0px, 420px, 420px, 0px)"] }, DURATION),
+            new Animation(endContainerMirror,
+              { clip: ["rect(0px, 320px, 320px, 0px)", "rect(0px, 320px, 320px, 0px)"] }, DURATION)
+          ]),
+          new ParGroup([
+            new Animation(containerMirror,
+              { clip: ["rect(100px, 820px, 220px, 100px)", "rect(100px, 820px, 220px, 100px)"] }, DURATION),
+            new Animation(endContainerMirror,
+              { clip: ["rect(0px, 820px, 220px, 0px)", "rect(0px, 820px, 220px, 0px)"] }, DURATION)
+          ])
+        ], { iterationCount: Infinity }));
+      }
+      if (effects[j] == 'layout') {
+        animations.push(new SeqGroup([
+          new ParGroup([
+            new Animation(containerMirror,
+              { clip: ["rect(0px, 420px, 420px, 0px)", "rect(0px, 320px, 320px, 0px)"] }, DURATION),
+            new Animation(endContainerMirror,
+              { clip: ["rect(0px, 420px, 420px, 0px)", "rect(0px, 320px, 320px, 0px)"] }, DURATION)
+          ]),
+          new ParGroup([
+            new Animation(containerMirror,
+              { clip: ["rect(0px, 820px, 220px, 0px)", "rect(100px, 820px, 220px, 100px)"] }, DURATION),
+            new Animation(endContainerMirror,
+              { clip: ["rect(0px, 820px, 220px, 0px)", "rect(100px, 820px, 220px, 100px)"] }, DURATION)
+          ])
+        ], { iterationCount: Infinity }));
+      }
+      if (effects[j] == 'transform' || effects[j] == 'transfade') {
+        animations.push(new SeqGroup([
+          new ParGroup([
+            new Animation(containerMirror,
+              { clip: ["rect(0px, 420px, 420px, 0px)", 
+                       "rect(0px, 240px, 420px, 0px)",
+                       "rect(0px, 160px, 420px, 0px)"] }, DURATION),
+            new Animation(endContainerMirror,
+              { clip: ["rect(0px, 420px, 420px, 0px)", "rect(0px, 320px, 320px, 0px)"] }, DURATION)
+          ]),
+          new ParGroup([
+            new Animation(containerMirror,
+              { clip: ["rect(0px, 820px, 220px, 0px)", "rect(100px, 820px, 220px, 100px)"] }, DURATION),
+            new Animation(endContainerMirror,
+              { clip: ["rect(0px, 820px, 220px, 0px)", "rect(50px, 820px, 170px, 200px)"] }, DURATION)
+          ])
+        ], { iterationCount: Infinity }));
+      }
+    }
+
+    if (effects[i] == 'crossfade') {
+      animations.push(new Animation(container, {opacity: ["1", "0"]}, ltiming));
+      animations.push(new Animation(endContainer, {opacity: ["0", "1"]}, ltiming));
+    }
+      
+    if (effects[i] == 'none') {
+      animations.push(new SeqGroup([
+        new ParGroup([
+          new Animation(container, {opacity: ["1", "1"]}, DURATION),
+          new Animation(endContainer, {opacity: ["0", "0"]}, DURATION)
+        ]),
+        new ParGroup([
+          new Animation(container, { opacity: ["0", "0"] }, DURATION),
+          new Animation(endContainer, { opacity: ["1", "1"] }, DURATION)
+        ])
+      ], { iterationCount: Infinity }));
+    }
+
+    if (effects[j] == 'transform') {
+      animations.push(new SeqGroup([
+        new ParGroup([
+          new Animation(containerMirror,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(300px, 0px, 0px) scale(2, 0.5)"],
+              opacity: ["1", "1"] },
+            DURATION),
+          new Animation(endContainerMirror, { opacity: ["0", "0"] }, DURATION)
+        ]),
+        new ParGroup([
+          new Animation(containerMirror, { opacity: ["0", "0"] }, DURATION),
+          new Animation(endContainerMirror,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(-300px, 0px, 0px) scale(0.5, 2)"],
+              opacity: ["1", "1"] },
+            DURATION)
+        ])
+      ], { iterationCount: Infinity }));
+    }
+
+    if (effects[j] == 'transfade') {
+      animations.push(new SeqGroup([
+        new ParGroup([
+          new Animation(containerMirror,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(300px, 0px, 0px) scale(2, 0.5)"],
+              opacity: ["1", "0"] },
+            DURATION),
+          new Animation(endContainerMirror, 
+            { transform: ["translate3d(-300px, 0px, 0px) scale(0.5, 2)",
+                          "translate3d(0px, 0px, 0px) scale(1, 1)"],
+              opacity: ["0", "1"] }, DURATION)
+        ]),
+        new ParGroup([
+          new Animation(containerMirror, 
+            { transform: ["translate3d(300px, 0px, 0px) scale(2, 0.5)",
+                          "translate3d(0px, 0px, 0px) scale(1, 1)"],
+              opacity: ["0", "1"] }, DURATION),
+          new Animation(endContainerMirror,
+            { transform: ["translate3d(0px, 0px, 0px) scale(1, 1)", 
+                          "translate3d(-300px, 0px, 0px) scale(0.5, 2)"],
+              opacity: ["1", "0"] },
+            DURATION)
+        ])
+      ], { iterationCount: Infinity }));
+    }
+
+    if (effects[j] == 'layout') {
+      animations.push(new Animation(containerMirror,
+        { marginLeft: ["0px", "100px"], width: ["400px", "800px"], 
+          height: ["400px", "200px"], marginTop: ["0px", "100px"],
+          marginBottom: ["0px", "100px"] },
+        timing));
+    }
+
+    if (effects[j] == 'crossfade') {
+      animations.push(new Animation(containerMirror, {opacity: ["1", "0"]}, ltiming));
+      animations.push(new Animation(endContainerMirror, {opacity: ["0", "1"]}, ltiming));
+    }
+
+    if (effects[j] == 'none') {
+      animations.push(new SeqGroup([
+        new ParGroup([
+          new Animation(containerMirror, {opacity: ["1", "1"]}, DURATION),
+          new Animation(endContainerMirror, {opacity: ["0", "0"]}, DURATION)
+        ]),
+        new ParGroup([
+          new Animation(containerMirror, { opacity: ["0", "0"] }, DURATION),
+          new Animation(endContainerMirror, { opacity: ["1", "1"] }, DURATION)
+        ])
+      ], { iterationCount: Infinity }));
+    }
+
+  }
+}
+
+animations.forEach(function(anim) { document.timeline.play(anim); });
+</script>

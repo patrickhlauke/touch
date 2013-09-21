@@ -1,0 +1,38 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<link rel="import" href="../../../more-elements/CoolClock/coolclock.html"/>
+<link rel="import" href="../../../more-elements/Stock/stock.html"/>
+<link rel="import" href="../../../more-elements/Weather/wu-weather.html"/>
+<!-- -->
+<!--<link rel="import" href="pica-loading.html">-->
+<!-- -->
+<element name="pica-home" attributes="hideActionBar">
+  <template>
+    <style>
+      * {
+        text-align: center;
+      }
+      .widget {
+        display: inline-block;
+        width: 490px;
+        margin: 32px;
+        padding: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      }
+    </style>
+    <!--<pica-loading id="loading"></pica-loading>-->
+    <x-coolclock class="widget" skin="Babosa"></x-coolclock>
+    <!--<wu-weather class="widget"></wu-weather>-->
+    <template repeat="{{stocks}}">
+      <x-stock class="widget" symbol="{{}}"></x-stock>
+    </template>
+  </template>
+  <script>
+    Polymer.register(this, {
+      stocks: ['GOOG', 'MSFT', 'AAPL']
+    });
+  </script>
+</element>

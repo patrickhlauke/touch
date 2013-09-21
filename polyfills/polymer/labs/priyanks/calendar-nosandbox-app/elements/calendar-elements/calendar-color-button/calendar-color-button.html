@@ -1,0 +1,40 @@
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+
+<polymer-element name="calendar-color-button" attributes="value">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: inline-block;
+				}
+			}
+
+			polymer-ui-icon-button {
+				padding: 0 !important;
+			}
+
+			input {
+				-webkit-appearance: none;
+				background: url('../assets/color-wheel.png') no-repeat center;
+				border: 0;
+				height: 44px;
+				padding: 0;
+				width: 44px;
+			}
+
+			input:focus {
+				outline: 0;
+			}
+
+			::-webkit-color-swatch-wrapper {
+				display: none;
+			}
+		</style>
+		<polymer-ui-icon-button>
+			<input type="color" value="{{value}}"></input>
+		</polymer-ui-icon-button>
+	</template>
+	<script>
+		Polymer('calendar-color-button');
+	</script>
+</polymer-element>

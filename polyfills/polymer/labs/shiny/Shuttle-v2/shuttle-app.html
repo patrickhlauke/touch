@@ -1,0 +1,127 @@
+<link rel="import" href="../../../polymer-elements/polymer-grid-layout/polymer-grid-layout.html">
+<link rel="import" href="../../../polymer-elements/polymer-media-query/polymer-media-query.html">
+<link rel="import" href="../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-icon/polymer-ui-icon.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-tabs/polymer-ui-tabs.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-overlay/polymer-ui-overlay.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-card/polymer-ui-card.html">
+<link rel="import" href="../../../more-elements/google-map/google-map.html">
+<link rel="import" href="shuttle-data.html">
+<link rel="import" href="shuttle-schedule.html">
+<link rel="import" href="shuttle-favorites.html">
+<link rel="import" href="shuttle-map.html">
+  
+<polymer-element name="shuttle-app">
+  <template>
+    <style>
+      #tabbar {
+        height: 45px !important;
+        background: -webkit-linear-gradient(-60deg, #3d3d3d, #353535);
+        background: -moz-linear-gradient(-60deg, #3d3d3d, #353535);
+        background: -ms-linear-gradient(-60deg, #3d3d3d, #353535);
+        /* TODO(ffu): need this for grid-layout on iOS; need to investigate */
+        bottom: 0;
+      }
+      
+      #tabbar > * {
+        height: 45px !important;
+        line-height: 45px !important;
+        text-align: center;
+      }
+      
+      #tabbar > [hidden] {
+        display: none !important;
+      }
+      
+      #tabbar > .polymer-selected {
+        background-color: #1e1d1d !important;
+      }
+      
+      #tabbar > * {
+        text-align: center;
+      }
+      
+      #main {
+        margin: 20px;
+        max-height: 88%;
+        overflow: hidden;
+      }
+      
+      #main::x-overlay {
+        background: transparent;
+      }
+      
+      #favoritesContainer {
+        background: white;
+      }
+      
+      #schedule, #favorites {
+        width: 320px;
+      }
+    </style>
+
+    <polymer-media-query query="max-width: 600px" queryMatches="{{queryMatches}}"></polymer-media-query>
+    <shuttle-data id="data" route="{{route}}" officeStops="{{officeStops}}" remoteStops="{{remoteStops}}" favorites="{{favorites}}"></shuttle-data>
+
+    <polymer-ui-overlay id="main" modal active>
+      <div id="scheduleContainer">
+        <shuttle-schedule id="schedule" route="{{route}}" officeStops="{{officeStops}}" remoteStops="{{remoteStops}}" 
+            centerStop="{{centerStop}}" fromStop="{{fromStop}}" toStop="{{toStop}}" 
+            favorites="{{favorites}}" favorite="{{favorite}}" filteredStops="{{filteredStops}}" 
+            selectedFilteredStop="{{selectedFilteredStop}}" on-shuttle-data-save="saveData"></shuttle-schedule>
+      </div>
+      <polymer-ui-card id="favoritesContainer">
+        <shuttle-favorites id="favorites" favorites="{{favorites}}" favorite="{{favorite}}" 
+            on-polymer-activate="favoriteSelect" on-shuttle-favorites-change="favoritesChange"></shuttle-favorites>
+      </dipolymer-ui-cardv>
+   </polymer-ui-overlay>
+    
+    <div id="basement">
+      <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+      <shuttle-map id="map" class="{{desktop : !queryMatches}}" centerStop="{{centerStop}}" 
+          fromStop="{{fromStop}}" toStop="{{toStop}}"
+          filteredStops="{{filteredStops}}" selectedFilteredStop="{{selectedFilteredStop}}"></shuttle-map>
+      
+      <polymer-ui-tabs id="tabbar" theme="polymer-ui-dark-theme" selected="{{selected}}">
+        <div flex><polymer-ui-icon icon="time"></polymer-ui-icon></div>
+        <div flex><polymer-ui-icon icon="favorite"></polymer-ui-icon></div>
+      </polymer-ui-tabs>
+    </div>
+  </template>
+  <script>
+    Polymer('shuttle-app', {
+      selected: null,
+      queryMatches: false,
+      created: function() {
+        this.nodes = [
+          this.$.map, this.$.tabbar
+        ];
+        this.layout = [
+          [1],
+          [1], 
+          [2]
+        ];
+        this.selected = 0;
+        window.addEventListener('resize', function() {
+          this.$.map.resize();
+        }.bind(this));
+      },
+      queryMatchesChanged: function() {
+      },
+      selectedChanged: function() {
+        this.$.scheduleContainer.style.display = this.selected ? 'none' : '';
+        this.$.favoritesContainer.style.display = this.selected ? '' : 'none';
+      },
+      favoriteSelect: function() {
+        this.selected = 0;
+      },
+      favoritesChange: function() {
+        this.$.schedule.updateFav();
+        this.saveData();
+      },
+      saveData: function() {
+        this.$.data.save();
+      }
+    });
+  </script>
+</polymer-element>

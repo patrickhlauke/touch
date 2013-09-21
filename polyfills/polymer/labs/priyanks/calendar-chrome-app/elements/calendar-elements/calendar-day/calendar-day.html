@@ -1,0 +1,81 @@
+<link rel="import" href="../calendar-event-preview/calendar-event-preview.html">
+
+<polymer-element name="calendar-day" attributes="start events">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: inline-block;
+					vertical-align: top;
+				}
+			}
+
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			li {
+				border-bottom: 1px solid #bbb;
+				height: 49px;
+			}
+
+			li:last-child {
+				border-bottom: 0;
+			}
+
+			.wrapper {
+				color: #eee;
+				font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+				font-size: 13px;
+				position: relative;
+			}
+		</style>
+		<div class="wrapper">
+			<ul on-click="onBackgroundClick">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<template repeat="{{events as event}}">
+				<calendar-event-preview style="top: {{(event.start - start) * 5 / 360000}}px;" event="{{event}}" on-click="onEventDetailsClick"></calendar-event-preview>
+			</template>
+		</div>
+	</template>
+	<script>
+		Polymer('calendar-day', {
+			start: 0,
+			events: [],
+			onEventDetailsClick: function(event) {
+				this.fire('calendar-event-details', {event: event.target.event});
+			},
+			onBackgroundClick: function(event) {
+				this.fire('calendar-event-create', {
+					start: (this.start + event.toElement.offsetTop / 5 * 360000)
+				});
+			}
+		});
+	</script>
+</polymer-element>

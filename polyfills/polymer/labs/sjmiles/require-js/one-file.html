@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title></title>
+  <script src="http://polymer.github.io/cdn/polymer.min.js"></script>
+  <!--<script src="../../../polymer/polymer.min.js"></script>-->
+</head>
+<body>
+  <!-- #foo -->
+  <div id="foo">the foo has no joy.</div>
+
+  <!-- foo-lander lands new text into #foo using jQuery loaded by requirejs -->
+  <foo-lander></foo-lander>
+
+  <!-- inlined from import file: "require-js.html" -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.8/require.min.js"></script>
+  <script>
+    Polymer.require = function(tag, deps, func) {
+      require(deps, function() {
+        Polymer(tag, func.apply(this, arguments));
+      });
+    };
+  </script>
+
+  <!-- inlined from import file: "foo-lander.html" -->
+  <polymer-element name="foo-lander">
+    <script>
+      Polymer.require('foo-lander', ['http://code.jquery.com/jquery-2.0.3.min.js'], function(jquery) {
+        // jquery doesn't define a module, so `jquery` argumnet is null; you would need more
+        // machinery to actually scope jquery to this closure.
+        // this is enough infrastructure however to show that it's possible to load requirejs modules
+        // into a custom element scope.
+        //
+        // return the custom element api object (aka the prototype)
+        return {
+          ready: function() {
+            $('#foo').html('the $(\'#foo\') has landed');
+          }
+        };
+      });
+    </script>
+  </polymer-element>
+
+</body>
+</html>

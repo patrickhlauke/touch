@@ -1,0 +1,195 @@
+﻿<!doctype html>
+<head>
+  <title></title>
+  <script src="/polymer/polymer/polymer.js"></script>
+  <link rel="import" href="elements.html">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    x-app {
+      display: block;
+      height: 100%;
+    }
+  </style>
+</head>
+<body theme="polymer-ui-dark-theme">
+
+  <x-app></x-app>
+
+  <polymer-element name="x-app">
+    <template>
+      <style>
+        iframe {
+          border: 0;
+          width: 100%;
+          height: 100%;
+        }
+        #preview {
+          width: 600px;
+          position: relative;
+        }
+        polymer-ui-tabs {
+          background-color: #666;
+        }
+      </style>
+
+      <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+
+      <!--<polymer-layout vertical></polymer-layout>-->
+
+      <polymer-ui-tabs id="mainTabs" selected="{{selectedPage}}">
+        <span>Build</span>
+        <span>Explore</span>
+      </polymer-ui-tabs>
+
+      <polymer-ui-tabs id="docTabs" selected="{{selected}}">
+        <span>index.html</span>
+        <span>elements.html</span>
+      </polymer-ui-tabs>
+
+      <polymer-ui-toolbar id="buildBar">
+        <polymer-ui-icon-button icon="shortcut" on-tap="link"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="settings" on-tap="click"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="left" on-tap="undo" title="Undo"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="right" on-tap="redo" title="Redo"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-pages id="pages" flex selected="{{selectedPage}}">
+        <page>
+          <polymer-layout vertical></polymer-layout>
+
+          <polymer-ui-toolbar>
+            <polymer-ui-icon-button icon="shortcut" on-tap="link"></polymer-ui-icon-button>
+            <polymer-ui-icon-button icon="settings" on-tap="click"></polymer-ui-icon-button>
+            <polymer-ui-icon-button icon="left" on-tap="undo" title="Undo"></polymer-ui-icon-button>
+            <polymer-ui-icon-button icon="right" on-tap="redo" title="Redo"></polymer-ui-icon-button>
+          </polymer-ui-toolbar>
+
+          <polymer-ui-tabs selected="{{selected}}">
+            <span>index.html</span>
+            <span>elements.html</span>
+          </polymer-ui-tabs>
+
+          <div flex>
+            <polymer-layout horizontal></polymer-layout>
+            <polymer-ui-menu>
+              <polymer-ui-menu-item on-tap="itemTap" path="polymer-ui-elements/polymer-ui-toolbar" html="<polymer-ui-toolbar></polymer-ui-toolbar">Toolbar</polymer-ui-menu-item>
+              <polymer-ui-menu-item on-tap="itemTap" path="polymer-ui-elements/polymer-ui-icon-button" html='<polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>'>Icon Button</polymer-ui-menu-item>
+              <polymer-ui-menu-item on-tap="itemTap" path="polymer-elements/polymer-layout" html='<polymer-layout vertical></polymer-layout>'>Layout (Vertical)</polymer-ui-menu-item>
+              <polymer-ui-menu-item on-tap="itemTap" path="polymer-elements/polymer-layout" html='<polymer-layout horizontal></polymer-layout>'>Layout (Horizontal)</polymer-ui-menu-item>
+              <polymer-ui-menu-item on-tap="itemTap" path="polymer-ui-elements/polymer-ui-field" html='<polymer-ui-field>\n<polymer-ui-icon icon="contact"></polymer-ui-icon><label>Field 1</label><input placeholder="data goes here"></polymer-ui-field>'>Field</polymer-ui-menu-item>
+            </polymer-ui-menu>
+            <code-mirror id="code" flex></code-mirror>
+
+            <!--<div id="preview">
+              <iframe id="frame" src="project/index.html"></iframe>
+            </div>-->
+          </div>
+        </page>
+        <page>
+          Explore
+        </page>
+      </polymer-ui-pages>
+
+      <file-document id="index" fileName="index.html"></file-document>
+      <file-document id="elements" fileName="elements.html"></file-document>
+
+    </template>
+    <script>
+      Polymer('x-app', {
+        text: '',
+        selected: -1,
+        selectedPage: 0,
+        layout: [
+          [1, 4, 3, 3],
+          [2, 2, 2, 2],
+          [2, 2, 2, 2]        ],
+        created: function() {
+          this.nodes = [this.$.mainTabs, this.$.pages, this.$.docTabs, this.$.buildBar];          this.$.code.mirror.on('change', this.codeChange.bind(this));
+          // phony
+          this.async(function() {
+            this.selected = 0;
+          }, null, 300);
+        },
+        enteredDocument: function() {
+          // code mirror manages it's size prematurely
+          this.$.code.async('refresh', null, 100);
+        },
+        textChanged: function() {
+          if (this.text !== this.$.code.mirror.getValue()) {
+            this.$.code.mirror.setValue(this.text);
+            this.$.code.mirror.clearHistory();
+          }
+        },
+        codeChange: function() {
+          this.activeDocument.text = this.$.code.mirror.getValue();
+          this.saveJob = this.job(this.saveJob, this.save, 200);
+        },
+        click: function() {
+          this.save();
+        },
+        undo: function() {
+          this.$.code.mirror.undo();
+        },
+        redo: function() {
+          this.$.code.mirror.redo();
+        },
+        link: function() {
+          /*
+          var a = document.createElement('a');
+          a.href = 'http://localhost:3000/project/index.html';
+          a.target = '_blank';
+          a.click();
+          */
+          this.preview = window.open('http://localhost:3000/project/index.html', 'preview3000');
+        },
+        itemTap: function(event) {
+          var path = event.target.getAttribute('path');
+          var html = event.target.getAttribute('html');
+          if (path && html) {
+            path = path.split('/');
+            var name = path.pop();
+            var folder = path.join('/');
+            //alert(name + ' * ' + folder);
+            this.add(folder, name, html);
+          }
+        },
+        add: function(folder, name, html) {
+          this.$.code.mirror.replaceSelection(html.replace(/\\n/g, '\n'));
+          if (this.$.elements.text.indexOf(name) < 0) {
+            this.$.elements.text += '\n<link rel="import" href="/polymer/'
+              + folder + '/' + name + '/' + name + '.html">';
+          }
+          if (this.activeDocument == this.$.elements) {
+            this.text = this.$.elements.text;
+          } else {
+            this.$.elements.save();
+          }
+        },
+        save: function() {
+          this.activeDocument.save();
+          // TODO(sjmiles): this should be an event or callback
+          // from saveText, but it's inconvenient;
+          // need to develop a better answer here
+          this.updateJob = 
+            this.job(this.updateJob, this.updatePreview, 1500);
+        },
+        updatePreview: function() {
+          if (this.preview) {
+            this.preview.location.reload(true);
+          }
+          //this.$.frame.contentWindow.location.reload(true);
+        },
+        selectedChanged: function() {
+          this.activeDocument = this.$[['index', 'elements'][this.selected]];
+          this.text =  this.activeDocument.text;
+        }
+      });
+    </script>
+  </polymer-element>
+</body>
+</html>

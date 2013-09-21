@@ -1,0 +1,45 @@
+<link rel="import" href="../../../polymer-elements/polymer-localstorage/polymer-localstorage.html">
+
+<polymer-element name="shuttle-data" attributes="route officeStops remoteStops favorites">
+  <template>
+    <polymer-localstorage id="storage" name="shuttle-storage5" value="{{userData}}" on-polymer-localstorage-load="populateUserData"></polymer-localstorage>
+  </template>
+  <script>
+    Polymer('shuttle-data', {
+      created: function() {
+        this.populateStops();
+      },
+      populateStops: function() {
+        Shuttle.stops.forEach(function(s, i) {
+          s.index = i;
+        });
+        this.officeStops = Shuttle.stops.filter(function(s) {
+          return s.is_work;
+        });
+        // office/campus stops
+        this.officeStops = JSON.parse(JSON.stringify(this.officeStops));
+        // all stops
+        this.remoteStops = JSON.parse(JSON.stringify(Shuttle.stops));
+      },
+      populateUserData: function() {
+        if (!this.userData) {
+          this.userData = {
+            route: {},
+            favorites: []
+          };
+        }
+        this.favorites = this.userData.favorites;
+        this.route = this.userData.route;
+        this.route.officeSelected = Shuttle.isMock ? 'City Hall, San Francisco' : 
+            (this.route.officeSelected || 'Main Campus (B40-43)');
+        this.route.remoteSelected = Shuttle.isMock ? 'Kimberly Park, American Canyon' : 
+            (this.route.remoteSelected || 'Civic Center');
+      },
+      save: function() {
+        if (!Shuttle.isMock) {
+          this.$.storage.save();
+        }
+      }
+    });
+  </script>
+</polymer-element>

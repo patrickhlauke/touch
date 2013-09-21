@@ -1,0 +1,100 @@
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-toggle-button/polymer-ui-toggle-button.html">
+<link rel="import" href="../calendar-color-button/calendar-color-button.html">
+
+<polymer-element name="calendar-event-details" attributes="event">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: block;
+				}
+			}
+
+			h2 {
+				margin-top: 0;
+				margin-bottom: 5px;
+			}
+
+			h3 {
+				margin-top: 0;
+			}
+
+			.wrapper {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+			}
+
+			.scrollable {
+				flex: 1;
+				font-size: 13px;
+				overflow-y: scroll;
+			}
+
+			.scrollable > div {
+				padding: 10px;
+			}
+
+			.header {
+				color: white;
+				text-align: center;
+			}
+		</style>
+
+		<div class="wrapper">
+			<polymer-ui-toolbar>
+				<div flex>
+					<polymer-ui-icon-button src="../assets/arrow_left.png" on-click="onBackClick"></polymer-ui-icon-button>
+				</div>
+				<div>
+					<calendar-color-button value="{{event.color}}"></calendar-color-button>
+					<polymer-ui-icon-button src="../assets/edit.png" on-click="onEditClick"></polymer-ui-icon-button>
+					<polymer-ui-icon-button icon="trash" on-click="onDeleteClick"></polymer-ui-icon-button>
+				</div>
+			</polymer-ui-toolbar>
+
+			<div class="scrollable">
+				<div class="header" style="background: {{event.color}};">
+					<h2>{{event.name || '(untitled)'}}</h2>
+					<div>{{date}} at {{start}} - {{end}}</div>
+					<div>{{event.location}}</div>
+				</div>
+
+				<div>
+					<h3>Description</h3>
+					<p>{{event.description}}</p>
+					<polymer-ui-toggle-button onCaption="Public" offCaption="Private" value="{{event.isPublic}}"></polymer-ui-toggle-button>
+				</div>
+			</div>
+		</div>
+	</template>
+	<script>
+		var BLANK_EVENT = {
+			duration: 0,
+			start: 0
+		};
+		Polymer('calendar-event-details', {
+			event: BLANK_EVENT,
+			get date() {
+				return new Date(this.event.start).toDateString();
+			},
+			get end() {
+				return new Date(this.event.start + this.event.duration * 60000).toLocaleTimeString();
+			},
+			get start() {
+				return new Date(this.event.start).toLocaleTimeString();
+			},
+			onBackClick: function() {
+				this.fire('calendar-event-details-done');
+			},
+			onDeleteClick: function() {
+				this.fire('calendar-event-delete', {event: this.event});
+			},
+			onEditClick: function() {
+				this.fire('calendar-event-details-edit', {event: this.event});
+			}
+		});
+	</script>
+</polymer-element>

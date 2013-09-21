@@ -1,0 +1,62 @@
+<polymer-element name="calendar-hours">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: inline-block;
+					vertical-align: top;
+				}
+			}
+
+			ul {
+				font-size: 10px;
+				font-family: Helvetica, sans-serif;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				text-align: right;
+			}
+
+			li {
+				background-color: #f0f0f0;
+				border-bottom: 1px solid #bbb;
+				height: 45px;
+				padding: 2px;
+				width: 16px;
+			}
+
+			li:last-child {
+				border-bottom: 0;
+			}
+		</style>
+		<ul>
+			<li>12<br>AM</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+			<li>11</li>
+			<li>12<br>PM</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+			<li>11</li>
+		</ul>
+	</template>
+	<script>
+		Polymer('calendar-hours');
+	</script>
+</polymer-element>

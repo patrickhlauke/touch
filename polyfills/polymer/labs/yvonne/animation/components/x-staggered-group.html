@@ -1,0 +1,37 @@
+<link rel="import" href="../../../toolkit-ui/elements/g-animation-group.html">
+<element name="x-staggered-group" extends="g-animation-group">
+  <script>
+    Polymer.register(this, {
+      offset: 0,
+      // TODO: dup attrs until "attributes" is implemented.
+      target: null,
+      type: 'par',
+      // timing
+      duration: null,
+      fillMode: null,
+      easing: null,
+      iterationCount: null,
+      startDelay: null,
+      direction: null,
+      ready: function() {
+        // TODO: need to do this for now.
+        this.super();
+        this.watchChildren();
+      },
+      watchChildren: function() {
+        var mo = window.MutationObserver || window.WebKitMutationObserver;
+        var observer = new mo(function(mutations) {
+          this.job(null, this.applyChildren);
+        }.bind(this));
+        observer.observe(this, {childList: true});
+      },
+      applyChildren: function() {
+        var offset = 0;
+        this.doOnChildren(function(c) {
+          c.startDelay = offset;
+          offset += this.offset;
+        }.bind(this));
+      }
+    });
+  </script>
+</element>

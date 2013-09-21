@@ -1,0 +1,58 @@
+﻿<polymer-element name="x-browser">
+  <template>
+    <ul class="items">
+      <template repeat="{{items}}">
+        <li class="item"><replaceme></replaceme></li>
+      </template> 
+    </ul>
+  </template>
+  <script>
+    Polymer('x-browser', {
+      items: [
+        {text: 'flarn'},
+        {text: 'squid'},
+        {text: 'murpee'}
+      ],
+      // parse input <element> as needed, override for custom behavior
+      fetchTemplate: function() {
+        var template = Polymer.patchTemplate.call(this, this.super(arguments));
+        // use the patched template
+        this.shadowFromTemplate(template);
+      }
+    })
+  </script>
+</polymer-element>
+
+<script>
+  Polymer.patchTemplate = function(template) {
+    if (template) {
+      // need a copy so we can monkey-patch it
+      template = template.cloneNode(true);
+      // takes some effort to locate template insertion point
+      var elt = template.content;
+      while (!item && elt) {
+        var item = elt.querySelector('replaceme');
+        if (!item) {
+          elt = elt.querySelector('template');
+          if (elt) {
+            elt = elt.content;
+          }
+        }
+      }
+      // replace the insertion point
+      item = item.parentNode;
+      // custom content is in a template
+      var userTemplate = this.querySelector('template').content;
+      // transplant our custom nodes
+      while (userTemplate.firstChild) {
+        item.appendChild(userTemplate.firstChild);
+      }
+      // use the patched template
+      return template;
+    }
+  };
+  HTMLElement.prototype.$ = DocumentFragment.prototype.$ = function() {
+    return this.querySelector.apply(this, arguments);
+  };
+</script>
+

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+  <head>
+    <title></title>
+    <script src="/polymer/polymer/polymer.js"></script>
+    <link rel="import" href="elements.html">
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+      }
+      body {
+      	background-color: #333;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+      code-mirror {
+        min-height: 256px;
+      }
+      chart-js {
+        background-color: whitesmoke;
+      }
+      .animate {
+        -webkit-transition-property: left, top, width, height, right, bottom;
+        -webkit-transition-timing-function: ease-out;
+        -webkit-transition-duration: 0.4s;
+      }
+    </style>
+  </head>
+  
+  <body theme="polymer-ui-dark-theme">
+    <polymer-ui-toolbar xtheme="polymer-ui-light-theme">
+      <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+      <div flex="">Title</div>
+      <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+      <polymer-ui-icon-button icon="add"></polymer-ui-icon-button>
+    </polymer-ui-toolbar>
+
+    <chart-js offscreen="basement"></chart-js>
+    <code-mirror></code-mirror>
+
+    <polymer-ui-toolbar offscreen="bottom" xtheme="polymer-ui-light-theme">
+      <polymer-ui-icon-button icon="add"></polymer-ui-icon-button>
+      <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+      <span flex=""></span>
+      <span>Footbar</span>
+      <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+    </polymer-ui-toolbar>
+
+    <polymer-ui-menu offscreen="right" selected="0" theme="polymer-ui-dark-theme">
+      <polymer-ui-submenu-item icon="settings" label="Topics">
+        <polymer-ui-menu-item label="Topic 1"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Topic 2"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Topic 3"></polymer-ui-menu-item>
+      </polymer-ui-submenu-item>
+      <polymer-ui-submenu-item icon="settings" label="Favorites">
+        <polymer-ui-menu-item label="Favorites 1"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Favorites 2"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Favorites 3"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Favorites 4"></polymer-ui-menu-item>
+      </polymer-ui-submenu-item>
+      <polymer-ui-submenu-item icon="settings" label="Explore">
+        <polymer-ui-menu-item label="Explore 1"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Explore 2"></polymer-ui-menu-item>
+      </polymer-ui-submenu-item>
+    </polymer-ui-menu>
+
+    <polymer-media-query query="max-width: 700px"></polymer-media-query>
+    <polymer-grid-layout nolayout></polymer-grid-layout>
+    <script>
+      addEventListener('WebComponentsReady', function() {
+        var nodes = document.querySelectorAll('body > :not(script)');
+        for (var i=0, n; (n=nodes[i]); i++) {
+          n.classList.add('animate');
+        }
+  	    var layout = [
+          [1, 1, 1, 1],
+          [2, 3, 3, 5],
+          [2, 3, 3, 5],
+          [4, 4, 4, 4]
+        ];
+        var grid = document.querySelector('polymer-grid-layout');
+  	    grid.layout = layout;
+	      grid.nodes = nodes;
+        var query = document.querySelector('polymer-media-query');
+        query.addEventListener('polymer-mediachange', function(e) {
+        	grid.layout = e.detail.matches ? [
+	          [1],
+            [3] 
+          ] : layout;
+        });
+        var code = document.querySelector('code-mirror');
+        code.refresh();
+      });
+    </script>
+  </body>
+</html>

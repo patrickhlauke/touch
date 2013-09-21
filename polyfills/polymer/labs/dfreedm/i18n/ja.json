@@ -1,0 +1,28 @@
+{
+   "ja": {
+      "": {
+         "Project-Id-Version": "PACKAGE VERSION",
+         "Report-Msgid-Bugs-To": "",
+         "POT-Creation-Date": "2013-03-08 15:08-0800",
+         "PO-Revision-Date": "YEAR-MO-DA HO:MI+ZONE",
+         "Last-Translator": "FULL NAME <EMAIL@ADDRESS>",
+         "Language-Team": "LANGUAGE <LL@li.org>",
+         "Language": "",
+         "MIME-Version": "1.0",
+         "Content-Type": "text/plain; charset=CHARSET",
+         "Content-Transfer-Encoding": "8bit"
+      },
+      "Name": [
+         null,
+         "名前"
+      ],
+      "Birth Date": [
+         null,
+         "生年月日"
+      ],
+      "Account Balance": [
+         null,
+         "口座残高"
+      ]
+   }
+}

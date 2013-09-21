@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Docs Reduction</title>
+    <script src="../../../../polymer/polymer.js"></script>
+  </head>
+  <body>
+    
+    <x-docs></x-docs>
+    
+    <polymer-element name="marked-js">
+      <template>
+        <content></content>
+      </template>
+      <script>
+        Polymer('marked-js', {
+          created: function() {
+            console.log('[#' + this.id + '] created: ', this.textContent);
+          },
+          enteredDocument: function() {
+            console.log('[#' + this.id + '] enteredDocument: ', this.textContent);
+            //this.textContent = this.textContent.toUpperCase();
+          }
+        });
+      </script>
+    </polymer-element>
+
+    <polymer-element name="x-docs" attributes="url">
+      <template>
+        <marked-js id="top">{{top}}</marked-js>
+        <template repeat="{{class in classes}}">
+          <div>
+            <marked-js id="name">{{class.name}}</marked-js>
+            <section>
+              <template repeat="{{class.attributes}}">
+                <span>{{name}}</span>
+                <marked-js id="description">{{description}}</marked-js>
+              </template>
+            </section>
+          </div>
+        </template>
+
+      </template>
+      <script>
+        Polymer('x-docs', {
+          top: 'top',
+          classes: [{
+            name: 'name',
+            attributes: [
+              {name: 'test', description: 'Test'}
+            ]
+          }]
+        });
+      </script>
+    </polymer-element>
+  </body>
+</html>

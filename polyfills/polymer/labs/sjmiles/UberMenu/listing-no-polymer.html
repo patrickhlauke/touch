@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <!--<script src="../polymer/polymer.js"></script>-->
+  <style>
+    html, body {
+      margin: 0;
+      font-family: Arial;
+      background-color: #979797;
+    }
+    img {
+      vertical-align: middle;
+    }
+    cover {
+      display: inline-block;
+      padding: 8px;
+      margin: 8px;
+      width: 392px;
+      text-align: center;
+      background-color: #2b2b2b;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+  <!--<link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html">-->
+</head>
+<body>
+  <script>
+    xhr = {
+      async: true,
+      ok: function(inRequest) {
+        return (inRequest.status >= 200 && inRequest.status < 300)
+            || (inRequest.status === 304)
+            || (inRequest.status === 0);
+      },
+      load: function(url, next, nextContext) {
+        var request = new XMLHttpRequest();
+        request.open('GET', url, xhr.async);
+        request.addEventListener('readystatechange', function(e) {
+          if (request.readyState === 4) {
+            next.call(nextContext, xhr.ok(request) && request,
+              request.response, url);
+          }
+        });
+        request.send();
+      }
+    };
+    xhr.load('databases/MAME.xml', function(request, response, url) {
+      var xml = request.responseXML;
+      var html = '';
+      var g$ = xml.querySelectorAll('game');
+      g$ = Array.prototype.slice.call(g$, 0) //, 500);
+      g$.forEach(function(g, i) {
+        var name = g.getAttribute('name');
+        var n = g.querySelector('description');
+        var desc = n ? n.textContent : name;
+        n = g.querySelector('year');
+        var year = n ? n.textContent : '?';
+        var snaps = ['1944', 'aburner', 'alexkidd', 'marble2', 'stmblade'];
+        var sn = snaps[Math.floor(Math.random() * snaps.length)];
+        html += '<cover><img src="/hyper/Media/MAME/snaps320/' + sn /*name*/ + '.png" width="320px"><br>' + desc + ' (' + year + ') ' + '</cover>';
+        //html += desc + ' (' + year + ') ' + '[img src="snap/' + name + '.png" height="128px"]' + '<br>';
+      });
+      console.log(g$.length);
+      //this.innerHTML = html;
+      document.body.innerHTML += html;
+    });
+  </script>
+</body>
+</html>

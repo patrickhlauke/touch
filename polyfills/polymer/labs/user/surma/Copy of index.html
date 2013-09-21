@@ -1,0 +1,70 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Shared Connections</title>
+<!--  <script src="http://www.polymer-project.org/polymer/polymer.min.js"></script>-->
+  <script src="../../../polymer/polymer.js"></script>
+</head>
+<body>
+  <raw-connection name="primary"></raw-connection>
+  <connection-user connection="primary"></connection-user>
+  
+  <polymer-element name="raw-connection" attributes="name use connection">
+    <script>
+      (function() {
+        Polymer('raw-connection', {
+          //name: '', // CAVEAT: don't redeclare 'name', it's a native property
+          use: '',
+          connection: 0,
+          created: function() {
+            // this.nameChanged();
+          },
+          nameChanged: function() {
+            // simulate a useful thing
+            this.connection = Math.random();
+          },
+          useChanged: function() {
+            this.connection = raw[this.name];
+          },/*
+          enteredDocument: function() {
+            if (this.name) {
+              raw[this.name] = this.connection;
+            }
+          },
+          leftDocument: function() {
+            if (this.name) {
+              raw[this.name] = null;
+            }
+          }*/
+          connectionChanged: function() {
+            if (this.name) {
+              raw[this.name] = this.connection;
+            }
+          }
+        });
+        // connections by name
+        var raw = {};
+      })();
+    </script>
+  </polymer-element>
+ 
+  <polymer-element name="connection-user" attributes="connection">
+    <template>
+      <raw-connection id="connect" use="{{connection}}" connection="{{raw}}"></raw-connection>
+      <content></content>
+    </template>
+    <script>
+      (function() {
+        Polymer('connection-user', {
+          raw: null,
+          created: function () {
+          },
+          rawChanged: function() {
+            this.innerHTML = this.raw;
+          }
+        });
+      })();
+    </script>
+  </polymer-element>
+</body>
+</html>

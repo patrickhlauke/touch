@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			calendar-event-details {
+				border: 1px solid #bbb;
+				height: 400px;
+				width: 300px;
+			}
+		</style>
+		<script src="../../../lib/polymer.min.js"></script>
+		<link rel="import" href="calendar-event-details.html">
+	</head>
+	<body>
+		<calendar-event-details id="details"></calendar-event-details>
+		<script>
+			document.addEventListener('WebComponentsReady', function() {
+				document.getElementById('details').event = {
+					color: '#0066ff',
+					description: 'Lorem ipsum dolor sit amet, at paulo appareat consequuntur est, no salutandi dissentiet qui, dico nihil iriure ius ut.\n\nSonet corrumpit no eos, et atqui oblique minimum eum. Nec no nominavi quaestio, dolor deseruisse est in. Mea an accusata scribentur. Rebum graeci doctus eu eos. Te vel atqui audiam.\n\nNe vix omnis minim maiorum, augue senserit ex eam. Animal vidisse vel eu, soluta aperiri maluisset ut eos.\n\nEa inani melius incorrupte has, pri ea movet dolorem. Magna definiebas delicatissimi ex qui, urbanitas deterruisset no sit. Vero vocent convenire mea ne, qui in veri dicit.\n\nSonet corrumpit no eos, et atqui oblique minimum eum. Nec no nominavi quaestio, dolor deseruisse est in. Mea an accusata scribentur. Rebum graeci doctus eu eos. Te vel atqui audiam.',
+					duration: 90,
+					isPublic: true,
+					location: 'Test Location 1',
+					name: 'Test Name 1',
+					start: 1375702200000
+				};
+			});
+		</script>
+	</body>
+</html>

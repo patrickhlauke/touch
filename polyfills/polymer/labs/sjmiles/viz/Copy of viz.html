@@ -1,0 +1,131 @@
+﻿<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <script src="../../polymer/polymer.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      text-align: center;
+      overflow: hidden;
+    }
+    .panel {
+      display: inline-block;
+      position: relative;
+      top: 64px;
+      width: 700px;
+      height: 600px;
+      -webkit-transform: perspective(600px) scale(1.0); 
+      -webkit-transform-style: preserve-3d;
+      -webkit-user-select: none;
+      font-size: 24px;
+      text-align: left;
+      border: 1px dotted red;
+    }
+    .zone {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      bottom: 4px;
+      left: 4px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 3px solid black;
+      padding: 24px;
+    }
+    #front {
+      x-webkit-transform: translateZ(0px);
+      opacity: 0;
+    }
+    #shadow {
+      x-webkit-transform: translateZ(-200px);
+      opacity: 0;
+    }
+    #shadow1 {
+      x-webkit-transform: translateZ(-400px);
+      Xbackground-color: black;
+      Xcolor: white;
+    }
+    .light {
+      font-weight: bold;
+      color: blue;
+    }
+    .content {
+      font-weight: bold;
+      color: orange;
+    }
+  </style>
+</head>
+<body touch-action="none">  
+  <div id="phantom" class="panel" touch-action="none">
+    <div id="front" class="zone">x-message
+
+<pre>&lt;x-message&gt;
+
+
+
+
+                   <span class="light">Hello World</span>
+
+
+
+
+&lt;/x-message&gt;</pre>
+
+    </div>
+    <div id="shadow" class="zone">x-message.shadowRoot
+
+<pre>&lt;x-message&gt;
+  &lt;x-decorate&gt;
+    <span class="content">&lt;content&gt;</span>
+
+
+                   <span class="light">Hello World</span>
+
+
+    <span class="content">&lt;/content&gt;</span>
+  &lt;/x-decorate&gt;
+&lt;/x-message&gt;</pre>
+
+    </div>
+    <div id="shadow1" class="zone">x-message.shadowRoot:x-decorate.shadowRoot
+
+<pre>&lt;x-message&gt;
+  &lt;x-decorate&gt;
+    <span class="content">&lt;content&gt;</span>
+      &lt;x-turbin&gt;&lt;/x-turbin&gt;
+        &lt;x-filigree&gt;
+          <span class="content">&lt;content&gt;</span><span class="light">Hello World</span><span class="content">&lt;/content&gt;</span>
+        &lt;/x-filigree&gt;
+      &lt;x-clogs&gt;&lt;/x-clogs&gt;
+    <span class="content">&lt;/content&gt;</span>
+  &lt;/x-decorate&gt;
+&lt;/x-message&gt;</pre>
+
+  </div>
+  <script>
+    var y = 0, z = 0, z0 = 0;
+    function setValues() {
+      phantom.style.webkitTransformOrigin = 'center center 0';
+      phantom.style.webkitTransform = 'perspective(900px) rotateY(' + y + 'deg) scale(1.0)';
+      var o = 1000;
+      front.style.opacity = Math.max(1.0 - z0 / o, 0.2);
+      shadow.style.opacity = Math.max(1.0 - (z+z0) / o, 0.2);
+      shadow1.style.opacity =Math.max(1.0 - (2*z + z0) / o, 0.2);
+      front.style.display = (z0 < 0) ? 'none' : '';
+      front.style.webkitTransform = 'translateZ(-' + (z0) + 'px)';
+      shadow.style.display = (z+z0 < 0) ? 'none' : '';
+      shadow.style.webkitTransform = 'translateZ(-' + (z + z0) + 'px)';
+      shadow1.style.webkitTransform = 'translateZ(-' + (2*z + z0) + 'px)';
+    };
+    setValues();
+    document.addEventListener('track', function(event) {
+      y += event.ddx / 10;
+      //z = Math.max(z + event.ddy, 0);
+      z0 -= event.ddy;
+      z = Math.abs(y)*10;
+      setValues();
+    });
+  </script>
+</body>
+</html>

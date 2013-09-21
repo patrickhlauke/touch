@@ -1,0 +1,64 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<link rel="import" href="pica-story.html">
+<!-- -->
+<element name="pica-stories-view" attributes="stories">
+  <template>
+    <style>
+      @host { 
+        * {
+          overflow-y: auto;
+        }
+      }
+      #more {
+        height: 60px;
+        line-height: 60px;
+        padding: 0 18px;
+        background: #5f5f5f;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    </style>
+    <div id="view">
+      <template repeat="{{viewItems}}">
+        <pica-story story="{{}}"></pica-story>
+      </template>
+      <div id="more" touch-action="user" on-tap="loadMore">
+        <g-icon src="../images/refresh_lightreg.png"></g-icon>
+        Load more articles
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer.register(this, {
+      pageSize: 6,
+      storiesChanged: function() {
+        if (this.stories) {
+          this.viewItems = this.stories.slice(0, this.pageSize);
+        }
+        this.updateMore();
+        this.scrollToTop();
+      },
+      scrollToTop: function() {
+        //requestAnimationFrame(function() {
+          this.scrollTop = 0;
+        //}.bind(this));
+      },
+      updateMore: function() {
+        this.$.more.style.display = this.stories 
+            && (this.viewItems.length < this.stories.length) 
+                ? null : 'none';
+      },
+      loadMore: function() {
+        var l = this.viewItems.length;
+        var more = this.stories.slice(l, l + this.pageSize);
+        this.viewItems.push.apply(this.viewItems, more);
+        this.updateMore();
+      }
+    });
+  </script>
+</element>

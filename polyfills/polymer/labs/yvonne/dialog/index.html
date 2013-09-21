@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+	<head>
+		<title>&lt;dialog&gt; Element</title>
+		<link rel="import" href="x-dialog.html">
+		<script src="../../../polymer/polymer.js"></script>
+		<style>
+			#hcentered {
+				width: 400px;
+			}
+			#backdrop::backdrop {
+				position: fixed;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(0, 0, 0, 0.25);
+			}
+			#nested2 {
+				width: 200px;
+				height: 300px;
+			}
+			#nested3 {
+				width: 300px;
+				height: 100px;
+			}
+			#positioned {
+				position: absolute;
+				left: 30px;
+				top: 50px;
+				width: 250px;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="position: absolute; z-index: 50;">
+			<dialog is="x-dialog" id="dialog">
+				Hi! <button overlay-toggle>Close</button>
+				<div>A node</div>
+			</dialog>
+			<dialog is="x-dialog" id="hcentered">
+				Centered horizontally
+			</dialog>
+			<dialog is="x-dialog" id="backdrop">
+				With backdrop
+			</dialog>
+			<dialog is="x-dialog" id="nested3">nested3</dialog>
+			<dialog is="x-dialog" id="nested">
+				<dialog is="x-dialog" id="nested2">nested2</dialog>
+				Nested <button onclick="toggle('#nested2')">toggle</button>
+				<button onclick="toggle('#nested3')">another</button>
+			</dialog>
+		</div>
+		<div style="position: absolute; z-index: 100; top: 10px; width: 100px; height: 400px; background-color: orange"></div>
+		<input type="checkbox" id="isModal"> modal
+		<button onclick="toggle('#dialog')">dialog</button>
+		<button onclick="toggle('#hcentered')">hcentered</button>
+		<button onclick="toggle('#backdrop')">backdrop</button>
+		<button onclick="toggle('#nested')">nested</button>
+		<div style="position:relative; border: 1px solid red; width: 300px; height: 50px;">
+			<button onclick="toggle('#positioned')">positioned</button>
+			<dialog is="x-dialog" id="positioned">I'm below</dialog>
+		</div>
+		<script>
+			function toggle(selector) {
+				var d = document.querySelector(selector);
+				d.modal = document.querySelector('#isModal').checked;
+				d.toggle();
+			}
+		</script>
+	</body>
+</html>

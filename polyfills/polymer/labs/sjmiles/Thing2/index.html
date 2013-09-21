@@ -1,0 +1,119 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Tracks Layout</title>
+  <link href="index.css" rel="stylesheet">
+  <script src="../../../polymer/polymer.js"></script>
+  <link href="elements.html" rel="import">
+</head>
+<body>
+  <polymer-element name="thing-app">
+    <template>
+      <style>
+        @host {
+          * {
+            display: block;
+          }
+        }
+        @media (max-width: 800px) {
+          #sidebar {
+            font-size: 1.5em;
+          }
+        }
+        polymer-ui-icon-button {
+          vertical-align: middle;
+        }
+        #toolbar {
+          width: 360px;
+        }
+      </style>
+
+      <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+
+      <polymer-ui-toolbar id="toolbar">
+        <polymer-ui-icon-button icon="menu" on-click="toggleLayout"></polymer-ui-icon-button>
+        <polymer-selector selected="{{layoutIndex}}">
+          <polymer-ui-icon-button>Lrn</polymer-ui-icon-button>
+          <polymer-ui-icon-button>Cde</polymer-ui-icon-button>
+          <polymer-ui-icon-button>Do</polymer-ui-icon-button>
+        </polymer-selector>
+        <span flex></span>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-toolbar id="learnbar">
+        <span>Learn</span>
+        <span flex></span>
+        <polymer-ui-icon-button icon="settings" on-click="toggleLayout"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+      
+      <polymer-ui-sidebar-menu v-flex id="sidebar" selected="{{selected}}" label="Elements">
+      <template repeat="{{items}}">
+        <polymer-ui-menu-item label="{{name}}"></polymer-ui-menu-item>
+      </template>
+    </polymer-ui-sidebar-menu>
+      
+      <learn-page flex id="learn" items="{{items}}"></learn-page>
+
+      <polymer-ui-toolbar id="codebar">
+        <span>Code</span>
+        <span flex></span>
+        <polymer-ui-icon-button icon="settings" on-click="toggleLayout"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+      <code-page flex id="code""></code-page>
+
+      <polymer-ui-toolbar id="dobar">
+        <span>Do</span>
+        <span flex></span>
+        <polymer-ui-icon-button icon="settings" on-click="toggleLayout"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>      <do-page flex id="do"></do-page>
+
+      <element-database items="{{items}}"></element-database>
+    </template>
+    <script>
+      Polymer('thing-app', {
+        arrangements: {
+          desktop: [[
+            [1, 5],
+            [2, 2]
+          ],[
+            [1, 6],
+            [3, 3]
+          ],[
+            [1, 7],
+            [4, 4]
+          ]],
+          mobile: [[
+            [1],
+            [2]
+          ]]
+        },
+        arrangeFor: '',
+        layoutIndex: -1,
+        ready: function() {
+          this.nodes = [this.$.toolbar, this.$.learn, this.$.code, this.$.do, this.$.learnbar, this.$.codebar, this.$.dobar];
+          if (!this.arrangeFor) {
+            this.arrangeFor = 'desktop';
+          }
+        },
+        mediaChange: function(event, detail) {
+          this.arrangeFor = detail.matches ? 'desktop' : 'mobile';
+          Platform.flush();
+        },
+        arrangeForChanged: function() {
+          this.arrangement = this.arrangements[this.arrangeFor];
+          if (this.layoutIndex) {
+            this.layoutIndex = 0;
+          } else {
+            this.layoutIndexChanged();
+          }
+        },
+        layoutIndexChanged: function() {
+          this.layout = this.arrangement[this.layoutIndex];
+        }
+      });
+    </script>
+  </polymer-element>
+
+  <thing-app theme="polymer-ui-dark-theme"></thing-app>
+</body>
+</html>

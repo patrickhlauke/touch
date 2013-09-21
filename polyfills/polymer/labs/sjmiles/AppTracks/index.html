@@ -1,0 +1,90 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Tracks Layout</title>
+  <link href="app.css" rel="stylesheet">
+  <script src="tracks.js"></script>
+  <script src="../../../polymer/polymer.js"></script>
+</head>
+<body>
+  <polymer-element name="tracks-app">
+    <template>
+      <link href="lines.css" rel="stylesheet" />
+      <link href="tracks.css" rel="stylesheet" />
+
+      <polymer-ui-toolbar id="toolbar">
+        <polymer-ui-icon-button icon="menu" on-click="toggleLayout">Go</polymer-ui-icon-button>
+        <span flex>Toolbar</span>
+        <polymer-ui-icon-button icon="settings" on-click="toggleLayout">Go</polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-sidebar-menu v-flex label="Sidebar" id="sidebar">
+        <polymer-ui-menu-item>polymer-elements</polymer-ui-menu-item>
+        <polymer-ui-menu-item>polymer-ui-elements</polymer-ui-menu-item>
+        <polymer-ui-menu-item>more-elements</polymer-ui-menu-item>
+      </polymer-ui-sidebar-menu>
+
+      <div id="workspace" flex>
+      </div>
+
+      <polymer-ui-toolbar id="outputToolbar">
+        <span flex>Info</span>
+        <polymer-ui-icon-button icon="drawer" active="{{outputLayout}}" on-click="toggleLayout">Go</polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="search"on-click="toggleLayout">Go</polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <div id="output" v-flex>
+        <h2>Documentation</h2>
+        <h1>Verbiage</h1>
+        <p>In backbone record integer LED amplified internet protocol a extension reflective. Array kilohertz LED. Wavelength extension patch supporting wave an by prompt.</p>
+        <p>Log protocol serial includes vector ethernet bus PC source.</p>
+        <p>Feedback dithering prototype vector dynamic application network encapsulated record current. Transport microscopic debugged terminal. Sampling adaptive system recognition graphene an. Serial by key high-level dithering capacitance hyperlinked. Recognition prompt servicing fixed converter PC. Deviation alternating current.</p>
+      </div>
+
+    </template>
+    <script>
+      Polymer('tracks-app', {
+        arrangements: [
+          [
+            [1, 1, 1],
+            [2, 3, 5],
+            [2, 3, 4]
+          ],
+          [
+            [5, 3, 2],
+            [4, 3, 2],
+            [4, 1, 1]
+          ],
+          [
+            [1, 1],
+            [2, 3],
+            [5, 3]
+          ]
+        ],
+        outputLayout: 0,
+        ready: function() {
+          this.outputLayoutChanged();
+        },
+        outputLayoutChanged: function() {
+           this.layout(this.arrangements[this.outputLayout]);
+        },
+        layout: function(arrangement) {
+           layout(
+            // arrangement matrix
+            arrangement || this.arrangement,
+            // nodes to layout
+            [this.$.toolbar, this.$.sidebar, this.$.workspace, this.$.output, this.$.outputToolbar]
+            // parent for the line objects
+            //,this.shadowRoot
+          );
+        },
+        toggleLayout: function() {
+          this.outputLayout = (this.outputLayout + 1) % this.arrangements.length;
+        }
+      });
+    </script>
+  </polymer-element>
+
+  <tracks-app theme="polymer-ui-dark-theme"></tracks-app>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+Copyright 2012 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+      div {
+        box-sizing: border-box;
+      }
+      .x4x4 {
+        width: 400px;
+        height: 400px;
+      }
+      .flexbox {
+        display: -webkit-flex;
+        -webkit-flex-flow: column wrap;
+        -webkit-align-items: flex-start;
+        X-webkit-justify-content: flex-start;
+        Xheight: auto;
+        width: 0px;
+      }
+      .boxed {
+        border: 2px solid lightblue;
+      }
+      .tile {
+        background-color: orange;
+        width: 160px;
+        height: 160px;
+        -webkit-flex: auto;
+      }
+      #one .tile {
+        margin: 20px;
+      }
+      .greenbg {
+        background-color: lightgreen;
+      }
+      .spaced {
+        margin-left: auto;
+      }
+    </style>
+    <script src="../../polyfills/Components/components-polyfill.js" shadow="shim"></script>
+    <!-- formerly unrolled into index.html but it felt untidy -->
+    <link rel="components" href="box.html">
+  </head>
+  <body>
+    <g-box></g-box>
+    <g-box2></g-box2>
+    <hr/>
+    <div id="one" class="boxed x4x4">
+      <div class="x4x4 flexbox">
+        <div class="tile">A</div>
+        <div class="tile">B</div>
+        <div class="tile">C</div>
+        <div class="tile">D</div>
+      </div>
+    </div>
+    <hr/>
+    <div class="boxed x4x4 flexbox">
+      <div class="tile">A</div>
+      <div class="tile spaced">B</div>
+      <div class="tile spaced">C</div>
+      <div class="tile">D</div>
+      <div class="tile">E</div>
+      <div class="tile spaced">F</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Tracks Layout</title>
+  <link href="index.css" rel="stylesheet">
+  <script src="../../../polymer/polymer.js"></script>
+  <link href="elements.html" rel="import">
+  <link href="element-database.html" rel="import">
+  <link href="metadata.html" rel="import">
+</head>
+<body>
+  <polymer-element name="tracks-app">
+    <template>
+      <style style="display: none;">
+        * {
+          /*
+          -webkit-transition: top, right, bottom, left;
+          -webkit-transition-duration: 0.2s;
+          -webkit-transition-timing-function: ease-in;
+          transition: top, right, bottom, left;
+          transition-duration: 0.3s;
+          */
+        }
+
+        @media (max-width: 800px) {
+          #sidebar {
+            font-size: 1.5em;
+          }
+        }
+
+        code-mirror {
+          -webkit-transition: none;
+          transition: none;
+        }
+
+        #toolbar {
+          xwidth: 292px;
+        }
+
+        #sidebar {
+          width: 292px;
+          overflow: auto;
+        }
+
+        #example {
+          background-color: whitesmoke;
+          width: 400px;
+          height: 400px;
+        }
+
+        #exampleSource {
+          height: 400px;
+          background-color: whitesmoke;
+          overflow: auto;
+          padding: 8px;
+        }
+
+        #docs {
+          width: 500px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          background-color: whitesmoke;
+          border: 1px solid silver;
+        }
+
+        #designer {
+          background: white url(assets/grid.png) repeat;
+          -webkit-transition: none;
+          transition: none;
+        }
+
+        x-palette {
+          width: 292px;
+          -webkit-transition: none;
+          transition: none;
+        }
+
+      </style>
+
+      <polymer-media-query query="min-width: 800px" on-polymer-mediachange="mediaChange"></polymer-media-query>
+      <polymer-grid-layout id="layout" nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+
+      <polymer-ui-toolbar id="toolbar">
+        <polymer-ui-tabs selected="{{selectedTab}}">
+          <span>Learn</span>
+          <span>Code</span>
+          <span>Design</span>
+          <span on-tap="toggleLayout">Lucky</span>
+        </polymer-ui-tabs>
+        <polymer-ui-icon-button icon="settings" on-tap="toggleLayout"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-sidebar-menu v-flex label="Sidebar" id="sidebar" selectedItem="{{selected}}">
+        <template repeat="{{items}}">
+          <polymer-ui-menu-item label="{{name}}" icon="settings">
+            <template repeat="{{items}}">
+              <polymer-ui-menu-item item="{{}}" label="{{name}}"></polymer-ui-menu-item>
+            </template>
+          </polymer-ui-menu-item>
+        </template>
+      </polymer-ui-sidebar-menu>
+
+      <polymer-ui-toolbar h-flex id="exampleBar">
+        <polymer-ui-icon-button icon="drawer" on-tap="toggleLayout"></polymer-ui-icon-button>
+        <span flex>Example</span>
+        <polymer-ui-icon-button icon="search"on-tap="toggleLayout"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <div id="example">
+        <iframe style="height:100%; width: 100%; border: 0;" src="../../../{{item.folder}}/{{item.name}}/index.html"></iframe>
+      </div>
+
+      <polymer-ui-toolbar h-flex id="sourcebar">
+        <polymer-ui-icon-button icon="drawer" on-tap="toggleLayout"></polymer-ui-icon-button>
+        <span flex>Example Source</span>
+      </polymer-ui-toolbar>
+
+      <div id="exampleSource">
+      </div>
+
+      <polymer-ui-toolbar h-flex id="docsbar">
+        <polymer-ui-icon-button icon="drawer" on-tap="toggleLayout"></polymer-ui-icon-button>
+        <span flex>Documentation</span>
+        <polymer-ui-icon-button icon="search"on-tap="toggleLayout"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <div id="docs" v-flex>
+        <iframe style="height:100%; width: 100%; border: 0;" src="../../../{{item.folder}}/docs/classes/{{item.name}}.html"></iframe>
+      </div>
+
+      <polymer-ui-toolbar h-flex id="codebar">
+        <polymer-ui-icon-button icon="search"on-tap="toggleLayout"></polymer-ui-icon-button>
+        <span flex>Code</span>
+      </polymer-ui-toolbar>
+
+      <x-live-edit id="code" flex></x-live-edit>
+      <!--<code-mirror id="code" flex></code-mirror>-->
+
+      <polymer-ui-toolbar h-flex id="dobar">
+        <polymer-ui-icon-button icon="search"on-tap="toggleLayout"></polymer-ui-icon-button>
+        <span flex>Do</span>
+      </polymer-ui-toolbar>
+
+      <div id="do" v-flex>
+        <polymer-layout></polymer-layout>
+        <x-meta list="{{elements}}"></x-meta>
+        <x-palette elements="{{elements}}" canvas="{{$.designer}}"></x-palette>
+        <div id="designer" flex>
+        </div>
+      </div>
+
+      <polymer-ajax url="../../../{{item.folder}}/{{item.name}}/index.html" response="{{sourceText}}" auto handleAs="text"></polymer-ajax>
+      <element-database items="{{itemsBase}}"></element-database>
+    </template>
+
+    <script>
+      Polymer('tracks-app', {
+        arrangements: {
+          desktop: [[
+            [1, 5, 10],
+            [2, 4, 3],
+            [2, 4, 12],
+            [2, 4, 11]
+          ],[
+            [1, 5, 10],
+            [4, 4, 3],
+            [4, 4, 12],
+            [4, 4, 11]
+          ],[
+            [1, 5],
+            [2, 4],
+            [2, 10],
+            [2, 3]
+          ],[
+            [4, 3, 2],
+            [10, 5, 1]
+          ],[
+            [1, 5],
+            [2, 4]
+          ],[
+            [1, 7],
+            [6, 6]
+          ],[
+            [1, 9],
+            [8, 8]
+          ]],
+          mobile: [[
+            [1],
+            [2]
+          ],[
+            [1],
+            [5],
+            [4]
+          ]/*,[
+            [1],
+            [3]
+          ]*/]
+        },
+        xml: '',
+        arrangeFor: '',
+        arrangement: '',
+        layoutIndex: -1,
+        selected: 0,
+        selectedTab: -1,
+        sourceText: '',
+        itemsBase: null,
+        ready: function() {
+          this.nodes = [
+            this.$.toolbar, this.$.sidebar, this.$.example, this.$.docs,
+            this.$.docsbar, this.$.code, this.$.codebar, this.$.do,
+            this.$.dobar, this.$.exampleBar, this.$.exampleSource, this.$.sourcebar
+          ];
+          if (!this.arrangeFor) {
+            this.arrangeFor = 'desktop';
+          }
+          this.selectedTab = 0;
+          // Canary doesn't reach stable CSS state, tickle it here
+          /*this.async(function() {
+            document.body.style.fontSize = '12px';
+            this.async(function() {
+              document.body.style.fontSize = '';
+              this.$.layout.async('relayout', null, 100);
+            }, null, 100);
+          }, null, 100);*/
+         this.$.layout.async('relayout');
+        },
+        arrangeForChanged: function() {
+          this.arrangement = this.arrangements[this.arrangeFor];
+          if (this.layoutIndex) {
+            this.layoutIndex = 0;
+          } else {
+            this.layoutIndexChanged();
+          }
+        },
+        mediaChange: function(event, detail) {
+          this.arrangeFor = detail.matches ? 'desktop' : 'mobile';
+        },
+        selectedTabChanged: function() {
+          this.layoutIndex = [0, 5, 6, this.layoutIndex][this.selectedTab % 4];
+        },
+        layoutIndexChanged: function() {
+          this.layout = this.arrangement[this.layoutIndex];
+          //this.async(function(){this.$.code.refresh()}, null, 50);
+          this.async(function(){this.$.code.resize()}, null, 50);
+        },
+        selectedChanged: function() {
+          if (this.selected.item && this.selected.item.name && this.selected.item.folder) {
+            this.item = this.selected.item;
+            if (this.arrangeFor === 'mobile') {
+              this.toggleLayout();
+            }
+          }
+        },
+        toggleLayout: function() {
+          this.layoutIndex = (this.layoutIndex + 1) % this.arrangement.length;
+        },
+        sourceTextChanged: function() {
+          this.$.exampleSource.innerHTML = '<pre><code>' + this.sourceText.replace(/\</g, '&lt;').replace(/\>/g, '&gt;') + '</code></pre>';
+        },
+        itemsBaseChanged: function() {
+          var names = {}, folders = [];
+          this.itemsBase.forEach(function(i) {
+            var n = i.folder;
+            var f = names[n];
+            if (!f) {
+              f = names[n] = [];
+              folders.push({name: n, items: f});
+            }
+            f.push(i);
+          });
+          //this.async(function() {
+            this.items = folders;
+          //}, null, 300);
+        }
+      });
+    </script>
+  </polymer-element>
+
+  <tracks-app theme="polymer-ui-dark-theme"></tracks-app>
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿body {
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: gray;
+  overflow: hidden;
+}
+
+body, input, button {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+button {
+  font-size: 16px;
+}

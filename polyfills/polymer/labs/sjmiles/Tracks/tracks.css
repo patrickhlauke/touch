@@ -1,0 +1,23 @@
+﻿#sidebar {
+  position: absolute !important;
+}
+
+#workspace {
+  border: 5px dashed orange;
+  background-color: white;
+}
+
+#output {
+  width: 400px;
+  padding: 16px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-color: whitesmoke;
+}
+
+* {
+  -webkit-transition: top, right, bottom, left;
+  -webkit-transition-duration: 0.3s;
+  transition: top, right, bottom, left;
+  transition-duration: 0.3s;
+}

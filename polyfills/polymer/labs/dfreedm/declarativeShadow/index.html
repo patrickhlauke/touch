@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<script src="../../platform/platform.js"></script>
+<script src="ShadowRoot.js"></script>
+<style>
+  shadow-root {
+    display: none;
+  }
+</style>
+<div id="whee">
+  <shadow-root>
+    <style>
+      div.liar {
+        display: inline-block;
+        background: blue;
+        color: white;
+        padding: 32px;
+      }
+    </style>
+    <div class="liar">
+      Greeks!
+    </div>
+  </shadow-root>
+  Trojan Horse
+</div>

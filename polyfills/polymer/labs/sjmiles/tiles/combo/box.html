@@ -1,0 +1,185 @@
+<element name="g-box6">
+  <link rel="components" href="../../../polymer/src/g-component.html">
+  <link rel="stylesheet" href="box.css">
+  <template>
+    <div id="one" class="boxed x3x2">
+      <div class="x3x2 flexbox">
+        <content></content>
+      </div>
+    </div>
+  </template>
+  <script>
+    this.component({
+      prototype: {
+      }
+    });
+  </script>
+</element>
+
+<element name="g-box3">
+  <link rel="stylesheet" href="box.css">
+  <template>
+    <div id="one" class="boxed x3x2">
+      <div class="x3x2 flexbox">
+        <content></content>
+      </div>
+    </div>
+  </template>
+  <script>
+    this.component({
+      prototype: {
+      }
+    });
+  </script>
+</element>
+
+<element name="g-boxp">
+  <link rel="stylesheet" href="box.css">
+  <template>
+    <div id="one" class="boxed x3x2">
+      <div class="x3x2" style="position: relative;">
+        <content id="tiles"></content>
+      </div>
+    </div>
+  </template>
+  <script>
+    var colors = [
+      '#0072BC',
+      '#662D91',
+      '#01a31c',
+      '#008641',
+      '#bc1c48',
+      '#ffc40d',
+      '#CD4900',
+      '#c3325f',
+      '#603cba',
+      '#1c1c1c'
+    ];
+    this.component({
+      created: function() {
+        var pp = [];
+        pp.push([
+          [0, 0, 1, 1], [1, 0, 1, 1], [2, 0, 1, 1],
+          [0, 1, 1, 1], [1, 1, 1, 1], [2, 1, 1, 1]
+        ]);
+        pp.push([
+          [0, 0, 2, 2], [2, 0, 1, 1], [2, 1, 1, 1]
+        ]);
+        pp.push([
+          [0, 0, 2, 1], [0, 1, 1, 1], [1, 1, 1, 1],
+          [2, 0, 1, 1], [2, 1, 1, 1]
+        ]);
+        pp = pp[Math.floor(Math.random()*pp.length)];
+        //
+        var s = 150;
+        var m = [0, 0, 20, 20];
+        //
+        var extents = ['left', 'top', 'width', 'height'];
+        var items = this.$.tiles.getDistributedNodes();
+        for (var i=0, j=0, p, l, t, w, h, t, n; (n=items[i]); i++) {
+          if (n.nodeName != '#text') {
+            p = pp[j++];
+            if (!p) {
+              n.style.cssText = 'display:none;';
+            } else {
+              t = '';
+              for (var k=0; k<4; k++) {
+                n.style[extents[k]] = (p[k]*s - m[k]) + 'px'
+                //t += extents[k] + ':' + (p[k]*s - m[k]) + 'px;';
+              }
+              n.classList.add('tilep');
+              n.style.backgroundColor = 
+                  colors[Math.floor(Math.random()*colors.length)];
+              //n.style.cssText = t + 'background-color: ' + 
+              //  colors[Math.floor(Math.random()*colors.length)] + ';';
+            }
+          }
+        }
+      },
+      prototype: {
+      }
+    });
+  </script>
+</element>
+
+<element name="g-box2">
+  <link rel="stylesheet" href="box.css">
+  <template>
+    <div class="x2x2">
+      <div class="x2x2" style="position: relative;">
+        <content id="tiles"></content>
+      </div>
+    </div>
+  </template>
+  <script>
+    var colors = [
+      '#0072BC',
+      '#662D91',
+      '#01a31c',
+      '#008641',
+      '#bc1c48',
+      '#ffc40d',
+      '#CD4900',
+      '#c3325f',
+      '#603cba',
+      '#1c1c1c'
+    ];
+    this.component({
+      created: function() {
+        var pp = [
+          [
+            [0, 0, 1, 1], [1, 0, 1, 1],
+            [0, 1, 1, 1], [1, 1, 1, 1]
+          ],
+          [
+            [0, 0, 1, 2], [1, 0, 1, 1],
+                          [1, 1, 1, 1]
+          ],
+          [
+            [0, 0, 2, 1], 
+            [0, 1, 1, 1], [1, 1, 1, 1]
+          ],
+          [
+            [0, 0, 1, 1], [1, 0, 1, 2],
+            [0, 1, 1, 1], 
+          ],
+          [
+            [0, 0, 1, 1], [1, 0, 1, 1],
+            [0, 1, 2, 1]
+          ],
+          [
+            [0, 0, 2, 2]
+          ]
+        ];
+        pp = pp[Math.floor(Math.random()*pp.length)];
+        //
+        var s = 150;
+        var m = [0, 0, 20, 20];
+        //
+        var extents = ['left', 'top', 'width', 'height'];
+        var items = this.$.tiles.getDistributedNodes();
+        for (var i=0, j=0, p, l, t, w, h, t, n; (n=items[i]); i++) {
+          if (n.nodeName != '#text') {
+            p = pp[j++];
+            if (!p) {
+              n.style.cssText = 'display:none;';
+            } else {
+              t = '';
+              for (var k=0; k<4; k++) {
+                n.style[extents[k]] = (p[k]*s - m[k]) + 'px'
+                //t += extents[k] + ':' + (p[k]*s - m[k]) + 'px;';
+              }
+              n.classList.add('tilep');
+              n.style.backgroundColor = 
+                  colors[Math.floor(Math.random()*colors.length)];
+              //n.style.cssText = t + 'background-color: ' + 
+              //  colors[Math.floor(Math.random()*colors.length)] + ';';
+            }
+          }
+        }
+      },
+      prototype: {
+      }
+    });
+  </script>
+</element>

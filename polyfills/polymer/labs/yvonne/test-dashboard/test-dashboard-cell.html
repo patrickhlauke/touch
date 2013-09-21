@@ -1,0 +1,41 @@
+<link href="../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.html" rel="import">
+<link href="buildbot-ajax-build.html" rel="import">
+<polymer-element name="test-dashboard-cell" attributes="builder response">
+	<template>
+		<style>
+			span {
+				display: inline-block;
+				background-color: #e88;
+				border-radius: 3px;
+				margin: 1px;
+				padding: 3px 10px;
+				text-align: center;
+			}
+			span.passed {
+				background-color: #8d4;
+			}
+			span.pending {
+				background-color: #fd3;
+			}
+		</style>
+		<buildbot-ajax-build builder="{{builder}}" response="{{response}}"></buildbot-ajax>
+		<template repeat="{{browser in response.browsers}}">
+			<template if="{{browser.success}}">
+				<span class="passed">{{browser.browser}} {{browser.version}}</span>
+			</template>
+			<template if="{{!browser.success}}">
+				<span><a class="logs" href="{{browser.logs}}" target="_blank">{{browser.browser}} {{browser.version}}</a></span>
+			</template>
+			</div>
+		</template>
+		<template if="{{!response.success && response.browsers.length == 0}}">
+			<span>failing :(</span>
+		</template>
+		<template if="{{response.pending && response.browsers.length == 0}}">
+			<span class="pending">running</span>
+		</template>
+	</template>
+	<script>
+		Polymer('test-dashboard-cell');
+	</script>
+</polymer-element>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+  <head>
+    <title>Polymer Playground Embed</title>
+    <script src="../../polymer/polymer.js"></script>
+    <link rel="import" href="elements.html">
+    <link rel="import" href="metadata.html">
+    <link rel="import" href="src/pg-view.html">
+    <link rel="stylesheet" href="../../polymer-ui-elements/basic.css">
+    <style>
+      pg-view {
+        height: 360px;
+        margin-bottom: 20px;
+        border: 5px solid #4683ea;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body class="polymer-ui-body-text" theme="polymer-ui-light-theme">
+    <polymer-meta id=meta></polymer-meta>
+    <pg-view id="polymer-grid-layout"></pg-view>
+    <pg-view id="polymer-ui-icon-button"></pg-view>
+    <pg-view id="polymer-ui-ratings"></pg-view>
+    <pg-view id="polymer-ui-toggle-button"></pg-view>
+    <pg-view id="polymer-ui-toolbar"></pg-view>
+    <pg-view id="polymer-ui-menu"></pg-view>
+    
+    <script>
+      document.addEventListener('WebComponentsReady', function() {
+        var meta = document.querySelector('#meta');
+        document.querySelectorAll('pg-view').forEach(function(view) {
+          view.meta = meta.byId(view.id);
+        });
+      });
+    </script>
+  </body>
+</html>

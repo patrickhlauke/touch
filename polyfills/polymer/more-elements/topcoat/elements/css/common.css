@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "Source Sans";
+  src: url("../font/SourceSansPro-Regular.otf");
+}
+@font-face {
+  font-family: "Source Sans";
+  src: url("../font/SourceSansPro-Light.otf");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Source Sans";
+  src: url("../font/SourceSansPro-Semibold.otf");
+  font-weight: 600;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #3a3f42 url("../img/bg_dark.png") repeat-x;
+  color: #000;
+  font: 16px "Source Sans", helvetica, arial, sans-serif;
+  font-weight: 200;
+  text-rendering: optimizeLegibility;
+}
+
+.quarter {
+  width: 25%;
+}
+.half {
+  width: 50%;
+}
+.three-quarters {
+  width: 75%;
+}
+.third {
+  width: 33.333%;
+}
+.two-thirds {
+  width: 66.666%;
+}
+.full {
+  width: 100%;
+}
+
+.left {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+
+.reset-ui {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

@@ -1,0 +1,17 @@
+<!-- consider moving it to polymer-ui-elements -->
+
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-icon/polymer-ui-icon.html">
+
+<polymer-element name="shuttle-toggle-icon" attributes="src icon active activeSrc activeIcon" on-tap="toggle">
+  <template>
+    <polymer-ui-icon src="{{active ? activeSrc : src}}" icon="{{active ? activeIcon : icon}}"></polymer-ui-icon>
+  </template>
+  <script>
+    Polymer('shuttle-toggle-icon', {
+      active: false,
+      toggle: function() {
+        this.active = !this.active;
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Animations</title>
+    <link rel="stylesheet" type="text/css" href="../flexbox/flexbox.css">
+    <link rel="component" href="components/x-animation-group.html">
+    <link rel="component" href="components/x-fade.html">
+    <link rel="component" href="components/x-slide.html">
+    <script src="../../polymer/polymer.js"></script>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', 'Roboto', 'Helvetica', 'Arial', 'open sans', 'sans-serif';
+      }
+      x-animated {
+        display: inline-block;
+        margin: 5px;
+        padding: 5px;
+        height: 100px;
+        width: 100px;
+        color: white;
+        text-align: center;
+      }
+      #fadeOut {
+        background-color: #4285f4;
+        opacity: 0.5;
+      }
+      #slideDown {
+        background-color: #db4437;
+      }
+      #fadeAndSlideDown {
+        background-color: #f4b400;
+      }
+      #slideDownThenFade {
+        background-color: #0f9d58;
+      }
+    </style>
+  </head>
+  <body>
+    <x-animated id="fadeOut" animation="#fadeAnim">
+      fade out
+    </x-animated>
+    <x-animated id="slideDown" animation="#slideAnim">
+      slide down
+    </x-animated>
+    <x-animated id="fadeAndSlideDown" animation="#fadeAndSlideDownAnim">
+      pargroup
+    </x-animated>
+    <x-animated id="slideDownThenFade" animation="#slideDownThenFadeAnim">
+      seqgroup
+    </x-animated>
+    <x-fade id="fadeAnim" duration="0.5" type="fadeOut"></x-fade>
+    <x-slide id="slideAnim"></x-slide>
+    <x-animation-group id="fadeAndSlideDownAnim" type="par" duration="0.3" fillMode="forwards">
+      <x-fade duration="0.5"></x-fade>
+      <x-slide></x-slide>
+    </x-animation-group>
+    <x-animation-group id="slideDownThenFadeAnim" type="seq" duration="0.6" fillMode="forwards">
+      <x-slide></x-slide>
+      <x-fade duration="0.5"></x-fade>
+    </x-animation-group>
+    <element name="x-animated" on-click="play">
+      <script>
+        Polymer.register(this, {
+          animation: null,
+          play: function() {
+            var animation = document.querySelector(this.animation);
+            if (animation) {
+              animation.target = this;
+              animation.play();
+            }
+          }
+        });
+      </script>
+    </element>
+  </body>
+</html>

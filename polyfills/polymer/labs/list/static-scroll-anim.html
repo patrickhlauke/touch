@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>static list</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, 
+          minimum-scale = 1, maximum-scale = 1,user-scalable=no">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-size: 14px;
+      font-family: 'helvetica neue', Arial, 'open sans', sans-serif;
+    }
+    
+    .header {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      border-bottom: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 10px;
+    }
+    
+    .header  input {
+      width: 30px;
+    }
+    
+    .header  select {
+      width: 60px;
+    }
+
+    #log {
+      position: fixed;
+      display: none;
+      z-index: 2;
+      box-sizing: border-box;
+      top: 30px;
+      width: 400px;
+      left: calc(50% - 200px);
+      max-height: calc(100% - 30px);
+      overflow: auto;
+      background: white;
+      border: 1px solid gray;
+      padding: 10px;
+    }
+    
+    #list {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    
+    #content {
+      position: relative;
+    }
+    
+    /* simple item */
+    .item {
+      box-sizing: border-box;
+      height: 80px;
+      width: 100%;
+      line-height: 80px;
+      padding: 0 20px;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .medium-item {
+      box-sizing: border-box;
+      width: 100%;
+      height: 80px;
+    }
+    
+    /* mail (complex) item */
+    .message {
+      box-sizing: border-box;
+      padding: 4px;
+      padding-left: 77px;
+      line-height: 167%;
+      cursor: default;
+      background-color: white;
+      position: relative;
+      color: black;
+      background-repeat: no-repeat;
+      background-position: 10px 10px;
+      background-size: 60px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .from {
+      display: inline;
+      font-weight: bold;
+    }
+    
+    .timestamp {
+      margin-left: 10px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .body {
+      font-size: 12px;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .subject {
+    }
+    
+    .divider {
+      background: grey;
+      color: white;
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      text-transform: uppercase;
+    }
+    
+    /* complex list item*/
+    .complex-item {
+      background: whitesmoke;
+      width: 100%;
+      height: 156px;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin: 4px;
+    }
+    
+    .complex-item > :last-child {
+      padding: 10px;
+    }
+    
+    .complex-flex {
+      display: -webkit-flex;
+    }
+    
+    .complex-flex > * {
+      margin: 10px;
+      -webkit-flex: 1;
+      min-width: 0;
+      -webkit-transform: scale(0.9);
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
+    
+    .complex-flex > input {
+      max-width: 40px;
+    }
+    
+    .complex-flex > img {
+      height: 80px;
+      width: 80px;
+    }
+    
+    .complex-stuff > * {
+      display: inline-block;
+      margin: 2px 4%;
+      border-radius: 2px;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .base {
+      display: none;
+      position: absolute;
+    }
+    
+    .layerize {
+      -webkit-transform: translateZ(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button onclick="reset()">reset</button>
+    <label>rows:<input id="rowsInput" value="5000"></label>
+    <label>overdraw:<input id="overDrawInput" value="0"></label>
+    <label>layers:<input id="makeLayersInput" type="checkbox"></label>
+    <label>delta:<input id="deltaStInput" value="80"></label>
+    <button onclick="toggleAnimate()">animate</button>
+    <label>item: 
+      <select id="complexitySelect">
+        <option>simple</option>
+        <option selected>medium</option>
+        <option>complex</option>
+      </select>
+    </label>      
+  </div>
+  <div id="list">
+    <div id="content"></div>
+  </div>
+  <div id="log"></div>
+  <script>
+    
+    var list = document.querySelector('#list');
+    var content = document.querySelector('#content');
+    var overDraw = 0;
+    var rafing = false;
+    var scrollTime = 0;
+    var layerize = false;
+    var RAF_AFTER_SCROLL_TIME = 3000;
+    
+    // scrolling
+    function scroll() {
+      var t = list.scrollTop;
+      var h = list.clientHeight;
+      hideLastVisible();
+      showVisible(t, h);
+    }
+    
+    function hideLastVisible() {
+      for (var i=0, l=visible.length; i<l; i++) {
+        visible[i].style.display = null;
+      }
+    }
+    
+    function showVisible(top, height, up) {
+      visible = [];
+      var rh = rowHeights[complexity];
+      var s = Math.floor(top / rh);
+      var c = Math.ceil(height / rh) + 1;
+      if (overDraw) {
+        s = Math.max(0, s - overDraw);
+        c+= 2*overDraw;
+      }
+      for (var i=s, n; i<s+c; i++) {
+        n = content.children[i];
+        n.style.display = 'block';
+        visible.push(n);
+      }
+      frame.rowStart = s;
+      frame.rowCount = c;
+    }
+    
+    /*
+    list.onscroll = function() {
+      scrollTime = Date.now();
+      if (!rafing) {
+        raf();
+      }
+    };
+    */
+    
+    requestAnimationFrame = window.requestAnimationFrame ||
+        webkitRequestAnimationFrame;
+    function raf() {
+      rafing = true;
+      requestAnimationFrame(function() {
+        scroll();
+        if (Date.now() - scrollTime < RAF_AFTER_SCROLL_TIME) {
+          raf();
+        } else {
+          rafing = false;
+        }
+      });
+    }
+
+    var animateScrolling = false;
+    var deltaSt = 0;
+    // scroll animation
+    function toggleAnimate() {
+      deltaSt = Number(deltaStInput.value);
+      animateScrolling = !animateScrolling;
+      if (animateScrolling) {
+        startLog();
+        animate();
+      }
+    }
+
+    var frameData = [], frame = {};
+    function animate() {
+      frame = {};
+      frameData.push(frame);
+      frame.start = Date.now();
+      requestAnimationFrame(function() {
+        frame.workStart = Date.now();
+        list.scrollTop = list.scrollTop + deltaSt;
+        scroll();
+        frame.workEnd = Date.now();
+        if (animateScrolling) {
+          animate();
+        } else {
+          dumpLog();
+        }
+      });
+    }
+
+    function startLog() {
+      frameData = [];
+      hideLog();
+    }
+
+    function hideLog() {
+      log.style.display = 'none';
+    }
+
+    function dumpLog() {
+      log.style.display = 'block';
+      var html = '', l;
+      var frameCount = 0, framesTime = 0, minTime = 1e9, maxTime = 0;
+      frameData.forEach(function(f, i) {
+        var ft = l ? f.start - l : 0;
+        if (ft > 10) {
+          minTime = Math.min(minTime, ft);
+          maxTime = Math.max(maxTime, ft);
+          framesTime += ft;
+          frameCount++;
+        }
+        html += i + ': rows ' + f.rowStart + ', ' + f.rowCount + 
+            ', time ' + ft + 'ms, work: ' + (f.workEnd - f.workStart) +'ms<br>';
+        l = f.start;
+      });
+      var header = 'FPS: avg: ' + Math.floor(1000 / (framesTime / 
+          frameCount)) + ', max: ' + Math.floor(1000 / minTime) + 
+          ', min: ' + Math.floor(1000 / maxTime) + '<br>';
+      log.innerHTML = header + html;
+    }
+
+    // dom generation
+    reset = function() {
+      visible = [];
+      hideLog();
+      animateScrolling = false;
+      scrollTime = 0;
+      rafing = false;
+      complexity = complexitySelect.value;
+      overDraw = Number(overDrawInput.value);
+      layerize = makeLayersInput.checked;
+      var count = rowsInput.value;
+      var itemFn = items[complexity];
+      if (itemFn == items["medium"]) {
+        names = [];
+        for (var i=0; i<count; i++) {
+          names.push(namegen.generateName(4, 8));
+        }
+        names.sort();
+      }
+      content.innerHTML = '';
+      var classes = 'base' + (layerize ? ' layerize' : '');
+      for (var i=0, html=''; i<count; i++) {
+        html += itemFn(i, classes);
+      }
+      content.innerHTML = html;
+      list.scrollTop = 0;
+      content.style.height = (rowHeights[complexity] * count) + 'px';
+      scroll();
+    }
+    
+    namegen = {
+      generateString: function(inLength) {
+        var s = '';
+        for (var i=0; i<inLength; i++) {
+          s += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+        }
+        return s;
+      },
+      generateName: function(inMin, inMax) {
+        return this.generateString(Math.floor(Math.random() * (inMax - inMin + 1) + inMin));
+      }
+    };
+    
+    strings = [
+      "PARKOUR!",
+      "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    ]
+    
+    rowHeights = {
+      simple: 80,
+      medium: 80,
+      complex: 164
+    }
+    
+    items = {
+      // one node, minimal styling
+      simple: function(i, classes) {
+        return '<div class="item ' + classes + '" style="top: ' + (i * rowHeights.simple) + 'px;">Item ' + i + '</div>';
+      },
+      // 5 nodes, image as background, text clipping
+      medium: function(i, classes) {
+        var a = names[i].charAt(0);
+        var show = false && a != (names[i-1] || '').charAt(0);
+        return '<div class="medium-item ' + classes + '" style="top: ' + (i * rowHeights.medium) + 'px;">' + 
+          (show ? '<div class="divider">' + a + '</div>' : '') + 
+          '<div class="message" style="background-image: url(images\/' + i%4 + '.png);">' +
+          '<span class="from">' + names[i] + '</span>' +
+          '<span class="timestamp">8:29pm</span>' +
+          '<div class="subject">[Parkour] Infinite List. ' + i + '</div>' +
+          '<div class="body">' +
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
+          '</div></div></div>';
+      },
+      // kitchensink
+      complex: function(i, classes) {
+        return '<div class="complex-item ' + classes + '" style="top: ' + (i * rowHeights.complex) + 'px;">' +
+          '<div class="complex-flex">' +
+            '<img src="images/0.png" />' +
+            '<select><option>1</option><option>2</option></select>' +
+            '<img src="images/1.png" />' +
+            '<input value="MOAR" />' +
+            '<img src="images/2.png" />' +
+            '<input type="range" value="'+ (i % 100) + '" />' +
+            '<img src="images/3.png" />' +
+          '</div>' +
+          '<div>' + i + ': ' + strings[i % 3] + '</div>' +
+          '<div class="complex-stuff"><div>1</div><div>2</div><div>3</div>' +
+          '<div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>' + 
+          '<div>9</div><div>10</div></div>' +
+        '</div>';
+      }
+    }
+    
+    reset();
+  </script>
+</body>
+</html>

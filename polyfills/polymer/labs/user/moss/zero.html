@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>JS Bin</title>
+  <script src="http://www.polymer-project.org/polymer/polymer.min.js"></script>
+</head>
+<body>
+
+<element name="x-browser-item-factory" attributes="kind item">
+  <script>
+    Polymer.register(this, {
+      ready: function() {
+        this.appendChild(document.createElement(this.kind));
+      }
+    });
+  </script>
+</element>
+  
+<!-- Given this, and assuming appropriate data is available to the element... -->
+<element name="x-browser">
+  <template>
+    <ul class="columns">
+      <template repeat="{{columns}}">
+        <li class="column">
+          <ul class="items">
+            <template repeat="{{items}}">
+              <li class="item">
+                <x-browser-item-factory item="{{}}">{{text}}</x-browser-item-factory>
+              </li>
+            </template>
+          </ul>
+        </li>
+      </template>
+    </ul>
+  </template>
+  <script>
+    Polymer.register(this, {
+      ready: function() {
+        this.columns = [
+          {items: [
+            {text: 'Hi'},
+            {text: 'Bye'},
+            {text: 'Fly'}
+          ]},
+          {items: [
+            {text: 'See'},
+            {text: 'Me'},
+            {text: 'Be'}
+          ]}
+        ];
+      }
+    });
+  </script>
+</element>
+ 
+<element name="x-browser-item" attributes="item">
+  <template>
+    <a href="{{item.href}}">{{item.text}}</a>
+  </template>
+  <script>
+    Polymer.register(this, {});
+  </script>
+</element>
+  
+<x-browser></x-browser>
+  
+</body>
+</html>

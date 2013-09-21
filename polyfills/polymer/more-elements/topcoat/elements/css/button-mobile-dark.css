@@ -1,0 +1,240 @@
+/*
+ Button
+ ------
+
+ :active - Active state
+
+ .is-active - Simulates an active state on mobile devices
+
+ :disabled - Disabled state
+
+ .is-disabled - Simulates a disabled state on mobile devices
+
+    <a class="topcoat-button">Button</a>
+    <a class="topcoat-button class="is-active">Button</a>
+    <a class="topcoat-button class="is-disabled">Button</a>
+*/
+
+@host {
+  :scope,
+  :scope.quiet,
+  :scope.large,
+  :scope.large.quiet,
+  :scope.cta,
+  :scope.large.cta {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-background-clip: padding;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 1.25rem;
+    font-size: 16px;
+    line-height: 3rem;
+    letter-spacing: 1px;
+    color: #c6c8c8;
+    text-shadow: 0 -1px rgba(0,0,0,0.69);
+    vertical-align: top;
+    background-color: #595b5b;
+    -webkit-box-shadow: inset 0 1px rgba(255,255,255,0.12);
+    box-shadow: inset 0 1px rgba(255,255,255,0.12);
+    border: 1px solid rgba(0,0,0,0.36);
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+  }
+  :scope:active,
+  :scope.is-active,
+  :scope.large:active,
+  :scope.large.is-active {
+    background-color: #404141;
+    -webkit-box-shadow: inset 0 1px rgba(0,0,0,0.18);
+    box-shadow: inset 0 1px rgba(0,0,0,0.18);
+  }
+  :scope:disabled,
+  :scope.is-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  /*
+   Quiet Button
+   ------------
+
+   :active - Quiet button active state
+
+   .is-active - Simulates active state for a quiet button on touch interfaces
+
+   :disabled - Disabled state
+
+   .is-disabled - Simulates disabled state
+
+      <a is="topcoat-button" class="quiet">Button</a>
+      <a is="topcoat-button" class="quiet is-active">Button</a>
+      <a is="topcoat-button" class="quiet is-disabled">Button</a>
+  */
+  :scope.quiet {
+    background: transparent;
+    border: 1px solid transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  :scope.quiet:active,
+  :scope.quiet.is-active,
+  :scope.large.quiet:active,
+  :scope.large.quiet.is-active {
+    color: #c6c8c8;
+    text-shadow: 0 -1px rgba(0,0,0,0.69);
+    background-color: #404141;
+    border: 1px solid rgba(0,0,0,0.36);
+    -webkit-box-shadow: inset 0 1px rgba(0,0,0,0.18);
+    box-shadow: inset 0 1px rgba(0,0,0,0.18);
+  }
+  :scope.quiet:disabled,
+  :scope.quiet.is-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  /*
+   Large Button
+   ------------
+
+   :active - Active state
+
+   .is-active - Simulates active state touch interfaces
+
+   :disabled - Disabled state
+
+   .is-disabled - Simulates disabled state
+
+      <a is="topcoat-button" class="large" >Button</a>
+      <a is="topcoat-button" class="large is-active" >Button</a>
+      <a is="topcoat-button" class="large is-disabled" >Button</a>
+  */
+  :scope.large,
+  :scope.large.quiet {
+    font-size: 1.3rem;
+    line-height: 4rem;
+  }
+  :scope.large:disabled,
+  :scope.large.is-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  /*
+   Large Quiet Button
+   ------------------
+
+   :active - Active state
+
+   .is-pressed - Simulates active state on touch interfaces
+
+   :disabled - Disabled state
+
+   .is-disabled - Simulates disabled state
+
+
+      <a is="topcoat-button" class="large.quiet" >Button</a>
+      <a is="topcoat-button" class="large.quiet is-active" >Button</a>
+      <a is="topcoat-button" class="large.quiet is-disabled" >Button</a>
+  */
+  :scope.large.quiet {
+    background: transparent;
+    border: 1px solid transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  :scope.large.quiet:disabled,
+  :scope.large.quiet.is-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  /*
+   Call To Action Button
+   ---------------------
+
+   :active - Active state
+
+   .is-pressed - Simulates active state on touch interfaces
+
+   :disabled - Disabled state
+
+   .is-disabled - Simulates disabled state
+
+
+      <a is="topcoat-button" class="cta" >Button</a>
+      <a is="topcoat-button" class="cta is-active" >Button</a>
+      <a is="topcoat-button" class="cta is-disabled" >Button</a>
+
+  */
+  :scope.cta,
+  :scope.large.cta {
+    border: 1px solid #143250;
+    background-color: #288edf;
+    -webkit-box-shadow: inset 0 1px rgba(255,255,255,0.36);
+    box-shadow: inset 0 1px rgba(255,255,255,0.36);
+    color: #fff;
+    font-weight: 500;
+    text-shadow: 0 -1px rgba(0,0,0,0.36);
+  }
+  :scope.cta:active,
+  :scope.cta.is-active,
+  :scope.large.cta:active,
+  :scope.large.cta.is-active {
+    background-color: #1976c3;
+    -webkit-box-shadow: inset 0 1px rgba(0,0,0,0.12);
+    box-shadow: inset 0 1px rgba(0,0,0,0.12);
+  }
+  :scope.cta:disabled,
+  :scope.cta.is-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  /*
+   Large Call To Action Button
+   ---------------------------
+
+   :active - Active state
+
+   .is-active - Simulates active state touch interfaces
+
+   :disabled - Disabled state
+
+   .is-disabled - Simulates disabled state
+
+      <a is="topcoat-button" class="large.cta" >Button</a>
+      <a is="topcoat-button" class="large.cta is-active" >Button</a>
+      <a is="topcoat-button" class="large.cta is-disabled" >Button</a>
+  */
+  :scope.large.cta {
+    font-size: 1.3rem;
+    line-height: 4rem;
+  }
+  :scope.large-cta:disabled,
+  :scope.large.cta.is-disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+  }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scrubbing: Scaling Grid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, 
+          minimum-scale = 1, maximum-scale = 1,user-scalable=no">
+  <script src="../../web-animations-js/web-animations.js"></script>
+  <script src="../../PointerEvents/pointerevents.js"></script>
+  <script src="../../PointerGestures/pointergestures.js"></script>
+  <script src="src/Scrub.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      -webkit-user-select: none;
+      overflow: hidden;
+      display: -webkit-flex;
+      -webkit-flex-flow: column;
+    }
+    
+    .header {
+      padding: 10px;
+      font-size: 34px;
+    }
+    
+    .sub-header {
+      padding: 0 14px;
+      font-size: 16px;
+    }
+    
+    .grid-container {
+      overflow: hidden;
+      -webkit-flex: 1;
+      display: -webkit-flex;
+    }
+    
+    .grid {
+      -webkit-transform-origin: 0 0;
+      -webkit-flex: 1;
+      display: -webkit-flex;
+      -webkit-flex-flow: row wrap;
+    }
+    
+    .grid-cell {
+      box-sizing: border-box;
+      display: -webkit-flex;
+      -webkit-flex-flow: column;
+      -webkit-justify-content: center;
+      -webkit-align-items: center;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background: whitesmoke;
+      font-size: 24px;
+      padding: 2px;
+      margin: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Scrubbing: Scaling Grid</div>
+  <div class="sub-header">Drag grid cells right-left</div>
+  <div class="grid-container">
+    <div class="grid"></div>
+  </div>
+  <script>
+    var grid = document.querySelector('.grid');
+    
+    // create our grid of content
+    function makeGridCell(inIndex, inCols) {
+      var d = document.createElement('div');
+      d.classList.add('grid-cell');
+      // add some slop to allow for margin (could use calc)
+      var w = 100 / inCols - 5;
+      d.style.webkitFlex = '1 1 ' + w + '%';
+      d.innerHTML = '<img draggable="false" src="images/' + (inIndex % 4) +
+          '.png">' + '<div>' + inIndex + '</div>';
+      return d;
+    }
+    
+    function makeGridCells(inRows, inCols) {
+      for (var i=0, l=inRows * inCols; i < l; i++) {
+        grid.appendChild(makeGridCell(i, inCols));
+      }
+    }
+    
+    makeGridCells(4, 4);
+    
+    function targetForEvent(inEvent) {
+      var n = inEvent.target;
+      while (n.parentNode != grid) {
+        n = n.parentNode;
+      }
+      return n;
+    }
+    
+    // when scrubbing begins (here just using trackstart
+    // start update animation keyframes based on what's being tracked
+    var startScrub = function(inScrub) {
+      if (inScrub.currentTime < inScrub.duration / 2) {
+        var t = targetForEvent(inScrub.scrubEvent);
+        var gridRect = grid.getBoundingClientRect();
+        var cols = Math.floor(gridRect.width / t.offsetWidth);
+        var rows = Math.ceil(grid.children.length / cols);
+        // get cell info
+        var i = Array.prototype.indexOf.call(grid.children, t);
+        var targetRow = Math.floor(i / cols);
+        var targetCol = i % cols;
+        // calc sizes
+        w = grid.clientWidth * cols;
+        h = grid.clientHeight * rows;
+        x = (targetCol * w/cols);
+        y = (targetRow * h/rows);
+        // make keyframes for animation
+        var k = inScrub.animation.effect.getFrames();
+        k[1].transform = 'translate(' +
+          -x + 'px,' + -y + 'px) scale(' + cols + ',' + rows + ')';
+        // TODO(sorvell): doesn't seem like you're meant to rewrite keyframe values?
+        inScrub.animation.effect.setFrames(k);
+      }
+    }
+    
+    // setup timeline/ and animation to scale scrub content.
+    var animation = new Animation(grid, [{
+      transform: 'translate(0,0) scale(1, 1)'
+    }, {
+      transform: 'translate(0,0) scale(1, 1)'
+    }], {iterationDuration: 0.333});
+    var scrub = new Scrub({
+      node: grid, 
+      animation: animation,
+      scrubClick: true,
+      onStartScrub: startScrub
+    });
+  </script>
+</body>
+</html>

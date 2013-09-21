@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <style>
+    body {
+      background-color: whitesmoke;
+    }
+    div {
+      position: absolute;
+      border: 1px solid silver;
+      background-color: white;
+      border-radius: 8px;
+      padding: 6px;
+    }
+    line {
+      position: absolute;
+      border: 1px dotted lightblue;
+      -webkit-box-shadow: 0px 0px 8px rgba(184, 255, 255, 0.75);
+      -moz-box-shadow:    0px 0px 8px rgba(184, 255, 255, 0.75);
+      box-shadow:         0px 0px 8px rgba(184, 255, 255, 0.75);
+    }
+    [extent=width] {
+      top: 0;
+      bottom: 0;
+    }
+    [extent=height] {
+      right: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="alpha">alpha</div>
+  <div id="beta">beta</div>
+  <div id="gamma">gamma
+<!--    <div id="gamma_alpha">gamma alpha</div>
+    <div id="gamma_beta">gamma beta</div>
+    <div id="gamma_phi_gamma">Gamites!</div>
+    <div id="gamma_delta">gamma delta</div>-->
+  </div>
+  <div id="delta">delta</div>
+  <div id="eta">eta</div>
+  <div id="iota">iota</div>
+  <script>
+    columns = {
+      0: {p: 200},
+      1: {p: 300},
+      2: {p: 400},
+      3: {p: -200},
+      4: {p: -100}
+    };
+    rows = {
+      0: {p: 20},
+      1: {p: 100},
+      2: {p: 200},
+      3: {p: -400},
+      4: {p: -140}
+    };
+    //
+    function line(axis, info) {
+      var l = document.createElement('line');
+      var extent = (axis === 'left' ? 'width' : (axis === 'top' ? 'height' : axis));
+      l.setAttribute('extent', extent);
+      var p = info.p;
+      if (p < 0 || info.s < 0) {
+        axis = (axis === 'left' ? 'right' : (axis === 'top' ? 'bottom' : axis));
+      }
+      p = Math.abs(p);
+      l.style[axis] = p + 'px';
+      l.style[extent] = '0px';
+      document.body.appendChild(l);
+    }
+    function lines() {
+      for (var o in columns) {
+        line('left', columns[o]);
+      }
+      for (var o in rows) {
+        line('top', rows[o]);
+      }
+    }
+    //
+    function matrixilate(matrix, nodes) {
+      rows = [];
+      columns = [];
+      matrix.forEach(function(vector, i) {
+        var row = rows[i];
+        if (!row) {
+          if (i > matrix.length / 2) {
+            var s = -140 * (matrix.length - i);
+          } else {
+            s = 140 * i;
+          }
+          rows[i] = {p: s};
+        }
+        vector.forEach(function(cols, i) {
+          var col = columns[i];
+          if (!col) {
+            if (i > vector.length / 2) {
+              var s = -140 * (vector.length - i);
+            } else {
+              s = 140 * i;
+            }
+            columns[i] = {p: s};
+          }
+        });
+      });
+      lines();
+      nodes.forEach(function(node, i) {
+        var n = i+1, l, r, t = 1e10, b = -1e10;
+        matrix.forEach(function(vector, i) {
+          var f = vector.indexOf(n);
+          if (f > -1) {
+            l = f;
+            r = vector.lastIndexOf(n) + 1;
+            t = Math.min(t, i);
+            b = Math.max(b, i) + 1;
+          }
+        });
+        console.log(l, r, t, b);
+        position(node, t, r, b, l);
+      });
+    }
+    matrixilate([
+      [1, 1, 1, 1, 1],
+      [2, 3, 3, 4, 5],
+      [2, 6, 6, 6, 6]
+    ], [
+      alpha,
+      beta,
+      gamma,
+      delta,
+      eta,
+      iota
+    ]);
+    //
+    /*
+    function columnate(cols) {
+      columns = [];
+      var l = 0;
+      for (var i=0, c; c=cols[i]; i++) {
+        if (c == 'fit') {
+          break;
+        }
+        l += c;
+        columns[i] = {p: l};
+      }
+      var f = i;
+      var r = 0;
+      for (i=cols.length-1; (i>f) && (c=cols[i]); i--) {
+        r += c;
+        columns[i-1] = {p: r, s: -1};
+      }
+    }
+    //columnate([100, 100, 100, 'fit', 100, 100]); 
+    */
+    //
+    function rail(list, key) {
+      if (key === 'min' || key === 0) {
+        return {p: 0, s: 0};
+      } else if (key === 'max' || key >= list.length) {
+        return {p: 0, s: -1};
+      }
+      var obj = list[key];
+      if (obj.p < 0) {
+        obj.s = -1;
+        obj.p *= -1;
+      }
+      return obj;
+    }
+    //
+    function _position(box, maj, min, ext, a, b) {
+      var m = 12;
+      if (a.s < 0 && b.s < 0) {
+        box[ext] = a.p - b.p - m - m - m + 'px';
+        box[min] = b.p + m + 'px';
+      } else if (b.s < 0) {
+        box[maj] = a.p + m + 'px';
+        box[min] = b.p + m + 'px';
+      } else {
+        box[maj] = a.p + m + 'px';
+        box[ext] = b.p - a.p - m - m - m + 'px';
+      }
+    }
+    function position(elt, top, right, bottom, left) {
+      _position(elt.style, 'top', 'bottom', 'height', rail(rows, top), rail(rows, bottom));
+      _position(elt.style, 'left', 'right', 'width', rail(columns, left), rail(columns, right));
+    }
+    function align() {
+      lines();
+      position(alpha, 'min', 'max', 0, 'min');
+      position(beta, 0, 0, 'max', 'min');
+      position(gamma, 0, 2, 2, 0);
+      //position(gamma_alpha, 1, 4, 4, 1);
+      position(delta, 2, 'max', 'max', 0);
+      position(eta, 0, 3, 2, 2);
+      position(iota, 0, 'max', 2, 3);
+    }
+    //
+    // named tracks
+    //
+    /*
+    columns = {
+      sidebar: {p: 200},
+      panel: {p: -200},
+      rightbar: {p: -100}
+    };
+    rows = {
+      topbar: {p: 100},
+      footer: {p: -100}
+    };
+    var topbar = alpha;
+    var sidebar = beta;
+    var body = gamma;
+    var footer = delta;
+    var panel = eta;
+    var rightbar = iota;
+    function align() {
+      lines();
+      position(topbar, 'min', 'max', 'topbar', 'min');
+      position(sidebar, 'topbar', 'sidebar', 'max', 'min');
+      position(body, 'topbar', 'panel', 'footer', 'sidebar');
+      //position(gamma_alpha, 1, 4, 4, 1);
+      position(footer, 'footer', 'max', 'max', 'sidebar');
+      position(panel, 'topbar', 'rightbar', 'footer', 'panel');
+      position(rightbar, 'topbar', 'max', 'footer', 'rightbar');
+    }
+    align();
+    */
+  </script>
+</body>
+</html>

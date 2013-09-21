@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="import" href="x-anchorable.html">
+		<script src="../../../polymer/polymer.js"></script>
+		<style>
+			#target {
+				width: 500px;
+				height: 150px;
+				background-color: orange;
+				margin: 0 auto;
+			}
+			.anchored {
+				display: block;
+				width: 100px;
+				height: 50px;
+				border: 1px solid black;
+				padding: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		space: <input type="checkbox" onchange="toggleSpace(event)">
+		<br>
+		<div id="space" hidden>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+			<br><br><br><br>
+		</div>
+		<script>
+			function toggleSpace(e) {
+				var space = document.querySelector('#space');
+				if (e.target.checked) {
+					space.removeAttribute('hidden');
+				} else {
+					space.setAttribute('hidden');
+				}
+			}
+		</script>
+		anchorTarget:
+		<select id="targetV">
+			<option value="top">top</option>
+			<option value="center">center</option>
+			<option value="bottom">bottom</option>
+		</select>
+		<select id="targetH">
+			<option value="left">left</option>
+			<option value="center">center</option>
+			<option value="right">right</option>
+		</select>
+		<br>
+		anchorable:
+		<select id="anchorableV">
+			<option value="top">top</option>
+			<option value="center">center</option>
+			<option value="bottom">bottom</option>
+		</select>
+		<select id="anchorableH">
+			<option value="left">left</option>
+			<option value="center">center</option>
+			<option value="right">right</option>
+		</select>
+		<br>
+		<button onclick="toggle()">click</button>
+		<br><br><br><br>
+		<br><br><br><br>
+		<div id="target"></div>
+		<x-anchorable id="anchorable">
+			<div class="anchored">Hi!</div>
+		</x-anchorable>
+		<script>
+			function anchorChange(id) {
+				var el = document.querySelector('#' + id);
+				var vSelect = document.querySelector('#' + id + 'V');
+				var hSelect = document.querySelector('#' + id + 'H');
+				el.setAttribute('anchor', [vSelect.selectedOptions[0].value, hSelect.selectedOptions[0].value].join(' '));
+			};
+
+			function toggle() {
+				anchorChange('anchorable');
+				anchorChange('target');
+				var a = document.querySelector('#anchorable');
+				var b = document.querySelector('#target');
+				a.anchorTarget = b;
+				a.toggle();
+			};
+		</script>
+	</body>
+</html>

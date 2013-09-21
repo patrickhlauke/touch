@@ -1,0 +1,43 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<link rel="import" href="../../../toolkit-ui/elements/g-icon-button.html">
+<!-- -->
+<link rel="import" href="pi-toolbar.html">
+<link rel="import" href="pi-toolbar-buttons.html">
+<link rel="import" href="pica-panels.html">
+<link rel="import" href="pica-home.html">
+<link rel="import" href="pica-topics.html">
+<!-- -->
+<element name="pica-main" attributes="hideActionBar panel">
+  <link rel="stylesheet" href="css/pica-main.css">
+  <template>
+    <pi-toolbar label="{{toolbarLabel}}" nav="{{nav}}" hideactionbar="{{hideActionbar}}" on-back="backAction">
+      <pi-link-button id="linkButton" link="{{story.link}}"></pi-link-button>
+      <pi-view-button id="viewButton" layout="{{selectedLayout}}"></pi-view-button>
+      <pi-action-button></pi-action-button>
+      <g-icon-button src="../images/refresh.png" on-tap="reloadAction"></g-icon-button>
+    </pi-toolbar>
+    <pica-panels id="panels" selected="{{panel}}" zindex="200">
+      <pica-home id="home"></pica-home>
+      <pica-topics id="topics" selected="{{topicPanel}}"></pica-topics>
+      <pica-explore id="explore"></pica-explore>
+      <pica-accounts id="accounts"></pica-accounts>
+    </pica-panels>
+  </template>
+  <script>
+    Polymer.register(this, {
+      panel: '',
+      topicPanel: 'topics',
+      ready: function() {
+      },
+      panelChanged: function() {
+        this.toolbarLabel = this.panel;
+      },
+      backAction: function() {
+      }
+    });
+  </script>
+</element>

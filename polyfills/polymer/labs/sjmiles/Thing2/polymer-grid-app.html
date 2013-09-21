@@ -1,0 +1,32 @@
+﻿<polymer-element name="polymer-grid-app">
+  <template>
+    <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+  </template>
+  <script>
+    Polymer('polymer-grid-app', {
+      ready: function() {
+        if (!this.arrangeFor) {
+          this.arrangeFor = 'desktop';
+        }
+      },
+      mediaChange: function(event, detail) {
+        this.arrangeFor = detail.matches ? 'desktop' : 'mobile';
+        Platform.flush();
+      },
+      arrangeForChanged: function() {
+        this.arrangement = this.arrangements[this.arrangeFor];
+        if (this.layoutIndex) {
+          this.layoutIndex = 0;
+        } else {
+          this.layoutIndexChanged();
+        }
+      },
+      layoutIndexChanged: function() {
+        this.layout = this.arrangement[this.layoutIndex];
+      },
+      toggleLayout: function() {
+        this.layoutIndex = (this.layoutIndex + 1) % this.arrangement.length;
+      }
+    });
+  </script>
+</polymer-element>

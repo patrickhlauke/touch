@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.wrapper {
+				border: 1px solid #bbb;
+				height: 400px;
+				overflow-y: scroll;
+				width: 320px;
+			}
+		</style>
+		<script src="../../../lib/polymer.min.js"></script>
+		<link rel="import" href="calendar-day-view.html">
+	</head>
+	<body>
+		<div class="wrapper">
+			<calendar-day-view id="calendar" start="1375660800000"></calendar-day-view>
+		</div>
+		<script>
+			var events = [{
+				color: '#06f',
+				duration: 525,
+				location: 'Test Location 1',
+				name: 'Test Name 1',
+				start: 1375702200000
+			}, {
+				color: '#090',
+				duration: 30,
+				location: 'Test Location 2',
+				name: 'Test Name 2 test test test test test test test test',
+				start: 1375693200000
+			}, {
+				color: '#900',
+				duration: 90,
+				location: 'Test Location 3 test test test test test test test',
+				name: 'Test Name 3',
+				start: 1375696800000
+			}, {
+				color: '#909',
+				duration: 120,
+				location: '',
+				name: 'Test Name 4',
+				start: 1375684200000
+			}];
+
+			document.getElementById('calendar').events = events;
+			document.getElementById('calendar').addEventListener('calendar-event-details', function(event) {
+				console.log(event.detail.event);
+			});
+		</script>
+	</body>
+</html>

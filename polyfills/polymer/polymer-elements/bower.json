@@ -1,0 +1,26 @@
+{
+  "name": "polymer-elements",
+  "version": "0.0.20130905",
+  "homepage": "https://github.com/Polymer/polymer-elements",
+  "authors": [
+    "Polymer Authors <polymer-dev@googlegroups.com>"
+  ],
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "dependencies": {
+    "polymer": "0.0.20130905"
+  },
+  "description": "A common set of polymer elements",
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "docs",
+    "tools"
+  ]
+}

@@ -1,0 +1,59 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<link rel="import" href="../../../toolkit-ui/elements/g-app.html">
+<link rel="import" href="../../../toolkit-ui/elements/g-menu-item.html">
+<link rel="import" href="../../../toolkit-ui/elements/g-ribbon.html">
+<!-- -->
+<link rel="import" href="pica-loading.html">
+<link rel="import" href="pica-main.html">
+<!-- -->
+<element name="pica-view" extends="g-app">
+  <link rel="stylesheet" href="css/pica-view.css" />
+  <template>
+    <g-ribbon id="ribbon" class="custom-panel" label="Pica" selected="{{selected}}" valueattr="label" on-activate="hideRibbon">
+      <g-menu-item label="Home" src="../images/ribbon_home_lightreg.png" iconsize="32"></g-menu-item>
+<!--      <g-menu-item label="Topics" src="../images/ribbon_topics_lightreg.png" iconsize="32"></g-menu-item>
+      <g-menu-item label="Explore" src="../images/ribbon_explore_lightreg.png" iconsize="32"></g-menu-item>
+      <g-menu-item label="Accounts" src="../images/ribbon_accounts_lightreg.png" iconsize="32"></g-menu-item>-->
+    </g-ribbon>
+    <pica-main id="main" touch-action="user" on-tap="hideRibbon" on-back="backAction" panel="{{selected}}" hideactionbar="{{hideActionbar}}"></pica-main>
+  </template>
+  <script>
+    Polymer.register(this, {
+      ribbon: true,
+      selected: 'Home',
+      ready: function() {
+        this.super();
+        this.watchScreenSize();
+        this.ribbon = false;
+      },
+      ribbonChanged: function() {
+        this.$.ribbon.classList.toggle('minimize', !this.ribbon);
+        this.$.main.classList.toggle('maximize', !this.ribbon);
+      },
+      hideRibbon: function() {
+        this.ribbon = false;
+      },
+      backAction: function(event) {
+        event.stopPropagation();
+        this.ribbon = !this.ribbon;
+      },
+      watchScreenSize: function() {
+        var mq = window.matchMedia('(max-width: 800px)');
+        mq.addListener(this.screenSizeChange.bind(this));
+        this.screenSizeChange(mq);
+      },
+      screenSizeChange: function(query) {
+        if (query.matches && this.selectedLayout == 'quilt') {
+          // use stream layout if user select quilt and in phone size
+          this.layout = 'stream';
+        } else {
+          this.layout = this.selectedLayout || (query.matches ? 'stream' : 'quilt');
+        }
+      }
+    });
+  </script>
+</element>

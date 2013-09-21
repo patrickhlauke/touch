@@ -1,0 +1,43 @@
+﻿<script src="../../polymer/polymer.js"></script>
+
+<s-element-test></s-element-test>
+
+<polymer-element name="s-element-item" attributes="value">
+    <template>My value is {{value}}!
+        <br />
+    </template>
+</polymer-element>
+
+<polymer-element name="s-element-test" attributes="value">
+    <template>
+        <template bind repeat="{{items}}">
+            <s-element-item value="{{value}}"></s-element-item>
+        </template>
+    </template>
+    <script>
+        Polymer('s-element-test', {
+            max: 5000,
+            ready: function() {
+
+                var items = [];
+
+                for (var i = 0; i < this.max; i++) {
+                    items.push({
+                        value: i
+                    });
+                }
+
+                this.start = new Date();
+                this.items = items;
+                this.asyncMethod(this.done)
+            },
+            done: function() {
+                var end = new Date();
+                var t = end - this.start;
+                //alert("Time to generate " + this.max + " items: " + (t / 1000) + " seconds, or " + (Math.floor(t / this.max * 1e3) / 1e3) + "ms/item" );
+                console.log("Time to generate " + this.max + " items: " + (t / 1000) + " seconds, or " + (Math.floor(t / this.max * 1e3) / 1e3) + "ms/item" );
+
+            }
+        })
+    </script>
+</polymer-element>

@@ -1,0 +1,24 @@
+<link rel="component" href="x-animation.html">
+<element name="x-slide" extends="x-animation">
+  <script>
+    Polymer.register(this, {
+      // TODO: need to dup attributes from superclass.
+      // animation
+      properties: null,
+      accumulate: 'none',
+      composite: 'replace',
+      // timing
+      duration: 0,
+      fillMode: 'none',
+      easing: 'linear',
+      iterationCount: 1,
+      startDelay: 0,
+      properties: {
+        'transform': ['translate3d(0,0,0)','translate3d(0,50%,0)'],
+      },
+      ready: function() {
+        this.super();
+      }
+    });
+  </script>
+</element>

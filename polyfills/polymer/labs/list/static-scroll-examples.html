@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>static list</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, 
+          minimum-scale = 1, maximum-scale = 1,user-scalable=no">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-size: 14px;
+      font-family: 'helvetica neue', Arial, 'open sans', sans-serif;
+    }
+    
+    .header {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      border-bottom: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 10px;
+    }
+    
+    .header  input {
+      width: 30px;
+    }
+    
+    .header  select {
+      width: 60px;
+    }
+    
+    #list {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    
+    /* simple item */
+    .item {
+      box-sizing: border-box;
+      height: 80px;
+      line-height: 80px;
+      padding: 0 20px;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    /* mail (complex) item */
+    .message {
+      box-sizing: border-box;
+      height: 80px;
+      padding: 4px;
+      padding-left: 77px;
+      line-height: 167%;
+      cursor: default;
+      background-color: white;
+      position: relative;
+      color: black;
+      background-repeat: no-repeat;
+      background-position: 10px 10px;
+      background-size: 60px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .from {
+      display: inline;
+      font-weight: bold;
+    }
+    
+    .timestamp {
+      margin-left: 10px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .body {
+      font-size: 12px;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .subject {
+    }
+    
+    .divider {
+      background: grey;
+      color: white;
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      text-transform: uppercase;
+    }
+    
+    /* complex list item*/
+    .complex {
+      background: whitesmoke;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin: 4px;
+    }
+    
+    .complex > :last-child {
+      padding: 10px;
+    }
+    
+    .complex-flex {
+      display: -webkit-flex;
+    }
+    
+    .complex-flex > * {
+      margin: 10px;
+      -webkit-flex: 1;
+      min-width: 0;
+      -webkit-transform: scale(0.9);
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
+    
+    .complex-flex > input {
+      max-width: 40px;
+    }
+    
+    .complex-flex > img {
+      height: 80px;
+      width: 80px;
+    }
+    
+    .complex-stuff > * {
+      display: inline-block;
+      margin: 2px 4%;
+      border-radius: 2px;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button onclick="reset()">reset</button>
+    <label>rows: <input id="rowsInput" value="250"/></label>
+    <label>item: 
+      <select id="complexitySelect">
+        <option>simple</option>
+        <option selected>medium</option>
+        <option>complex</option>
+      </select>
+    </label>      
+    
+  </div>
+  <div id="list"></div>
+  <script>
+    namegen = {
+      generateString: function(inLength) {
+        var s = '';
+        for (var i=0; i<inLength; i++) {
+          s += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+        }
+        return s;
+      },
+      generateName: function(inMin, inMax) {
+        return this.generateString(Math.floor(Math.random() * (inMax - inMin + 1) + inMin));
+      }
+    };
+    
+    strings = [
+      "PARKOUR!",
+      "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    ]
+    
+    items = {
+      // one node, minimal styling
+      simple: function(i) {
+        return '<div class="item">Item ' + i + '</div>';
+      },
+      // 5 nodes, image as background, text clipping
+      medium: function(i) {
+        var a = names[i].charAt(0);
+        var show = a != (names[i-1] || '').charAt(0);
+        return '<div>' + 
+          (show ? '<div class="divider">' + a + '</div>' : '') + 
+          '<div class="message" style="background-image: url(images\/' + i%4 + '.png);">' +
+          '<span class="from">' + names[i] + '</span>' +
+          '<span class="timestamp">8:29pm</span>' +
+          '<div class="subject">[Parkour] Infinite List. ' + i + '</div>' +
+          '<div class="body">' +
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.' +
+          '</div></div></div>';
+      },
+      complex: function(i) {
+        return '<div class="complex">' +
+          '<div class="complex-flex">' +
+            '<img src="images/0.png" />' +
+            '<select><option>1</option><option>2</option></select>' +
+            '<img src="images/1.png" />' +
+            '<input value="MOAR" />' +
+            '<img src="images/2.png" />' +
+            '<input type="range" value="'+ (i % 100) + '" />' +
+            '<img src="images/3.png" />' +
+          '</div>' +
+          '<div>' + i + ': ' + strings[i % 3] + '</div>' +
+          '<div class="complex-stuff"><div>1</div><div>2</div><div>3</div>' +
+          '<div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>' + 
+          '<div>9</div><div>10</div></div>' +
+        '</div>';
+      }
+    }
+    
+    reset = function() {
+      var count = rowsInput.value;
+      var itemFn = items[complexitySelect.value];
+      
+      if (itemFn == items["medium"]) {
+        names = [];
+        for (var i=0; i<count; i++) {
+          names.push(namegen.generateName(4, 8));
+        }
+        names.sort();
+      }
+      
+      list.innerHTML = '';
+      for (var i=0, html=''; i<count; i++) {
+        html += itemFn(i);
+      }
+      list.innerHTML = html;
+      list.scrollTop = 0;
+    }
+    
+    reset();
+  </script>
+</body>
+</html>

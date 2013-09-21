@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <style>
+    body {
+      background-color: whitesmoke;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    }
+    div {
+      position: absolute;
+      border: 1px solid silver;
+      background-color: white;
+      border-radius: 8px;
+      padding: 6px;
+      text-align: center;
+    }
+    line {
+      position: absolute;
+      border: 1px dotted lightblue;
+      -webkit-box-shadow: 0px 0px 8px rgba(184, 255, 255, 0.75);
+      -moz-box-shadow:    0px 0px 8px rgba(184, 255, 255, 0.75);
+      box-shadow:         0px 0px 8px rgba(184, 255, 255, 0.75);
+    }
+    [extent=width] {
+      top: 0;
+      bottom: 0;
+    }
+    [extent=height] {
+      right: 0;
+      left: 0;
+    }
+    #beta {
+      width: 300px;
+    }
+  </style>
+  <script src="matrix.js"></script>
+</head>
+<body>
+  <div id="alpha">alpha</div>
+  <div id="beta">beta</div>
+  <div id="gamma">gamma
+    <!--    
+    <div id="gamma_alpha">gamma alpha</div>
+    <div id="gamma_beta">gamma beta</div>
+    <div id="gamma_phi_gamma">Gamites!</div>
+    <div id="gamma_delta">gamma delta</div>
+    -->
+  </div>
+  <div id="delta">delta</div>
+  <div id="epsilon">epsilon</div>
+  <div id="zeta">zeta</div>
+  <script>
+    document.body.onload = function() {
+      matrixilate([
+        [0, 1, 1, 0],
+        [2, 3, 4, 5],
+        [2, 3, 0, 5],
+        [2, 6, 6, 6]
+      ], [
+        alpha,
+        beta,
+        gamma,
+        delta,
+        epsilon,
+        zeta
+      ]);
+    };
+  </script>
+</body>
+</html>

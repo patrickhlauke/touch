@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>layout examples</title>
+</head>
+<body>
+  <b>g-layout</b> uses Shadow DOM, MDV and CSS flexbox to acheive many different layouts.
+  <h4>Examples:</h4>
+  <pre>
+    &lt;g-layout id="myapp"&gt;
+    &nbsp;&nbsp;&lt;div id="header"&gt;1&lt;/div&gt;
+    &nbsp;&nbsp;&lt;div id="info"&gt;2&lt;/div&gt;
+    &nbsp;&nbsp;&lt;div id="toc"&gt;3&lt;/div&gt;
+    &nbsp;&nbsp;&lt;div id="main"&gt;4&lt;/div&gt;
+    &nbsp;&nbsp;&lt;div id="footer"&gt;5&lt;/div&gt;
+    &lt;/g-layout&gt;
+  </pre>
+  <pre>
+    myapp.layout =
+      {flex: 1, flow: 'column', items: [
+        {id: 'header'},
+        {flex: 1, items: [
+          {flow: 'column', items: [
+            {id: 'info', flex: 1}, 
+            {id: 'toc', flex: 2}
+          ]}, 
+          {flex: 1, flow: 'column', items: [
+            {id: 'main', flex: 1},
+            {id: 'footer'}
+          ]}
+        ]}
+      ]};
+  </pre>
+  <ul>
+    <li><a href="example1.html">Apply different layouts to the &lt;g-layout&gt; element</a></li><br>
+    <li><a href="example2.html">Adapt to different layout when screen size changes</a></li><br>
+    <li><a href="example3.html">Nested &lt;g-layout&gt;</a></li>
+  </ul>
+</body>
+</html>

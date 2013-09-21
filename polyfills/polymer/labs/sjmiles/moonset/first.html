@@ -1,0 +1,84 @@
+﻿<!doctype html>
+<head>
+  <title></title>
+  <script src="../../../polymer/polymer.min.js"></script>
+  <link rel="import" href="../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+  <link rel="import" href="../../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+  <link rel="import" href="../../../polymer-elements/polymer-layout/polymer-layout.html">
+  <!--<link rel="import" href="../../../polymer-elements/polymer-grid-layout/polymer-grid-layout.html">-->
+  <link rel="import" href="elements/ms-body.html">
+  <link rel="import" href="elements/ms-days.html">
+</head>
+<body>
+  <x-app style="display:block; height: 100%;"></x-app>
+  <polymer-element name="x-app">
+    <template>
+      <style>
+        polymer-ui-toolbar {
+          background-color: tomato;
+        }
+        ms-weeks {
+          display: block;
+          height: 256px;
+          overflow-y: scroll;
+        }
+        ms-timeline {
+          display: block;
+          overflow-y: scroll;
+          background-color: silver;
+        }
+        ms-block {
+          display: block;
+          padding: 18px;
+          margin: 32px 12px;
+          background-color: whitesmoke;
+          border-radius: 4px;
+          -webkit-box-shadow: -2px 2px 8px rgba(50, 50, 50, 0.75);
+          -moz-box-shadow:    -2px 2px 8px rgba(50, 50, 50, 0.75);
+          box-shadow:         -2px 2px 8px rgba(50, 50, 50, 0.75);
+        }
+        ms-bar {
+          border-bottom: 1px solid #EEEEEE;
+          border-top: 1px solid gray;
+          display: block;
+          padding: 6px;
+          background-color: whitesmoke;
+          min-height: 12px;
+          font-size: 0.85em;
+          font-weight: bolder;
+          background-image: -ms-linear-gradient(bottom, #A1A1A1 0%, #FFFFFF 100%);
+          background-image: -moz-linear-gradient(bottom, #A1A1A1 0%, #FFFFFF 100%);
+          background-image: -o-linear-gradient(bottom, #A1A1A1 0%, #FFFFFF 100%);
+          background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #A1A1A1), color-stop(1, #FFFFFF));
+          background-image: -webkit-linear-gradient(bottom, #A1A1A1 0%, #FFFFFF 100%);
+          background-image: linear-gradient(to top, #A1A1A1 0%, #FFFFFF 100%);
+        }
+
+      </style>
+      <polymer-layout vertical></polymer-layout>
+      <polymer-ui-toolbar>
+        <polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+        <span flex>Things To Do!</span>
+        <polymer-ui-icon-button icon="dialog"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+      <ms-weeks></ms-weeks>
+      <ms-bar>Periday - Tue, July 08</ms-bar>
+      <ms-timeline flex>
+        <template repeat="{{blocks}}">
+           <ms-block style="height:{{height}}px;">Block of Stuff</ms-block>
+        </template>
+      </ms-timeline>
+    </template>
+    <script>
+      Polymer('x-app', {
+        ready: function() {
+          var blocks = this.blocks = [];
+          for (var i=0; i<50; i++) {
+            blocks.push({height: Math.floor(Math.random() * 500) + 32});
+          }
+        }
+      });
+    </script>
+  </polymer-element>
+</body>
+</html>

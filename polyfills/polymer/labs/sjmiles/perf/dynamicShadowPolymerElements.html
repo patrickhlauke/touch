@@ -1,0 +1,20 @@
+﻿<!doctype html>
+<head>
+  <title></title>
+  <script src="../../polymer/polymer.js"></script>
+</head>
+<body>
+  <polymer-element name="x-foo">
+    <template>
+      <content></content>
+    </template>
+  </polymer-element>
+  <script>
+    console.profile();
+    for(var i=0; i<3000; i++) {
+      document.body.appendChild(document.createElement('x-foo')).textContent = 'x-foo';
+    }
+    console.profileEnd();
+  </script>
+</body>
+</html>

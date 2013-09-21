@@ -1,0 +1,54 @@
+<link href="../../../polymer-elements/polymer-ajax/polymer-ajax.html" rel="import">
+<link href="buildbot-ajax-builder.html" rel="import">
+<polymer-element name="buildbot-ajax-build" extends="polymer-ajax" attributes="response builder" on-polymer-response="responseAction">
+	<script>
+		Polymer('buildbot-ajax-build', {
+			handleAs: 'json',
+			auto: true,
+			pollInterval: 5 * 60 * 1000,
+			builderChanged: function() {
+				if (this.builder) {
+					this.url = 'http://build.chromium.org/p/client.polymer/json/builders/' + this.builder + '/builds/-1';
+				}
+			},
+			pollIntervalChanged: function() {
+				if (pollInterval != -1) {
+					this.autoGo();
+				}
+			},
+			responseAction: function(e, response) {
+				var result = {
+					success: response.response.results ? false : true,
+					pending: response.response.results === null,
+					browsers: []
+				};
+				var foundTest = false;
+				for (var i = 0, s; s = response.response.steps[i]; i++) {
+					if (foundTest) {
+						var match = String(s.text).match(/([a-zA-Z]+) ([0-9]+)/);
+						result.browsers.push({
+							browser: match[1],
+							version: match[2],
+							success: s.results[0] ? false : true,
+							logs: s.logs[0][1]
+						});
+					}
+					if (s.name === 'test') {
+						foundTest = true;
+					}
+				}
+				result.browsers.sort(function(a, b) {
+					if (a.browser < b.browser || (a.browser === b.browser && a.version < b.version)) {
+						return -1;
+					} else {
+						return 1;
+					}
+				});
+				this.response = result;
+				if (this.pollInterval != -1) {
+					this.async('autoGo', null, this.pollInterval);
+				}
+			}
+		});
+	</script>
+</polymer-element>

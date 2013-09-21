@@ -1,0 +1,43 @@
+<polymer-element name="x-dialog" extends="dialog" attributes="active modal" on-click="clickAction">
+	<template>
+		<content></content>
+	</template>
+	<script>
+		Polymer('x-dialog', {
+			active: false,
+			modal: false,
+			activeChanged: function() {
+				if (this.active) {
+					this.enableCaptureHandler();
+					if (this.modal) {
+						this.showModal();
+						} else {
+						this.show();
+					}
+				} else {
+					this.disableCaptureHandler();
+					this.close();
+				}
+			},
+			enableCaptureHandler: function() {
+				this.boundCaptureHandler = this.boundCaptureHandler || this.captureHandler.bind(this);
+				document.addEventListener('click', this.boundCaptureHandler, true);
+			},
+			disableCaptureHandler: function() {
+				document.removeEventListener('click', this.boundCaptureHandler, true);
+			},
+			captureHandler: function(e) {
+				console.log('click', e.target);
+			},
+			toggle: function() {
+				this.active = !this.active;
+			},
+			clickAction: function(e) {
+				console.log('clickAction', e.target);
+				if (e.target && e.target.hasAttribute('overlay-toggle')) {
+					this.toggle();
+				}
+			}
+		});
+	</script>
+</polymer-element>

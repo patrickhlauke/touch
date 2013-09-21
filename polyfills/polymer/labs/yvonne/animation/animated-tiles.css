@@ -1,0 +1,30 @@
+aux-clock, aux-stock, aux-weather {
+  width: 320px;
+  height: 320px;
+  border: 1px solid rgba(32, 32, 32, 0.6);
+  position: absolute;
+}
+.tile1 {
+  top: 0;
+  left: 0;
+}
+.tile2 {
+  top: 0;
+  left: 320px;
+}
+.tile3 {
+  top: 0;
+  left: 640px;
+}
+.tile4 {
+  top: 320px;
+  left: 0;
+}
+.tile5 {
+  top: 320px;
+  left: 320px;
+}
+.tile6 {
+  top: 320px;
+  left: 640px;
+}

@@ -1,0 +1,31 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+<link rel="import" href="../../../polymer-elements/polymer-meta/polymer-meta.html">
+
+<polymer-element name="pg-element-meta" extends="polymer-meta" attributes="name path importTag elementTag sourcePath">
+  <script>
+    Polymer('pg-element-meta', {
+      type: 'element',
+      get sourcePath() {
+        if (this.parentNode && this.parentNode.path) {
+          return this.parentNode.path + this.path;
+        }
+      },
+      get importTag() {
+        if (this.sourcePath) {
+          return '<link rel="import" href="' + 
+              this.sourcePath + '">';
+        }
+      },
+      get elementTag() {
+        return '<' + this.name + '></' + this.name + '>';
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,137 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<polymer-element name="x-palette" attributes="elements canvas drag" on-mousedown="mousedown">
+  <template>
+    <style>
+      #title {
+        height: 54px;
+        line-height: 54px;
+        font-size: 21px;
+        padding-left: 22px;
+        background-color: #E0E0E0;
+        border-bottom: 1px solid #E1E1E1;
+      }
+      #list {
+        background-color: #F2F2F2;
+        position: absolute;
+        top: 0;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 8px;
+      }
+      .item {
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 12px;
+        margin: 10px 6px 10px 10px;
+        background-color: white;
+        border: 1px solid #D3D2D2;
+        border-radius: 5px;
+      }
+      [ishidden=true] {
+        display: none;
+      }
+    </style>
+    <div id="list" touch-action="pan-y" on-trackstart="trackEvent" on-track="trackEvent" on-trackend="trackEvent">
+      <template repeat="{{elements}}">
+        <div class="item" tag="{{id}}" ishidden="{{isHidden}}">{{label}}</div>
+      </template>
+   </div>
+  </template>
+  <script>
+    Polymer('x-palette', {
+      elements: [],
+      // TODO(sorvell): prevent text selection (file shadowDOM bug!)
+      mousedown: function(e) {
+        e.preventDefault();
+      },
+      byId: function(id) {
+        for (var i=0, e; e=this.elements[i]; i++) {
+          if (e.id === id) {
+            return e;
+          }
+        }
+      },
+      createNew: function(tag) {
+        var meta = this.byId(tag);
+        var drag = meta.createElement();
+        var style = drag.style;
+        style.position = 'absolute';
+        style.pointerEvents = 'none';
+        style.transition = 'none';
+        style.webkitTransition = 'none';
+        drag.drop = this.drop.bind(this);
+        this.canvas.appendChild(drag);
+        //console.dir(drag);
+        this.drag = drag;
+      },
+      trackEvent: function(event, detail) {
+        if (this.canvas) {
+          event.stopPropagation();
+          if (this[event.type]) {
+            this[event.type](event, detail);
+          }
+        }
+      },
+      trackstart: function(event) {
+        var tag = event.target.getAttribute('tag');
+        if (tag) {
+          this.dragStart(event, tag);
+        }
+      },
+      track: function(event) {
+        this.dragDo(event, {x: event.pageX, y: event.pageY});
+      },
+      trackend: function(event) {
+        this.dragEnd(event);
+        this.fire('palette-drag-end');
+      },
+      dragStart: function(event, detail) {
+       var rect = this.canvas.getBoundingClientRect();
+        this.origin = {
+          x: rect.left,
+          y: rect.top
+        };
+        this.dragType = detail;
+        this.createNew(detail);
+        this.canvas.drag = this.drag;
+      },
+      dragDo: function(event, detail) {
+        if (this.drag) {
+          var x = detail.x - this.origin.x - 24;
+          var y = detail.y - this.origin.y - 24;
+          var p = this.canvas.snap ? this.canvas.snap(x, y) : {x:x, y:y};
+          this.canvas.scrollTop = 0;
+          this.drag.style.left = p.x + 'px';
+          this.drag.style.top = p.y + 'px';
+        }
+      },
+      dragEnd: function() {
+        // if the drag ends before canvas drop, remove him
+        if (this.drag) {
+          this.drag.parentNode.removeChild(this.drag);
+          this.drag = null;
+        }
+      },
+      drop: function(event, container) {
+        if (this.drag) {
+          var filter = container.meta && container.meta.childFilter;
+          if (!filter || filter(this.drag)) {
+            container.appendChild(this.drag);
+            var s = this.drag.style;
+            s.left = s.top = s.position = s.pointerEvents = '';
+            this.selected = this.drag;
+            this.drag = null;
+          }
+        }
+      }
+    });
+  </script>
+</polymer-element>

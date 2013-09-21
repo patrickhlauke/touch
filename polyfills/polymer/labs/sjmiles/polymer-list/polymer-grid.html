@@ -1,0 +1,161 @@
+
+<polymer-element name="grid-item" attributes="item">
+  <template>
+    <b>{{item}}</b>
+  </template>
+  <script>
+    Polymer('grid-item', {
+      created: function() {
+        /*
+        var h = Math.floor(Math.random()*360);
+        var light = Boolean(Math.random() > 0.5);
+        if (light) {
+          var l = 0.7;
+          var color = '#222';
+        } else {
+          l = 0.2;
+          color = '#EEE';
+        }
+        this.style.backgroundColor = 'hsl(' + h + ', 100%, ' + Math.floor(l*100) + '%)';
+        this.style.color = color;
+        */
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="items-grid-view" attributes="items offset limit">
+  <template>
+    <style>
+      @host{*{
+        display: block;
+        height: 100%;
+        overflow: hidden;
+      }}
+      #content {
+      }
+      grid-item {
+        display: inline-block;
+        width: 106px;
+        height: 106px;
+        box-sizing: border-box;
+        padding: 40px 20px 4px 20px;
+        color: #F6F6F6;
+        vertical-align: bottom;
+        background-color: #B3B3B3;
+        border: 1px solid silver;
+        overflow: hidden;
+        font-size: 0.8em;
+      }
+    </style>
+    <div id="content">
+      <template repeat="{{live}}"><grid-item item="{{}}"></grid-item></template>
+    </div>
+  </template>
+  <script>
+    Polymer('items-grid-view', {
+      offset: 0,
+      limit: 50,
+      items: null,
+      last: null,
+      itemsChanged: function() {
+        this.invalidate();
+      },
+      offsetChanged: function() {
+        this.invalidate();
+      },
+      invalidate: function() {
+        this.relist();
+      },
+      relist: function() {
+        var frac = this.offset - Math.floor(this.offset);
+        var offset = this.offset - frac;
+        //
+        var l = this.items.length;
+        offset = (l*10 + offset) % l;
+        //
+        var limit = Math.min(this.limit, this.items.length - offset);
+        //
+        if (this.last !== offset) {
+          this.live = this.items.slice(offset, offset + limit);
+          if (limit < this.limit) {
+            this.live = this.live.concat(this.items.slice(0, this.limit - limit));
+          }
+          this.last = offset;
+        }
+        //
+        /*
+        var rowHeight = 50;
+        var y = Math.round(frac * rowHeight);
+        this.$.content.style.webkitTransform = 'translateY(-' + y + 'px)';
+        */
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="polymer-grid" attributes="items">
+  <template>
+    <style>
+      @host{*{
+        display: block;
+        overflow: hidden;
+      }}
+    </style>
+    <!--    <button on-tap="up" on-pointerup="release">Up</button><button on-tap="down">Down</button><button on-tap="stop">Stop</button><br>-->
+    <input style="width: 95%;" type="range" min="-10000" max="10000" value="{{scrub}}">
+    <items-grid-view items="{{items}}" offset="{{offset}}" limit="{{limit}}"></items-grid-view>
+  </template>
+  <script>
+    Polymer('polymer-grid', {
+      offset: 0,
+      limit: 20,
+      items: null,
+      scrub: 0,
+      created: function() {
+        if (!this.items) {
+          this.items = [];
+          for (var i = 0; i < 5000; i++) {
+            var n = '';
+            var l = Math.floor(Math.random() * 8) + 2;
+            for (var j=0; j<l; j++) {
+              n += String.fromCharCode((j === 0 ? 'A' : 'a').charCodeAt(0) + Math.floor(Math.random()*26));
+            }
+            n += ' ';
+            var l = Math.floor(Math.random() * 8) + 2;
+            for (var j=0; j<l; j++) {
+              n += String.fromCharCode((j === 0 ? 'A' : 'a').charCodeAt(0) + Math.floor(Math.random()*26));
+            }
+            this.items[i] = n;
+          }
+        }
+      },
+      enteredDocument: function() {
+        this._move();
+      },
+      stop: function() {
+        this.move(0);
+      },
+      up: function() {
+        this.move(0.1);
+      },
+      down: function() {
+        this.move(-0.1);
+      },
+      move: function(amount) {
+        this.delta = amount;
+      },
+      _move: function() {
+        if (this.delta) {
+          this.offset += this.delta;
+          Platform.flush();
+        }
+        this.async(this._move);
+      },
+      scrubChanged: function() {
+        this.offset = this.scrub / 500;
+        Platform.flush();
+      }
+    });
+  </script>
+</polymer-element>

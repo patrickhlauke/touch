@@ -1,0 +1,26 @@
+<link href="test-dashboard-row.html" rel="import">
+<polymer-element name="test-dashboard" attributes="projects">
+	<template>
+		<template repeat="{{projects}}">
+			<test-dashboard-row project="{{}}"></test-dashboard-row>
+		</template>
+	</template>
+	<script>
+		Polymer('test-dashboard', {
+			projects: [
+				'polymer',
+				'platform',
+				'CustomElements',
+				'HTMLImports',
+				'ShadowDOM',
+				'TemplateBinding',
+				'NodeBind',
+				'observe-js',
+				'polymer-expressions',
+				'PointerEvents',
+				'PointerGestures',
+				// 'WeakMap'
+			]
+		});
+	</script>
+</polymer-element>

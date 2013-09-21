@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>intro</title>
+  <script src="../../../polymer/polymer.js"></script>
+  <link rel="import" src="name-tag.html">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+
+    .very-specific-class {
+      font-size: 2em;
+      padding: 30px 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="very-specific-class">Who are you?</header>
+
+  <name-tag moods="happy sad angry stresed excited">
+    <div class="name">Steve</div>
+    <li>cats</li>
+    <li>cycling</li>
+    <li>Rosetta Stone</li>
+  </name-tag>
+  
+  <footer class="very-specific-class">
+    Wow, you're cool,
+    <button onclick="document.querySelector('name-tag').moods = 'thrilled devastated'">Poke!</button>
+  </footer>
+</body>
+</html>

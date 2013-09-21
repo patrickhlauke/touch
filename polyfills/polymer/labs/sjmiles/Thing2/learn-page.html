@@ -1,0 +1,71 @@
+﻿<polymer-element name="learn-page" attributes="items">
+  <template>
+    <style>
+      @host {
+        * {
+          display: block;
+        }
+      }
+      #sidebar {
+        width: 300px;
+        overflow: auto;
+      }
+      #docs {
+        background-color: whitesmoke;
+      }
+    </style>
+
+    <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+
+    <polymer-ui-sidebar-menu v-flex id="sidebar" selected="{{selected}}" label="Elements">
+      <template repeat="{{items}}">
+        <polymer-ui-menu-item label="{{name}}"></polymer-ui-menu-item>
+      </template>
+    </polymer-ui-sidebar-menu>
+
+    <div v-flex id="docs">
+      <iframe style="height:100%; width: 100%; border: 0;" src="../../../{{item.folder}}/docs/classes/{{item.name}}.html"></iframe>
+    </div>
+  </template>
+  <script>
+    Polymer('learn-page', {
+      arrangements: {
+        desktop: [[
+          [1, 2]
+        ]],
+        mobile: [[
+          [1]
+        ], [
+          [2]
+        ]]
+      },
+      arrangeFor: '',
+      layoutIndex: -1,
+      selected: -1,
+      ready: function() {
+        this.nodes = [this.$.sidebar, this.$.docs];
+        if (!this.arrangeFor) {
+          this.arrangeFor = 'desktop';
+        }
+      },
+      mediaChange: function(event, detail) {
+        this.arrangeFor = detail.matches ? 'desktop' : 'mobile';
+        Platform.flush();
+      },
+      arrangeForChanged: function() {
+        this.arrangement = this.arrangements[this.arrangeFor];
+        if (this.layoutIndex) {
+          this.layoutIndex = 0;
+        } else {
+          this.layoutIndexChanged();
+        }
+      },
+      layoutIndexChanged: function() {
+        this.layout = this.arrangement[this.layoutIndex];
+      },
+      selectedChanged: function() {
+        this.item = this.items[this.selected];
+      }
+    });
+  </script>
+</polymer-element>

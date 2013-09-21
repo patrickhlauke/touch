@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <!--<script src="../../../polymer/polymer.js"></script>-->
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: 'Helvetica Neue', Roboto, Arial, Helvetica, sans-serif;
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+    }
+    #viewport {
+     height: 100%;
+     overflow: scroll;
+     padding: 8px;
+     border: 1px solid red;
+     box-sizing: border-box;
+     -moz-box-sizing: border-box;
+    }
+    #content {
+      border: 1px solid lightblue;
+    }
+    .item {
+      padding: 16px;
+      border: 1px solid orange;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewport">
+    <div id="content"></div>
+  </div>
+  <script>
+    var content = document.querySelector('#content');
+    //var frag = document.createDocumentFragment();
+    content.style.display = 'none';
+    for (var i=0; i<1e5; i++) {
+      var item = document.createElement('div');
+      item.className = 'item';
+      item.textContent = i;
+      item.style.padding = Math.floor(Math.random() * 64) + 16 + 'px';
+      content.appendChild(item);       
+    }
+    //content.appendChild(frag);
+  </script>
+</body>
+</html>

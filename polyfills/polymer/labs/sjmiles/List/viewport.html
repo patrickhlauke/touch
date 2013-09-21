@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+  <!--<script src="../../../polymer/polymer.js"></script>-->
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: 'Helvetica Neue', Roboto, Arial, Helvetica, sans-serif;
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+    }
+    #viewport {
+     height: 100%;
+     overflow: scroll;
+     padding: 8px;
+     border: 1px solid red;
+     box-sizing: border-box;
+     /*-moz-box-sizing: border-box;*/
+    }
+    #content {
+      border: 1px solid lightblue;
+    }
+    .item {
+      padding: 16px;
+      border: 1px solid orange;
+    }
+    .shard {
+      border: 1px solid blue;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewport">
+    <div id="content"></div>
+  </div>
+  <script>
+    var content = document.querySelector('#content');
+    //var frag = document.createDocumentFragment();
+    //content.style.display = 'none';
+    for (var i=0; i<1e4; i++) {
+      var shard = document.createElement('div');    
+      shard.className = 'shard';  
+      for (var j=0; j<10; j++) {
+        var item = document.createElement('div');
+        item.className = 'item';
+        item.textContent = i * 10 + j;
+        item.style.padding = Math.floor(Math.random() * 64) + 16 + 'px';
+        shard.appendChild(item);       
+      }
+      content.appendChild(shard);
+      //frag.appendChild(shard);
+    }
+    //content.appendChild(frag);
+  </script>
+</body>
+</html>

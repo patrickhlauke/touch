@@ -1,0 +1,84 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Tracks Layout</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  </style>
+  <script src="../../../polymer/polymer.js"></script>
+  <link href="../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html" rel="import">
+  <link href="../../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html" rel="import">
+  <link href="../../../polymer-ui-elements/polymer-ui-menu-item/polymer-ui-menu-item.html" rel="import">
+  <link href="../../../polymer-ui-elements/polymer-ui-sidebar-menu/polymer-ui-sidebar-menu.html" rel="import">
+  <script src="tracks.js"></script>
+</head>
+<body>
+  <polymer-element name="tracks-app">
+    <template>
+    <!-- uncomment to see the track lines -->
+    <!--  <link href="lines.css" rel="stylesheet" />  -->
+      <style>
+        #sidebar {
+          position: absolute !important;
+        }
+        #output {
+          width: 400px;
+          background-color: whitesmoke;
+        }
+      </style>
+
+      <polymer-ui-toolbar id="toolbar">
+        <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+        <span flex>Toolbar</span>
+        <polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-sidebar-menu label="Sidebar" id="sidebar">
+        <polymer-ui-menu-item label="polymer-elements"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="polymer-ui-elements"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="more-elements"></polymer-ui-menu-item>
+      </polymer-ui-sidebar-menu>
+
+      <div id="workspace" flex></div>
+
+      <polymer-ui-toolbar id="outputToolbar">
+        <polymer-ui-icon-button icon="trash"></polymer-ui-icon-button>
+        <span flex> Output</span>
+        <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <div id="output" v-flex></div>
+
+    </template>
+    <script>
+      Polymer('tracks-app', {
+        arrangement: [
+          [1, 1, 1],
+          [2, 3, 4],
+          [2, 3, 5]
+        ],
+        ready: function() {
+          this.layout();
+        },
+        layout: function() {
+           layout(
+            // arrangement matrix
+            this.arrangement, 
+            // nodes to layout
+            [this.$.toolbar, this.$.sidebar, this.$.workspace, this.$.output, this.$.outputToolbar], 
+            // parent for the line objects
+            this.shadowRoot
+          );
+        }
+      });
+    </script>
+  </polymer-element>
+
+  <tracks-app theme="polymer-ui-dark-theme"></tracks-app>
+</body>
+</html>

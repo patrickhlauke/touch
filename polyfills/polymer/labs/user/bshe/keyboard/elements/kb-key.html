@@ -1,0 +1,39 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<element name="kb-key" on-mousemove="move">
+  <template>
+    <style>
+      #key {
+        display: inline-block;
+        padding: 12px; 
+        border: 2px outset #CCC;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 4px;
+      }
+      .over {
+        background-color: lightblue;
+      }
+    </style>
+    <span id="key">
+      <content></content>
+    </span>
+  </template>
+  <script>
+    Polymer.register(this, {
+      // whether we are in an 'over' state or not
+      over: false,
+      overChanged: function () {
+        // match the over property to the over class
+        this.$.key.classList.toggle('over', this.over);
+      },
+      move: function () {
+        // if the mouse moves over us at all, send an overkey (high frequency)
+        this.send('overkey');
+      }
+    });
+  </script>
+</element>

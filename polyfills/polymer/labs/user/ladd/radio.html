@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>test</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+  </style>
+  <script src="../../../polymer/polymer.min.js"></script>
+  <link rel="import" src="../../../polymer-elements/polymer-selector/polymer-selector.html"></script>
+  <link rel="import" src="../../../polymer-elements/polymer-selector/polymer-selector.html"></script>
+</head>
+<body>
+  <polymer-element name="test-elt">
+    <template>
+      <form action="radio.html" target="_self">
+        <polymer-selector selected="{{color}}" valueattr="value">
+          <label value="red"><input type="radio" name="color" value="red"> Red <br></label>
+          <label value="green"><input type="radio" name="color" value="green" checked> Green <br></label>
+          <label value="blue"><input type="radio" name="color" value="blue"> Blue<br></label>
+        </polymer-selector>
+        <input type="submit">Submit</input>
+      </form>
+
+      <br>
+      <tt>color = {{color}}</tt><br/>
+      <br>
+
+      <polymer-selector selected="{{color}}">
+        <radio name="red">Red</radio><br>
+        <radio name="green">Green</radio><br>
+        <radio name="blue">Blue</radio><br>
+      </polymer-selector>
+
+      <style>
+        radio {
+          display: inline-block;
+          border: 1px solid silver;
+          border-radius: 12px;
+          background-color: whitesmoke;
+          padding: 12px;
+          width: 4em;
+          margin: 4px;
+          text-align: center;
+        }
+        radio.polymer-selected {
+          background-color: gray;
+          color: whitsmoke;
+        }
+      </style>
+    </template>
+    <script>
+      Polymer('test-elt', {
+        color: 'green'
+      });
+    </script>
+  </polymer-element>
+
+  <test-elt></test-elt>
+
+</body>
+</html>

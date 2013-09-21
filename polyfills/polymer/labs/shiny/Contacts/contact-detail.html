@@ -1,0 +1,104 @@
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-overlay/polymer-ui-overlay.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-menu/polymer-ui-menu.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-menu-item/polymer-ui-menu-item.html">
+<link rel="import" href="../../../more-elements/google-map/google-map.html">
+<link rel="import" href="contact-detail-item.html">
+<link rel="import" href="contacts-collapsible.html">
+
+<polymer-element name="contact-detail" attributes="contact hasSidebar overlayActive">
+  <template>
+    <style>
+      @host {
+        :scope {
+          min-width: 320px;
+        }
+      }
+      #toolbar {
+        background: #666666 none !important;
+        border-color: transparent !important;
+      }
+      .photo-container {
+        background: #666666;
+        padding: 16px;
+        display: block;
+        border-bottom: 1px solid rgba(221, 221, 221, 0.25);
+      }
+      .photo {
+        display: block;
+        width: 108px;
+        height: 108px;
+        background-color: #b3b3b3;
+        border: 1px solid rgba(221, 221, 221, 0.25);
+      }
+			.polymer-ui-collapsible-header {
+				font-size: 12px;
+				padding: 16px;
+				color: #333;
+			}
+			.polymer-ui-collapsible-header polymer-ui-icon {
+				margin-right: 18px;
+			}
+			google-map {
+				display: block;
+			}
+      #sheet {
+        position: absolute !important;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      #sheet::x-backdrop {
+        top: 60px;
+      }
+      #sheet polymer-ui-menu-item {
+        padding: 15px 15px 15px 20px !important;
+        height: 60px !important;
+        line-height: normal !important;
+        opacity: 1 !important;
+      }
+    </style>
+    <polymer-ui-toolbar id="toolbar" theme="polymer-ui-dark-theme">
+      <polymer-ui-icon-button icon="{{hasSidebar ? 'menu' : 'left'}}" on-click="backAction"></polymer-ui-icon-button>
+      <span flex>{{contact.name}}</span>
+      <template if="{{!hasSidebar}}">
+        <polymer-ui-icon-button icon="dots" class="{{selected: overlayActive}}" on-click="sheetAction"></polymer-ui-icon-button>
+      </template>
+    </polymer-ui-toolbar>
+    <div class="photo-container">
+      <div class="photo"></div>
+    </div>
+    <contact-detail-item icon="contact" value="{{contact.phone}}" label="Mobile"></contact-detail-item>
+    <contact-detail-item icon="contact" value="{{contact.email}}" label="Personal"></contact-detail-item>
+    <contact-detail-item icon="dialoga" value="@{{contact.handle}}"></contact-detail-item>
+		<contacts-collapsible>
+			<div class="polymer-ui-collapsible-header">
+				<polymer-flex-layout align="center"></polymer-flex-layout>
+				<polymer-ui-icon icon="marker"></polymer-ui-icon>
+				<div flex>{{contact.city}}, {{contact.country}}</div>
+			</div>
+			<google-map style="width: 100%; height: 230px;" latitude="37.789701" longitude="-122.394358" zoom="14"></google-map>
+		</contacts-collapsible>
+    <contact-detail-item icon="marker" value="{{contact.street}}"></contact-detail-item>
+    <polymer-ui-overlay id="sheet" backdrop="true" active="{{overlayActive}}">
+      <polymer-ui-menu>
+        <polymer-ui-menu-item overlay-toggle icon="favorite" label="Favorite"></polymer-ui-menu-item>
+        <polymer-ui-menu-item overlay-toggle icon="shortcut" label="Share"></polymer-ui-menu-item>
+        <polymer-ui-menu-item overlay-toggle icon="trash" label="Delete"></polymer-ui-menu-item>
+      </polymer-ui-menu>
+    </polymer-ui-overlay>
+  </template>
+  <script>
+    Polymer('contact-detail', {
+      hasSidebar: false,
+      overlayActive: false,
+      backAction: function() {
+        this.fire(this.hasSidebar ? 'toggle-sidebar' : 'view-group');
+      }, 
+      sheetAction: function() {
+        this.$.sheet.toggle();
+      }
+    });
+  </script>
+</polymer-element>

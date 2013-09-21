@@ -1,0 +1,173 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Analyzer Example</title>
+  <!-- -->
+  <script src="../../../polymer/polymer.js"></script>
+  <link rel="import" href="../../../polymer-elements/polymer-ajax/polymer-ajax.html">
+  <!-- -->
+  <script src="lexer.js" type="text/javascript"></script>
+  <script src="iterator.js" type="text/javascript"></script>
+  <script src="parser.js" type="text/javascript"></script>
+  <script src="documentor.js" type="text/javascript"></script>
+  <!-- -->
+  <style>
+    i {
+      color: Blue;
+    }
+    group {
+      color: Orange;
+    }
+  </style>
+</head>
+<body>
+  <polymer-ajax url="../../../polymer-elements/polymer-ajax/polymer-ajax.html" auto></polymer-ajax>
+
+  <script id="test">
+    components = [
+      {name: "progressAnimator", kind: "Animator", onStep: "progressAnimatorStep", onEnd: "progressAnimatorComplete"},
+      {name: "bar", classes: "onyx-progress-bar-bar onyx-progress-button-bar"},
+      {name: "client", classes: "onyx-progress-button-client"},
+      {kind: "onyx.Icon", src: "$lib/onyx/images/progress-button-cancel.png", classes: "onyx-progress-button-icon", ontap: "cancelTap"}
+    ];
+    var s = document.getElementById("test");
+    code = s.text;
+  </script>
+
+  <script>
+    document.querySelector('polymer-ajax').addEventListener('polymer-response', function(event) {
+      var html = event.detail.response;
+      var node = document.createElement('code');
+      node.innerHTML = html;
+      var script = node.querySelector('script');
+      code = script.text;
+      test(code);
+    });
+  </script>
+
+  <script>
+    result = '';
+    w = function(h) {
+      result += h;
+      //document.write(h);
+    };
+    //
+    dumpTokens = function(inTokens) {
+      w("<pre>");
+      for (var i=0, t; t=inTokens[i]; i++) {
+        w("<i>" + t.kind + "</i>: ");
+        w("<blockquote><span style='background-color:lightblue; padding: 1px;'>");
+        w(t.token.replace(/\</g, "&lt;").replace(/\>/g, "&gt;"));
+        w("</span></blockquote>");
+      }
+      w("</pre>");
+    }
+    //
+    dumpNodes = function(inNodes) {
+      var it = new Iterator(inNodes);
+      while (it.next()) {
+        //console.log(it.value);
+        w("<i>" + it.value.kind + "</i>: ");
+        w(it.value.token);
+        w("<br/>");
+        if (it.value.children) {
+          w("<blockquote>");
+          dumpNodes(it.value.children);
+          w("</blockquote><-<br/>");
+        }
+      }
+    }
+    //
+    dumpObjects = function(inObjects) {
+      var it = new Iterator(inObjects);
+      while (it.next()) {
+        var o = it.value;
+        w("<i>" + o.type + "</i>: ");
+        if (o.comment) {
+          w("<blockquote><i style='background-color:#eee; padding: 4px;'>");
+          w(o.comment);
+          w("</i></blockquote>");
+        }
+        w("<blockquote><span style='background-color:lightblue; padding: 4px; white-space: nowrap;'>");
+        w(o.token.replace(/\</g, "&lt;").replace(/\>/g, "&gt;"));
+        w("</span></blockquote>");
+        //
+        if (o.properties) {
+          w("<blockquote>");
+          dumpObjects(o.properties);
+          w("</blockquote><-<br/>");
+        }
+        //
+        if (o.value) {
+          w("<blockquote>");
+          dumpObjects(o.value);
+          w("</blockquote><-<br/>");
+        }
+      }
+    }
+    //
+    getByType = function(inObjects, inType) {
+      var result = [];
+      for (var i=0, o; o=inObjects[i]; i++) {
+        if (o.type == inType) {
+          result.push(o);
+        }
+      }
+      return result;
+    }
+    presentObjects = function(inObjects) {
+      w("<h3>Kinds</h3>");
+      var objs = getByType(inObjects, "kind");
+      for (var i=0, o; o=objs[i]; i++) {
+        w("<i>name:</i> <label>" + o.name + "</label><br/>");
+      }
+      w("<h3>Functions</h3>");
+      var objs = getByType(inObjects, "function");
+      for (var i=0, o; o=objs[i]; i++) {
+        w("<i>name:</i> <label>" + o.name + "</label><br/>");
+      }
+      w("<h3>Variables</h3>");
+      var objs = getByType(inObjects, "global");
+      for (var i=0, o; o=objs[i]; i++) {
+        w("<i>name:</i> <label>" + o.name + "</label><br/>");
+      }
+    }
+    //
+    function test(code) {
+      var tokens = new Lexer(code);
+      w('Lexer: <div style="width: 500px; height: 400px; overflow: auto; border: 1px solid silver; font-size: smaller;">');
+      console.dir(tokens);
+      dumpTokens(tokens);
+      w('</div>');
+      //
+      w('<br/>');
+      //
+      var nodes = new Parser(tokens);
+      console.dir(nodes);
+      w('Parser: <div style="width: 500px; height: 400px; overflow: auto; border: 1px solid silver; font-size: smaller;">');
+      dumpNodes(nodes);
+      w('</div>');
+      //
+      w('<br/>');
+      //
+      var objects = new Documentor(tokens);
+      console.dir(objects);
+      w('Documentor: <div style="width: 500px; height: 400px; overflow: auto; border: 1px solid silver; font-size: smaller;">');
+      dumpObjects(objects);
+      w('</div>');
+      //
+      w('Presentor: <div style="width: 500px; height: 400px; overflow: auto; border: 1px solid silver; font-size: smaller;">');
+      presentObjects(objects);
+      w('</div>');
+      //
+      document.body.innerHTML += result;
+      //
+      document.body.onload = function() {
+        setTimeout(function() {
+          document.body.scrollTop = 8000;
+        }, 100);
+      }
+    };
+  </script>
+</body>
+</html>

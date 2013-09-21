@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <script src="../polymer/polymer.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      xoverflow: hidden;
+      height: 100%;
+      text-align: center;
+      font-family: Arial;
+    }
+  </style>
+  <link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html">
+</head>
+<body>
+  <polymer-element name="x-list">
+    <template>
+      <polymer-ajax url="databases/MAME.xml" handleAs="xml" response="{{xml}}" auto></polymer-ajax>
+      <style> 
+        @host {*{
+          display: inline-block;
+          vertical-align: middle;
+        }}
+      </style>
+      <content></content>
+    </template>
+    <script>
+      Polymer('x-list', {
+        xml: '',
+        xmlChanged: function() {
+          var html = '';
+          var g$ = this.xml.querySelectorAll('game').array();
+          g$ = g$.slice(0, 500);
+          g$.forEach(function(g) {
+            var name = g.getAttribute('name');
+            var n = g.querySelector('description');
+            var desc = n ? n.textContent : name;
+            n = g.querySelector('year');
+            var year = n ? n.textContent : '?';
+            //html += desc + ' (' + year + ') ' + '<img src="snap/' + name + '.png" height="128px">' + '<br>';
+            html += desc + ' (' + year + ') ' + '[img src="snap/' + name + '.png" height="128px"]' + '<br>';
+          });
+          //this.innerHTML = html;
+          document.body.innerHTML += html;
+        }
+      });
+    </script>
+  </polymer-element>
+  <x-list></x-list>
+</body>
+</html>

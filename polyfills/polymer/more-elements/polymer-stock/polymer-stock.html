@@ -1,0 +1,74 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<link rel="import" href="../../polymer-elements/polymer-jsonp/polymer-jsonp.html">
+<link rel="import" href="../../polymer-elements/polymer-media-query/polymer-media-query.html">
+
+<polymer-element name="polymer-stock" attributes="symbol autoupdate responsiveWidth">
+  <template>
+    <link rel="stylesheet" href="polymer-stock.css">
+    <div class="stock-label large">{{response.name}}</div>
+    <div class="stock-label stock-desc">{{response.e}}: {{symbol}}</div>
+    <div class="stock-label large quote">
+      <span class="price">{{response.l}}</span>
+      <span class="change {{change}}">{{response.c}} ({{response.cp}}%)</span>
+    </div>
+    <div class="more">
+      <div class="chart">
+        <img src="https://www.google.com/finance/chart?q={{response.e}}:{{symbol}}&amp;tlf=12&amp;chst=vks&amp;p=1d&amp;chs={{chartWidth}}x96&amp;chsc=1&amp;nocache={{random}}" />
+      </div>
+      <div class="stock-label small details" hidden?="{{queryMatches}}">
+        <div><label>Open</label>{{response.op}}</div>
+        <div><label>High</label>{{response.hi}}</div>
+        <div><label>Low</label>{{response.lo}}</div>
+        <div><label>Volume</label>{{response.vo}}</div>
+        <div><label>Avg Vol</label>{{response.avvo}}</div>
+        <div><label>Mkt Cap</label>{{response.mc}}</div>
+      </div>
+    </div>
+    <polymer-jsonp id="jsonp" response="{{jsonpResponse}}"></polymer-jsonp>
+    <polymer-media-query query="max-width: {{responsiveWidth}}" queryMatches="{{queryMatches}}"></polymer-media-query>
+  </template>
+  <script>
+    Polymer('polymer-stock', {
+      symbol: '',
+      autoupdate: false,
+      responsiveWidth: '460px',
+      updateinterval: 60000,
+      jsonpResponse: null,
+      queryMatches: false,
+      created: function() {
+        this.queryMatchesChanged()
+      },
+      go: function() {
+        this.$.jsonp.url = 'https://clients1.google.com/finance/info?q=' + 
+            this.symbol + '&client=ob&infotype=infoonebox&callback=';
+        this.$.jsonp.go();
+      },
+      symbolChanged: function() {
+        if (this.symbol) {
+          this.go();
+        }
+      },
+      queryMatchesChanged: function() {
+        this.chartWidth = this.queryMatches ? 256 : 327; 
+      },
+      autoupdateChanged: function() {
+        if (this.autoupdate) {
+          this.intervalId = setInterval(this.go.bind(this), this.updateinterval);
+        } else if (this.intervalId) {
+          clearInterval(this.intervalId);
+        }
+      },
+      jsonpResponseChanged: function() {
+        var r = this.response = this.jsonpResponse && this.jsonpResponse[0];
+        if (r) {
+          this.random = Math.random() * 10000;
+          this.change = Number(r.c) >= 0 ? 'up' : 'down';
+        }
+      }
+    });
+  </script>
+</polymer-element>

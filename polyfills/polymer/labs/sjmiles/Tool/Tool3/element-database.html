@@ -1,0 +1,34 @@
+﻿<polymer-element name="element-database" attributes="items">
+  <template>
+    <style>
+      @host {
+        * {
+          display: none;
+        }
+      }
+    </style>
+    <!-- work around event encapsulation at the host -->
+    <div on-polymer-response="response">
+      <content></content>
+    </div>
+  </template>
+  <script>
+    Polymer('element-database', {
+      ready: function() {
+        this.items = [];
+      },
+      response: function(event, data, sender) {
+        sender = event.target;
+        if (data.response) {
+          this.items = this.items.concat(data.response.querySelectorAll('polymer-element-meta').array().map(function(e) {
+            return {
+              folder: sender.getAttribute('folder'),
+              name: e.getAttribute('name')
+            };
+          }));
+        }
+        event.stopPropagation();
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>topcoat elements</title>
+  <script src="../../polymer/polymer.js"></script>
+  <link rel="import" href="elements/topcoat-button.html">
+  <link rel="import" href="elements/topcoat-icon-button.html">
+  <link rel="import" href="elements/topcoat-list.html">
+  <link rel="import" href="elements/topcoat-navbar.html">
+  
+</head>
+<body>
+  <topcoat-navbar>
+    <topcoat-navbar-item class="left quarter">
+      <a is="topcoat-icon-button" class="quiet" icon="menu-stack"></a>
+    </topcoat-navbar-item>
+    <topcoat-navbar-title class="center half">Header</topcoat-navbar-title>
+    <topcoat-navbar-item class="right quarter">
+      <a is="topcoat-icon-button" class="quiet" icon="menu-stack"></a>
+    </topcoat-navbar-item>
+  </topcoat-navbar>
+  <br>
+  <a is="topcoat-button">Button Coat</a>
+  <a is="topcoat-button" class="active">Button Boat</a>
+  <a is="topcoat-button" class="disabled">Mutton Stoat</a>
+  <br><br>
+  <a is="topcoat-icon-button" icon="menu-stack"></a>
+  <a is="topcoat-icon-button" icon="menu-stack" large></a>
+  <br><br>
+  <topcoat-list>
+    <h3 class="header">Header</h3>
+    <li>Hello</li>
+    <li>World</li>
+    <li>Tag</li>
+    <li>Welt</li>
+  </topcoat-list>
+</body>
+</html>

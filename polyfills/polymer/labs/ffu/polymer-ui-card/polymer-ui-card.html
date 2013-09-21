@@ -1,0 +1,75 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+
+<!--
+/**
+ * @module Polymer UI Elements
+ */
+/**
+ * polymer-ui-card <b>(WIP)</b>
+ *
+ * Example:
+ *
+ *     <polymer-ui-card>
+ *       ...
+ *     </polymer-ui-card>
+ *
+ * @class polymer-ui-card
+ */
+/**
+ * Fired when the card is swiped away.
+ *
+ * @event polymer-card-swipe-away
+ */
+-->
+<link rel="import" href="../../../polymer-elements/polymer-scrub/polymer-scrub.html">
+<link rel="import" href="../../../polymer-elements/polymer-animation/polymer-animation.html">
+<link rel="import" href="../../../polymer-elements/polymer-animation/polymer-animation-group.html">
+
+<polymer-element name="polymer-ui-card" attributes="swipeable">
+  <template>
+    <link rel="stylesheet" href="polymer-ui-card.css">
+    <content></content>
+    <polymer-animation-group id="swipeAnimation" type="seq" duration="1" on-animation-start="animationStart" on-animation-end="animationEnd">
+      <polymer-animation target="{{self}}" duration="0.5" fillMode="both">
+        <polymer-animation-keyframe>
+          <polymer-animation-prop id="transformLeft" name="transform" value="translate3d(-300%, 0, 0)"></polymer-animation-prop>
+          <polymer-animation-prop name="opacity" value="0"></polymer-animation-prop>
+        </polymer-animation-keyframe>
+        <polymer-animation-keyframe>
+          <polymer-animation-prop name="transform" value="translate3d(0, 0, 0)"></polymer-animation-prop>
+          <polymer-animation-prop name="opacity" value="1"></polymer-animation-prop>
+        </polymer-animation-keyframe>
+      </polymer-animation>
+      <polymer-animation target="{{self}}" duration="0.5" fillMode="both">
+        <polymer-animation-keyframe>
+          <polymer-animation-prop name="transform" value="translate3d(0, 0, 0)"></polymer-animation-prop>
+          <polymer-animation-prop name="opacity" value="1"></polymer-animation-prop>
+        </polymer-animation-keyframe>
+        <polymer-animation-keyframe>
+          <polymer-animation-prop id="transformRight" name="transform" value="translate3d(300%, 0, 0)"></polymer-animation-prop>
+          <polymer-animation-prop name="opacity" value="0"></polymer-animation-prop>
+        </polymer-animation-keyframe>
+      </polymer-animation>
+    </polymer-animation-group>
+    <polymer-scrub id="scrub" target="{{self}}" animation="{{$.swipeAnimation.animation}}" snapPoints="{{snapPoints}}" startSnap="0.5"></polymer-scrub>
+  </template>
+  <script>
+    Polymer('polymer-ui-card', {
+      snapPoints: [0, 0.5, 1],
+      created: function() {
+        this.self = this;
+      },
+      // on-animation-start/end event doesn't work
+      animationStart: function() {
+        console.log('animationStart')
+      },
+      animationEnd: function() {
+        console.log('animationEnd')
+      }
+    });
+  </script>
+</polymer-element>

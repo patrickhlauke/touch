@@ -1,0 +1,46 @@
+<link rel="component" href="x-animation.html">
+<element name="x-sliding" on-click="toggle">
+  <template>
+    <x-animation id="open" duration="0.2" easing="ease-in-out">
+      <x-property name="transform">
+        <x-keyframe offset="0" value="translate3d(0,0,0)"></x-keyframe>
+        <x-keyframe offset="1" value="{{openTransform}}"></x-keyframe>
+      </x-property>
+    </x-animation>
+    <x-animation id="close" duration="0.2" easing="ease-in-out">
+      <x-property name="transform">
+        <x-keyframe offset="0" value="{{openTransform}}"></x-keyframe>
+        <x-keyframe offset="1" value="translate3d(0,0,0)"></x-keyframe>
+      </x-property>
+    </x-animation>
+  </template>
+  <script>
+    Polymer.register(this, {
+      direction: null,
+      offset: '0',
+      openTransform: '',
+      ready: function() {
+        this.$.open.target = this;
+        this.$.close.target = this;
+      },
+      open: function() {
+        this.$.open.play();
+        this._open = true;
+      },
+      close: function() {
+        this.$.close.play();
+        this._open = false;
+      },
+      toggle: function() {
+        if (this._open) {
+          this.close();
+        } else {
+          this.open();
+        }
+      },
+      offsetChanged: function() {
+        this.openTransform = 'translate3d(' + this.offset + ',0,0)';
+      }
+    });
+  </script>
+</element>

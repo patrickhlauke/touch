@@ -1,0 +1,40 @@
+/*
+Copyright 2013 The Toolkitchen Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+@host {
+  * {
+    display: block;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+}
+
+.action-bar-label {
+	padding: 0 10px;
+}
+
+ace-element#ace:not([gridlayout]) {
+  position: relative !important;
+}
+
+ace-element#ace:not([vertical]) {
+	width: 540px;
+	height: auto !important;
+}
+
+ace-element#ace[vertical] {
+	width: auto !important;
+	height: 200px;
+}
+
+pg-output {
+  background: white;
+}
+
+pg-output.pointer-none {
+  pointer-events: none;
+}

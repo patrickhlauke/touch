@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>intro</title>
+  <script src="../../../polymer/polymer.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+
+    .name-tag-thingy {
+      border-radius: 20px;
+      width: 500px;
+      border: 2px solid orange;
+      background: orange;
+    }
+
+    header, footer {
+      padding: 20px;
+      min-height: 1em;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: right;
+    }
+
+    button {
+      float: left;
+    }
+
+    .name {
+      font-size: 2.5em;
+      padding: 10px;
+      text-align: center;
+      background: whitesmoke;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      list-style-type: none;
+      font-size: 1.25em;
+      padding: 4px 20px;
+      background: whitesmoke;
+    }
+
+    .very-specific-class {
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+  <header class="very-specific-class">Who are you?</header>
+
+  <name-tag moods="happy sad angry stresed excited">
+    <div class="name">Steve</div>
+    <li>cats</li>
+    <li>cycling</li>
+    <li>Rosetta Stone</li>
+  </name-tag>
+  
+  <footer class="very-specific-class">
+    Wow, you're cool,
+    <button onclick="document.querySelector('name-tag').moods = 'thrilled devastated'">Poke!</button>
+  </footer>
+
+
+
+  <polymer-element name="name-tag" attributes="moods">
+    <template>
+      <header>Hi, my name is:</header>
+      <content select=".name"></content>
+      <header>My favorite things are:</header>
+      <ul>
+        <content select="li"></content>
+      </ul>
+      <footer>
+        <button on-click="displayMood">I'm feeling...</button>
+        <span>&copy; 2013</span>
+      </footer>
+    </template>
+    <script>
+      Polymer('name-tag', {
+        applyAuthorStyles: true,
+        moodsChanged: function(oldValue) {
+          if (oldValue) {
+            alert('I sense my moods have changed...');
+          }
+        },
+        displayMood: function() {
+          var moods = this.moods.split(' ');
+          alert(moods[Math.floor(Math.random() * moods.length)]);
+        }
+      });
+    </script>
+  </polymer-element>
+
+
+</body>
+</html>

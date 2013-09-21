@@ -1,0 +1,301 @@
+﻿<!doctype html>
+<head>
+  <title></title>
+  <script src="/polymer/polymer/polymer.js"></script>
+  <link rel="import" href="elements.html">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    x-app {
+      display: block;
+      height: 100%;
+    }
+  </style>
+</head>
+<body theme="polymer-ui-dark-theme">
+
+  <!-- component library -->
+  <link rel="import" href="/polymer/polymer-elements/metadata.html">
+  <link rel="import" href="/polymer/polymer-ui-elements/metadata.html">
+  <link rel="import" href="/polymer/more-elements/metadata.html">
+  <!--                   -->
+
+  <x-app></x-app>
+
+  <polymer-element name="x-app">
+    <template>
+      <style>
+        iframe {
+          border: 0;
+          width: 100%;
+          height: 100%;
+        }
+        #preview {
+          width: 600px;
+          position: relative;
+        }
+        polymer-ui-tabs {
+          background-color: #666;
+        }
+        #menu, x-palette {
+          -webkit-user-select: none;
+          width: 300px;
+        }
+        #inspector {
+          width: 500px;
+          padding: 16px;
+        }
+        #topicMenu {
+          height: 200px;
+          overflow-y: auto;
+        }
+        page {
+          background-color: white;
+        }
+      </style>
+
+      <x-meta id="meta" list="{{elements}}"></x-meta>
+
+      <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+
+      <polymer-ui-tabs id="mainTabs" selected="{{selectedPage}}">
+        <span>Build</span>
+        <span>Explore</span>
+      </polymer-ui-tabs>
+
+      <polymer-ajax id="files" url="project/listing" response="{{files}}" handleAs="json" auto></polymer-ajax>
+
+      <polymer-ui-tabs id="docTabs" selected="{{selected}}">
+        <template repeat="{{files}}">
+          <span>{{}}</span>
+        </template>
+      </polymer-ui-tabs>
+
+      <template repeat="{{files}}">
+        <file-document fileName="{{}}"></file-document>
+      </template>
+
+      <polymer-ui-toolbar id="buildBar">
+        <polymer-ui-icon-button icon="refresh" on-tap="refresh" title="Refresh"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="shortcut" on-tap="link" title="Preview"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="up" on-tap="save" title="Save"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="left" on-tap="undo" title="Undo"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="right" on-tap="redo" title="Redo"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="list" on-tap="inspect" title="Inspect"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-pages id="pages" flex selected="{{selectedPage}}">
+        <page>
+          <polymer-layout horizontal></polymer-layout>
+
+          <polymer-ui-menu id="menu" style="overflow-y: auto;">
+            <template repeat="{{categories}}">
+              <polymer-ui-submenu-item label="{{name}}">
+                <template repeat="{{list}}">
+                  <polymer-ui-menu-item on-tap="itemTap" on-dblclick="itemDblClick" item="{{id}}">{{label}}</polymer-ui-menu-item>
+                </template>
+              </polymer-ui-submenu-item>
+            </template>
+          </polymer-ui-menu>
+
+          <code-mirror id="code" flex></code-mirror>
+
+          <div id="inspector">
+            <polymer-layout vertical></polymer-layout>
+            <polymer-ui-tabs selected="{{selectedInfo}}">
+              <span>Help</span>
+              <span>Inspector</span>
+            </polymer-ui-tabs>
+            <polymer-ui-pages flex selected="{{selectedInfo}}">
+              <page>
+                <polymer-layout vertical></polymer-layout>
+                <polymer-ui-field theme="poymer-ui-light-theme">
+                  <polymer-ui-icon-button on-tap="searchHelpAction" icon="search"></polymer-ui-icon-button>
+                  <input value="{{searchText}}" placeholder="">
+                </polymer-ui-field>
+                <div flex>
+                  <template if="{{helpUrl}}">
+                    <iframe src="{{helpUrl}}"></iframe>
+                  </template>
+                </div>
+                <polymer-ui-menu id="topicMenu">
+                  <polymer-ui-submenu-item active label="Other Topics">
+                    <polymer-ui-menu-item on-tap="topicTap" item="http://polymer-project.org">Polymer Home</polymer-ui-menu-item>
+                    <polymer-ui-menu-item on-tap="topicTap" item="/polymer/CustomElements/docs/classes/Document.html">Custom Elements</polymer-ui-menu-item>
+                    <polymer-ui-menu-item on-tap="topicTap" item="/polymer/polymer/docs/">Polymer API Docs</polymer-ui-menu-item>
+                    <polymer-ui-menu-item on-tap="topicTap" item="/polymer/platform/docs/">Platform API Docs</polymer-ui-menu-item>
+                  </polymer-ui-submenu-item>
+                </polymer-ui-menu>
+              </page>
+              <page>
+                {{detectedTag}}
+              </page>
+            </polymer-ui-pages>
+          </div>
+        </page>
+
+        <page>
+          <polymer-layout horizontal></polymer-layout>
+          <!--<x-palette elements="{{elements}}"></x-palette>-->
+          <x-palette id="palette" elements="{{elements}}" canvas="{{$.designer}}"></x-palette>
+          <x-designable id="designer" flex></x-designable>
+        </page>
+      </polymer-ui-pages>
+
+    </template>
+    <script>
+      Polymer('x-app', {
+        files: null,
+        text: null,
+        selected: -1,
+        selectedPage: 0,
+        selectedInfo: 0,
+        layout: [
+          [1, 4, 3, 3],
+          [2, 2, 2, 2],
+          [2, 2, 2, 2]
+        ],
+        elements: null,
+        created: function() {
+          this.nodes = [this.$.mainTabs, this.$.pages, this.$.docTabs,
+              this.$.buildBar];
+          this.$.code.mirror.on('change', this.codeChange.bind(this));
+          // phony
+          this.async(function() {
+            this.selected = 0;
+          }, null, 1000);
+        },
+        elementsChanged: function() {
+          var catMap = {};
+          for (var i=0, e; e=this.elements[i]; i++) {
+            var cat = catMap[e.importPath];
+            if (!cat) {
+              cat = catMap[e.importPath] = {
+                name: e.importPath.split('/').pop(),
+                list: []
+              }
+            }
+            cat.list.push(e);
+          }
+          var cats = [];
+          for (var i in catMap) {
+            cats.push(catMap[i]);
+          }
+          this.categories = cats;
+        },
+        filesChanged: function() {
+          // if there is an 'index.html', list it first
+          var from = this.files.indexOf('index.html');
+          if (from > 0) {
+            var to = 0;
+            this.files.splice(to, 0, this.files.splice(from, 1)[0]);
+          }
+        },
+        selectedChanged: function() {
+          this.activeDocument = 
+              this.shadowRoot.querySelectorAll('file-document')[this.selected];
+          this.text =  this.activeDocument.text;
+        },
+        enteredDocument: function() {
+          // code mirror manages it's size prematurely
+          this.$.code.async('refresh', null, 100);
+        },
+        textChanged: function() {
+          if (this.text !== this.$.code.mirror.getValue()) {
+            this.$.code.mirror.setValue(this.text);
+            this.$.code.mirror.clearHistory();
+          }
+        },
+        codeChange: function() {
+          this.activeDocument.text = this.$.code.mirror.getValue();
+          this.saveJob = this.job(this.saveJob, this.save, 200);
+        },
+        undo: function() {
+          this.$.code.mirror.undo();
+        },
+        redo: function() {
+          this.$.code.mirror.redo();
+        },
+        link: function() {
+          this.preview = 
+              window.open('http://localhost:3000/project/index.html',
+                  'preview3000');
+        },
+        refresh: function() {
+          this.$.files.go();
+        },
+        help: function(folder, name) {
+          this.helpUrl = folder + '/docs/classes/' + name + '.html';
+        },
+        inspect: function() {
+          this.detectedTag = 'none';
+          var cursor = this.$.code.mirror.getCursor();
+          var line = this.$.code.mirror.getLine(cursor.line);
+          for (var start=cursor.ch; start>=0 && line[start]!=='<'; start--);
+          if (start >= 0) {
+            var matches = line.slice(start).match(/<([^\s>]*)/);
+            var name = matches[1];
+            this.detectedTag = name;
+            this.help('/polymer/polymer-ui-elements', name);
+          }
+        },
+        searchHelpAction: function() {
+          this.help('/polymer/polymer-ui-elements', this.searchText);
+        },
+        topicTap: function(event, detail, sender) {
+          this.helpUrl = sender.item;
+        },
+        itemTap: function(event, detail, sender) {
+          var meta = this.$.meta.byId(sender.item);
+          this.detectedTag = meta.id;
+          this.help(meta.importPath, meta.id);
+        },
+        itemDblClick: function(event, detail, sender) {
+          var html, meta = this.$.meta.byId(sender.item);
+          if (meta.archetype) {
+            html = meta.archetype.content.children[0].outerHTML
+          } else {
+            html = '<' + meta.id + '></' + meta.id + '>';
+          }
+          this.add(meta.importPath, meta.id, html);
+        },
+        add: function(folder, name, html) {
+          // add tag
+          this.$.code.mirror.replaceSelection(html.replace(/\\n/g, '\n'));
+          // add import dependency
+          var elementsDoc = this.shadowRoot.querySelector(
+              'file-document[fileName="elements.html"]');
+          if (elementsDoc && elementsDoc.text.indexOf(name) < 0) {
+            elementsDoc.text += '\n<link rel="import" href="'
+                + folder + '/' + name + '/' + name + '.html">';
+            if (this.activeDocument === elementsDoc) {
+              this.text = elementsDoc.text;
+            } else {
+              elementsDoc.save();
+            }
+          }
+        },
+        save: function() {
+          this.activeDocument.save();
+          // TODO(sjmiles): this should be an event or callback
+          // from saveText, but it's inconvenient;
+          // need to develop a better answer here
+          this.invalidatePreview();
+        },
+        invalidatePreview: function() {
+          this.updateJob = this.job(this.updateJob, this.updatePreview, 2000);
+        },
+        updatePreview: function() {
+          if (this.preview) {
+            this.preview.location.reload(true);
+          }
+        }
+      });
+    </script>
+  </polymer-element>
+</body>
+</html>

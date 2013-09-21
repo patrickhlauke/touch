@@ -1,0 +1,95 @@
+<link rel="import" href="../../../polymer-elements/polymer-selector/polymer-selector.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-card/polymer-ui-card.html">
+
+<polymer-element name="shuttle-favorites" attributes="favorites favorite">
+  <template>
+    <style>
+      @host {
+        * {
+          display: block;
+        }
+      }
+      
+      .label {
+        padding-left: 20px;
+      }
+      
+      .favorites {
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      
+      .fav-item {
+        display: block;
+        height: 59px;
+        line-height: 59px;
+        padding: 0 20px;
+        font-size: 14px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      .to {
+        padding-left: 4px;
+        font-size: 12px;
+        font-weight: normal;
+        opacity: 0.5;
+      }
+    </style>
+    
+    <polymer-ui-toolbar>
+      <div class="label">Favorites</div>
+    </polymer-ui-toolbar>
+    <polymer-selector class="favorites" selected="{{selected}}" selectedModel="{{favorite}}">
+      <template repeat="{{favorites}}">
+        <polymer-ui-card class="fav-item" swipeable on-polymer-card-swipe-away="swipeAway">
+          {{fromStop.name}} <span class="to">to {{toStop.name}}</span>
+        </polymer-ui-card>
+      </template>
+    </polymer-selector>
+  </template>
+  <script>
+    Polymer('shuttle-favorites', {
+      created: function() {
+        this.transitionEndListener = this.transitionEnd.bind(this);
+      },
+      addListeners: function(node) {
+        node.addEventListener('webkitTransitionEnd', 
+            this.transitionEndListener);
+        node.addEventListener('transitionend', this.transitionEndListener);
+      },
+      removeListeners: function(node) {
+        node.removeEventListener('webkitTransitionEnd', 
+            this.transitionEndListener);
+        node.removeEventListener('transitionend', this.transitionEndListener);
+      },
+      clearSelection: function() {
+        this.selected = null;
+      },
+      swipeAway: function(e, detail, sender) {
+        this.asyncMethod(function() {
+          this.addListeners(sender);
+          sender.style.height = 0;
+          sender.style.marginTop = 0;
+        });
+      },
+      transitionEnd: function(e) {
+        this.removeListeners(e.target);
+        var fav = e.target.templateInstance.model;
+        this.removeFav(fav);
+      },
+      removeFav: function(fav) {
+        var f = fav;
+        var i = this.favorites.indexOf(f);
+        if (i > -1) {
+          this.favorites.splice(i, 1);
+          this.fire('shuttle-favorites-change');
+        }
+      }
+    });
+  </script>
+</polymer-element>

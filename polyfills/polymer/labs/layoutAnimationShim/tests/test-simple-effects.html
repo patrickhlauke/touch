@@ -1,0 +1,130 @@
+<!--
+Copyright 2013 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+
+limitations under the License.
+--> 
+<!DOCTYPE html>
+<style>
+.layout {
+  width: 100px;
+  height: 100px;
+  left: 100px;
+  position: absolute;
+  background-color: green;
+}
+
+#container.change > div {
+  left: 200px;
+  width: 200px;
+}
+
+#container.change > #clip, #container.change > #clipFade {
+  height: 50px;
+}
+</style>
+<div id='container'>
+  <div id='layout' class='layout' style='top: 100px;' effect='layout'>Layout</div>
+  <div id='none' class='layout' style='top: 200px;' effect='none'>None</div>
+  <div id='transform' class='layout' style='top: 300px;' effect='transform'>Transform</div>
+  <div id='clip' class='layout' style='top: 400px;' effect='clip'>Clip</div>
+  <div id='fade' class='layout' style='top: 500px;' effect='fade'>Fade</div>
+  <div id='transformFade' class='layout' style='top: 600px;' effect='transform fade'>Transform Fade</div>
+  <div id='clipFade' class='layout' style='top: 700px;' effect='clip fade'>Clip Fade</div>
+
+</div>
+<div id='padding' style='height: 800px'></div>
+<script src='../../../web-animations-js/web-animations.js'></script>
+<script src='../src/layout-animation.js'></script>
+<script src='test-helper.js' nochecks></script>
+<script>
+onload = function() {
+registerLayoutKeyframes('simple', [
+  {offset: 0, properties: { layoutWidth: 'from()', layoutHeight: 'from()',
+                            layoutTop: 'from()', layoutLeft: 'from()' }},
+  {offset: 1, properties: { layoutWidth: 'to()', layoutHeight: 'to()',
+                            layoutTop: 'to()', layoutLeft: 'to()' }}]);
+
+var divs = document.querySelectorAll('#container > div')
+setLayoutTransition(divs, 'simple', 1);
+
+for (var i = 0; i < divs.length; i++) {
+  setLayoutEffect(divs[i], divs[i].getAttribute('effect'));
+}
+
+transitionThis(function() { container.classList.add('change'); });
+
+at(0.5, function() {
+  checkLaidOut(layout);
+  checkLayoutPosition(layout, 150, 100);
+  checkLayoutScale(layout, 1, 1);
+  checkLayoutSize(layout, 150, 100);
+  checkLayoutNoClip(layout);
+  checkLayoutOpacity(layout, 1);
+}, 'effect: layout');
+
+at(0.5, function() {
+  checkLaidOut(none);
+  checkLayoutPosition(none, 150, 200);
+  checkLayoutScale(none, 1, 1);
+  checkLayoutSize(none, 100, 100);
+  checkLayoutNoClip(none);
+  checkLayoutOpacity(none, 1);
+}, 'effect: none');
+
+at(0.5, function() {
+  checkLaidOut(transform);
+  checkLayoutPosition(transform, 150, 300);
+  checkLayoutScale(transform, 1.5, 1);
+  checkLayoutSize(transform, 150, 100);
+  checkLayoutNoClip(transform);
+  checkLayoutOpacity(transform, 1);
+}, 'effect: transform');
+
+at(0.5, function() {
+  checkLaidOut(clip);
+  checkLayoutPosition(clip, 150, 400);
+  checkLayoutScale(clip, 1, 1);
+  checkLayoutSize(clip, 100, 100);
+  checkLayoutClip(clip, 150, 75);
+  checkLayoutOpacity(clip, 1);
+}, 'effect: clip');
+
+at(0.5, function() {
+  checkLaidOut(fade);
+  checkLayoutPosition(fade, 150, 500);
+  checkLayoutScale(fade, 1, 1);
+  checkLayoutSize(fade, 100, 100, 200, 100);
+  checkLayoutNoClip(fade);
+  checkLayoutOpacity(fade, 0.5, 0.5);
+}, 'effect: fade');
+
+at(0.5, function() {
+  checkLaidOut(transformFade);
+  checkLayoutPosition(transformFade, 150, 600);
+  checkLayoutScale(transformFade, 1.5, 1, 0.75, 1);
+  checkLayoutSize(transformFade, 150, 100);
+  checkLayoutNoClip(transformFade);
+  checkLayoutOpacity(transformFade, 0.5, 0.5);
+}, 'effect: layout fade');
+
+at(0.5, function() {
+  checkLaidOut(clipFade);
+  checkLayoutPosition(clipFade, 150, 700);
+  checkLayoutScale(clipFade, 1, 1);
+  checkLayoutSize(clipFade, 100, 100, 200, 50);
+  checkLayoutClip(clipFade, 150, 75);
+  checkLayoutOpacity(clipFade, 0.5, 0.5);
+}, 'effect: clip fade');
+}
+</script>

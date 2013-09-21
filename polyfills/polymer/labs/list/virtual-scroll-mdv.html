@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>virtual list</title>
+  <meta name="viewport" content="width=device-width">
+  <script src="../../polymer/polymer.js"></script>
+  <link rel="stylesheet" href="lib/VirtualList.css"></link>
+  <script src="lib/VirtualListMdv.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-size: 14px;
+      font-family: 'helvetica neue', Arial, 'open sans', sans-serif;
+    }
+    
+    .header {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      border-bottom: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    
+    #list {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    
+    /* simple item */
+    .item {
+      box-sizing: border-box;
+      height: 80px;
+      line-height: 80px;
+      padding: 0 20px;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    /* mail (complex) item */
+    .message {
+      box-sizing: border-box;
+      height: 80px;
+      padding: 4px;
+      padding-left: 77px;
+      line-height: 167%;
+      cursor: default;
+      background-color: white;
+      position: relative;
+      color: black;
+      background-repeat: no-repeat;
+      background-position: 10px 10px;
+      background-size: 60px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .from {
+      display: inline;
+      font-weight: bold;
+    }
+    
+    .timestamp {
+      margin-left: 10px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .body {
+      font-size: 12px;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .subject {
+    }
+    
+    .divider {
+      background: grey;
+      color: white;
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      text-transform: uppercase;
+    }
+    
+    /* complex list item*/
+    .complex {
+      background: whitesmoke;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+      margin: 4px;
+    }
+    
+    .complex > :last-child {
+      padding: 10px;
+    }
+    
+    .complex-flex {
+      display: -webkit-flex;
+    }
+    
+    .complex-flex > * {
+      margin: 10px;
+      -webkit-flex: 1;
+      min-width: 0;
+      -webkit-transform: scale(0.9);
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
+    
+    .complex-flex > input {
+      max-width: 40px;
+    }
+    
+    .complex-flex > img {
+      height: 80px;
+      width: 80px;
+    }
+    
+    .complex-stuff > * {
+      display: inline-block;
+      margin: 2px 4%;
+      border-radius: 2px;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="header">
+    <label>rows: <input id="rowsInput" value="100000"/></label>
+    <label>item complexity: 
+      <select id="complexitySelect">
+        <option>simple</option>
+        <option selected>medium</option>
+        <option >complex</option>
+      </select>
+    </label>      
+    <button onclick="reset()">reset</button>
+  </div>
+  <div id="list"></div>
+  
+  <template id="simple">
+    <div class="item">Item {{index}}</div>
+  </template>
+
+  <template id="medium">
+    <div>
+      <template if="{{divider}}">
+        <div class="divider">{{divider}}</div>
+      </template>
+      <div class="message" style="background-image: url(images/{{index % 4}}.png);">
+        <span class="from">{{name}}</span>
+        <span class="timestamp">{{time}}</span>
+        <div class="subject">[Parkour] Infinite List. {{index}}</div>
+        <div class="body">
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        </div>
+      </div>
+    </div>
+  </template>
+
+
+  <template id="complex">
+    <div class="complex">
+      <div class="complex-flex">
+        <img src="images/0.png">
+        <select><option>1</option><option>2</option></select>
+        <img src="images/1.png">
+        <input value="MOAR">
+        <img src="images/2.png">
+        <input type="range" value="{{i % 100}}" />
+        <img src="images/3.png">
+      </div>
+      <div>{{index}}: {{detail}}</div>
+      <div class="complex-stuff">
+        <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+      </div>
+    </div>
+  </template>
+  <script>
+    namegen = {
+      generateString: function(inLength) {
+        var s = '';
+        for (var i=0; i<inLength; i++) {
+          s += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+        }
+        return s;
+      },
+      generateName: function(inMin, inMax) {
+        return this.generateString(Math.floor(Math.random() * (inMax - inMin + 1) + inMin));
+      }
+    };
+    
+    strings = [
+      "PARKOUR!",
+      "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    ];
+    
+    names = [];
+    
+    function reset() {
+      var complexity = complexitySelect.value;
+      virtualList.template = document.querySelector('#' + complexity);
+      virtualList.pageDataCallback = callbacks[complexity];
+      virtualList.pageSize = 15;
+      virtualList.numPages = 2;
+      var count = rowsInput.value;
+      //
+      names = [];
+      for (var i=0; i<count; i++) {
+        names.push(namegen.generateName(4, 8));
+      }
+      names.sort();
+      //
+      virtualList.reset(count);
+    }
+    
+    var callbacks = {
+      simple: function(inStartIndex, inEndIndex) {
+        for (var i=inStartIndex, data=[]; i<inEndIndex; i++) {
+          data.push({index: i});
+        }
+        return data;
+      },
+      medium: function(inStartIndex, inEndIndex) {
+        for (var i=inStartIndex, data=[]; i<inEndIndex; i++) {
+          var name = names[i];
+          var divider = name.charAt(0);
+          if (divider === (names[i-1] || '').charAt(0)) {
+            divider = null;
+          }
+          data.push({
+            index: i,
+            name: name,
+            divider: divider,
+            time: '8:29pm'
+          });
+        }
+        return data;
+      },
+      complex: function(inStartIndex, inEndIndex) {
+        for (var i=inStartIndex, data=[]; i<inEndIndex; i++) {
+          data.push({
+            index: i,
+            detail: strings[i % 3]
+          });
+        }
+        return data;
+      }
+    };
+    
+    virtualList = new VirtualList(this.list);
+    reset();
+  </script>
+</body>
+</html>

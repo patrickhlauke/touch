@@ -1,0 +1,30 @@
+﻿<polymer-element name="element-database" attributes="items">
+  <template>
+    <style>
+      @host {
+        * {
+          display: none;
+        }
+      }
+    </style>
+    <polymer-ajax url="../../../polymer-elements/manifest.xml" handleAs="xml" folder="polymer-elements" auto on-polymer-response="response"></polymer-ajax>
+    <polymer-ajax url="../../../polymer-ui-elements/manifest.xml" handleAs="xml" folder="polymer-ui-elements" auto on-polymer-response="response"></polymer-ajax>
+  </template>
+  <script>
+    Polymer('element-database', {
+      ready: function() {
+        this.items = [];
+      },
+      response: function(event, data, sender) {
+        if (data.response) {
+          this.items = this.items.concat(data.response.querySelectorAll('polymer-element-meta').array().map(function(e) {
+            return {
+              folder: sender.getAttribute('folder'),
+              name: e.getAttribute('name')
+            };
+          }));
+        }
+      }
+    });
+  </script>
+</polymer-element>

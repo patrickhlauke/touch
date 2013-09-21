@@ -1,0 +1,53 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title>Shared Connections</title>
+<!--  <script src="http://www.polymer-project.org/polymer/polymer.min.js"></script>-->
+  <script src="../../../polymer/polymer.js"></script>
+</head>
+<body>
+  <raw-connection name="primary"></raw-connection>
+  <connection-user connection="primary"></connection-user>
+
+  <polymer-element name="raw-connection" attributes="name use">
+    <script>
+      (function() {
+        Polymer('raw-connection', {
+          //name: '', // CAVEAT: don't redeclare 'name', it's a native property
+          use: '',
+          created: function() {
+            //this.nameChanged();
+          },
+          nameChanged: function() {
+            // simulate a useful thing
+            this.connection = Math.random();
+            // CAVEAT: `this.connection` will never GC unless removed from this list
+            raw[this.name] = this.connection;
+          },
+          useChanged: function() {
+            this.connection = raw[this.name];
+          }
+        });
+        // connections by name
+        var raw = {};
+      })();
+    </script>
+  </polymer-element>
+ 
+  <polymer-element name="connection-user" attributes="connection">
+    <template>
+      <raw-connection id="connect" use="{{connection}}"></raw-connection>
+      <content></content>
+    </template>
+    <script>
+      (function() {
+        Polymer('connection-user', {
+          created: function () {
+            this.innerHTML = this.$.connect.connection;
+          }
+        });
+      })();
+    </script>
+  </polymer-element>
+</body>
+</html>

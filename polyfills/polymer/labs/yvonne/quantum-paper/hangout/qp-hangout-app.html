@@ -1,0 +1,106 @@
+<link href="../../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.html" rel="import">
+<link href="../../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html" rel="import">
+<link href="../../../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html" rel="import">
+
+<link href="../../../../polymer-elements/polymer-animation/web-animations.html" rel="import">
+<link href="../../../../polymer-elements/polymer-animation/polymer-animation.html" rel="import">
+<script src="../../../layoutAnimationShim/src/layout-animation.js"></script>
+
+<link href="qp-hangout-item.html" rel="import">
+<polymer-element name="qp-hangout-app" attributes="hangouts">
+	<template>
+		<link href="../../../../polymer-ui-elements/basic.css" rel="stylesheet">
+		<style>
+			@host {
+				:scope {
+					display: block;
+				}
+			}
+			.scrollable {
+				overflow: scroll;
+			}
+		</style>
+		<polymer-flex-layout vertical="true"></polymer-flex-layout>
+		<polymer-ui-toolbar theme="polymer-ui-light-theme">
+			<polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+			<span flex>Babel</span>
+			<polymer-ui-icon-button icon="plus"></polymer-ui-icon-button>
+		</polymer-ui-toolbar>
+		<div flex id="hangouts" class="polymer-ui-light-bg scrollable" xon-tap="reorderAction" on-qp-hangout-archive="archiveAnimationAction">
+			<template repeat="{{hangouts}}">
+				<qp-hangout-item name="{{name}}" chats="{{chats}}"></qp-hangout-item>
+			</template>
+		</div>
+ 		<polymer-animation id="archiveAnimation" on-animation-end="archiveAction">
+			<polymer-animation-keyframe>
+				<polymer-animation-prop name="transform" value="scaleY(1)"></polymer-animation-prop>
+			</polymer-animation-keyframe>
+			<polymer-animation-keyframe>
+				<polymer-animation-prop name="transform" value="scaleY(0)"></polymer-animation-prop>
+			</polymer-animation-keyframe>
+		</polymer-animation>
+	</template>
+	<script>
+		Polymer('qp-hangout-app', {
+			hangouts: [{
+				name: 'Karlosov Channellovski',
+				chats: [
+					{time: 'Now', unread: true, message: 'Very interesting. ;)'}
+				]
+			}, {
+				name: 'The Warblers',
+				chats: [
+					{time: '16 min', unread: true, message: 'Totally in agreement. That is a good idea. Why didn\'t I think of it to begin with. Man, that would have saved us a ton of time! Are you going to be around later so we can go over it?'}
+				]
+			}, {
+				name: 'Peter Parker',
+				chats: [
+					{time: '18 min', unread: true, message: 'Invited you to a conversation.'}
+				]
+			}, {
+				name: 'Daniel Burka',
+				chats: [
+					{time: 'Now', message: 'I just picked up some groceries for dinner tonight.'},
+					{time: '3 hr', message: 'What\'s the name of that neighbor we met across the street?'}
+				]
+			}, {
+				name: 'The Avengers',
+				chats: [
+					{time: '6hr', message: 'My secret is... I\'m just angry all the time.', from: 'Mark Ruffalo'}
+				]
+			}, {
+				name: 'Vic Gundora',
+				chats: [
+					{time: '5 days', message: 'My spidey senses are tingling.'}
+				]
+			}],
+			enteredDocument: function() {
+			},
+			applyLayoutAnimation: function() {
+				registerLayoutKeyframes('default', [
+					{offset: 0, properties: {
+						layoutWidth: 'from()', layoutHeight: 'from()', layoutTop: 'from()', layoutLeft: 'from()'
+					}},
+					{offset: 1, properties: {
+						layoutWidth: 'to()', layoutHeight: 'to()', layoutTop: 'to()', layoutLeft: 'to()'
+					}}
+				]);
+				setLayoutTransition(this.$.hangouts.children, 'default', 1);
+				setLayoutEffect(this.$.hangouts.children, 'layout');
+			},
+			reorderAction: function(e) {
+				transitionThis(function() {
+					this.$.hangouts.insertBefore(e.target, this.$.hangouts.children[0]);
+				}.bind(this));
+			},
+			archiveAnimationAction: function(e, details, sender) {
+				this.$.archiveAnimation.target = details;
+				this.$.archiveAnimation.play();
+			},
+			archiveAction: function(e, details, sender) {
+				console.log(e, details, sender);
+				sender.target.remove();
+			}
+		});
+	</script>
+</polymer-element>

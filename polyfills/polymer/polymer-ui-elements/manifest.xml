@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<meta>
+  <polymer-element-meta name="polymer-ui-accordion"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-collapsible"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-field"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-icon"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-icon-button"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-menu"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-menu-item"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-nav-arrow"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-ratings"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-sidebar-menu"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-splitter"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-tabs"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-theme-aware"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-toggle-button"></polymer-element-meta>
+  <polymer-element-meta name="polymer-ui-toolbar"></polymer-element-meta>
+</meta>

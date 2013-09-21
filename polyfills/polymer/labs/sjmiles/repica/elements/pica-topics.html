@@ -1,0 +1,63 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<link rel="import" href="pica-topics-view.html">
+<link rel="import" href="pica-stories-view.html">
+<!-- -->
+<element name="pica-topics" attributes="selected">
+  <template>
+    <style>
+      pica-panels, #topics, #stories, #story {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: white;
+      }
+    </style>
+    <pica-panels selected="{{selected}}" zindex="100">
+      <pica-topics-view id="topics" view="topics" layout="{{topicslayout}}" topics="{{topics}}" selected="{{topic}}"></pica-topics-view>
+      <pica-stories-view id="stories" view="flex" layout="{{layout}}" stories="{{stories}}" selected="{{story}}"></pica-stories-view>
+<!--      <pica-story id="story" story="{{story}}" on-flick="storyFlick" on-keydown="storyKeydown"></pica-story>-->
+    </pica-panels>
+  </template>
+  <script>
+    var DEFAULT_TOPICS = [
+      {title: 'Technology', feed: [
+        {title: 'The Verge', feed: 'http://www.theverge.com/rss/index.xml'},
+        {title: 'Engadget', feed: 'http://feeds.engadget.com/weblogsinc/engadget'}]},
+      {title: 'Sports', feed: [
+        {title: 'Deadspin', feed: 'http://feeds.gawker.com/deadspin/full'}]},
+      {title: 'Music', feed: [
+        {title: 'Indie Shuffle', feed: 'http://feeds.feedburner.com/indieshuffle'},
+        {title: 'Create Digital Music', feed: 'http://createdigitalmusic.com/feed/'}]},
+      {title: 'Art', feed: [
+        {title: 'Wooster Collective', feed: 'http://feeds.feedburner.com/wooster'},
+        {title: 'Doodlers Anonymous', feed: 'http://feeds.feedburner.com/DoodlersAnonymous'},
+        {title: 'but does it float', feed: 'http://feeds2.feedburner.com/ButDoesItFloat?format=xml'}]},
+      {title: 'Fashion', feed: [
+        {title: 'Hybebeast', feed: 'http://feeds.feedburner.com/hypebeast/feed'}]},
+      {title: 'Architecture', feed: [
+        {title: 'Dezeen', feed: 'http://feeds.feedburner.com/dezeen'},
+        {title: 'Design Milk Architecutre', feed: 'http://feeds.feedburner.com/DesignMilkArchitecture'}]},
+      {title: 'Design', feed: [
+        {title: 'Design Milk', feed: 'http://feeds.feedburner.com/design-milk'},
+        {title: 'Yummy Fresh grain', feed: 'http://feeds.feedburner.com/GrainEdit'},
+        {title: 'Designspiration', feed: 'http://feeds.feedburner.com/dspn'}]},
+      {title: 'Food', feed: [
+        {title: 'The Kitchn', feed: 'http://feeds.thekitchn.com/apartmenttherapy/thekitchn'},
+        {title: 'Scanwiches', feed: 'http://scanwiches.com/rss'}]}
+    ];
+    Polymer.register(this, {
+      topics: DEFAULT_TOPICS,
+      topic: '',
+      topicChanged: function() {
+        this.stories = DEFAULT_STORIES;
+        this.selected = 'stories';
+      }
+    });
+  </script>
+</element>

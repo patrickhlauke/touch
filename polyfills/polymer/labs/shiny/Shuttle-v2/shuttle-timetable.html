@@ -1,0 +1,129 @@
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-card/polymer-ui-card.html">
+
+<polymer-element name="shuttle-timetable" attributes="fromStop toStop">
+  <template>
+    <link rel="stylesheet" href="../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.css">
+    <style>
+      @host {
+        * {
+          display: block;
+        }
+      }
+      
+      .container {
+        height: 100%;
+        opacity: 0.8;
+      }
+      
+      .header {
+        height: 50px;
+        line-height: 50px;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 0 20px;
+      }
+      
+      .table {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .row {
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        margin: 0 20px;
+      }
+      
+      .row:last-child {
+        border-bottom: none;
+      }
+      
+      .row > * {
+        opacity: 0.5;
+      }
+      
+      .row > [avail] {
+        opacity: 1;
+        font-weight: bold;
+      }
+      
+      .row > [dog]:after {
+        /* content: '*';
+        padding-left: 4px; */
+      }
+    </style>
+
+    <div class="container" v-flexbox>
+      <div class="header" flexbox>
+         <div flex>Departure</div>
+         <div flex>Arrival</div>
+      </div>
+      <div class="table" flex>
+        <template repeat="{{route in routes}}">
+          <div class="row" flexbox>
+            <div flex avail?="{{route.from.date >= now}}">{{route.from.time}}</div>
+            <div flex avail?="{{route.to.date >= now}}">{{route.to.time}}</div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer('shuttle-timetable', {
+      fromStopChanged: function() {
+        this.asyncUpdateTimetable();
+      },
+      toStopChanged: function() {
+        this.asyncUpdateTimetable();
+      },
+      asyncUpdateTimetable: function() {
+        this.updateJob = this.job(this.updateJob, this.updateTimetable, 1);
+      },
+      updateTimetable: function() {
+        this.routes = [];
+        if (!this.fromStop || !this.toStop) {
+          return;
+        }
+        this.now = new Date();
+        // find trips that will stop in fromStop and toStop
+        var trips = [];
+        this.fromStop.trips.forEach(function(t) {
+          if (this.toStop.trips.indexOf(t) >= 0) {
+            trips.push(t);
+          }
+        }, this);
+        // find all the stops in the trip that stop at fromStop/toStop
+        var ds = (new Date()).toDateString();
+        for (var i = 0, trip; trip = Shuttle.trips[trips[i]]; i++) {
+          if (this.isOutbound(trip)) {
+            var dog = trip.name.search(/dog/i) > -1;
+            var route = {};
+            for (var j = 0, stop; stop = trip.stops[j]; j++) {
+              stop.date = new Date(ds + ' ' + stop.time);
+              stop.dog = dog;
+              if (stop.stop === this.fromStop.index) {
+                route.from = stop;
+              } else if (stop.stop === this.toStop.index) {
+                route.to = stop;
+              }
+            }
+            if (route.from && route.to) {
+              this.routes.push(route);
+            }
+          }
+        }
+      },
+      isOutbound: function(trip) {
+        for (var i = 0, stop; stop = trip.stops[i]; i++) {
+          if (stop.stop === this.fromStop.index) {
+            return true;
+          } else if (stop.stop === this.toStop.index) {
+            return false;
+          }
+        }
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+  </style>
+  <script src="../tracks.js"></script>
+  <script src="../../../../polymer/polymer.js"></script>
+  <link href="../../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html" rel="import">
+  <link href="../../../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html" rel="import">
+  <link href="../../../../polymer-ui-elements/polymer-ui-menu-item/polymer-ui-menu-item.html" rel="import">
+  <link href="../../../../polymer-ui-elements/polymer-ui-sidebar-menu/polymer-ui-sidebar-menu.html" rel="import">
+</head>
+<body>
+  <polymer-element name="tracks-app">
+    <template>
+<!--      <link href="lines.css" rel="stylesheet" />-->
+      <style>
+        #sidebar {
+          position: absolute !important;
+        }
+        #output {
+          width: 400px;
+          background-color: whitesmoke;
+        }
+      </style>
+
+      <polymer-ui-toolbar id="toolbar">
+        <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+        <span flex>Toolbar</span>
+        <polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <polymer-ui-sidebar-menu label="Sidebar" id="sidebar">
+        <polymer-ui-menu-item label="polymer-elements"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="polymer-ui-elements"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="more-elements"></polymer-ui-menu-item>
+      </polymer-ui-sidebar-menu>
+
+      <div id="workspace" flex></div>
+
+      <polymer-ui-toolbar id="outputToolbar">
+        <polymer-ui-icon-button icon="trash"></polymer-ui-icon-button>
+        <span flex> Output</span>
+        <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+
+      <div id="output"></div>
+
+    </template>
+    <script>
+      Polymer('tracks-app', {
+        layout: [
+          [1, 1, 1],
+          [2, 3, 4],
+          [2, 3, 5]
+        ],
+        ready: function() {
+           layout(this.layout, [this.$.toolbar, this.$.sidebar, this.$.workspace, this.$.output, this.$.outputToolbar], this.shadowRoot);
+        }
+      });
+    </script>
+  </polymer-element>
+  <tracks-app theme="polymer-ui-dark-theme"></tracks-app>
+</body>
+</html>

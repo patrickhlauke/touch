@@ -1,0 +1,111 @@
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../../polymer-ui-elements/polymer-ui-toggle-button/polymer-ui-toggle-button.html">
+<link rel="import" href="../calendar-color-button/calendar-color-button.html">
+
+<polymer-element name="calendar-event-edit" attributes="event">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: block;
+				}
+			}
+
+			h2 {
+				margin-top: 0;
+				margin-bottom: 5px;
+			}
+
+			h3 {
+				margin-top: 0;
+			}
+
+			input,
+			textarea {
+				display: block;
+				margin-bottom: 10px;
+				width: 100%;
+			}
+
+			label {
+				display: flex;
+			}
+
+			label > input {
+				flex: 1;
+			}
+
+			.wrapper {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+			}
+
+			.scrollable {
+				flex: 1;
+				font-size: 13px;
+				overflow-y: scroll;
+			}
+
+			.scrollable > div {
+				padding: 10px;
+			}
+
+			.header {
+				color: white;
+				text-align: center;
+			}
+		</style>
+
+		<div class="wrapper">
+			<polymer-ui-toolbar>
+				<!--<polymer-ui-icon-button icon="close" on-click="onCancelClick"></polymer-ui-icon-button>-->
+				<div flex></div>
+				<polymer-ui-icon-button src="../assets/checkmark.png" on-click="onSaveClick"></polymer-ui-icon-button>
+			</polymer-ui-toolbar>
+
+			<div class="scrollable">
+				<div class="header" style="background: {{event.color}};">
+					<calendar-color-button value="{{event.color}}"></calendar-color-button>
+				</div>
+
+				<div>
+					<input placeholder="Event Name" value="{{event.name}}"></input>
+					<input placeholder="Location" value="{{event.location}}"></input>
+					<textarea placeholder="Description" value="{{event.description}}"></textarea>
+					<label>
+						<input type="datetime-local" placeholder="Start" value="{{start}}"></input>
+					</label>
+					<label>
+						<input type="number" placeholder="Duration" value="{{event.duration}}"></input> minutes
+					</label>
+					<polymer-ui-toggle-button onCaption="Public" offCaption="Private" value="{{event.isPublic}}"></polymer-ui-toggle-button>
+				</div>
+			</div>
+		</div>
+		</style>
+	</template>
+	<script>
+		var BLANK_EVENT = {
+			duration: 0,
+			start: 0
+		};
+		Polymer('calendar-event-edit', {
+			event: BLANK_EVENT,
+			get start() {
+				return new Date((this.event.start || 0) - new Date().getTimezoneOffset() * 60000).toISOString().split('.')[0];
+			},
+			set start(newValue) {
+				this.event.start = Date.parse(newValue) + new Date().getTimezoneOffset() * 60000;
+			},
+			onCancelClick: function() {
+				// TODO: revert event
+				this.fire('calendar-event-edit-done');
+			},
+			onSaveClick: function() {
+				this.fire('calendar-event-edit-done');
+			}
+		});
+	</script>
+</polymer-element>

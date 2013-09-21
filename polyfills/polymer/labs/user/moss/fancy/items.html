@@ -1,0 +1,52 @@
+﻿  <polymer-element name="x-browser1" attributes="item">
+    <template>
+      <style>
+        @host{*{
+          display: inline-block;
+          background-color: rgb(176, 237, 186);
+          box-shadow: 3px 3px 16px 1px rgba(0,0,0,0.2);
+          border-radius: 6px;
+          border: 1px outset rgb(237, 176, 200, 0.5);
+          padding: 6px;
+          margin: 4px;
+        }}
+        b {
+          font-size: 24pt;
+        }
+        b, i {
+          vertical-align: middle;
+        }
+      </style>
+      <b><a>{{item.text}}</a></b>
+    </template>
+  </polymer-element>
+
+  <polymer-element name="x-browser2" attributes="item">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          background-color: #EEEEEE;
+          box-shadow: 0px 0px 16px 6px rgba(0,0,0,0.03) inset;
+          border: 1px outset whitesmoke;
+          padding: 6px;
+          margin: 6px;
+        }}
+        div {
+          font-size: 8px;
+          text-align: center;
+        }
+        i {
+          display: inline-block;
+          background-color: whitesmoke;
+          border-radius: 24px;
+          padding: 7px 9px;
+        }
+        clogs {
+          float: right;
+        }
+      </style>
+      <div>turban-filigree: {{item.text.length}}</div>
+      <clogs>...clogs.</clogs><i>{{item.text}}</i>
+    </template>
+  </polymer-element>

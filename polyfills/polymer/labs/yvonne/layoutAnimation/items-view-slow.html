@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<html>
+<head>
+  <title>items view + layout animations</title>
+  <script src="https://www.google.com/jsapi"></script>
+  <link rel="import" href="../../projects/pica/components/pi-feed-aggregator.html"/>
+  <link rel="import" href="../../projects/pica/components/pi-toolbar-buttons.html"/>
+  <link rel="import" href="../../projects/pica/components/pi-toolbar.html"/>
+  <link rel="import" href="pi-items-view-layout-animation.html"/>
+  <!--<link rel="import" href="../../projects/pica/components/pi-items-view.html"/>//-->
+	<script src="../../polymer/polymer.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, 'open sans', sans-serif;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+	<polymer-element name="pi-item-view-layout-animations" attributes="layout">
+		<template>
+			<style>
+				pi-toolbar {
+					height: 60px;
+				}
+			</style>
+			<pi-feed-aggregator count="{{count}}" feed="{{feed}}" on-response="updateItemsAction"></pi-feed-aggregator>
+			<pi-toolbar>
+				<pi-view-button id="viewButton" layout="{{layout}}" valign="right"></pi-view-button>
+			</pi-toolbar>
+			<pi-items-view id="itemsView" layout="{{layout}}" slow="true"></pi-items-view>
+		</template>
+		<script>
+			Polymer('pi-item-view-layout-animations', {
+				count: 200,
+				feed: [
+					{feed: 'http://www.theverge.com/rss/index.xml'},
+					{feed: 'http://feeds.engadget.com/weblogsinc/engadget'}
+				],
+				layout: 'quilt',
+				updateItemsAction: function(e, details) {
+					this.$.itemsView.items = details.entries;
+					this.$.itemsView.loaded = false;
+					this.asyncMethod(function() {
+						this.$.itemsView.loaded = true;
+					});
+				}
+			});
+		</script>
+	</polymer-element>
+	<pi-item-view-layout-animations></pi-item-view-layout-animations>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Polymer App</title>
+    <script src="/polymer/polymer/polymer.js"></script>
+    <link rel="import" href="/polymer/polymer-elements/polymer-flex-layout/polymer-flex-layout.html">
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      header, section, footer, div {
+        padding: 8px;
+				border: 2px dotted silver;
+      }
+    </style>
+  </head>
+  <body>
+    <polymer-flex-layout vertical></polymer-flex-layout>
+    <header style="font-size: 32px;">Tall Text</header>
+		<header>I’m Header</header>
+		<section flex>
+		  <polymer-flex-layout horizontal></polymer-flex-layout>
+      <div>Left Bar</div>
+      <div flex>
+			  <polymer-flex-layout justify="center" vertical></polymer-flex-layout>
+        <div>toolbar</div>
+        <div flex>
+          <polymer-flex-layout align="center" justify="center"></polymer-flex-layout>
+          I’m Main Section
+        </div>
+      </div>
+    </section>
+		<footer>I’m Footer</footer>
+    <footer>footer<br>2</footer>
+    <footer>footer 3</footer>
+  </body>
+</html>

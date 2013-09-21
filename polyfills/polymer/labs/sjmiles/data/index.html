@@ -1,0 +1,74 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title></title>
+  <script src="http://polymer.github.io/cdn/polymer.min.js"></script>
+  <link rel="import" href="../../../more-elements/chart-js/chart-js.html">
+</head>
+<body>
+  <chart-js></chart-js>
+
+  <series-chart>
+    <label>Rips</label>
+    <label>Cans</label>
+    <label>Naps</label>
+    <label>Pots</label>
+    <series>
+      <color>#e55b00</color>
+      <point>13</point>
+      <point>52</point>
+      <point>55</point>
+      <point>57</point>
+    </series>
+    <series>
+      <color>#ae0a94</color>
+      <point>3</point>
+      <point>15</point>
+      <point>50</point>
+      <point>65</point>
+    </series>
+  </series-chart>
+
+  <polymer-element name="series-chart" extends="chart-js">
+    <template>
+      <shadow></shadow>
+    </template>
+    <script>
+      Polymer('series-chart', {
+        kind: 'line',
+        inserted: function() {
+          this.super();
+          //
+          var labels = [];
+          this.querySelectorAll('label').forEach(function(l) {
+            labels.push(l.textContent);
+          });
+          //
+          var series = [];
+          this.querySelectorAll('series').forEach(function(s) {
+            var data = [];
+            s.querySelectorAll('point').forEach(function(p) {
+              data.push(Number(p.textContent));
+            });
+            var color = s.querySelector('color');
+            color = color ? color.textContent : this.color;
+            var rgbColor = this.hexToRgb(color).join(',');
+            series.push({
+              fillColor : 'rgba(' + rgbColor + ', 0.5)',
+              strokeColor : 'rgba(' + rgbColor + ', 1)',
+              pointColor : 'rgba(' + rgbColor + ', 1)',
+              pointStrokeColor: '#fff',
+              data: data
+            });
+          }, this);
+          //
+          this.data = {
+            labels: labels,
+            datasets: series
+          };
+        }
+      });
+    </script>
+  </polymer-element>
+</body>
+</html>

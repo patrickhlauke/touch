@@ -1,0 +1,168 @@
+<link rel="import" href="../../../more-elements/google-map/google-map.html">
+<link rel="import" href="../../../polymer-elements/polymer-overlay/polymer-overlay.html">
+<link rel="import" href="shuttle-timetable.html">
+  
+<polymer-element name="shuttle-map" attributes="centerStop fromStop toStop filteredStops selectedFilteredStop">
+  <template>
+    <style>
+      @host {
+        * {
+          display: block;
+        }
+      }
+      
+      google-map {
+        display: block;
+        height: 100%;
+      }
+      
+      #timetable {
+        position: absolute !important;
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+        height: 200px;
+        max-width: 600px;
+      }
+    </style>
+    
+    <google-map id="map" zoom="15"></google-map>
+    
+    <!-- <shuttle-timetable id="timetable" class="card"
+        fromStop="{{fromStop == centerStop ? (selectedFilteredStop || centerStop) : fromStop}}" 
+        toStop="{{toStop == centerStop ? (selectedFilteredStop || centerStop) : toStop}}"></shuttle-timetable> -->
+
+    <!-- <polymer-overlay id="overlay" target="{{$.timetable}}" opened="{{opened}}" autoCloseDisabled timeout="0"></polymer-overlay> -->
+  </template>
+  <script>
+    Polymer('shuttle-map', {
+      opened: false,
+      created: function() {
+        // FIXME(ffu): polymer-overlay should publish timeout
+        //this.$.overlay.timeout = 0;
+      },
+      resize: function() {
+        this.resizeJob = this.job(this.resizeJob, this._resize, 100);
+      },
+      _resize: function() {
+        this.$.map.resize();
+      },
+      centerStopChanged: function() {
+        if (this.centerStop) {
+          this.$.map.latitude = this.centerStop.in_lat;
+          this.$.map.longitude = this.centerStop.in_lon;
+        }
+      },
+      setupInfoWindow: function(marker, stop) {
+        if (!this.infoWindow) {
+          this.infoWindow = new google.maps.InfoWindow();
+          google.maps.event.addListener(marker, 'click', 
+            function() {
+              this.openCloseInfoWindow();
+              this.selectStop(stop);
+            }.bind(this)
+          );
+        }
+        this.infoWindow.setContent(
+            '<div style="font-size: 14px; width: 200px; padding: 10px;">' + 
+            '<div style="padding-bottom: 10px; font-weight: bold;">' + 
+            stop.name + '</div>' + stop.description + '</div>');
+        this.infoWindow.marker = marker;
+        this.openCloseInfoWindow();
+      },
+      openCloseInfoWindow: function(closed) {
+        if (!this.infoWindow) {
+          return;
+        }
+        if (closed) {
+          this.infoWindow.close();
+        } else if (!this.infoWindow.getMap()) {
+          this.infoWindow.open(this.$.map.map, this.infoWindow.marker);
+        }
+      },
+      filteredStopsChanged: function(old) {
+        this.markers && this.markers.forEach(function(m) {
+          m.setMap(null);
+        });
+        this.markers = [];
+        this.opened = !!this.filteredStops;
+        this.openCloseInfoWindow(!!this.filteredStops);
+        this.filteredStops && this.filteredStops.forEach(function(s) {
+          if (s.hidden) {
+            return;
+          }
+          var latLng = new google.maps.LatLng(s.in_lat, s.in_lon);
+          if (this.markerExists(latLng)) {
+            return;
+          }
+          var marker = new google.maps.Marker({
+            map: this.$.map.map,
+            position: latLng,
+            icon: 'http://maps.google.com/mapfiles/marker_grey.png'
+          });
+          this.markers.push(marker);
+          google.maps.event.addListener(marker, 'click', 
+              this.selectStop.bind(this, s));
+        }, this);
+      },
+      markerExists: function(latLng) {
+        for (var i = 0, m; m = this.markers[i]; i++) {
+          if (m.getPosition().equals(latLng)) {
+            return true;
+          }
+        }
+      },
+      selectStop: function(stop) {
+        this.selectedFilteredStop = stop;
+      },
+      fromStopChanged: function() {
+        this.asyncPlotRoute();
+      },
+      toStopChanged: function() {
+        this.asyncPlotRoute();
+      },
+      asyncPlotRoute: function() {
+        this.plotRouteJob = this.job(this.plotRouteJob, this.plotRoute, 1);
+      },
+      plotRoute: function() {
+        if (!this.fromStop || !this.toStop) {
+          return;
+        }
+        if (!this.dirService) {
+          this.dirService = new google.maps.DirectionsService();
+          this.dirDisplay = new google.maps.DirectionsRenderer({
+            suppressInfoWindows: true,
+            suppressMarkers: true,
+            preserveViewport: true
+          });
+          this.fromMarker = new google.maps.Marker({
+            map: this.$.map.map,
+            zIndex: 1000
+          });
+          this.toMarker = new google.maps.Marker({
+            map: this.$.map.map,
+            zIndex: 1000
+          });
+          this.dirDisplay.setMap(this.$.map.map);
+        }
+        var request = {
+            origin: new google.maps.LatLng(
+                this.fromStop.in_lat, this.fromStop.in_lon),
+            destination: new google.maps.LatLng(
+                this.toStop.in_lat, this.toStop.in_lon),
+            optimizeWaypoints: true,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        this.dirService.route(request, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            this.dirDisplay.setDirections(response);
+            var leg = response.routes[0].legs[0];
+            this.fromMarker.setPosition(leg.start_location);
+            this.setupInfoWindow(this.fromMarker, this.fromStop);
+            this.toMarker.setPosition(leg.end_location);
+          }
+        }.bind(this));
+      }
+    });
+  </script>
+</polymer-element>

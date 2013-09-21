@@ -1,0 +1,60 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title></title>
+  <script src="../../polymer/polymer.js"></script>
+</head>
+<body>
+
+  <x-sbrowser></x-sbrowser>
+  <x-sbrowser kind="x-browser2"></x-sbrowser>
+
+  <polymer-element name="x-browser1" attributes="item">
+    <template>
+      <b>ITEM: </b> <a href="{{item.href}}">{{item.text}}</a>
+    </template>
+  </polymer-element>
+
+  <polymer-element name="x-browser2" attributes="item">
+    <template>
+      <b>***</b> <i>{{item.text}}</i>
+    </template>
+  </polymer-element>
+  
+  <polymer-element name="x-sbrowser" attributes="kind">
+    <template>
+      <ul class="items">
+        <template repeat="{{items}}">
+          <li class="item"></li>
+        </template> 
+      </ul>
+    </template>
+    <script>
+      Polymer('x-sbrowser', {
+        items: [
+          {text: 'flarn'},
+          {text: 'squid'}
+        ],
+        kind: 'x-browser1',
+        // parse input <element> as needed, override for custom behavior
+        parseElement: function(elementElement) {
+          var template = elementElement.querySelector('template');
+          if (template) {
+            // need a copy so we can monkey-patch it
+            template = template.cloneNode(true);
+            // takes some effort to locate .item
+            var inner = template.content.querySelector('template');
+            var item = inner.content.querySelector('.item');
+            // patch in our custom element
+            item.textContent = '';
+            this.customItem = item.appendChild(document.createElement(this.kind));
+            this.customItem.setAttribute('item', '{{}}');
+            // use the patched template
+            this.shadowFromTemplate(template);
+          }
+        }
+      })
+    </script>
+  </polymer-element>
+
+</html>

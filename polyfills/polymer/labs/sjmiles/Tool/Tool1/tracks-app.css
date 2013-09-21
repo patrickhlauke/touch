@@ -1,0 +1,74 @@
+* {
+  -webkit-transition: top, right, bottom, left;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-in;
+  transition: top, right, bottom, left;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in
+}
+
+@media (max-width: 800px) {
+  #sidebar {
+    font-size: 1.5em;
+  }
+}
+
+code-mirror {
+  -webkit-transition: none;
+  transition: none;
+}
+
+#toolbar {
+}
+
+#sidebar {
+  width: 292px;
+  overflow: auto;
+}
+
+#example {
+  background-color: whitesmoke;
+  width: 400px;
+  height: 400px;
+}
+
+#exampleSource {
+  height: 400px;
+  background-color: whitesmoke;
+  overflow: auto;
+  padding: 8px;
+}
+
+#docs {
+  width: 500px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-color: whitesmoke;
+  border: 1px solid silver;
+  border-left: none;
+}
+
+#designer {
+  background: white url(../assets/grid.png) repeat;
+  -webkit-transition: none;
+  transition: none;
+}
+
+#palette {
+  width: 292px;
+  -webkit-transition: none;
+  transition: none;
+}
+
+#palette2 {
+  width: 292px;
+}
+
+#editor {
+  width: 500px;
+  background-color: black;
+}
+
+#output {
+  background-color: white;
+}

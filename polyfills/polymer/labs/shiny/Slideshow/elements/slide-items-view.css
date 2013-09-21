@@ -1,0 +1,72 @@
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+
+#container {
+  overflow: auto;
+}
+
+.item {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 320px;
+  min-width: 320px;
+  width: 25%;
+  text-align: center;
+}
+
+/*.card {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 25px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'open sans', sans-serif;
+  font-size: 15px;
+}*/
+
+.image {
+  height: 232px;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-repeat: no-repeat;
+}
+
+.bgColor0 {
+  background-color: #807980;
+}
+
+.bgColor1 {
+  background-color: #b3b3b3;
+}
+
+.bgColor2 {
+  background-color: #333333;
+}
+
+.bgColor3 {
+  background-color: #4d4d4d;
+}
+
+.bgColor4 {
+  background-color: #f2f2f2;
+}
+
+.info {
+  height: 88px;
+}
+
+.title {
+  text-align: left;
+  padding: 20px 40px;
+}
+
+[showing=false] {  
+  display: none;
+}
+
+

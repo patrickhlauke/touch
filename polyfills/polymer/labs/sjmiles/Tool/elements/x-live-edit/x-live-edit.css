@@ -1,0 +1,36 @@
+/*
+Copyright 2013 The Toolkitchen Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+@host {
+  * {
+    display: block;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
+}
+
+#liveEditor:not([gridlayout]) {
+  position: relative !important;
+}
+
+#liveEditor:not([vertical]) {
+	width: 540px;
+	height: auto !important;
+}
+
+#liveEditor[vertical] {
+	width: auto !important;
+	height: 200px;
+}
+
+x-output {
+  background: white;
+}
+
+x-output.pointer-none {
+  pointer-events: none;
+}

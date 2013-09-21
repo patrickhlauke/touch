@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<style>
+.testFrom {
+  width: 100px;
+  height: 100px;
+  background-color: green;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+}
+
+.testTo {
+  width: 300px;
+  height: 200px;
+  background-color: green;
+  position: absolute;
+  left: 200px;
+  top: 500px;
+}
+
+.testTextFrom {
+  width: 500px;
+  height: 200px;
+  background-color: green;
+  position: absolute;
+  left: 600px;
+  top: 100px;
+}  
+
+.positioning {
+  position: absolute;
+  background-color: #DDD;
+}
+
+</style>
+<div class="positioning" style="left: 0px; top: 0px; width: 100px; height: 100px;"></div>
+<div class="positioning" style="left: 200px; top: 300px; width: 300px; height: 200px;"></div>
+<div class="positioning" style="left: 0px; top: 200px; width: 100px; height: 100px;"></div>
+<div class="positioning" style="left: 200px; top: 500px; width: 300px; height: 200px;"></div>
+<div class="testFrom"></div>
+<div class="testTo"></div>
+<div class="testTextFrom">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel condimentum est. Donec mattis porta lorem, et tempus neque gravida vitae. Vivamus vehicula luctus hendrerit. Quisque porta, mi at volutpat mollis, massa arcu vehicula tortor, quis tempus felis leo non velit. Nulla pharetra interdum mauris nec egestas. Praesent quis lacus in est consectetur consectetur facilisis nec ligula. Mauris a quam velit. Suspendisse egestas nisl ac ante mollis malesuada sit amet vitae mi. Duis id placerat nisl. Ut iaculis urna eget tellus sollicitudin ac ornare lorem mollis.
+</div>
+<script src="../../../platform/WebAnimations/web-animations.js"></script>
+<script src="../src/layout-animation.js"></script>
+<script>
+var test = document.querySelector(".testFrom");
+var startPos = {left: 0, top: 0, width: 100, height: 100};
+var endPos = {left: 200, top: 300, width: 300, height: 200};
+document.timeline.play(animationToPositionTransform(test, startPos, endPos, startPos, 1));
+
+var test = document.querySelector(".testTo");
+var startPos = {left: 0, top: 200, width: 100, height: 100};
+var endPos = {left: 200, top: 500, width: 300, height: 200};
+document.timeline.play(animationToPositionTransform(test, startPos, endPos, endPos, 1));
+
+var test = document.querySelector(".testTextFrom");
+var startPos = {left: 600, top: 100, width: 500, height: 200};
+var endPos = {left: 600, top: 200, width: 400, height: 300};
+document.timeline.play(animationToPositionFadeOutIn(test, startPos, endPos, startPos, 2, 0.5, 0.5));
+</script>

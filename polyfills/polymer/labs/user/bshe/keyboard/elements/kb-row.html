@@ -1,0 +1,18 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<element name="kb-row">
+  <template>
+    <style>
+      /* this syntax is crazy */
+      @host {*{ display: block; }}
+    </style>
+    <!-- all this does is eliminate text nodes -->
+    <content select="*"></content>
+  </template>
+  <script>
+    Polymer.register(this);
+  </script>
+</element>

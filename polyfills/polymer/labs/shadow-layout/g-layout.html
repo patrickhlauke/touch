@@ -1,0 +1,50 @@
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<polymer-element name="g-layout" attributes="layout">
+  <template>
+    <style>
+      @host {
+        * {
+          display: -webkit-flex;
+        }
+      }
+      .flexbox {
+        display: -webkit-flex;
+        -webkit-flex-flow: row;
+      }
+      .column {
+        -webkit-flex-flow: column;
+      }
+      .content {
+        display: -webkit-flex;
+      }
+      .content > * {
+        -webkit-flex: 1;
+      }
+      /*@polyfill @host > * */
+      content::-webkit-distributed(> *) {
+        -webkit-flex: 1;
+      }
+    </style>
+    <template id="layoutTemplate" bind="{{layout}}">
+      <template if="{{id}}">
+        <div class="content" style="-webkit-flex: {{flex}};">
+          <content select="#{{id}}"></content>
+        </div>
+      </template>
+      <template if="{{items}}">
+        <div class="flexbox {{flow}}" style="-webkit-flex: {{flex}};">
+          <template repeat="{{items}}">
+            <template ref="layoutTemplate" bind></template>
+          </template>
+        </div>
+      </template>
+    </template>
+  </template>
+  <script>
+    Polymer('g-layout');
+  </script>
+</polymer-element>

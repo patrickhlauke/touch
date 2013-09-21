@@ -1,0 +1,81 @@
+<polymer-element name="x-anchorable" attributes="anchor anchorTarget active">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: none;
+					position: fixed;
+				}
+				.active {
+					display: block;
+				}
+			}
+		</style>
+		<content></content>
+	</template>
+	<script>
+		Polymer('x-anchorable', {
+			active: false,
+			anchor: 'center center',
+			activeChanged: function() {
+				if (this.active) {
+					if (this.anchorTarget) {
+						var offset = this.getAnchorPosition();
+						this.style.top = offset.top + 'px';
+						this.style.left = offset.left + 'px';
+					}
+					this.classList.add('active');
+				} else {
+					this.classList.remove('active');
+				}
+			},
+			getAnchorPosition: function() {
+				var pos;
+				var rect = this.anchorTarget.getBoundingClientRect();
+				var anchorPos = this.anchorTarget.getAttribute('anchor');
+				if (anchorPos) {
+					pos = {};
+					if (anchorPos.indexOf('top') != -1) {
+						pos.top = rect.top;
+					} else if (anchorPos.indexOf('bottom') != -1) {
+						pos.top = rect.bottom;
+					} else {
+						pos.top = rect.top + rect.height / 2;
+					}
+					if (anchorPos.indexOf('left') != -1) {
+						pos.left = rect.left;
+					} else if (anchorPos.indexOf('right') != -1) {
+						pos.left = rect.right;
+					} else {
+						pos.left = rect.left + rect.width / 2;
+					}
+				} else {
+					pos = {
+						left: rect.left,
+						top: rect.top
+					}
+				}
+				// adjust by this element's target anchor pos
+				if (this.anchor) {
+					this.classList.add('active');
+					var thisRect = this.getBoundingClientRect();
+					this.classList.remove('active');
+					if (this.anchor.indexOf('bottom') != -1) {
+						pos.top -= thisRect.height;
+					} else if (this.anchor.indexOf('top') === -1) {
+						pos.top -= thisRect.height / 2;
+					}
+					if (this.anchor.indexOf('right') != -1) {
+						pos.left -= thisRect.width;
+					} else if (this.anchor.indexOf('left') === -1) {
+						pos.left -= thisRect.width / 2;
+					}
+				}
+				return pos;
+			},
+			toggle: function() {
+				this.active = !this.active;
+			}
+		});
+	</script>
+</polymer-element>

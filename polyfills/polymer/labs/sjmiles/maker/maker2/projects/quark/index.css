@@ -1,0 +1,26 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+  -webkit-user-select: none;
+}
+
+body {
+/*
+	height: 75%;
+	width: 75%;	
+  -webkit-transform: scale(1.3333);
+	-webkit-transform-origin: 0 0;
+*/
+}
+
+/*
+my-element, maker-app {
+	display: block;
+	padding: 16px;
+	height: 100%;
+  box-sizing: border-box;
+}
+*/
+

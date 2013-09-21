@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>list</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="lib/VirtualList.css"></link>
+  <script src="lib/VirtualList.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-size: 14px;
+      font-family: helvetica neue', Arial, 'open sans', sans-serif;
+    }
+    
+    #list {
+      height: 100%;
+    }
+    
+    .item {
+      display: inline-block;
+      box-sizing: border-box;
+      padding: 20px;
+      height: 100%;
+      width: 300px;
+      border-right: 1px solid #ccc;
+      font-size: 30px;
+    }
+    
+    .item > div {
+      height: 100%;
+      display: -webkit-flex;
+      -webkit-justify-content: center;
+      -webkit-align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="list"></div>
+  <script>
+    function generatePageContent(inPage, inStartIndex, inEndIndex) {
+      for (var i=inStartIndex, html=''; i<inEndIndex; i++) {
+        html += '<div class="item"><div>' + i + '</div></div>';
+      }
+      inPage.innerHTML = html;
+    }
+
+    var virtual = new VirtualList(this.list, generatePageContent);
+    virtual.horiz = true;
+    virtual.reset(100000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿<script src="http://polymer.github.io/cdn/polymer.min.js"></script>
+<body>
+  <script>
+      Polymer("name-tag", {nameColor: "red"});
+      var el = document.createElement('div');
+      el.innerHTML = '<polymer-element name="name-tag" attributes="name"><template>Hello! My name is <span style="color:{{nameColor}}">{{name}}</span></template></polymer-element>';
+      document.body.appendChild(el);    
+  </script>
+  <hr/>
+  <name-tag name="John"></name-tag>
+  <hr/>
+  <div>Hello there</div>
+  <hr/>
+</body>

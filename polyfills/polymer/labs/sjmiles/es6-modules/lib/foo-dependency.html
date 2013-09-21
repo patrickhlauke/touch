@@ -1,0 +1,11 @@
+﻿<polymer-element name="foo-dependency">
+  <script>
+    Polymer.require('foo-dependency', ['http://code.jquery.com/jquery-2.0.3.min.js'], function() {
+      return {
+        get foo() {
+          return $('#foo');
+        }
+      };
+    });
+  </script>
+</polymer-element>

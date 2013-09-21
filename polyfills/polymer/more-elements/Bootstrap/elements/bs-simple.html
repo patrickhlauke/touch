@@ -1,0 +1,133 @@
+  <!-- Components -->
+  <link rel="import" href="../../../polymer-elements/polymer-selector/polymer-selector.html">
+  
+  <polymer-element name="bp-navbar">
+    <template>
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <content></content>
+          </div>
+        </div>
+      </div>
+    </template>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-btn-navbar" extends="a">
+    <template>
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <content></content>
+          </div>
+        </div>
+      </div>
+    </template>
+    <script>
+      Polymer('bp-btn-navbar', {
+        created: function() {
+          this.classList.add('btn', 'btn-navbar');
+          this.setAttribute('data-toggle', 'collapse');
+          this.setAttribute('data-target', '.nav-collapse');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-icon-bar">
+    <script>
+      Polymer('bp-icon-bar', {
+        created: function() {
+          this.classList.add('icon-bar');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-brand" extends="a">
+    <script>
+      Polymer('bp-brand', {
+        created: function() {
+          this.classList.add('brand');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-nav-collapse" extends="p">
+    <script>
+      Polymer('bp-nav-collapse', {
+        created: function() {
+          this.classList.add('nav-collapse', 'collapse');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-navbar-text-right" extends="p">
+    <script>
+      Polymer('bp-navbar-text-right', {
+        created: function() {
+          this.classList.add('navbar-text', 'pull-right');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-navbar-link" extends="a">
+    <script>
+      Polymer('bp-navbar-link', {
+        created: function() {
+          this.classList.add('navbar-link');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="bp-nav" extends="polymer-selector">
+    <template>
+      <shadow></shadow>
+    </template>
+    <script>
+      Polymer('bp-nav', {
+        selectedClass: 'active',
+        created: function() {
+          this.super();
+          this.classList.add('nav');
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <!--
+  <element name="bp-nav-item" extends="li">
+    <template>
+      <a id="anchor" href="#"><content></content></a>
+    </template>
+    <script>
+      this.component && this.component({
+        created: function() {
+           this.nameChanged();
+        },
+        nameChanged: function() {
+          this.$.anchor.setAttribute("href", this.name);
+        }
+      });
+    </script>
+  </element>
+  <element name="bp-ni" extends="a">
+    <template>
+      <content></content>
+    </template>
+    <script>
+      this.component && this.component({
+        created: function() {
+           this.nameChanged();
+        },
+        nameChanged: function() {
+          this.node.setAttribute("href", this.name);
+        }
+      });
+    </script>
+  </element>
+  -->

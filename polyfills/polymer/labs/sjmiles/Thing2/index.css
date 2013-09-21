@@ -1,0 +1,19 @@
+﻿html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  position: relative;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: gray;
+  overflow: hidden;
+}
+
+tracks-app {
+  display: block;
+  height: 100%;
+}

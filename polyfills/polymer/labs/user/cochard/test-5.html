@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<html>
+<head>
+  <script src="../../polymer/polymer.js"></script>
+</head>
+<body>
+  <template repeat="{{items}}">
+    <selementitem>My value is: {{}}<br></selementitem>
+  </template>
+  <script>
+    addEventListener('load', function() {
+      test();
+    });
+    function test() {
+      var t = document.querySelector('template');
+      var max = 5000;
+      var items = [];
+      for (var i = 0; i < max; i++) {
+        items.push(i);
+      }
+      var start = new Date();
+      t.model = {items: items};
+      Platform.flush();
+      requestAnimationFrame(function() {
+        var end = new Date();
+        var t = end - start;
+        console.log("Time to generate " + max + " items: " + (t / 1000) + " seconds, or " + (Math.floor(t / max * 1e3) / 1e3) + "ms/item" );
+        console.log(document.body.children.length);
+      });
+    }  
+  </script>
+</body>
+</html>

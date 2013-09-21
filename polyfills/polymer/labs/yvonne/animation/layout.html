@@ -1,0 +1,115 @@
+<?doctype html>
+<html>
+	<head>
+		<title>Layout Animations</title>
+		<link rel="import" href="../../polymer-elements/polymer-animation/web-animations.html">
+		<script src="../../polymer/polymer.js"></script>
+		<script src="../layoutAnimationShim/src/layout-animation.js"></script>
+		<style>
+			x-foo div {
+				padding: 5px;
+				margin: 2px;
+				width: 500px;
+			}
+			.item1 {
+				background-color: red;
+			}
+			.item2 {
+				background-color: blue;
+			}
+			.item3 {
+				background-color: green;
+			}
+		</style>
+	</head>
+	<body>
+		<element name="x-container">
+			<template>
+				<style>
+					@host {
+						* {
+							display: block;
+							padding: 2px;
+							border: 1px solid black;
+						}
+					}
+				</style>
+				Items:<br>
+				<content></content>
+			</template>
+			<script>
+				Polymer.register(this);
+			</script>
+		</element>
+		<element name="x-foo">
+			<template>
+				<style>
+					div {
+						padding: 5px;
+						margin: 2px;
+						width: 500px;
+					}
+					div.tall {
+						height: 300px;
+					}
+					.item1 {
+						background-color: red;
+					}
+					.item2 {
+						background-color: blue;
+					}
+					.item3 {
+						background-color: green;
+					}
+				</style>
+				<x-container>
+					<div id="item1" class="item {{tall: isTall}} item1">item 1</div>
+					<div id="item2" class="item {{tall: isTall}} item2">item 2</div>
+					<div id="item3" class="item {{tall: isTall}} item3">item 3</div>
+				</x-container>
+				<button on-click="go">go</button>
+			</template>
+			<script>
+				Polymer.register(this, {
+					arr: [1,2,3],
+					isTall: false,
+					toggle: function() {
+						//this.isTall = !this.isTall;
+						this.$.item1.style.height = '500px';
+						//getComputedStyle(this.$.item1).top;
+					},
+					go: function() {
+						registerLayoutKeyframes('to', [{
+							offset: 0,
+							properties: {
+								layoutWidth: 'from()',
+								layoutHeight: 'from()',
+								layoutTop: 'from()',
+								layoutLeft: 'from()'
+							}
+						}, {
+							offset: 1,
+							properties: {
+								layoutWidth: 'to()',
+								layoutHeight: 'to()',
+								layoutTop: 'to()',
+								layoutLeft: 'to()'
+							}
+						}]);
+						var divs = this.shadowRoot.querySelectorAll('div.item');
+						setLayoutTransition(divs, 'to', 1);
+						setLayoutEffect(divs, 'transform', 'transform');
+						transitionThis(this.toggle.bind(this));
+					}
+				});
+			</script>
+		</element>
+		<x-foo id="foo">
+			<div class="item1">item 1</div>
+			<div class="item2">item 2</div>
+			<div class="item3">item 3</div>
+		</x-foo>
+		<script>
+		</script>
+	</body>
+</html>

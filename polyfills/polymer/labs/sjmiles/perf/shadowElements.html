@@ -1,0 +1,18 @@
+﻿<!doctype html>
+<head>
+  <title></title>
+  <script src="../../polymer/polymer.js"></script>
+  <script src="runner.js"></script>
+</head>
+<body>
+  <script>
+    function test(n) {
+      for (var i=0; i<n; i++) {
+        var elt = document.createElement('x-foo');
+        elt.createShadowRoot().innerHTML = 'x-foo ';
+        document.body.appendChild(elt);
+      }
+    }
+  </script>
+</body>
+</html>

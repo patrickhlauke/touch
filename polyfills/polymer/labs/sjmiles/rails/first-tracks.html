@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <style>
+    div {
+      position: absolute;
+      border: 1px solid silver;
+      background-color: whitesmoke;
+      border-radius: 8px;
+    }
+    line {
+      position: absolute;
+      border: 1px dotted lightblue;
+      -webkit-box-shadow: 0px 0px 8px rgba(184, 255, 255, 0.75);
+      -moz-box-shadow:    0px 0px 8px rgba(184, 255, 255, 0.75);
+      box-shadow:         0px 0px 8px rgba(184, 255, 255, 0.75);
+    }
+    [extent=width] {
+      top: 0;
+      bottom: 0;
+    }
+    [extent=height] {
+      right: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="alpha">alpha</div>
+  <div id="beta">beta</div>
+  <div id="gamma">gamma</div>
+  <div id="delta">delta</div>
+  <div id="eta">eta</div>
+  <div id="iota">iota</div>
+  <script>
+    function line(axis, p, d) {
+      var l = document.createElement('line');
+      var extent = (axis === 'left' ? 'width' : (axis === 'top' ? 'height' : axis));
+      l.setAttribute('extent', extent);
+      if (d < 0) {
+        axis = (axis === 'left' ? 'right' : (axis === 'top' ? 'bottom' : axis));
+      }
+      p = Math.abs(p);
+      l.style[axis] = p + 'px';
+      l.style[extent] = '0px';
+      document.body.appendChild(l);
+    }
+    
+    var widths = [ 140, 80, -1, -1, 80, 140];
+    function colWidth(i) {
+      return widths[i];
+    }
+    var colCount = widths.length;
+
+    var heights = [ 140, 80, -1, -1, 80, 140];
+    function rowHeight(i) {
+      return heights[i];
+    }
+    var rowCount = heights.length;
+
+    function trackLines(count, sizeFn, axis) {
+      var a = 0;
+      for (var i=0; i<count; i++) {
+        line(axis, a);
+        var x = sizeFn(i);
+        if (x == -1) {
+          break;
+        }
+        a += x;
+      }
+      var b = 0;
+      for (var ii=count-1; ii>i; ii--) {
+        line(axis, b, -1);
+        x = sizeFn(ii);
+        if (x !== -1) {
+          b += x;
+        }
+      }
+    }
+
+    trackLines(colCount, colWidth, 'left');
+    trackLines(rowCount, rowHeight, 'top');
+  </script>
+</body>
+</html>

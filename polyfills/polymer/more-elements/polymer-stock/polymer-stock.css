@@ -1,0 +1,62 @@
+.stock-label {
+  font-family: arial,sans-serif;
+  font-size: medium;
+  font-weight: lighter;
+  color: #878787;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.large {
+  font-size: x-large;
+}
+
+.small {
+  font-size: small;
+}
+
+.stock-desc {
+  text-transform: uppercase;
+}
+
+.quote {
+  margin-top: 10px;
+}
+
+.price {
+  color: #212121;
+  margin-right: 10px;
+}
+
+.change {
+  color: #3d9400;
+}
+
+.change.down {
+  color: #dd4b39;
+}
+
+.more {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.chart {
+  margin-right: 20px;
+}
+
+.details {
+  width: 120px;
+}
+
+.details > * {
+  line-height: 1.4;
+}
+
+.details > * > :first-child {
+  display: inline-block;
+  width: 60px;
+}

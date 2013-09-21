@@ -1,0 +1,168 @@
+﻿<!doctype html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <script src="../polymer/polymer.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+      text-align: center;
+    }
+  </style>
+  <link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html">
+</head>
+<body>
+  <polymer-element name="x-cover" attributes="rx ty">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          position: absolute;
+          width: 160px;
+          height: 120px;
+          -webkit-transform-origin: center center 1300px;
+          -webkit-transform: perspective(200px) scale(1.0); 
+          -webkit-transform-style: preserve-3d;
+          /*
+          border: 5px solid gray;
+          border-top: none;
+          border-left: none;
+          x-webkit-backface-visibility: hidden;
+          */
+        }}
+      </style>
+      <content></content>
+    </template>
+    <script>
+      Polymer('x-cover', {
+        rxChanged: function() {
+          this.style.webkitTransform = 'rotateY(' + this.rx + 'deg) translateZ(800px) translateY(' + this.ty + 'px)';
+          //this.textContent = Math.round(this.rx);
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="x-spiral" attributes="off">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          x-webkit-transform: perspective(200px) scale(1.0); 
+          x-webkit-transform-style: preserve-3d;
+          -webkit-transform: translateY(100px) translateX(400px);
+          position: relative;
+        }}
+      </style>
+      <content id="content" select="x-cover"></content>
+    </template>
+    <script>
+      Polymer('x-spiral', {
+        off: 0,
+        update: function() {
+          var off = this.off;
+          this.$.content.getDistributedNodes().forEach(function(n, i) {
+            i += off;
+            if (i < -25 || i > 100) {
+              n.style.display = 'none';
+              return;
+            }
+            var ii = (i + 10000) % 20;
+            if (ii < 5 || ii > 15) {
+              n.style.display = 'none';
+              return;
+            }
+            n.rx = (ii * 18) + 180;
+            n.ty = i * 8;
+            var v = Math.abs(ii - 10)
+            var o = Math.min(1, Math.pow(v / 5, 3));
+            o = 1.1 - o;
+            if (o < 1e-5) {
+              o = 0;
+            }
+            n.style.opacity = o;
+            n.style.display = '';
+          });
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="x-menu" on-track="track" on-trackEnd="trackEnd" touch-action="none">
+    <template>
+      <style>
+        @host{*{
+          display: inline-block;
+          -webkit-user-select: none;
+          background: #7a6e6e;
+          height: 100%;
+          width: 900px;
+        }}
+      </style>
+      <button on-tap="spin">Spin Down</button><button id="up" on-tap="spin">Spin Up</button>
+      <polymer-ajax url="snap/s.txt" handleAs="text" response="{{raw}}" auto></polymer-ajax>
+      <x-spiral id="spiral" off="{{off}}">
+        <template repeat="{{covers}}">
+          <x-cover><img draggable="false" src="snap/{{}}" width="128px" height="96px"><div style="text-align:center;">{{}}</div></x-cover>
+        </template>
+      </x-spiral>
+    </template>
+    <script>
+      Polymer('x-menu', {
+        off: 0,
+        raw: '',
+        ready: function() {
+          this.off = -50;
+        },
+        offChanged: function() {
+          this.update();
+        },
+        update: function() {
+          this.$.spiral.async('update');
+        },
+        track: function(event) {
+          this.off -= event.ddx / 30;
+          //this.async(Platorm.flush);
+        },
+        trackEnd: function(event) {
+          this.dir = -event.xDirection;
+          this.mo = Math.abs(event.dx) / 70;
+          //this.falloff();
+        },
+        spin: function(event) {
+          this.dir = event.target.id === 'up' ? -1 : 1;
+          this.mo = 3;
+          this.falloff();
+        },
+        falloff: function() {
+          if (this.mo) {
+            this.off += (this.mo * this.dir);
+            this.mo *= 0.95;
+            if (this.mo < 1e-2) {
+              this.mo = 0;
+            }
+            this.async(this.falloff);
+          }
+        },
+        rawChanged: function() {
+          //console.log(this.raw);
+          var names = this.raw.split('\r\n');
+          this.covers = [];
+          for (var i=0; i<500; i++) {
+            this.covers.push(names[i % 150]);
+          }
+          this.update();
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <x-menu></x-menu>
+</body>
+</html>

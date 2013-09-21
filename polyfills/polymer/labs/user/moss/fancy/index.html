@@ -1,0 +1,47 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title></title>
+  <script src="../../../polymer/polymer.js"></script>
+  <link rel="import" href="elements.html">
+  <link rel="import" href="items.html">
+</head>
+<body>
+
+  <!-- inline item templates -->
+
+  <x-browser>
+    <template>
+      <b>ITEM: </b> <a href="{{href}}">{{text}}</a>
+    </template>
+  </x-browser>
+
+  <hr>
+
+  <x-browser>
+    <template>
+      <b>***</b> <i>{{text}}</i>
+    </template>
+  </x-browser>
+
+  <hr>
+
+  <!-- custom element items (defined in items.html) -->
+
+  <x-browser>
+    <template>
+      <x-browser1 item="{{}}"></x-browser1>
+    </template>
+  </x-browser>
+
+  <hr>
+  
+  <x-browser>
+    <template>
+      <x-browser2 item="{{}}"></x-browser2>
+    </template>
+  </x-browser>
+
+  <hr>
+
+</html>

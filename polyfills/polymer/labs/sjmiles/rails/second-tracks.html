@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <style>
+    body {
+      background-color: whitesmoke;
+    }
+    div {
+      position: absolute;
+      border: 1px solid silver;
+      background-color: white;
+      border-radius: 8px;
+      padding: 6px;
+      box-sizing: border-box;
+    }
+    line {
+      position: absolute;
+      border: 1px dotted lightblue;
+      -webkit-box-shadow: 0px 0px 8px rgba(184, 255, 255, 0.75);
+      -moz-box-shadow:    0px 0px 8px rgba(184, 255, 255, 0.75);
+      box-shadow:         0px 0px 8px rgba(184, 255, 255, 0.75);
+    }
+    [extent=width] {
+      top: 0;
+      bottom: 0;
+    }
+    [extent=height] {
+      right: 0;
+      left: 0;
+    }
+    #alpha {
+      height: 96px;
+    }
+    #beta {
+      width: 128px;
+    }
+    #delta {
+      width: 256px;
+      height: 256px;
+    }
+    #epsilon {
+      width: 96px;
+    }
+    #zeta {
+      height: 64px;
+    }
+  </style>
+</head>
+<body>
+  <div id="alpha">alpha</div>
+  <div id="beta">beta</div>
+  <div id="gamma" flex>gamma</div>
+  <div id="delta">delta</div>
+  <div id="epsilon">epsilon</div>
+  <div id="zeta">zeta</div>
+
+  <script>
+    function line(axis, p, d) {
+      var l = document.createElement('line');
+      var extent = (axis === 'left' ? 'width' : (axis === 'top' ? 'height' : axis));
+      l.setAttribute('extent', extent);
+      if (d < 0) {
+        axis = (axis === 'left' ? 'right' : (axis === 'top' ? 'bottom' : axis));
+      }
+      p = Math.abs(p);
+      l.style[axis] = p + 'px';
+      l.style[extent] = '0px';
+      document.body.appendChild(l);
+    }
+
+    function findOwners(matrix) {
+      var majCount = matrix.length;
+      var minCount = majCount && matrix[0].length || 0;
+      var owners = [];
+      // for each column (e.g.)
+      for (var i=0; i<minCount; i++) {
+        // array of columns owner
+        var contained = {};
+        // look at each row to find an owner
+        for (var j=0; j<majCount; j++) {
+          // get the row vector
+          var vector = matrix[j]
+          // node index at [i,j]
+          var nodei = vector[i];
+          // if a node is there
+          if (nodei) {
+            // determine if it's completely bounded by this columns
+            var owns = false;
+            if (i === 0) {
+              owns = (i === majCount-1) || (nodei !== vector[i+1]);
+            } else if (i === majCount - 1) {
+              owns = (i === 0) || (nodei !== vector[i-1]);
+            } else {
+              owns = nodei !== vector[i-1] && nodei !== vector[i+1];
+            }
+            if (owns) {
+              contained[nodei] = 1;
+            }
+          }
+          // store the owners for this column
+          owners[i] = contained;
+        }
+      }
+      return owners;
+    }
+
+    var colOwners, rowOwners;
+
+    function matrixillate(matrix) {
+      rowCount = matrix.length;
+      colCount = rowCount && matrix[0].length || 0;
+      //
+      // build the transposed matrix
+      var transpose = [];
+      for (var i=0; i<colCount; i++) {
+        var c = [];
+        for (var j=0; j<rowCount; j++) {
+          c.push(matrix[j][i]);
+        }
+        transpose.push(c);
+      }
+      //
+      colOwners = findOwners(matrix);
+      rowOwners = findOwners(transpose);
+    }
+
+    function colWidth(i) {
+      for (var col in colOwners[i]) {
+        var node = nodes[Number(col) - 1];
+        if (node.hasAttribute('flex')) {
+          return -1;
+        }
+        var w = node.offsetWidth + 24;
+        console.log('colWidth(' + i + ') ==', w);
+        return w;
+      }
+      return -1;
+    }
+
+    function rowHeight(i) {
+      for (var row in rowOwners[i]) {
+        var node = nodes[Number(row) - 1];
+        if (node.hasAttribute('flex')) {
+          return -1;
+        }
+        var h = node.offsetHeight + 24;
+        console.log('rowHeight(' + i + ') ==', h);
+        return h;
+      }
+      return -1;
+    }
+
+    var nodes = [
+      alpha,
+      beta,
+      gamma,
+      delta,
+      epsilon,
+      zeta
+    ];
+
+    var matrix = [
+      [0, 1, 1, 1],
+      [2, 3, 4, 5],
+      [2, 3, 0, 5],
+      [2, 6, 6, 6]
+    ];
+
+    matrixillate(matrix);
+
+    function railize(count, sizeFn) {
+      var rails = [];
+      var a = 0;
+      for (var i=0; i<count; i++) {
+        rails[i] = {p: a, s: 1};
+        var x = sizeFn(i);
+        if (x == -1) {
+          break;
+        }
+        a += x;
+      }
+      if (i === count) {
+        rails[i] = {p: 0, s: -1};
+      }
+      var b = 0;
+      for (var ii=count; ii>i; ii--) {
+        rails[ii] = {p: b, s: -1};
+        x = sizeFn(ii - 1);
+        if (x !== -1) {
+          b += x;
+        }
+      }
+      return rails;
+    }
+
+    var m = 12;
+    function _position(box, maj, min, ext, a, b) {
+      if (a.s < 0 && b.s < 0) {
+        box[ext] = a.p - b.p - m - m + 'px';
+        box[min] = b.p + m + 'px';
+      } else if (b.s < 0) {
+        box[maj] = a.p + m + 'px';
+        box[min] = b.p + m + 'px';
+      } else {
+        box[maj] = a.p + m + 'px';
+        box[ext] = b.p - a.p - m - m + 'px';
+      }
+    }
+
+    function position(elt, left, right, top, bottom) {
+      _position(elt.style, 'top', 'bottom', 'height', rows[top], rows[bottom]);
+      _position(elt.style, 'left', 'right', 'width', columns[left], columns[right]);
+    }
+
+    function layout() {
+      columns = railize(colCount, colWidth);
+      console.group('column rails');
+      columns.forEach(function(c) {
+        console.log(c.p, c.s);
+        line('left', c.p, c.s);
+      });
+      console.groupEnd();
+
+      rows = railize(rowCount, rowHeight);
+      console.group('row rails');
+      rows.forEach(function(r) {
+        console.log(r.p, r.s);
+        line('top', r.p, r.s);
+      });
+      console.groupEnd();
+
+      console.group('rail boundaries');
+      nodes.forEach(function(node, i) {
+        // node indices are 1-based
+        var n = i + 1;
+        // boundary rails
+        var l, r, t = 1e10, b = -1e10;
+        matrix.forEach(function(vector, i) {
+          var f = vector.indexOf(n);
+          if (f > -1) {
+            l = f;
+            r = vector.lastIndexOf(n) + 1;
+            t = Math.min(t, i);
+            b = Math.max(b, i) + 1;
+          }
+        });
+        console.log(l, r, t, b);
+        position(node, l, r, t, b);
+        //var s = node.style;
+        //console.log(s.left, s.width, s.right, s.top, s.height, s.bottom);
+      });
+      console.groupEnd();
+    }
+
+    //window.onload = function() {
+      layout();
+    //}
+  </script>
+</body>
+</html>

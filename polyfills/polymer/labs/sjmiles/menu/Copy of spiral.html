@@ -1,0 +1,208 @@
+﻿<!doctype html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <script src="../../polymer/polymer.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+      text-align: center;
+    }
+    body {
+      font-family: Arial, Consolas, Helvetica, sans-serif;
+    }
+  </style>
+  <link rel="import" href="../../polymer-elements/polymer-ajax/polymer-ajax.html">
+</head>
+<body>
+  <polymer-element name="x-cover" attributes="ry ty">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          position: absolute;
+          Xborder-radius: 16px;
+          Xborder: 2px solid #666666;
+          -webkit-backface-visibility: hidden;
+          -webkit-transform-origin: center center -1000px;
+          overflow: hidden;
+        }}
+      </style>
+      <content></content>
+    </template>
+    <script>
+      Polymer('x-cover', {
+        display: '',
+        ready: function() {
+          this.display = 'none';
+        },
+        ryChanged: function() {
+          this.style.webkitTransform = 'translateX(-50%) translateX(500px) translateY(-50%) translateY(' + (400 + this.ty) + 'px) rotateY(' + this.ry + 'deg)';
+        },
+        displayChanged: function() {
+          this.style.display = this.display;
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="x-spiral" attributes="off">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          border: 3px solid lightblue;
+          -webkit-perspective: 600px; 
+          -webkit-transform-style: preserve-3d;
+          -webkit-transform: scale(1.0);
+        }}
+      </style>
+      <content id="content" select="x-cover"></content>
+    </template>
+    <script>
+      Polymer('x-spiral', {
+        off: 0,
+        offY: 0,
+        degPerTile: 12,
+        yPerTile: 6,
+        ready: function() {
+          new MutationObserver(this.update.bind(this)).observe(this, {childList: true});
+        },
+        update: function() {
+          var off = this.off, offY = this.offY;
+          this.$.content.getDistributedNodes().forEach(function(n, i) {
+            i += off;
+            //
+            var y = Math.floor(i * this.yPerTile * 1e5) / 1e5 + offY;
+            if (y < -520 || y > 520) {
+              n.display = 'none';
+              n.displayChanged();
+              return;
+            }
+            //
+            n.ry = Math.floor(i * this.degPerTile * 1e5) / 1e5;
+            n.ty = y;
+            n.ryChanged();
+            //
+            n.display = '';
+            n.displayChanged();
+          }.bind(this));
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="x-menu" attributes="xml" on-track="track" on-trackEnd="trackEnd" touch-action="none">
+    <template>
+      <style>
+        @host{*{
+          display: inline-block;
+          -webkit-user-select: none;
+          height: 800px;
+          width: 1000px;
+          background-color: whitesmoke;
+        }}
+        button {
+          position: relative;
+          z-index: 1;
+        }
+      </style>
+      
+      <polymer-ajax url="snap/s.txt" handleAs="text" response="{{raw}}" auto></polymer-ajax>
+      
+      <button on-tap="spin">Spin Down</button><button id="up" on-tap="spin">Spin Up</button>
+      <x-spiral id="spiral" off="{{off}}">
+        <template repeat="{{games}}">
+          <x-cover><img draggable="false" src="http://itch.selfip.net/hyper/Media/MAME/snaps160/{{name}}.png" width="160px" height="120px">
+          <div style="text-align:center; padding: 4px 8px 8px;">{{description}} ({{year}})</div></x-cover>
+        </template>
+      </x-spiral>
+      <button on-tap="spin">Spin Down</button><button id="up" on-tap="spin">Spin Up</button>
+      
+    </template>
+    <script>
+      Polymer('x-menu', {
+        xml: null,
+        off: 0,
+        raw: '',
+        ready: function() {
+          this.off = -50;
+        },
+        offChanged: function() {
+          this.update();
+        },
+        update: function() {
+          this.$.spiral.update();
+        },
+        track: function(event) {
+          this.off += event.ddx / 60;
+          this.offChanged();
+          //Platform.flush();
+        },
+        trackEnd: function(event) {
+          this.dir = event.xDirection;
+          this.mo = Math.abs(event.dx) / 300;
+          this.falloff();
+        },
+        spin: function(event) {
+          this.dir = event.target.id === 'up' ? -1 : 1;
+          this.mo = 3;
+          this.falloff();
+        },
+        falloff: function() {
+          if (this.mo) {
+            this.off += (this.mo * this.dir);
+            this.mo *= 0.85;
+            if (this.mo < 1e-2) {
+              this.mo = 0;
+            }
+            this.update();
+            requestAnimationFrame(this.falloff.bind(this));
+          }
+        },
+        rawChanged: function() {
+          var names = this.raw.split('\r\n');
+          this.covers = [];
+          for (var i=0; i<500; i++) {
+            this.covers.push(names[i % 150]);
+          }
+        },
+        xmlChanged: function() {
+          this.games = this.xml.querySelectorAll('game').array().map(function(g) {
+            var o = {
+              name: g.getAttribute('name'),
+              description: g.querySelector('description').textContent.slice(0, 16),
+              year: g.querySelector('year').textContent
+            };
+            var snaps = ['1944', 'aburner', 'alexkidd', 'marble2', 'stmblade', 'lwings', 'pang', 'puckman'];
+            //o.name = snaps[Math.floor(Math.random() * snaps.length)];
+            return o;
+          });
+          //this.games = this.games.slice(0, 1000);
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <x-menu></x-menu>
+  <polymer-ajax id="ajax" url="databases/MAME.xml" handleAs="xml" response="{{xml}}" auto></polymer-ajax>
+  <script>
+    addEventListener('WebComponentsReady', function() {
+      Platform.flush();
+    });
+    ajax.addEventListener('polymer-response', function(event) {
+      document.querySelector('x-menu').xml = event.detail.response;
+      Platform.flush();
+    });
+  </script>
+</body>
+</html>

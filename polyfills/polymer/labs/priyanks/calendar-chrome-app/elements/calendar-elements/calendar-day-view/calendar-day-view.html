@@ -1,0 +1,26 @@
+<link rel="import" href="../calendar-day/calendar-day.html">
+<link rel="import" href="../calendar-hours/calendar-hours.html">
+
+<polymer-element name="calendar-day-view" attributes="events start">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: flex;
+				}
+			}
+
+			calendar-day {
+				flex: 1;
+			}
+		</style>
+		<calendar-hours></calendar-hours><!--
+		--><calendar-day events="{{events}}" start="{{start}}"></calendar-day>
+	</template>
+	<script>
+		Polymer('calendar-day-view', {
+			events: [],
+			start: 0
+		});
+	</script>
+</polymer-element>

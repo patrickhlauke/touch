@@ -1,0 +1,108 @@
+<link rel="import" href="../../../polymer-elements/polymer-selector/polymer-selector.html">
+<link rel="import" href="../../../more-elements/youtube/yt-search.html">
+<link rel="import" href="../../../more-elements/youtube/yt-video.html">
+<polymer-element name="name-tag" attributes="moods" on-pointerdown="clearSelection">
+  <template>
+    <style>
+      @host {
+        * {
+          display: block;
+          position: relative;
+          border-radius: 20px;
+          width: 500px;
+          border: 2px solid orange;
+          background: orange;
+        }
+      }
+
+      header, footer {
+        padding: 20px;
+        min-height: 1em;
+        font-style: italic;
+      }
+
+      footer {
+        text-align: right;
+      }
+
+      button {
+        float: left;
+      }
+
+      [select='.name']::-webkit-distributed(> *) {
+        font-size: 2.5em;
+        padding: 10px;
+        text-align: center;
+        background: whitesmoke;
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+
+      [select='li']::-webkit-distributed(li) {
+        list-style-type: none;
+        font-size: 1.25em;
+        padding: 4px 20px;
+        background: whitesmoke;
+      }
+
+      [select='li']::-webkit-distributed(li.polymer-selected) {
+        background: gray;
+      }
+
+      #ytVideo {
+        height: 400px;
+        width: 100%;
+      }
+
+      #ytVideo.hidden {
+        display: none !important;
+      }
+    </style>
+    <yt-search query="{{selectedFavorite}}"
+         list="{{videos}}">
+    </yt-search>
+    <header>Hi, my name is:</header>
+    <content select=".name"></content>
+    <header>My favorite things are:</header>
+    <polymer-selector valueAttr="textContent" selected="{{selectedFavorite}}">
+      <content select="li"></content>
+    </polymer-selector>
+    <!-- <template repeat="{{videos}}">
+      <div>{{title.$t}}</div>
+    </template> -->
+    <yt-video id="ytVideo" videoEntry="{{video}}" class="{{hidden: !$.ytVideo.videoId}}"></yt-video>
+    <footer>
+      <button on-click="displayMood">I'm feeling...</button>
+      <span>&copy; 2013</span>
+    </footer>
+  </template>
+  <script>
+    Polymer('name-tag', {
+      selectedFavorite: -1,
+      videos: null,
+      video: null,
+      moodsChanged: function(oldValue) {
+        if (oldValue) {
+          alert('I sense my moods have changed...');
+        }
+      },
+      videosChanged: function() {
+        if (this.videos && this.videos.length) {
+          this.video = this.videos[0];
+        } else {
+          this.video = null;
+        }
+      },
+      displayMood: function() {
+        var moods = this.moods.split(' ');
+        alert(moods[Math.floor(Math.random() * moods.length)]);
+      },
+      clearSelection: function() {
+        this.selectedFavorite = -1;
+      }
+    });
+  </script>
+</polymer-element>

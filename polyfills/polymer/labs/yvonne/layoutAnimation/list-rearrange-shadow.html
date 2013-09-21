@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+	<script src="../../../web-animations-js/web-animations.js"></script>
+	<script src="../../layoutAnimationShim/src/layout-animation.js"></script>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: black;
+			text-align: center;
+		}
+		.item {
+			width: 400px;
+			margin: 0 auto;
+			background-color: white;
+			border-bottom: 1px solid dimgrey;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div class="item">light</div>
+		<div class="item">light</div>
+		<div class="item">light</div>
+		<div class="item">light</div>
+		<div class="item">light</div>
+	</div>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			registerLayoutKeyframes('default', [
+				{offset: 0, properties: {
+					layoutWidth: 'from()', layoutHeight: 'from()', layoutTop: 'from()', layoutLeft: 'from()'
+				}},
+				{offset: 1, properties: {
+					layoutWidth: 'to()', layoutHeight: 'to()', layoutTop: 'to()', layoutLeft: 'to()'
+				}}
+			]);
+
+			var hangouts = document.querySelectorAll('.item');
+			var template = document.querySelector('#tmpl');
+			for (var i = 0, h; h = hangouts[i]; i++) {
+				var root = h.createShadowRoot();
+				root.appendChild(document.createTextNode('shadow'));
+			}
+			setLayoutTransition(hangouts, 'default', 1);
+			setLayoutEffect(hangouts, 'layout');
+
+			var container = document.querySelector('#container');
+			container.addEventListener('click', function(e) {
+				transitionThis(function() {
+					container.insertBefore(e.target, container.children[0]);
+				}.bind(this));
+			})
+		});
+	</script>
+</body>
+</html>

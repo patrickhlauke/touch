@@ -1,0 +1,125 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+<link rel="import" href="../../../../../polymer-elements/polymer-collapse/polymer-collapse.html">
+<link rel="import" href="../../../../../polymer-elements/polymer-media-query/polymer-media-query.html">
+<link rel="import" href="../../../../../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+<link rel="import" href="../../../../../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../../../../../polymer-ui-elements/polymer-ui-splitter/polymer-ui-splitter.html">
+<link rel="import" href="../../../../../more-elements/ace-element/ace-element.html">
+<link rel="import" href="../x-output/x-output.html">
+
+<polymer-element name="x-live-edit" v-flex attributes="meta vertical hideTitle responsive responsiveWidth">
+  <template>
+    <link rel="stylesheet" href="x-live-edit.css">
+    <!--<link rel="stylesheet" href="css/pg-toolbar-button.css">-->
+    <link rel="stylesheet" href="../../../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.css">
+    
+    <polymer-ui-toolbar>
+      <!--<button class="toolbar-button" on-tap="run">Run</button>-->
+      <div hidden?="{{hideTitle}}">{{meta.label}}</div>
+      <content></content>
+    </polymer-ui-toolbar>
+    
+    <div id="stage" h-flex?="{{!vertical}}" v-flex?="{{vertical}}" flex>
+      <ace-element id="liveEditor" mode="html" theme="chrome" tabSize="2" vertical?="{{vertical}}"></ace-element>
+      <!--<code-mirror id="liveEditor"></code-mirror>-->
+      
+      <polymer-ui-splitter direction="{{vertical ? 'up' : 'left'}}" locked="{{maximized}}" 
+          on-pointerdown="disableOutputMouseEvents" on-pointerup="enableOutputMouseEvents" 
+          on-trackend="splitterDragEnd"></polymer-ui-splitter>
+          
+      <div v-flex flex>
+        <polymer-ui-toolbar theme="polymer-ui-light-theme">
+          <polymer-ui-icon-button src="{{arrowImageSrc}}" on-tap="toggleMaximized"></polymer-ui-icon-button>
+          <div>Output</div>
+        </polymer-ui-toolbar>
+        <x-output id="output" flex html="{{source}}"></x-output>
+      </div>
+    </div>
+    
+    <polymer-media-query query="max-width: {{responsiveWidth}}" queryMatches="{{queryMatches}}"></polymer-media-query>
+    <polymer-collapse targetId="editor" horizontal={{!vertical}} fixedSize closed="{{maximized}}"></polymer-collapse>
+  </template>
+  <script>
+    Polymer('x-live-edit', {
+      vertical: false,
+      hideTitle: false,
+      responsive: false,
+      responsiveWidth: '1000px',
+      queryMatches: false,
+      maximized: false,
+      ready: function() {
+        this.editor = this.$.liveEditor;
+        this.maximizedChanged();
+        var meta = this.querySelector('polymer-meta');
+        if (meta) {
+          this.meta = meta;
+        }
+        setInterval(this.run.bind(this), 5000);
+      },
+      resize: function() {
+        this.$.liveEditor.editor.resize();
+      },
+      toggleMaximized: function() {
+        this.maximized = !this.maximized;
+      },
+      verticalChanged: function() {
+        this.maximizedChanged();
+        this.asyncMethod(this.resize);
+      },
+      queryMatchesChanged: function() {
+        if (this.responsive) {
+          this.vertical = this.queryMatches;
+        }
+      },
+      maximizedChanged: function() {
+        this.arrowImageSrc = this.resolvePath('images/arrow_' + 
+            (this.maximized ? (this.vertical ? 'down' : 'right') : 
+                (this.vertical ? 'up' : 'left'))  + '.png');
+        if (!this.maximized) {
+          // ace doesn't render its editor content if it's size 0
+          // so here we force ace to render after it's not collapsed
+          this.asyncMethod(function() {
+            this.$.liveEditor.editor.renderer.updateText();
+          });
+        }
+      },
+      splitterDragEnd: function() {
+        this.enableOutpuMouseEvents();
+        this.resize();
+      },
+      disableOutputMouseEvents: function() {
+        this.$.output.classList.add('pointer-none');
+      },
+      enableOutpuMouseEvents: function() {
+        this.$.output.classList.remove('pointer-none');
+      },
+      metaChanged: function() {
+        if (!this.meta) {
+          return;
+        }
+        var s = this.meta.archetype.innerHTML;
+        var n = s.match(/^\n([  \t]*)/)[1].length;
+        // remove extra spaces/indents at the beginning of each line
+        var regex = new RegExp('^[\\s]{0,' + n + '}', 'gm');
+        s = s.replace(regex, '').trim();
+        // remove emtpy string value e.g. vertical=""
+        s = s.replace(/=\"\"/g, '');
+        this.$.liveEditor.value = s;
+        this.asyncMethod(function() {
+          this.run();
+          this.$.liveEditor.gotoLine(1);
+        });
+      },
+      run: function() {
+        this.source = this.$.liveEditor.editorValue;
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,19 @@
+﻿html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  position: relative;
+}
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  user-select: none;
+  background-color: #666;
+  overflow: hidden;
+  -webkit-user-select: none;
+}
+
+tracks-app {
+  display: block;
+  height: 100%;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>importz</title>
+  <script>
+    var proto = Object.create(HTMLElement.prototype);
+    proto.createdCallback = function() {
+      var doc = this.ownerDocument.URL.split('/').pop();
+      console.log(this.localName, doc, this.getAttribute('info'));
+    }
+    document.register('x-spy', {prototype: proto});
+  </script>
+  <link rel="import" href="import1.html">
+  <link rel="import" href="import2.html">
+</head>
+<body>
+  <x-spy info="main-top"></x-spy>
+  <script>
+    console.log('script in main');
+  </script>
+  <x-spy info="main-bottom"></x-spy>
+  <script>
+    var i = document.querySelector('[rel=import]').import;
+    var i1 = i.querySelector('[rel=import]').import;
+    // img path is correct in import but 
+    // incorrect if cloned and inserted into main document.
+    var img = i1.querySelector('img').cloneNode(true);;
+    img.src = img.src;
+    //var src = img.src;
+    document.body.appendChild(img);
+    //console.log(img.src);
+    
+    // if template is cloned and content is inserted into main 
+    // document, paths are wrong.
+    var template = i1.querySelector('template');
+    document.body.appendChild(template.content.cloneNode(true));
+  </script>
+</body>
+</html>

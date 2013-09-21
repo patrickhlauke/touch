@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <title>Pica</title>
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="../../polymer/platform/WebAnimations/web-animations.js"></script>
+  <script src="../../polymer/polymer.js"></script>
+  <link rel="import" href="data.html">
+  <link rel="import" href="elements/pica-view.html"/>
+  <style>
+    body {
+      opacity: 1;
+    }
+    .app-loading {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      left: 50%;
+      bottom: 50%;
+      margin: -25px;
+      background: url(images/loading_icon.svg);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-loading"></div>
+  <pica-view style="display:none;"></pica-view>
+  <script>
+    addEventListener('WebComponentsReady', function() {
+      document.querySelector('.app-loading').style.display = 'none';
+      document.querySelector('pica-view').style.display = null;
+    });
+  </script>
+</body>
+</html>

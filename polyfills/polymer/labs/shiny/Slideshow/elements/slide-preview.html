@@ -1,0 +1,37 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<polymer-element name="slide-preview" attributes="src previewHeight previewWidth cover" class="flexbox justify-center align-center">
+  <template>
+    <style>
+      #preview {
+        border: 0;
+      }
+      
+      #preview.phone {
+        border-image: url(../assets/phone-full-darkonlight-1x.png) 114 29 stretch;
+        border-width: 114px 29px;
+      }
+      
+      #preview.tablet {
+        border-image: url(../assets/tablet-darkonlight-simple-1x.png) 96 80 stretch;
+        border-width: 96px 80px;
+        -webkit-transform: scale(0.5);
+        flex-shrink: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="../../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.css">
+    <iframe id="preview" src="{{src}}" class="{{cover}}" style="height: {{previewHeight}}px; width: {{previewWidth}}px;"></iframe>
+  </template>
+  <script>
+      Polymer('slide-preview', {
+        previewWidth: 320,
+        previewHeight: 480,
+        cover: 'phone'
+      });
+  </script>
+</polymer-element>

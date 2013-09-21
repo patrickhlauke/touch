@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title></title>
+<!--  <script src="http://polymer.github.io/cdn/polymer.min.js"></script>-->
+  <script src="../../polymer/polymer.min.js"></script>
+</head>
+<body>
+
+  <x-browser>
+    <b>ITEM: </b> <a href="{{href}}">{{text}}</a>
+  </x-browser>
+
+  <hr>
+
+  <x-browser>
+    <b>***</b> <i>{{text}}</i>
+  </x-browser>
+
+  <hr>
+
+  <x-browser><x-browser1 item="{{}}"></x-browser1></x-browser>
+
+  <hr>
+  
+  <x-browser><x-browser2 item="{{}}"></x-browser2></x-browser>
+
+  <hr>
+
+  <polymer-element name="x-browser1" attributes="item">
+    <template>
+      <style>
+        @host{*{
+          display: inline-block;
+          background-color: rgb(176, 237, 186);
+          box-shadow: 3px 3px 16px 1px rgba(0,0,0,0.2);
+          padding: 6px;
+          margin: 4px;
+        }}
+      </style>
+      <b><a>{{item.text}}</a></b>
+    </template>
+  </polymer-element>
+
+  <polymer-element name="x-browser2" attributes="item">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          background-color: #EEEEEE;
+          box-shadow: 0px 0px 16px 6px rgba(0,0,0,0.03) inset;
+          border: 1px outset whitesmoke;
+          padding: 6px;
+          margin: 6px;
+        }}
+      </style>
+      [{{item.text.length}}] <q>{{item.text}}</q> 
+    </template>
+  </polymer-element>
+  
+  <polymer-element name="x-browser" attributes="items">
+    <template>
+      <ul class="items">
+        <template repeat="{{categories}}">
+          ({{items.length}})
+          <li class="item">
+            <ul class="items">
+              <template repeat="{{items}}">
+                <li class="item">
+                  <user-item></user-item>
+                </li>
+              </template> 
+            </ul>
+          </li>
+        </template>
+      </ul>
+    </template>
+    <script>
+      Polymer('x-browser', {
+        categories: [{
+          items: [
+            {text: 'flarn'},
+            {text: 'squid'},
+            {text: 'murpee'}
+          ]
+        }, {
+          items: [
+            {text: 'quytt'},
+            {text: 'laug'}
+          ]
+        }],
+        // return a <template> for creating shadow-root (or nothing)
+        fetchTemplate: function() {
+          // get whatever template we normally would use
+          var template = this.super(arguments);
+          // create a version with custom nodes
+          template = this.patchTemplate(template, 'user-item', this);
+          // use the patched template
+          this.shadowFromTemplate(template);
+        }
+      })
+    </script>
+  </polymer-element>
+
+  <script>
+    Polymer.extend(Polymer.Base.prototype, {
+      // create a copy of `template`, with node matching `selector`  
+      // replaced by nodes from element `source`
+      patchTemplate: function(template, selector, source) {
+        if (template) {
+          // need a copy so we can monkey-patch it
+          template = template.cloneNode(true);
+          // takes some effort to locate `selector` item
+          var elt = template.content;
+          while (!item && elt) {
+            var item = elt.querySelector(selector);
+            if (!item) {
+              elt = elt.querySelector('template');
+              if (elt) {
+                elt = elt.content;
+              }
+            }
+          }
+          // transplant our custom nodes
+          while (source.firstChild) {
+            item.appendChild(source.firstChild);
+          }
+          // use the patched template
+          return template;
+        }
+      }
+    });
+  </script>
+
+</html>

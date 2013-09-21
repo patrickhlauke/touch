@@ -1,0 +1,43 @@
+<polymer-element name="calendar-event-preview" attributes="event">
+	<template>
+		<style>
+			@host {
+				:scope {
+					display: block;
+					position: absolute;
+					width: 100%;
+				}
+			}
+
+			.event {
+				box-sizing: border-box;
+				min-height: 25px;
+				padding: 1px;
+				width: 100%;
+			}
+
+			.event-visible {
+				box-sizing: border-box;
+				height: 100%;
+				overflow: hidden;
+				padding: 4px;
+			}
+
+			.name {
+				font-weight: bold;
+			}
+		</style>
+
+		<div class="event" style="height: {{event.duration * 5 / 6}}px;">
+			<div class="event-visible" style="background-color: {{event.color}};">
+				<span class="name">{{event.name || '(untitled)'}}</span>
+				<span>{{event.location}}</span>
+			</div>
+		</div>
+	</template>
+	<script>
+		Polymer('calendar-event-preview', {
+			event: {}
+		});
+	</script>
+</polymer-element>

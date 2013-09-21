@@ -1,0 +1,102 @@
+<!doctype html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="import" href="elements.html">
+  <script src="/polymer/polymer/polymer.js"></script>
+</head>
+<body theme="polymer-ui-dark-theme">
+  
+  <polymer-layout vertical></polymer-layout>
+  <maker-app flex></maker-app>
+
+  <polymer-element name="my-element" attributes="items">
+    <template>
+      <style>
+        div {
+          padding: 10px;
+          xborder: 1px outset whitesmoke;
+        }
+        label {
+          width: 82px;
+        }
+        input {
+          padding: 5px !important;
+          xborder-bottom: 1px dotted silver !important;
+          font-weight: bold;
+        }
+      </style>
+      <polymer-layout horizontal></polymer-layout>
+      <div>
+        <p>
+          Hello WorldMashbasen BeAsWideAsText
+        </p>
+        <x-element></x-element>
+      </div>
+      <div flex>
+        <polymer-layout vertical></polymer-layout>
+        <polymer-ui-toolbar>
+          <span flex></span>
+          <polymer-ui-icon-button icon="left" on-tap="prevAction"></polymer-ui-icon-button>
+          <span style="color:lightblue;">{{current.name}}</span>&nbsp;<span>({{index + 1}} / {{count}})</span>
+          <polymer-ui-icon-button icon="right" on-tap="nextAction"></polymer-ui-icon-button>
+          <span flex></span>
+        </polymer-ui-toolbar>  
+        <div theme="polymer-ui-light-theme" flex>
+          <template repeat="{{current.fields}}">
+            <polymer-ui-field>
+              <polymer-ui-icon icon="{{icon}}"></polymer-ui-icon>
+              <label>{{label}}:&nbsp;</label><input placeholder="data goes here" value="{{value}}">
+            </polymer-ui-field>
+          </template>
+        </div>
+        <div>Flappity Jack</div>
+      </div>
+    </template>
+    <script>
+      Polymer('my-element', {
+        items: null,
+        index: -1,
+        current: null,
+        created: function() {
+        },
+        itemsChanged: function() {
+          this.count = this.items.length;
+          this.index = this.count ? 0 : -1;
+          this.indexChanged();
+        },
+        indexChanged: function() {
+          this.current = this.items[this.index];
+        },
+        prevAction: function() {
+          if (this.index > 0) {
+            this.index--;
+          }
+        },
+        nextAction: function() {
+          this.index++;
+        }
+      });
+    </script>
+  </polymer-element>  
+
+  <polymer-element name="maker-app" attributes="count items" noscript>
+    <template>
+		  <polymer-layout vertical></polymer-layout>
+
+      <polymer-ui-toolbar>
+        <polymer-ui-icon-button icon="settings"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>  
+    
+      <polymer-ui-field style="margin-right: 12px;" theme="polymer-ui-light-theme">
+        <polymer-ui-icon icon="search"></polymer-ui-icon>
+        <input placeholder="">
+      </polymer-ui-field>
+    
+      <my-element items="{{items}}" flex></my-element>
+      <polymer-mock-data items="{{items}}"></polymer-mock-data>
+    </template>
+  </polymer-element>
+  
+</body>

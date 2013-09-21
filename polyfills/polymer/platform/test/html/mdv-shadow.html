@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MDV + ShadowDOM Polyfill Integration Tests</title>
+  <link rel="stylesheet" href="../../node_modules/mocha/mocha.css">
+  <script src="../../platform.js" shadow="polyfill"></script>
+  <script src="../../node_modules/mocha/mocha.js"></script>
+  <script src="../../node_modules/chai/chai.js"></script>
+  <script src="../../tools/test/htmltest.js"></script>
+  <script>
+    var parserHasNativeTemplate = function() {
+      var div = document.createElement('div');
+      div.innerHTML = '<table><template>';
+      return div.firstChild.firstChild &&
+             div.firstChild.firstChild.tagName == 'TEMPLATE';
+    }();
+
+    var forceCollectObservers = true;
+  </script>
+</head>
+<body>
+  <script>
+
+    mocha.setup({
+      ignoreLeaks: true,
+      ui: 'tdd'
+    });
+
+    var assert = chai.assert;
+
+  </script>
+  <script src="../../../polymer-expressions/tests/tests.js"></script>
+  <script src="../../../TemplateBinding/tests/tests.js"></script>
+  <div id="mocha"></div>
+  <script>
+    // mocha stomps window.onerror, save for failure case
+    var htmlsuite_fail = window.onerror;
+    var runner = mocha.run();
+    runner.on('fail', function(test, err) {
+      htmlsuite_fail(err.toString());
+    });
+    runner.on('end', function() {
+      runner.failures || done();
+    });
+  </script>
+</body>
+</html>

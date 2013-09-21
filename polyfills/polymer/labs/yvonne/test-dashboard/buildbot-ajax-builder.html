@@ -1,0 +1,20 @@
+<link href="../../../polymer-elements/polymer-ajax/polymer-ajax.html" rel="import">
+<polymer-element name="buildbot-ajax-builder" extends="polymer-ajax" attributes="response builder" on-polymer-response="responseAction">
+	<script>
+		Polymer('buildbot-ajax-builder', {
+			handleAs: 'json',
+			auto: true,
+			pollInterval: 5 * 60 * 1000,
+			builderChanged: function() {
+				if (this.builder) {
+					this.url = 'http://build.chromium.org/p/client.polymer/json/builders/' + this.builder;
+				}
+			},
+			pollIntervalChanged: function() {
+				if (pollInterval != -1) {
+					this.autoGo();
+				}
+			}
+		});
+	</script>
+</polymer-element>

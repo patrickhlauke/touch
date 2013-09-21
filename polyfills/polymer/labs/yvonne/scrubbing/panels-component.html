@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Panels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, 
+          minimum-scale = 1, maximum-scale = 1,user-scalable=no">
+  <script src="../../polyfills/Components/components-polyfill.js"></script>
+  <script src="../../pointergestures/libs/PointerEvents/src/pointerevents.js"></script>
+  <script src="../../pointergestures/src/pointergestures.js"></script>
+  <link rel="components" href="../../polymer/src/g-panels.html">
+  <link rel="components" href="src/components/g-zoom-scrub-panel-transition.html">
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			background: whitesmoke;
+      -webkit-user-select: none;
+		}
+
+		body {
+			display: -webkit-box;
+      display: -webkit-flex;
+			-webkit-flex-flow: column;
+      -webkit-box-orient: vertical;
+      opacity: 0;
+		}
+
+		.controls {
+			padding: 10px;
+		}
+		
+		g-panels {
+      counter-reset: section;
+			-webkit-box-flex: 1;
+      -webkit-flex: 1;
+			outline: none;
+			border: 1px solid #ccc;
+			position: relative;
+			overflow: hidden;
+			font-size: 30px;
+		}
+    
+		g-panels > * {
+      -webkit-transform-origin: 0 0;
+		}
+    
+    .g-zoomable {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+    }
+    
+    .z1 {
+      top: 40px;
+      left: 10px;
+      background: orange;
+
+    }
+    
+    .z2 {
+      top: 170px;
+      right: 10px;
+      background: green;
+
+    }
+    
+    .z3 {
+      right: 170px;
+      bottom: 10px;
+      background: navy;
+
+    }
+    
+    .z4 {
+      bottom: 10px;
+      right: 10px;
+      background: gray;
+
+    }
+    
+    
+    
+    g-panels[transition="flow"] > * {
+      width: 80%;
+      -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+	</style>
+</head>
+<body>
+  <div class="controls">
+		<button onclick="previous();">&laquo;</button>
+		<button onclick="next();">&raquo;</button>
+	</div>	
+  <g-panels transition="zoom-scrub">
+		<section id="0" name="foo" style="background: blue;">Panel 1
+      <div class="z1 g-zoomable">Wee</div>
+      <div class="z4 g-zoomable">Yay</div>
+    </section>
+		<section id="1" name="zonk" style="background: red;">Panel 2
+      <div class="z3 g-zoomable">Wee</div>
+      <div class="z2 g-zoomable">Yay</div>
+    </section>
+		<section id="2" name="bar" style="background: yellow;">Panel 3
+      <div class="z1 g-zoomable">Wee</div>
+      <div class="z4 g-zoomable">Yay</div>
+    </section>
+		<section id="3" name="zing" style="background: black; color: white">Panel 4
+      <div class="z2 g-zoomable">Wee</div>
+      <div class="z4 g-zoomable">Yay</div>
+    </section>
+		<section id="4" name="baz" style="background: white;">Panel 5
+      <div class="z1 g-zoomable">Wee</div>
+      <div class="z2 g-zoomable">Yay</div>
+    </section>
+	</g-panels>
+<script>
+	document.addEventListener("WebComponentsReady", function() {
+		document.body.style.opacity = 1;
+    
+    panels = document.querySelector("g-panels");
+		next = function() {
+			panels.next();
+		}
+		previous = function() {
+			panels.previous();
+		}
+
+		changeTransition = function(e) {
+      panels.transition = e.target.value;
+      var selectedOption = e.target.selectedOptions[0];
+      var className = selectedOption ? selectedOption.textContent : '';
+      panels.className = 'g-panels-' + className;
+      panels.focus();
+		}
+
+    panels.focus();
+	});
+</script>
+
+</body>
+</html>

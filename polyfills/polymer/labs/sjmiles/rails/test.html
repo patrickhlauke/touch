@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <style>
+    div {
+      position: absolute;
+      border: 1px solid silver;
+      background-color: whitesmoke;
+      border-radius: 8px;
+    }
+    line {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: 2px dotted lightblue;
+    }
+  </style>
+</head>
+<body>
+  <div id="alpha">alpha</div>
+  <div id="beta">beta</div>
+  <div id="gamma">gamma</div>
+  <div id="delta">delta</div>
+  <div id="eta">eta</div>
+  <div id="iota">iota</div>
+  <script>
+    columns = [
+      {p: 100},
+      {p: 300},
+      {p: 400},
+      {p: -200},
+      {p: -100}
+    ];
+    rows = [
+      {p: 20},
+      {p: 100},
+      {p: 200},
+      {p: -400},
+      {p: -200}
+    ];
+    function line(axis, info) {
+      var l = document.createElement('line');
+      var p = info.p;
+      if (p < 0) {
+        axis = (axis === 'left' ? 'right' : (axis === 'top' ? 'bottom' : axis));
+        p = -p;
+      }
+      l.style[axis] = p + 'px';
+      document.body.appendChild(l);
+    }
+    columns.forEach(function(o){
+      line('left', o);
+    });
+    rows.forEach(function(o){
+      line('top', o);
+    });
+    //
+    function position(elt, top, right, bottom, left) {
+      var m = 12;
+      right = columns[right].p;
+      left = columns[left].p;
+      top = rows[top].p;
+      bottom = rows[bottom].p;
+      var s = elt.style;
+      s.top = top + 12 + 'px';
+      if (right < 0) {
+        s.right = -right + m + 'px';
+      } else {
+        s.width = right - left - m - m + 'px';
+      }
+      if (bottom < 0) {
+        s.bottom = -bottom + m + 'px';
+      } else {
+        s.height = bottom - top - m - m + 'px';
+      }
+      s.left = left + m + 'px';
+    }
+    function align() {
+      position(alpha, 0, 1, 1, 0);
+      position(beta, 2, 3, 3, 2);
+      position(gamma, 1, 2, 3, 1);
+      position(delta, 0, 3, 1, 2);
+      position(eta, 1, 1, 4, 0);
+    }
+    align();
+  </script>
+</body>
+</html>

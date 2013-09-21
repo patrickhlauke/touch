@@ -1,0 +1,138 @@
+<link rel="import" href="../../../polymer-elements/polymer-grid-layout/polymer-grid-layout.html">
+<link rel="import" href="../../../polymer-elements/polymer-media-query/polymer-media-query.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-icon/polymer-ui-icon.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-tabs/polymer-ui-tabs.html">
+<link rel="import" href="../../../more-elements/google-map/google-map.html">
+<link rel="import" href="shuttle-data.html">
+<link rel="import" href="shuttle-schedule.html">
+<link rel="import" href="shuttle-favorites.html">
+<link rel="import" href="shuttle-map.html">
+  
+<polymer-element name="shuttle-app">
+  <template>
+    <style>
+      #tabbar {
+        height: 45px !important;
+        background: -webkit-linear-gradient(-60deg, #3d3d3d, #353535);
+        background: -moz-linear-gradient(-60deg, #3d3d3d, #353535);
+        background: -ms-linear-gradient(-60deg, #3d3d3d, #353535);
+        /* TODO(ffu): need this for grid-layout on iOS; need to investigate */
+        bottom: 0;
+      }
+      
+      #tabbar > * {
+        height: 45px !important;
+        line-height: 45px !important;
+        text-align: center;
+      }
+      
+      #tabbar > [hidden] {
+        display: none !important;
+      }
+      
+      #tabbar > .polymer-selected {
+        background-color: #1e1d1d !important;
+      }
+      
+      #tabbar > * {
+        text-align: center;
+      }
+      
+      #schedule, #favorites {
+        width: 320px;
+      }
+      
+      #map.desktop {
+        border-left: 1px solid #ccc;
+        box-shadow: -8px 0px 8px -4px rgba(0, 0, 0, 0.15);
+      }
+    </style>
+
+    <polymer-grid-layout nodes="{{nodes}}" layout="{{layout}}"></polymer-grid-layout>
+    <polymer-media-query query="max-width: 600px" queryMatches="{{queryMatches}}"></polymer-media-query>
+    <shuttle-data id="data" route="{{route}}" officeStops="{{officeStops}}" remoteStops="{{remoteStops}}" favorites="{{favorites}}"></shuttle-data>
+
+    <shuttle-schedule id="schedule" route="{{route}}" officeStops="{{officeStops}}" remoteStops="{{remoteStops}}" 
+        centerStop="{{centerStop}}" fromStop="{{fromStop}}" toStop="{{toStop}}" 
+        favorites="{{favorites}}" favorite="{{favorite}}" filteredStops="{{filteredStops}}" 
+        selectedFilteredStop="{{selectedFilteredStop}}" on-shuttle-data-save="saveData"></shuttle-schedule>
+    
+    <shuttle-favorites id="favorites" favorites="{{favorites}}" favorite="{{favorite}}" 
+        on-polymer-activate="favoriteSelect" on-shuttle-favorites-change="favoritesChange"></shuttle-favorites>
+    
+    <shuttle-map id="map" class="{{desktop : !queryMatches}}" centerStop="{{centerStop}}" 
+        fromStop="{{fromStop}}" toStop="{{toStop}}"
+        filteredStops="{{filteredStops}}" selectedFilteredStop="{{selectedFilteredStop}}"></shuttle-map>
+    
+    <polymer-ui-tabs id="tabbar" theme="polymer-ui-dark-theme" selected="{{selected}}">
+      <div flex><polymer-ui-icon icon="time"></polymer-ui-icon></div>
+      <div flex><polymer-ui-icon icon="favorite"></polymer-ui-icon></div>
+      <div flex hidden?="{{!queryMatches}}"><polymer-ui-icon icon="marker"></polymer-ui-icon></div>
+    </polymer-ui-tabs>
+  </template>
+  <script>
+    Polymer('shuttle-app', {
+      mobile: [[
+        [1],
+        [1], 
+        [4]
+      ], [
+        [2],
+        [2],
+        [4]
+      ], [
+        [3],
+        [3],
+        [4]
+      ]],
+      desktop: [[
+       [1, 3, 3],
+       [1, 3, 3], 
+       [4, 3, 3]
+      ], [
+       [2, 3, 3],
+       [2, 3, 3],
+       [4, 3, 3]
+      ], [
+       [1, 3, 3],
+       [1, 3, 3],
+       [4, 3, 3]
+      ]],
+      selected: null,
+      queryMatches: false,
+      created: function() {
+        this.nodes = [
+          this.$.schedule, this.$.favorites, this.$.map, this.$.tabbar
+        ];
+        this.layoutMode = this.desktop;
+        this.selected = 0;
+        window.addEventListener('resize', function() {
+          this.$.map.resize();
+        }.bind(this));
+      },
+      queryMatchesChanged: function() {
+        this.layoutMode = this.queryMatches ? this.mobile : this.desktop;
+        this.selectedChanged();
+        this.$.map.resize();
+      },
+      selectedChanged: function() {
+        this.layout = this.layoutMode[this.selected];
+        if (this.selected == 1) {
+          this.$.favorites.clearSelection();
+        } else if (this.selected == 2) {
+          this.$.map.resize();
+        }
+      },
+      favoriteSelect: function() {
+        this.selected = 0;
+      },
+      favoritesChange: function() {
+        this.$.schedule.updateFav();
+        this.saveData();
+      },
+      saveData: function() {
+        this.$.data.save();
+      }
+    });
+  </script>
+</polymer-element>

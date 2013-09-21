@@ -1,0 +1,167 @@
+﻿<!doctype html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+  <script src="../polymer/polymer.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+  <link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html">
+</head>
+<body>
+  <polymer-element name="x-cover" attributes="tx ty">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          position: absolute;
+          width: 128px;
+          height: 96px;
+          font-family: Arial;
+          font-size: 20px;
+          font-weight: bold;
+          background-color: white;
+        }}
+      </style>
+      <content></content>
+    </template>
+    <script>
+      Polymer('x-cover', {
+        tyChanged: function() {
+          this.style.webkitTransform = 'translateX(' + this.tx + 'px) translateY(' + this.ty + 'px)';
+          //this.textContent = Math.round(this.rx);
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="x-grid" attributes="off">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          position: relative;
+        }}
+      </style>
+      <content id="content" select="x-cover"></content>
+    </template>
+    <script>
+      Polymer('x-grid', {
+        off: 0,
+        offChanged: function() {
+          var off = this.off;
+          var row = 5, w = 256, h=192, m=16;
+          this.$.content.getDistributedNodes().forEach(function(n, i) {
+            n.ty = Math.floor(i/row) * (h+m+m) - off;
+            if (n.ty < -h || n.ty > 900) {
+              n.style.display = 'none';
+              return;
+            }
+            var ii = (i + 10000) % row;
+            n.tx = (ii * (w+m));
+            n.style.display = '';
+            n.style.width = w + 'px';
+            n.style.height = h + 'px';
+          });
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <polymer-element name="x-menu" Xon-track="track" Xon-trackEnd="trackEnd" on-pointerdown="hold" on-pointerup="release" touch-action="none">
+    <template>
+      <style>
+        @host{*{
+          display: block;
+          -webkit-user-select: none;
+          background: #7a6e6e;
+          height: 100%;
+        }}
+      </style>
+      <polymer-ajax url="snap/s.txt" handleAs="text" response="{{raw}}" auto></polymer-ajax>
+      <x-grid id="spiral" off="{{off}}">
+        <template repeat="{{covers}}">
+          <x-cover><img draggable="false" src="snap/{{}}" width="100%" height="80%"><div style="text-align:center;">{{}}</div></x-cover>
+        </template>
+      </x-grid>
+    </template>
+    <script>
+      Polymer('x-menu', {
+        off: 0,
+        raw: '',
+        moving: false,
+        ready: function() {
+          this.off = -50;
+        },
+        update: function() {
+          this.$.spiral.async('offChanged');
+        },
+        hold: function(event) {
+          this.dir = (event.screenY < 500 ? -1 : 1);
+          this.mo = 10;
+          this.moving = true;
+        },
+        release: function(event) {
+          this.moving = false;
+          this.falloff();
+        },
+        offChanged: function() {
+          if (this.off > 18000) {
+            this.off = 18000;
+          }
+          if (this.off < 0) {
+            this.off = 0;
+          }
+        },
+        movingChanged: function() {
+          if (this.moving) {
+            this.off += this.mo * this.dir;
+            this.mo = Math.max(this.mo * 1.1, 50);
+            this.async(this.movingChanged);
+          }
+        },
+        track: function(event) {
+          return;
+          this.off -= event.ddy;
+          this.async(Platorm.flush);
+        },
+        trackEnd: function(event) {
+          this.dir = -event.yDirection;
+          this.mo = Math.abs(event.dy);
+          this.falloff();
+        },
+        falloff: function() {
+          if (this.mo) {
+            this.off += (this.mo * this.dir);
+            this.mo *= 0.7;
+            if (this.mo < 1e-2) {
+              this.mo = 0;
+            }
+            this.async(this.falloff);
+          }
+        },
+        rawChanged: function() {
+          //console.log(this.raw);
+          var names = this.raw.split('\r\n');
+          var covers = [];
+          for (var i=0; i<500; i++) {
+            covers.push(names[i % 150]);
+          }
+          this.covers = covers;
+          this.update();
+        }
+      });
+    </script>
+  </polymer-element>
+  <!-- -->
+  <x-menu></x-menu>
+</body>
+</html>

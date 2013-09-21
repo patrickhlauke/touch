@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Average</title>
+  <style type="text/css">
+    #output {
+      height: 400px;
+      width: 400px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <img src="assets/kitten.jpg" id="img">
+  <!-- <img src="assets/kitten2.jpg" id="img"> -->
+  <!-- <img src="http://placekitten.com/500/500" id="img"> -->
+  <button id="go">Calculate</button>
+  <canvas id="canvas" hidden></canvas>
+  <div id="output"></div>
+  <script>
+    function average(data) {
+      var ravg = 0, bavg = 0, gavg = 0;
+      for (var i = 0, l = data.length; i < l; i++) {
+        var pp = data[i];
+        switch(i % 4) {
+          case 0: ravg = (ravg + pp) / 2;
+          break;
+          case 1: bavg = (bavg + pp) / 2;
+          break;
+          case 2: gavg = (gavg + pp) / 2;
+        }
+      }
+      return new Uint8ClampedArray([ravg, bavg, gavg]);
+    }
+    img.onload = function(){
+      canvas.width = img.width;
+      canvas.height = img.height;
+    };
+    var ctx = canvas.getContext('2d');
+    go.addEventListener('click', function() {
+      img.crossOrigin = 'Anonymous';
+      ctx.drawImage(img, 0, 0);
+      try {
+        var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        var avg = average(data);
+        var rgb = 'rgb(' + Array.prototype.join.call(avg, ',') + ')';
+        output.textContent = output.style.background = rgb;
+      } catch (e) {
+        output.textContent = 'Could not pull image data';
+      }
+    });
+  </script>
+</body>
+</html>

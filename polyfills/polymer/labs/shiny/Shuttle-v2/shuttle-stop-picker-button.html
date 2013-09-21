@@ -1,0 +1,37 @@
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-arrow/polymer-ui-arrow.html">
+
+<polymer-element name="shuttle-stop-picker-button" attributes="active">
+  <template>
+    <style>
+      @host {
+        * {
+          position: relative;
+          height: 100%;
+          line-height: 60px;
+          text-align: center;
+          font-size: 14px;
+          cursor: pointer;
+        }
+        
+        [active] {
+          background: #ddd;
+        }
+      }
+
+      #arrow {
+        position: absolute !important;
+        bottom: -1px;
+        left: 50%;
+        margin-left: -10px;
+      }
+    </style>
+    
+    <div><content></content></div>
+    <!-- <polymer-ui-arrow id="arrow" hidden?="{{!active}}"></polymer-ui-arrow> -->
+  </template>
+  <script>
+    Polymer('shuttle-stop-picker-button', {
+      active: false
+    });
+  </script>
+</polymer-element>

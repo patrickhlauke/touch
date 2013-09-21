@@ -1,0 +1,47 @@
+<link rel="import" href="../../polymer-elements/polymer-flex-layout/polymer-flex-layout.html">
+
+<polymer-element name="polymer-ui-field">
+  <template>
+    <style>
+      @host {
+        * {
+          display: block;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+					color: #333;
+          font-size: 14px;
+        }
+      }
+      /*@polyfill @host > polymer-ui-icon*/
+      ::-webkit-distributed(> polymer-ui-icon) {
+				margin: 18px;
+			}
+      /*@polyfill @host > polymer-ui-menu-button*/
+      ::-webkit-distributed(> polymer-ui-menu-button) {
+				margin: 8px;
+			}
+      /*@polyfill @host input*/
+      ::-webkit-distributed(input) {
+					background: transparent;
+          color: #333;
+          border: 0;
+					padding: 0;
+          font-size: 14px;
+          flex: 1 auto;
+      }
+      /*@polyfill @host input:focus*/
+      ::-webkit-distributed(input:focus) {
+				outline: none;
+			}
+      /*@polyfill @host input::placeholder*/
+      ::-webkit-distributed(input::placeholder) {
+        color: #b3b3b3;
+      }
+    </style>
+		<polymer-flex-layout align="center"></polymer-flex-layout>
+		<content select="polymer-ui-icon,polymer-ui-icon-button,polymer-ui-menu-button"></content>
+		<content select="*"></content>
+  </template>
+  <script>
+    Polymer('polymer-ui-field');
+  </script>
+</polymer-element>

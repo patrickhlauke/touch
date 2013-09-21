@@ -1,0 +1,242 @@
+<polymer-element name="list-item" attributes="item">
+  <template>
+    <b>{{item}}</b>
+  </template>
+  <script>
+    Polymer('list-item', {
+      created: function() {
+        var h = Math.floor(Math.random()*360);
+        var light = Boolean(Math.random() > 0.5);
+        if (light) {
+          var l = 0.7;
+          var color = '#222';
+        } else {
+          l = 0.2;
+          color = '#EEE';
+        }
+        this.style.backgroundColor = 'hsl(' + h + ', 100%, ' + Math.floor(l*100) + '%)';
+        this.style.color = color;
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="items-list-view" attributes="items offset limit">
+  <template>
+    <style>
+      @host{*{
+        display: block;
+        border: 1px solid orange;
+        height: 500px;
+        overflow: hidden;
+      }}
+      #content {
+      }
+      list-item {
+        display: block;
+        padding: 8px;
+        border: 1px dotted silver;
+        height: 32px;
+      }
+    </style>
+    <div id="content">
+      <template repeat="{{live}}">
+        <list-item item="{{}}"></list-item>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer('items-list-view', {
+      offset: 0,
+      limit: 50,
+      items: null,
+      last: null,
+      itemsChanged: function() {
+        this.invalidate();
+      },
+      offsetChanged: function() {
+        this.invalidate();
+      },
+      invalidate: function() {
+        this.relist();
+      },
+      relist: function() {
+        var frac = this.offset - Math.floor(this.offset);
+        var offset = this.offset - frac;
+        //
+        var l = this.items.length;
+        offset = (l*10 + offset) % l;
+        //
+        var limit = Math.min(this.limit, this.items.length - offset);
+        //
+        if (this.last !== offset) {
+          this.live = this.items.slice(offset, offset + limit);
+          if (limit < this.limit) {
+            this.live = this.live.concat(this.items.slice(0, this.limit - limit));
+          }
+          this.last = offset;
+        }
+        //
+        var rowHeight = 50;
+        var y = Math.round(frac * rowHeight);
+        this.$.content.style.webkitTransform = 'translateY(-' + y + 'px)';
+      }
+    });
+  </script>
+</polymer-element>
+
+<polymer-element name="items-view" attributes="items offset limit">
+  <template>
+    <style>
+      @host{*{
+        display: block;
+        border: 1px solid orange;
+        height: 500px;
+        overflow: hidden;
+      }}
+      #content {
+        position: relative;
+      }
+      list-item {
+        display: block;
+        padding: 8px;
+        border-radius: 8px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        visibility: hidden;
+      }
+    </style>
+    <div id="content">
+      <template repeat="{{live}}">
+        <list-item item="{{}}"></list-item>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer('items-view', {
+      offset: 0,
+      limit: 50,
+      items: null,
+      last: null,
+      amplitude: 120,
+      colWidth: 108,
+      centerY: 200,
+      created: function() {
+        observeNodes(this.$.content, this.contentNodesChanged, this);
+      },
+      itemsChanged: function() {
+        this.invalidate();
+      },
+      offsetChanged: function() {
+        this.invalidate();
+      },
+      invalidate: function() {
+        this.relist();
+      },
+      contentNodesChanged: function() {
+        this.layout();
+      },
+      layout: function() {
+        var frac = this.offset - Math.floor(this.offset);
+        var offset = this.offset - frac;
+        //
+        var l = this.items.length;
+        offset = (l*10 + offset) % l;
+        //
+        //var pulse = new Date().getTime();
+        //pulse = pulse - Math.floor(pulse / 1e4) * 1e4;
+        //amplitude = Math.floor(100 * Math.sin(pulse / 10 * Math.PI / 180) + 50);
+        //
+        var nodes = this.$.content.children;
+        for (var i=0, j=0, n; n=nodes[i]; i++) {
+          if (n.localName === 'list-item') {
+            var x = Math.round((j - frac) * this.colWidth);
+            var y = Math.round(Math.sin((j - frac) / 5 * 180 * Math.PI/180) * this.amplitude) + this.centerY;
+            j++;
+            n.style.transform = n.style.webkitTransform = 'translateX(' + x + 'px)' + ' translateY(' + y + 'px)';  
+            n.style.visibility = 'visible';
+          }
+        }
+      },
+      relist: function() {
+        var frac = this.offset - Math.floor(this.offset);
+        var offset = this.offset - frac;
+        //
+        var l = this.items.length;
+        offset = (l*10 + offset) % l;
+        //
+        var limit = Math.min(this.limit, this.items.length - offset);
+        //
+        if (this.last !== offset) {
+          this.live = this.items.slice(offset, offset + limit);
+          if (limit < this.limit) {
+            this.live = this.live.concat(this.items.slice(0, this.limit - limit));
+          }
+          this.last = offset;
+        } else {
+          this.layout();
+        }
+      }
+    });
+    function observeNodes(parent, cb, context) {
+      new MutationObserver(cb.bind(context)).observe(parent, {childList: true});
+    }
+  </script>
+</polymer-element>
+
+<polymer-element name="polymer-list">
+  <template>
+    <button on-tap="up" on-pointerup="release">Up</button><button on-tap="down">Down</button><button on-tap="stop">Stop</button>
+    <br><input style="width: 95%;" type="range" min="-10000" max="10000" value="{{scrub}}">
+    <items-view items="{{items}}" offset="{{offset}}" limit="{{limit}}"></items-view>
+  </template>
+  <script>
+    Polymer('polymer-list', {
+      offset: 0,
+      limit: 20,
+      items: null,
+      scrub: 0,
+      created: function() {
+        this.items = [];
+        for (var i = 0; i < 5000; i++) {
+          var n = '';
+          var l = Math.floor(Math.random() * 8) + 2;
+          for (var j=0; j<l; j++) {
+            n += String.fromCharCode((j === 0 ? 'A' : 'a').charCodeAt(0) + Math.floor(Math.random()*26));
+          }
+          n += ' ';
+          var l = Math.floor(Math.random() * 8) + 2;
+          for (var j=0; j<l; j++) {
+            n += String.fromCharCode((j === 0 ? 'A' : 'a').charCodeAt(0) + Math.floor(Math.random()*26));
+          }
+          this.items[i] = n;
+        }
+        this._move();
+      },
+      stop: function() {
+        this.move(0);
+      },
+      up: function() {
+        this.move(0.1);
+      },
+      down: function() {
+        this.move(-0.1);
+      },
+      move: function(amount) {
+        this.delta = amount;
+      },
+      _move: function() {
+        if (this.delta) {
+          this.offset += this.delta;
+          Platform.flush();
+        }
+        this.async(this._move);
+      },
+      scrubChanged: function() {
+        this.offset = this.scrub / 500;
+        Platform.flush();
+      }
+    });
+  </script>
+</polymer-element>

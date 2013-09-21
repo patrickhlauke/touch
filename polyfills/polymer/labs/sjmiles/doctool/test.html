@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html>
+<head>
+  <title></title>
+  <script src="lexer.js"></script>
+  <script src="iterator.js"></script>
+  <script src="parser.js"></script>
+  <script src="documentor.js"></script>
+  <script src="../../../polymer/polymer.js"></script>
+  <link rel="import" href="../../../polymer-elements/polymer-ajax/polymer-ajax.html">
+</head>
+<body>
+  <polymer-ajax url="../../../polymer-elements/polymer-ajax/polymer-ajax.html" auto></polymer-ajax>
+  <script>
+    document.querySelector('polymer-ajax').addEventListener('polymer-response', function(event) {
+      var html = event.detail.response;
+      var node = document.createElement('code');
+      node.innerHTML = html;
+      var script = node.querySelector('script');
+      var code = script.innerText;
+      //
+      var h = '<textarea>' + code + '</textarea>';
+      //
+      var stuff = new Lexer(code);
+      console.dir(stuff);
+      //
+      var more = new Parser(stuff);
+      console.dir(more);
+      //
+      var nmore = new Documentor(stuff);
+      console.dir(nmore);
+      //
+      document.body.innerHTML = h;
+    });
+  </script>
+</body>
+</html>

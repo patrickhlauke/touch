@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>flexbox + layout animations</title>
+	<link rel="import" href="../../../polymer-elements/polymer-animation/web-animations.html">
+	<script src="../../layoutAnimationShim/src/layout-animation.js"></script>
+	<script src="../../../polymer/polymer.js"></script>
+	<link rel="stylesheet" href="../../../polymer-elements/polymer-flex-layout/polymer-flex-layout.css">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, 'open sans', sans-serif;
+      margin: 0;
+    }
+		#container {
+			height: 400px;
+		}
+		.small {
+			width: 200px;
+		}
+		.green {
+			background-color: green;
+		}
+		.red {
+			background-color: red;
+		}
+		.hidden {
+			display: none;
+		}
+  </style>
+</head>
+<body>
+	<div id="container" class="flexbox">
+		<div class="small green"></div>
+		<div fit class="red"></div>
+	</div>
+	<button onclick="doAnimate();">Animate</button>
+	<button onclick="doNoAnimate();">No Animation</button>
+	<script>
+		registerLayoutKeyframes('default', [{
+			offset: 0,
+			properties: {
+				layoutWidth: 'from()',
+				layoutHeight: 'from()',
+				layoutTop: 'from()',
+				layoutLeft: 'from()'
+			}
+		}, {
+			offset: 1,
+			properties: {
+				layoutWidth: 'to()',
+				layoutHeight: 'to()',
+				layoutTop: 'to()',
+				layoutLeft: 'to()'
+			}
+		}]);
+		var els = document.querySelectorAll('#container > div');
+		setLayoutTransition(els, 'default', 2);
+		setLayoutEffect(els, 'transform');
+		function doAnimate() {
+			transitionThis(function() {
+				document.querySelector('.small').classList.toggle('hidden');
+			});
+		}
+		function doNoAnimate() {
+			document.querySelector('.small').classList.toggle('hidden');
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!--
+Copyright 2013 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+
+limitations under the License.
+--> 
+<!DOCTYPE html>
+<style>
+.layout {
+  width: 100px;
+  height: 100px;
+  left: 100px;
+  position: absolute;
+  background-color: green;
+}
+
+#container.change > div {
+  left: 200px;
+  width: 200px;
+}
+
+#container.change > #clip, #container.change > #clipFade {
+  height: 50px;
+}
+</style>
+<div id='container'>
+  <div id='fadeOut' class='layout' style='top: 100px;' effect='fade-out(1)'>fade-out</div>
+  <div id='fadeIn' class='layout' style='top: 200px;' effect='fade-in(0)'>fade-in</div>
+  <div id='fadeBoth' class='layout' style='top: 300px;' effect='fade-out(1) 50% fade-in(0)'>fade-out 50% fade-in</div>
+  <div id='fadeTwice' class='layout' style='top: 400px;' effect='fade 50% fade'>fade 50% fade</div>
+</div>
+<div id='padding' style='height: 800px'></div>
+<script src='../../../web-animations-js/web-animations.js'></script>
+<script src='../src/layout-animation.js'></script>
+<script src='test-helper.js' nochecks></script>
+<script>
+onload = function() {
+registerLayoutKeyframes('simple', [
+  {offset: 0, properties: { layoutWidth: 'from()', layoutHeight: 'from()',
+                            layoutTop: 'from()', layoutLeft: 'from()' }},
+  {offset: 1, properties: { layoutWidth: 'to()', layoutHeight: 'to()',
+                            layoutTop: 'to()', layoutLeft: 'to()' }}]);
+
+var divs = document.querySelectorAll('#container > div')
+setLayoutTransition(divs, 'simple', 1);
+
+for (var i = 0; i < divs.length; i++) {
+  setLayoutEffect(divs[i], divs[i].getAttribute('effect'));
+}
+transitionThis(function() { container.classList.add('change'); });
+
+at(0.25, function() {
+  checkLaidOut(fadeBoth);
+  checkLayoutPosition(fadeBoth, 125, 300);
+  checkLayoutScale(fadeBoth, 1, 1);
+  checkLayoutSize(fadeBoth, 100, 100);
+  checkLayoutNoClip(fadeBoth);
+  checkLayoutOpacity(fadeBoth, 0.5);
+}, 'fade-both transition (a)');
+
+at(0.25, function() {
+  checkLaidOut(fadeTwice);
+  checkLayoutPosition(fadeTwice, 125, 400);
+  checkLayoutScale(fadeTwice, 1, 1);
+  checkLayoutSize(fadeTwice, 100, 100, 150, 100);
+  checkLayoutNoClip(fadeTwice);
+  checkLayoutOpacity(fadeTwice, 0.5, 0.5, 0);
+}, 'fade-twice transition (a)');
+
+at(0.5, function() {
+  checkLaidOut(fadeOut);
+  checkLayoutPosition(fadeOut, 150, 100);
+  checkLayoutScale(fadeOut, 1, 1);
+  checkLayoutSize(fadeOut, 100, 100, 200, 100);
+  checkLayoutNoClip(fadeOut);
+  checkLayoutOpacity(fadeOut, 0.5, 0);
+}, 'fade-out transition');
+
+at(0.5, function() {
+  checkLaidOut(fadeIn);
+  checkLayoutPosition(fadeIn, 150, 200);
+  checkLayoutScale(fadeIn, 1, 1);
+  checkLayoutSize(fadeIn, 100, 100, 200, 100);
+  checkLayoutNoClip(fadeIn);
+  checkLayoutOpacity(fadeIn, 1, 0.5);
+}, 'fade-in transition');
+
+at(0.75, function() {
+  checkLaidOut(fadeBoth);
+  checkLayoutPosition(fadeBoth, 175, 300);
+  checkLayoutScale(fadeBoth, 1, 1);
+  checkLayoutSize(fadeBoth, 200, 100);
+  checkLayoutNoClip(fadeBoth);
+  checkLayoutOpacity(fadeBoth, 0, 0.5);
+}, 'fade-both transition (b)');
+
+at(0.75, function() {
+  checkLaidOut(fadeTwice);
+  checkLayoutPosition(fadeTwice, 175, 400);
+  checkLayoutScale(fadeTwice, 1, 1);
+  checkLayoutSize(fadeTwice, 200, 100, 150, 100);
+  checkLayoutNoClip(fadeTwice);
+  checkLayoutOpacity(fadeTwice, 0, 0.5, 0.5);
+}, 'fade-twice transition (b)');
+}
+</script>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<script src="../../node_modules/chai/chai.js"></script>
+<script src="../../tools/test/htmltest.js"></script>
+<script src="../../shadowdom.js"></script>
+<head>
+<script>
+
+var assert = chai.assert;
+var wrap = ShadowDOMPolyfill.wrap;
+var doc = wrap(document);
+
+var div = document.createElement('div');
+document.documentElement.appendChild(div);
+div.parentNode.removeChild(div);
+
+</script>
+</head>
+<body></body>
+<script>
+
+doc.addEventListener('DOMContentLoaded', function(e) {
+  var body = document.querySelector('body');
+  assert.equal(body.localName, 'body');
+
+  done();
+});
+
+</script>

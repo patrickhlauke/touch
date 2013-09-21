@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>intro</title>
+  <script src="../../../polymer/polymer.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+
+    .name-tag-thingy {
+      border-radius: 20px;
+      width: 500px;
+      border: 2px solid orange;
+      background: orange;
+    }
+
+    header, footer {
+      padding: 20px;
+      min-height: 1em;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: right;
+    }
+
+    button {
+      float: left;
+    }
+
+    .name {
+      font-size: 2.5em;
+      padding: 10px;
+      text-align: center;
+      background: whitesmoke;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      list-style-type: none;
+      font-size: 1.25em;
+      padding: 4px 20px;
+      background: whitesmoke;
+    }
+
+    .very-specific-class {
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+  <header class="very-specific-class">Who are you?</header>
+
+  <div class="name-tag-thingy">
+    <header>Hi, my name is:</header>
+    <div class="name">Steve</div>
+    <header>My favorite things are:</header>
+    <ul>
+      <li>cats</li>
+      <li>cycling</li>
+      <li>Rosetta Stone</li>
+    </ul>
+    <footer>
+      <button onclick="displayMood('happy sad angry stresed excited');">I'm feeling...</button>
+      <span>&copy; 2013</span>
+    </footer>
+    <script>
+      function displayMood(moods) {
+        moods = moods.split(' ');
+        alert(moods[Math.floor(Math.random() * moods.length)]);
+      }
+    </script>
+  </div>
+
+  <footer class="very-specific-class">Wow, you're cool</footer>
+</body>
+</html>

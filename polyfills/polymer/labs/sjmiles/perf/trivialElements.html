@@ -1,0 +1,16 @@
+﻿<!doctype html>
+<head>
+  <title></title>
+  <script src="../../polymer/polymer.js"></script>
+  <script src="runner.js"></script>
+</head>
+<body>
+  <script>
+    function test(n) {
+      for (var i=0; i<n; i++) {
+        document.body.appendChild(document.createElement('x-foo')).textContent = 'x-foo ';
+      }
+    };
+  </script>
+</body>
+</html>

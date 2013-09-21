@@ -1,0 +1,336 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="../../../toolkit-ui/elements/g-icon.html"/>
+<script src="../../../web-animations-js/web-animations.js"></script>
+<script src="../../layoutAnimationShim/src/layout-animation.js"></script>
+<polymer-element name="pi-items-view" attributes="layout view items selected slow">
+  <template>
+    <link rel="stylesheet" href="../../../projects/pica/components/css/pi-items-view.css" />
+    <link rel="stylesheet" href="../../../projects/pica/components/css/pi-layout-flex.css" />
+    <link rel="stylesheet" href="../../../projects/pica/components/css/pi-layout.css" />
+    <div id="container" loaded="{{loaded}}" class="{{view}}">
+      <template repeat="{{viewItems}}">
+        <div class="item">
+          <div class="card" on-tap="selectItem">
+            <div class="image" style="background-image: url({{imgSrc}});" showing="{{imageShowing}}"></div>
+            <div class="info">
+              <div class="title">{{title}}
+                <span class="unread-count">{{unread}}</span>
+              </div>
+              <div class="description">{{desc}}</div>
+              <div class="content">{{dummyText}}</div>
+              <div class="source">
+                <span class="source-icon" style="background-image: url({{sourceIcon}});"></span>
+                <span class="source-title">{{source}}
+                  <span class="source-time">{{since}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <div id="more" on-tap="loadMore">
+        <g-icon src="../../projects/pica/images/refresh_lightreg.png"></g-icon>
+          Load more articles
+      </div>
+    </div>
+  </template>
+  <script>
+    function toNumber(s) {
+      return Number(s.substring(0, s.length - 2));
+    }
+  
+    function calcMaxX() {
+      var maxX = 0;
+      for (var i = 0; i < cards.length; i++) {
+        if (maxX < cards[i].offsetLeft) { maxX = cards[i].offsetLeft; }
+      }
+      return maxX;
+    }
+    
+    Polymer('pi-items-view', {
+      slow: false,
+      layout: 'grid',
+      loaded: true,
+      pageSize: 24,
+      ready: function() {
+        this.setAttribute('touch-action', 'scroll');
+        this.updateMoreShowing();
+      },
+      loadedChanged: function() {
+				if (this.loaded) {
+					registerLayoutKeyframes('morph', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+					registerLayoutKeyframes('quiltgrid_morph', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 0.5,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+					registerLayoutKeyframes('gridquilt_morph', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 0.5,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+					registerLayoutKeyframes('quiltgrid_morph2', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 0.5,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'from()',
+							layoutLeft: 'to()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+					registerLayoutKeyframes('gridquilt_morph2', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 0.5,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'to()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+					registerLayoutKeyframes('quiltgrid', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 0.5,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'from()',
+							layoutLeft: 'to()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+					registerLayoutKeyframes('gridquilt', [{
+						offset: 0,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'from()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 0.5,
+						properties: {
+							layoutWidth: 'from()',
+							layoutHeight: 'from()',
+							layoutTop: 'to()',
+							layoutLeft: 'from()'
+						}
+					}, {
+						offset: 1,
+						properties: {
+							layoutWidth: 'to()',
+							layoutHeight: 'to()',
+							layoutTop: 'to()',
+							layoutLeft: 'to()'
+						}
+					}]);
+				}
+				/*
+        if (this.loaded && this.layout === 'grid') {
+          this.animateCascade();
+        }
+				*/
+      },
+			layoutChanged: function(old) {
+				var fn = function() {
+					this.$.container.classList.remove(old);
+					this.$.container.classList.add(this.layout);
+				}.bind(this);
+        var duration = 1;
+				var duration = this.slow ? 10 : duration;
+				if (this.$.container.querySelectorAll('.item').length) {
+					var cards = this.$.container.querySelectorAll('.item,#more');
+					if (old === 'quilt' && this.layout === 'grid') {
+						setLayoutTransition(Array.prototype.slice.call(cards, 0, 2), 'quiltgrid_morph', duration);
+						setLayoutTransition(cards[2], 'quiltgrid', duration);
+            var slowhighlight = Array.prototype.slice.call(cards, 3);
+            if (this.slow) {
+              slowhighlight.forEach(function(el) {
+                el.style['background-color'] = 'yellow';
+              });
+            }
+						setLayoutTransition(slowhighlight, 'quiltgrid_morph2', duration);
+					} else if (old === 'grid' && this.layout === 'quilt') {
+						setLayoutTransition(Array.prototype.slice.call(cards, 0, 2), 'gridquilt_morph', duration);
+						setLayoutTransition(cards[2], 'gridquilt', duration);
+						setLayoutTransition(Array.prototype.slice.call(cards, 3), 'gridquilt_morph2', duration);
+					} else {
+						setLayoutTransition(cards, 'morph', duration);
+					}
+					setLayoutEffect(cards, 'transform', 'crossfade');
+					transitionThis(fn);
+				} else {
+					fn();
+				}
+			},
+      itemsChanged: function() {
+        if (this.items && this.pageSize > 0) {
+          this.viewItems = this.items.slice(0, this.pageSize);
+        }
+        this.updateMoreShowing();
+        this.scrollToTop();
+      },
+      scrollToTop: function() {
+        requestAnimationFrame(function() {
+          this.scrollTop = 0;
+        }.bind(this));
+      },
+      updateMoreShowing: function() {
+        this.$.more.style.display = 
+            (this.viewItems && this.viewItems.length < 
+                (this.items && this.items.length)) ? null : 'none';
+      },
+      loadMore: function() {
+        var l = this.viewItems.length;
+        var more = this.items.slice(l, l + this.pageSize);
+        this.viewItems.push.apply(this.viewItems, more);
+        this.updateMoreShowing();
+      },
+      selectItem: function(event, detail, sender) {
+        this.selected = sender.templateInstance.model;
+        this.send('select', {item: this.selected});
+      },
+      animateCascade: function() {
+        var container = this.$.container;
+        var cards = container.querySelectorAll('.item');
+        
+        var width = toNumber(window.getComputedStyle(cards[0]).width);
+        var height = toNumber(window.getComputedStyle(cards[0]).height);
+
+        var containerWidth = toNumber(window.getComputedStyle(container).width);
+        var containerHeight = document.documentElement.clientHeight;
+        
+        var scaledMiddleX = containerWidth / width / 2;
+        var scaledMiddleY = containerHeight / height / 2;
+
+        var parGroup = new ParGroup();
+
+        for (var i = 0; i < cards.length; i++) {
+          var y = cards[i].offsetTop / height;
+          var x = cards[i].offsetLeft / width;
+          var yDist = scaledMiddleY - y + 0.5;
+          var xDist = scaledMiddleX - x + 0.5;
+          var dist = Math.sqrt(yDist * yDist + xDist * xDist);
+          var yTrans = yDist * 10 / dist;
+          var xTrans = xDist * 10 / dist;
+          var d = x + y;
+          parGroup.add(
+            new Animation(cards[i], {
+              opacity: ["0", "1"],
+              "-webkit-transform": [
+                "translate(" + xTrans + "px, " + yTrans + "px) translateZ(0)", 
+                "translate(0px, 0px) translateZ(0)"]},
+              {duration: 0.5, startDelay: 0.03 * d, fillMode: "backwards"}));
+        }
+        document.timeline.play(parGroup);
+      }
+    });
+  </script>
+</polymer-element>

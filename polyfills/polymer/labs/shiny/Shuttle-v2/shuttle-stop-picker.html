@@ -1,0 +1,190 @@
+<link rel="import" href="../../../polymer-elements/polymer-overlay/polymer-overlay.html">
+<link rel="import" href="../../../polymer-elements/polymer-selector/polymer-selector.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-menu/polymer-ui-menu.html">
+<link rel="import" href="../../../polymer-ui-elements/polymer-ui-icon/polymer-ui-icon.html">
+
+<polymer-element name="shuttle-stop-picker" extends="polymer-overlay" attributes="query stops selected selectedStop focusedStop searchInputLabel">
+  <template>
+    <link rel="stylesheet" href="../../../polymer-elements/polymer-overlay/polymer-overlay.css">
+    <style>
+      @host {
+        * {
+          position: relative;
+          background: white;
+        }
+      }
+      
+      #searchBox {
+        position: relative;
+        height: 60px;
+        border-bottom: 1px solid #ccc;
+      }
+      
+      #searchBox > input {
+        position: absolute;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0 14px;
+        border: 0;
+        font-size: 16px;
+        outline: none;
+      }
+      
+      #stops {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .group {
+        height: 29px;
+        line-height: 29px;
+        padding-left: 20px;
+        border-bottom: 1px solid #ccc;
+        background: #eee;
+        color: #8f8f8f;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      
+      .stop {
+        height: 59px;
+        line-height: 59px;
+        padding-left: 20px;
+        border-bottom: 1px solid #ccc;
+      }
+      
+      .stop[focused] {
+        background: #cdcdcd;
+      }
+      
+      .stop-label {
+        display: inline-block;
+        width: 85%;
+        vertical-align: middle;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      
+      .check-icon {
+        visibility: hidden;
+      }
+      
+      .polymer-selected .check-icon {
+        visibility: visible;
+      }
+    </style>
+    
+    <polymer-selector id="selector" target="{{$.stops}}" itemsSelector=".stop" 
+        valueattr="name" selected="{{selected}}" selectedItem="{{selectedItem}}"
+        selectedModel="{{selectedStop}}" on-polymer-activate="toggleAction"></polymer-selector>
+    
+    <!-- <div id="searchBox">
+      <input id="input" x-webkit-speech placeholder="{{searchInputLabel}}" on-input="asyncSearch">
+    </div> -->
+    
+    <div id="stops">
+      <template repeat="{{groups}}">
+        <template if="{{stops}}">
+          <div class="group" hidden?="{{hidden}}">{{name}}</div>
+        </template>
+        <template repeat="{{stops}}">
+          <div class="stop" name="{{name}}" hidden?="{{hidden}}" focused?="{{focused}}">
+            <div class="stop-label">{{name}}</div>
+            <polymer-ui-icon class="check-icon" src="assets/ic_check_darkreg.png"></polymer-ui-icon>
+          </div>
+        </template>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer('shuttle-stop-picker', {
+      /* speed up overlay's open/close speed */
+      timeout: 0,
+      query: '',
+      autoCloseDisabled: true,
+      searchInputLabel: 'Search Stops',
+      created: function() {
+        this.target = this;
+      },
+      openedChanged: function() {
+        this.super(arguments);
+        if (this.opened) {
+          //this.$.input.value = '';
+          this.search();
+          if (this.selectedItem) {
+            this.asyncMethod(function() {
+              this.scrollToNode(this.selectedItem);
+              }, null, 1);
+          }
+        }
+      },
+      scrollToNode: function(node) {
+        node.scrollIntoViewIfNeeded ? node.scrollIntoViewIfNeeded() : 
+            node.scrollIntoView();
+      },
+      toggleAction: function() {
+        this.async('toggle');
+      },
+      stopsChanged: function() {
+        this.groups = [];
+        this.stops.forEach(function(s) {
+          var g = this.groups[s.group];
+          if (!g) {
+            g = this.groups[s.group] = {
+              name: Shuttle.groups[s.group].name, 
+              stops: []
+            };
+          }
+          g.stops.push(s);
+        }, this);
+        this.search();
+      },
+      focusedStopChanged: function(old) {
+        if (old) {
+          old.focused = false;
+        }
+        if (this.opened && this.focusedStop) {
+          this.focusedStop.focused = true;
+          var n = this.$.stops.querySelector(
+              '[name="' + this.focusedStop.name + '"]');
+          this.scrollToNode(n);
+        }
+      },
+      queryChanged: function() {
+        this.asyncSearch();
+      },
+      asyncSearch: function() {
+        this.searchJob = this.job(this.searchJob, this.search, 300);
+      },
+      search: function() {
+        //var q = this.$.input.value.toLowerCase();
+        var q = this.query && this.query.toLowerCase();
+        this.groups.forEach(function(g) {
+          var t = g.stops.length;
+          var gh = g.name.toLowerCase().indexOf(q) < 0;
+          g.stops.forEach(function(s) {
+            s.hidden = s.name.toLowerCase().indexOf(q) < 0 && gh;
+            if (s.hidden) {
+              t--;
+            }
+          });
+          g.hidden = !t;
+        });
+        this.fire('shuttle-stops-search');
+      }
+    });
+  </script>
+</polymer-element>

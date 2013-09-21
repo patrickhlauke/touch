@@ -1,0 +1,17 @@
+{
+  "name": "Polymer Calendar",
+  "version": "0.1",
+  "manifest_version": 2,
+
+  "sandbox": {
+    "pages": [
+      "chrome-app.html"
+    ]
+  },
+
+  "app": {
+    "background": {
+      "scripts": ["polymer-chrome-app/background.js"]
+    }
+  }
+}

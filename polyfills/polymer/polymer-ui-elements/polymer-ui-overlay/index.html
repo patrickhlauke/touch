@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>polymer-overlay</title>
+    <link rel="import" href="polymer-ui-overlay.html">
+    <script src="../../polymer/polymer.js"></script>
+    <style>
+      #fixed {
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        top: 300px;
+        background-color: black;
+        color: white;
+        padding: 10px;
+      }
+      /*
+      polymer-ui-overlay {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        overflow: hidden;
+        background: white;
+        padding:30px 42px;
+        outline: 1px solid rgba(0,0,0,0.2);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      }
+      */
+      #dialog {
+        z-index: 100;
+      }
+      .dialog {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        overflow: hidden;
+        background: white;
+        padding:30px 42px;
+        outline: 1px solid rgba(0,0,0,0.2);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      }
+
+      #dialog {
+        top: 72px;
+        left: 50%;
+        width: 512px;
+        margin-left: -256px;
+      }
+
+      #confirmation {
+        position: absolute;
+        left: 50%;
+        top: 100px;
+        text-align: center;
+        width: 150px;
+        margin-left: -75px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="fixed">z-index: 100</div>
+    <button overlay="#dialog">Toggle Dialog</button>
+    <label>modal: <input type="checkbox" onchange="modalChange(event)"></label>
+    <label>backdrop: <input type="checkbox" onchange="backdropChange(event)"></label>
+    <label>z-index: <input onchange="zindexChange(event)"></label>
+    )
+    <br>
+    <polymer-ui-overlay id="dialog">
+      <div class="dialog">
+        <h2>Dialog</h2>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fringilla sapien sed enim sollicitudin laoreet. Suspendisse suscipit, metus ac volutpat sodales, libero magna semper lacus, molestie fringilla massa orci ut arcu. Nullam sodales urna sit amet odio vehicula mattis.</div><br><br>
+        <div>Ut aliquam vulputate congue. Vestibulum pretium pretium nulla quis sollicitudin. Praesent lacinia congue erat nec mattis. Fusce commodo lacus est. Duis turpis eros, ultrices sed aliquet non, blandit egestas velit. Integer a augue nec lorem tristique hendrerit. Curabitur imperdiet risus id enim bibendum vestibulum. Integer id magna at arcu faucibus fermentum vel a augue. Sed fringilla venenatis dolor, in blandit magna molestie luctus. Vestibulum dignissim posuere ultrices. Aenean urna nisl, tincidunt vitae iaculis ut, pharetra nec eros.</div><br><br>
+        <div>
+          <input placeholder="say something..." autofocus oninput="somethingCheck()"></input><br>
+          I agree with this wholeheartedly.
+          <polymer-ui-overlay id="confirmation" class="dialog">
+            Thank you.
+          </polymer-ui-overlay>
+        </div><br><br>
+        <button overlay-toggle>OK</button>
+      </div>
+    </polymer-ui-overlay>
+
+    <br><br>
+
+    <button overlay="#dialog2">Toggle Dialog 2</button>
+
+    <polymer-ui-overlay id="dialog2">
+      <div>
+        <h2>Dialog 2</h2>
+          I'm dizzy.
+      </div>
+      <br><br>
+      <button overlay-toggle>OK</button>
+    </polymer-ui-overlay>
+
+    <script>
+      $ = document.querySelector.bind(document);
+
+      somethingCheck = function() {
+        $('#confirmation').active = (event.target.value == 'something');
+      }
+      
+      changeOpening = function(e) {
+        var s = e.target.selectedOptions[0];
+        if (s) {
+          dialog.className = dialog.className.replace(/polymer-[^\s]*/, '')
+          dialog.classList.add(s.textContent);
+      }
+      }
+      
+      modalChange = function(e, d) {
+        if (!d) {
+          d = dialog;
+        }
+        d.modal = e.target.checked;
+      }
+      
+      backdropChange = function(e) {
+        dialog.backdrop = e.target.checked;
+      }
+
+      zindexChange = function(e) {
+        dialog.style.zIndex = e.target.value;
+      }
+      
+      var overlayButtons = document.querySelectorAll('button[overlay]');
+      Array.prototype.forEach.call(overlayButtons, function(b) {
+        b.addEventListener('tap', function(e) {
+          document.querySelector(e.target.getAttribute('overlay')).toggle();
+        })
+      });
+    </script>
+  </body>
+</html>

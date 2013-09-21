@@ -1,0 +1,5 @@
+[
+  "src/HTMLImports.js",
+  "src/Parser.js",
+  "src/boot.js"
+]

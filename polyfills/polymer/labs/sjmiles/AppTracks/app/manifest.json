@@ -1,0 +1,10 @@
+{
+  "name": "Grid Layout Test",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["src/background.js"]
+    }
+  }
+}
