@@ -18,35 +18,50 @@ output {
 	padding: 1em;
 	font-size: 0.75em;
 	background: #ddd;
-	height: 20em;
+	height: 2em;
 	overflow:auto;
+	font-size: 3em;
 }
 </style>
 <script>
 window.addEventListener('load', function() {
-	var start = { t:'', x:'', y:'' };
+	var start = {};
+	var end = {};
 	var tracking = false;
 	var thresholdTime = 500;
 	var thresholdDistance = 100;
 	var o = document.getElementsByTagName('output')[0];
 	gestureStart = function(e) {
+		console.log('gestureStart');
 		if (e.touches.length>1) {
 			tracking = false;
 			return;
 		} else {
+			console.log('tracking');
 			tracking = true;
 			/* Hack - would normally use e.timeStamp but it's whack in Fx/Android */
-			start.time = new Date().getTime();
+			start.t = new Date().getTime();
 			start.x = e.targetTouches[0].clientX;
 			start.y = e.targetTouches[0].clientY;
 		}
+		console.dir(start);
 	};
+	gestureMove = function(e) {
+		if (tracking) {
+			end.x = e.targetTouches[0].clientX;
+			end.y = e.targetTouches[0].clientY;
+		}
+	}
 	gestureEnd = function(e) {
+		console.log('gestureEnd');
+		console.dir(start);
+		console.dir(end);
 		tracking = false;
 		var now = new Date().getTime();
 		var deltaTime = now - start.t;
-		var deltaX = e.clientX - start.x;
-		var deltaY = e.clientY - start.y;
+		var deltaX = end.x - start.x;
+		var deltaY = end.y - start.y;
+		console.log('deltaX:'+deltaX);
 		/* work out what the movement was */
 		if (deltaTime > thresholdTime) {
 			/* gesture too slow */
@@ -54,17 +69,20 @@ window.addEventListener('load', function() {
 		} else {
 			if ((deltaX > thresholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
 				o.innerHTML = 'swipe right';
-			} else if ((-deltaX > thesholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
+			} else if ((-deltaX > thresholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
 				o.innerHTML = 'swipe left';
 			} else if ((deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
-				o.innerHTML = 'swipe up';
-			} else if ((-deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
 				o.innerHTML = 'swipe down';
+			} else if ((-deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
+				o.innerHTML = 'swipe up';
+			} else {
+				o.innerHTML = '';
 			}
 		}
 	}
 
 	document.body.addEventListener('touchstart', gestureStart, false);
+	document.body.addEventListener('touchmove', gestureMove, false);
 	document.body.addEventListener('touchend', gestureEnd, false);
 
 }, false);
