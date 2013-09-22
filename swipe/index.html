@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Swipe</title>
+<meta name="viewport" content="width=device-width">
+<style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+output {
+	display: block;
+	padding: 1em;
+	font-size: 0.75em;
+	background: #ddd;
+	height: 20em;
+	overflow:auto;
+}
+</style>
+<script>
+window.addEventListener('load', function() {
+	var start = { time, x, y };
+	var tracking = false;
+	var thresholdTime = 500;
+	var thresholdDistance = 100;
+	var o = document.getElementsByTagName('output')[0];
+	gestureStart = function(e) {
+		if (e.touches.length>1) {
+			tracking = false;
+			return;
+		} else {
+			tracking = true;
+			/* Hack - would normally use e.timeStamp but it's whack in Fx/Android */
+			start.time = new Date().getTime();
+			start.x = e.targetTouches[0].clientX;
+			start.y = e.targetTouches[0].clientY;
+		}
+	};
+	gestureEnd = function(e) {
+		tracking = false;
+		var now = new Date().getTime();
+		var deltaTime = now - start.time;
+		var deltaX = e.clientX - start.x;
+		var deltaY = e.clientY - start.y;
+		/* work out what the movement was */
+		if (deltaTime > thresholdTime) {
+			/* gesture too slow */
+			return;
+		} else {
+			if ((deltaX > thresholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
+				o.innerHTML = 'swipe right';
+			} else if ((-deltaX > thesholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
+				o.innerHTML = 'swipe left';
+			} else if ((deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
+				o.innerHTML = 'swipe up';
+			} else if ((-deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
+				o.innerHTML = 'swipe down';
+			}
+		}
+	}
+
+	document.body.addEventListener('touchstart', gestureStart, false);
+	document.body.addEventListener('touchend', gestureEnd, false);
+
+}, false);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<button class="button">Test button!</button>
+<output></output>
+</body></html>
