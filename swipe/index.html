@@ -24,7 +24,7 @@ output {
 </style>
 <script>
 window.addEventListener('load', function() {
-	var start = { time, x, y };
+	var start = { t:'', x:'', y:'' };
 	var tracking = false;
 	var thresholdTime = 500;
 	var thresholdDistance = 100;
@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
 	gestureEnd = function(e) {
 		tracking = false;
 		var now = new Date().getTime();
-		var deltaTime = now - start.time;
+		var deltaTime = now - start.t;
 		var deltaX = e.clientX - start.x;
 		var deltaY = e.clientY - start.y;
 		/* work out what the movement was */
@@ -70,7 +70,7 @@ window.addEventListener('load', function() {
 }, false);
 </script>
 </head><body>
-<h1>Event listener</h1>
-<button class="button">Test button!</button>
+<h1>Swipe</h1>
+<p>Detecting swipe gestures from basic principles.</p>
 <output></output>
 </body></html>
