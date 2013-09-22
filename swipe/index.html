@@ -48,6 +48,7 @@ window.addEventListener('load', function() {
 	};
 	gestureMove = function(e) {
 		if (tracking) {
+			e.preventDefault();
 			end.x = e.targetTouches[0].clientX;
 			end.y = e.targetTouches[0].clientY;
 		}
