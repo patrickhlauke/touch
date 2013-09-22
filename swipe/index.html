@@ -32,12 +32,10 @@ window.addEventListener('load', function() {
 	var thresholdDistance = 100;
 	var o = document.getElementsByTagName('output')[0];
 	gestureStart = function(e) {
-		console.log('gestureStart');
 		if (e.touches.length>1) {
 			tracking = false;
 			return;
 		} else {
-			console.log('tracking');
 			tracking = true;
 			/* Hack - would normally use e.timeStamp but it's whack in Fx/Android */
 			start.t = new Date().getTime();
@@ -54,15 +52,11 @@ window.addEventListener('load', function() {
 		}
 	}
 	gestureEnd = function(e) {
-		console.log('gestureEnd');
-		console.dir(start);
-		console.dir(end);
 		tracking = false;
 		var now = new Date().getTime();
 		var deltaTime = now - start.t;
 		var deltaX = end.x - start.x;
 		var deltaY = end.y - start.y;
-		console.log('deltaX:'+deltaX);
 		/* work out what the movement was */
 		if (deltaTime > thresholdTime) {
 			/* gesture too slow */
@@ -82,9 +76,9 @@ window.addEventListener('load', function() {
 		}
 	}
 
-	document.body.addEventListener('touchstart', gestureStart, false);
-	document.body.addEventListener('touchmove', gestureMove, false);
-	document.body.addEventListener('touchend', gestureEnd, false);
+	o.addEventListener('touchstart', gestureStart, false);
+	o.addEventListener('touchmove', gestureMove, false);
+	o.addEventListener('touchend', gestureEnd, false);
 
 }, false);
 </script>
