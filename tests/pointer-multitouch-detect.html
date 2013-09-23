@@ -18,6 +18,14 @@ html,body {
 <script>
 var o = document.getElementsByTagName('output')[0];
 
+o.innerHTML += "navigator.pointerEnabled: ";
+o.innerHTML += navigator.pointerEnabled > 0;
+o.innerHTML += '<br>';
+
+o.innerHTML += "navigator.msPointerEnabled: ";
+o.innerHTML += navigator.msPointerEnabled > 0;
+o.innerHTML += '<br>';
+
 o.innerHTML += "navigator.maxTouchPoints > 0 : ";
 o.innerHTML += navigator.maxTouchPoints > 0;
 o.innerHTML += '<br>';
