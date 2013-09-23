@@ -33,6 +33,7 @@ window.addEventListener('load', function() {
 	var thresholdDistance = 100;
 	var o = document.getElementsByTagName('output')[0];
 	gestureStart = function(e) {
+		o.innerHTML = '';
 		if (e.touches.length>1) {
 			tracking = false;
 			return;
