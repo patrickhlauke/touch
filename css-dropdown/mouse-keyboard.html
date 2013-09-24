@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<title>CSS-based dropdown</title>
+<html>
+<head>
+<title>CSS dropdown with JS keyboard support</title>
 <meta name="viewport" content="width=400px">
 <style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
 ul, ul.menu, ul.menu li {
 	list-style: none;
 	padding: 0;
@@ -11,9 +22,9 @@ ul, ul.menu, ul.menu li {
 ul.menu li { display: block; float: left; 	background: red;
 	border: 1px black solid; }
 
-ul.menu ul li { background: orange; }
+ul.menu ul.submenu li { background: orange; }
 
-ul.menu li ul li { float: none; }
+ul.menu li ul.submenu li { float: none; }
 
 ul.menu li a {
 	display: block;
@@ -22,53 +33,47 @@ ul.menu li a {
 	color: white;
 	text-decoration: none;
 }
-ul.menu ul { display: none; }
-ul.menu li:hover ul,
-ul.menu li:focus ul {
+ul.menu ul.submenu { display: none; }
+ul.menu li:hover ul.submenu,
+ul.menu li:focus ul.submenu {
 	display: block;
 }
-ul.menu li.open ul {
+ul.menu li.focus ul.submenu {
 	display: block;
 }
-
-ul.menu li.open ul li {
-	background: green;
-}
-
 </style>
 <script>
 window.addEventListener('load',function() {
-
-	var submenus = document.querySelectorAll('ul.menu li.submenu');
 	var menu_triggers = document.querySelectorAll('ul.menu > li > a');
-
 	for (var i = 0; i<menu_triggers.length; i++) {
-
 		menu_triggers[i].addEventListener('focus',function(e) {
-			for (var j = 0; j<submenus.length; j++) {
-				submenus[j].classList.remove('open');
+			for (var j = 0; j<menu_triggers.length; j++) {
+				menu_triggers[j].parentNode.classList.remove('focus');
 			}
-			this.parentNode.classList.add('open');
+			this.parentNode.classList.add('focus');
 		},false);
-
 	}
 },false);
 </script>
+</head>
 <body>
+<h1>CSS dropdown with JS keyboard support</h1>
 <ul class="menu">
-	<li><a href="">Menu 1</a></li>
-	<li class="submenu"><a href="">Menu 2</a>
-		<ul>
-			<li><a href="">Item 1</a></li>
-			<li><a href="">Item 2</a></li>
-			<li><a href="">Item 3</a></li>
+	<li><a href="about:blank">Menu 1</a></li>
+	<li><a href="about:blank">Menu 2</a>
+		<ul class="submenu">
+			<li><a href="about:blank">Item 1</a></li>
+			<li><a href="about:blank">Item 2</a></li>
+			<li><a href="about:blank">Item 3</a></li>
 		</ul>
 	</li>
-	<li class="submenu"><a href="">Menu 3</a>
-		<ul>
-			<li><a href="">Item 1</a></li>
-			<li><a href="">Item 2</a></li>
-			<li><a href="">Item 3</a></li>
+	<li><a href="about:blank">Menu 3</a>
+		<ul class="submenu">
+			<li><a href="about:blank">Item 1</a></li>
+			<li><a href="about:blank">Item 2</a></li>
+			<li><a href="about:blank">Item 3</a></li>
 		</ul>
 	</li>
 </ul>
+</body>
+</html>

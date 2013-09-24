@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CSS dropdown</title>
+<title>CSS dropdown with aria-haspopup for IE10</title>
 <meta name="viewport" content="width=400px">
 <style>
 html,body {
@@ -40,17 +40,17 @@ ul.menu li:hover ul.submenu {
 </style>
 </head>
 <body>
-<h1>CSS dropdown</h1>
+<h1>CSS dropdown with <code>aria-haspopup</code> for IE10</h1>
 <ul class="menu">
 	<li><a href="about:blank">Menu 1</a></li>
-	<li><a href="about:blank">Menu 2</a>
+	<li><a href="about:blank" aria-haspopup="true">Menu 2</a>
 		<ul class="submenu">
 			<li><a href="about:blank">Item 1</a></li>
 			<li><a href="about:blank">Item 2</a></li>
 			<li><a href="about:blank">Item 3</a></li>
 		</ul>
 	</li>
-	<li><a href="about:blank">Menu 3</a>
+	<li><a href="about:blank" aria-haspopup="true">Menu 3</a>
 		<ul class="submenu">
 			<li><a href="about:blank">Item 1</a></li>
 			<li><a href="about:blank">Item 2</a></li>
