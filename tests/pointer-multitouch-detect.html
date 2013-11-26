@@ -19,11 +19,11 @@ html,body {
 var o = document.getElementsByTagName('output')[0];
 
 o.innerHTML += "navigator.pointerEnabled: ";
-o.innerHTML += navigator.pointerEnabled > 0;
+o.innerHTML += navigator.pointerEnabled;
 o.innerHTML += '<br>';
 
 o.innerHTML += "navigator.msPointerEnabled: ";
-o.innerHTML += navigator.msPointerEnabled > 0;
+o.innerHTML += navigator.msPointerEnabled;
 o.innerHTML += '<br>';
 
 o.innerHTML += "navigator.maxTouchPoints > 0 : ";
@@ -40,6 +40,14 @@ o.innerHTML += '<br>';
 
 o.innerHTML += "navigator.msMaxTouchPoints > 1 : ";
 o.innerHTML += navigator.msMaxTouchPoints > 1;
+o.innerHTML += '<br>';
+
+o.innerHTML += "navigator.maxTouchPoints : ";
+o.innerHTML += navigator.maxTouchPoints;
+o.innerHTML += '<br>';
+
+o.innerHTML += "navigator.msMaxTouchPoints : ";
+o.innerHTML += navigator.msMaxTouchPoints;
 o.innerHTML += '<br>';
 
 </script>
