@@ -1,5 +1,5 @@
 ﻿/* Particle system based on http://www.zen-sign.com/experiments/jsemitter2/
-   Patrick H. Lauke / February 2011 */
+   Patrick H. Lauke / November 2013 */
 
 function Emitter(canvas) {
 	this.canvas = canvas;
@@ -20,30 +20,22 @@ function Emitter(canvas) {
 	}
 	
 	this.react = function(e) {
-		var x = 0;
-		var y = 0;
-		if (e.touches) {
-			x=e.touches[0].clientX-e.target.offsetLeft;
-			y=e.touches[0].clientY-e.target.offsetTop;
-		}  else if (e.offsetX) {
-			x=e.offsetX;
-			y=e.offsetY;
-		} else if (e.layerX) {
-			x=e.layerX;
-			y=e.layerY;
-		}
+		if (e.isPrimary) {
+			var x = e.offsetX;
+			var	y = e.offsetY;
 
-		for(var i = 0; i < this.particles.length; i++)
-		{
-			
-			this.particles[i].size=this.size - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2)) / 30);
-			if (this.particles[i].size < this.sizeLimit) { this.particles[i].size=this.sizeLimit; }
-			this.particles[i].s = 100 - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2))/2);
-			if (this.particles[i].s < 0) { this.particles[i].s = 0; }
-			this.particles[i].h += 1;
-			
+			for(var i = 0; i < this.particles.length; i++)
+			{
+				
+				this.particles[i].size=this.size - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2)) / 30);
+				if (this.particles[i].size < this.sizeLimit) { this.particles[i].size=this.sizeLimit; }
+				this.particles[i].s = 100 - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2))/2);
+				if (this.particles[i].s < 0) { this.particles[i].s = 0; }
+				this.particles[i].h += 1;
+				
+			}
+			this.draw();
 		}
-		this.draw();
 	}
 	
 	this.draw = function() {
@@ -61,10 +53,8 @@ function Emitter(canvas) {
 	this.init = function() {
 		this.reset();
 		var that = this;
-		this.canvas.addEventListener('mousemove', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('touchstart', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('touchmove', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('dblclick', function(e) { that.reset(e); }, false);
+		this.canvas.addEventListener('pointermove', function(e) { that.react(e); }, false);
+		this.canvas.addEventListener('MSPointerMove', function(e) { that.react(e); }, false);
 	}
 	
 	this.reset = function(e) {

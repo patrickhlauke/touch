@@ -22,10 +22,7 @@ function Emitter(canvas) {
 	this.react = function(e) {
 		var x = 0;
 		var y = 0;
-		if (e.touches) {
-			x=e.touches[0].clientX-e.target.offsetLeft;
-			y=e.touches[0].clientY-e.target.offsetTop;
-		}  else if (e.offsetX) {
+		if (e.offsetX) {
 			x=e.offsetX;
 			y=e.offsetY;
 		} else if (e.layerX) {
@@ -62,9 +59,6 @@ function Emitter(canvas) {
 		this.reset();
 		var that = this;
 		this.canvas.addEventListener('mousemove', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('touchstart', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('touchmove', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('dblclick', function(e) { that.reset(e); }, false);
 	}
 	
 	this.reset = function(e) {

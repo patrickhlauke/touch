@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <head>
-<title>Particle field with pointermove</title>
+<title>Particle field with touch and touch-action</title>
 <meta name="viewport" content="width=420, user-scalable=no">
 <script src="particleSystem.js"></script>
 <style>
@@ -16,10 +16,15 @@ h1 { font-size: 1em; }
 canvas { margin: 5px 0; }
 p small { margin: 0; padding: 0; font-size: 0.75em; }
 a { color: #eef; }
+/* Pointer events - suppress default actions */
+canvas {
+	-ms-touch-action:none;
+		touch-action:none;
+}
 </style>
 </head>
 <body>
-<h1>Particle field with <code>pointermove</code></h1>
+<h1>Particle field with touch and touch-action</h1>
 <canvas width="400" height="400" id="emitter-canvas"></canvas>
 <script>
 window.addEventListener('load',function() {
