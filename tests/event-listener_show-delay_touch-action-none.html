@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Event listener show delay</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<style>
+/* additional Pointer events behavior */
+
+button {
+	-ms-touch-action: none;
+	    touch-action: none;
+}
+</style>
+<script>
+window.addEventListener('load', function() {
+	var t = 0;
+	var events = [
+	'MSPointerUp',
+	'pointerup',
+	'touchend',
+	'click'
+	];
+	var b = document.getElementsByTagName('button')[0];
+	var o = document.getElementsByTagName('output')[0],
+	report = function(e) {
+		/* Hack - would normally use e.timeStamp but it's whack in Fx/Android
+		   As a result, the timings will be slightly inflated due to processing*/
+		var now = new Date().getTime();
+		var delta = now-t;
+		if (!((e.type == 'MSPointerUp') || (e.type == 'pointerup') || (e.type == 'touchend'))) {
+			o.innerHTML += e.type;
+			if (t>0) {
+				if ((now-t)>150) {
+					o.innerHTML += ' (<strong>' + (delta) + 'ms</strong>)';
+				} else {
+					o.innerHTML += ' (' + (delta) + 'ms)';
+				}
+			}
+			o.innerHTML += '<br>';
+		}
+		t=now;
+		if (e.type == 'click') {
+			t=0;
+		}
+	}
+	for (var i=0; i<events.length; i++) {
+		b.addEventListener(events[i], report, false);
+	}
+}, false);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<p>Show the delay between a touch and <code>click</code> event.</p>
+<button class="button">Test button!</button>
+<output></output>
+</body></html>
