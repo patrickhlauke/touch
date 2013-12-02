@@ -20,9 +20,8 @@ function Emitter(canvas) {
 	}
 	
 	this.react = function(e) {
-		console.log('foo');
-		var x = e.clientX;
-		var	y = e.clientY;
+		var x = e.offsetX;
+		var	y = e.offsetY;
 
 		for(var i = 0; i < this.particles.length; i++)
 		{

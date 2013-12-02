@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<head>
+<title>Particle field with pointermove, touch-action:none, isPrimary check</title>
+<meta name="viewport" content="width=420, user-scalable=no">
+<script src="particleSystem.js"></script>
+<style>
+html, body { background: #999; color: #fff; margin:0; padding: 0; }
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 0.9em;
+	line-height: 1.2;
+	width: 400px;
+	padding: 0 10px;
+}
+h1 { font-size: 1em; }
+canvas { margin: 5px 0; }
+p small { margin: 0; padding: 0; font-size: 0.75em; }
+a { color: #eef; }
+
+/* additional Pointer events behavior */
+
+canvas {
+	-ms-touch-action: none;
+	    touch-action: none;
+}
+</style>
+</head>
+<body>
+<h1>Particle field with <code>pointermove</code>, <code>touch-action:none</code> and <code>isPrimary</code> check</h1>
+<canvas width="400" height="400" id="emitter-canvas"></canvas>
+<script>
+window.addEventListener('load',function() {
+	var emitter = new Emitter(document.getElementById('emitter-canvas'));
+	emitter.init();
+}, false);
+</script>
+</body>

@@ -20,20 +20,22 @@ function Emitter(canvas) {
 	}
 	
 	this.react = function(e) {
-		var x = e.offsetX;
-		var	y = e.offsetY;
+		if (e.isPrimary) {
+			var x = e.offsetX;
+			var	y = e.offsetY;
 
-		for(var i = 0; i < this.particles.length; i++)
-		{
-			
-			this.particles[i].size=this.size - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2)) / 30);
-			if (this.particles[i].size < this.sizeLimit) { this.particles[i].size=this.sizeLimit; }
-			this.particles[i].s = 100 - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2))/2);
-			if (this.particles[i].s < 0) { this.particles[i].s = 0; }
-			this.particles[i].h += 1;
-			
+			for(var i = 0; i < this.particles.length; i++)
+			{
+				
+				this.particles[i].size=this.size - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2)) / 30);
+				if (this.particles[i].size < this.sizeLimit) { this.particles[i].size=this.sizeLimit; }
+				this.particles[i].s = 100 - (Math.sqrt(Math.pow(this.particles[i].x-x,2)+Math.pow(this.particles[i].y-y,2))/2);
+				if (this.particles[i].s < 0) { this.particles[i].s = 0; }
+				this.particles[i].h += 1;
+				
+			}
+			this.draw();
 		}
-		this.draw();
 	}
 	
 	this.draw = function() {
