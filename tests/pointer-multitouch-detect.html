@@ -14,16 +14,25 @@ html,body {
 <body>
 <h1>Pointer/multitouch detect</h1>
 <output></output>
+<p><small><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22890">W3C bugzilla - Bug 22890 - It is not clear why navigator.pointerEnabled is needed</a></small></p>
 </body>
 <script>
 var o = document.getElementsByTagName('output')[0];
 
-o.innerHTML += "navigator.pointerEnabled: ";
-o.innerHTML += navigator.pointerEnabled;
+o.innerHTML += "<s>navigator.pointerEnabled: </s>";
+o.innerHTML += "<s>"+navigator.pointerEnabled+"</s>";
 o.innerHTML += '<br>';
 
-o.innerHTML += "navigator.msPointerEnabled: ";
-o.innerHTML += navigator.msPointerEnabled;
+o.innerHTML += "<s>navigator.msPointerEnabled: </s>";
+o.innerHTML += "<s>"+navigator.msPointerEnabled+"</s>";
+o.innerHTML += '<br>';
+
+o.innerHTML += "window.PointerEvent: ";
+o.innerHTML += window.PointerEvent;
+o.innerHTML += '<br>';
+
+o.innerHTML += "window.MSPointerEvent: ";
+o.innerHTML += window.MSPointerEvent;
 o.innerHTML += '<br>';
 
 o.innerHTML += "navigator.maxTouchPoints > 0 : ";
