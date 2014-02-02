@@ -7,6 +7,16 @@
 window.addEventListener('load', function() {
 	var t = 0;
 	var events = [
+	'mouseover',
+	'mousemove',
+	'mouseout',
+	'mouseenter',
+	'mouseleave',
+	'mousedown',
+	'mouseup',
+	'focus',
+	'blur',
+	'click',
 	'MSPointerDown',
 	'MSPointerUp',
 	'MSPointerCancel',
@@ -32,17 +42,7 @@ window.addEventListener('load', function() {
 	'touchend',
 	'touchenter',
 	'touchleave',
-	'touchcancel',
-	'mouseover',
-	'mousemove',
-	'mouseout',
-	'mouseenter',
-	'mouseleave',
-	'mousedown',
-	'mouseup',
-	'focus',
-	'blur',
-	'click'
+	'touchcancel'	
 	];
 	var b = document.getElementsByTagName('button')[0];
 	var o = document.getElementsByTagName('output')[0],
@@ -57,7 +57,7 @@ window.addEventListener('load', function() {
 </script>
 </head><body>
 <h1>Event listener</h1>
-<p>Lists all relevant events, but without timing info.</p>
+<p>Lists the order of all relevant events being fired.</p>
 <button class="button">Test button!</button>
 <output></output>
 </body></html>
