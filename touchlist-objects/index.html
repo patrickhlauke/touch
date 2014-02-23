@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TouchList objects - touches, targetTouches, changedTouches</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+<div id="container">
+<h1><code>TouchList</code> objects</h1>
+<button>Test button!</button>
+<p>Illustration of difference between:</p>
+<ul>
+<li><code>touches</code> (outer circle, white)</li>
+<li><code>targetTouches</code> (middle circle, green)</li>
+<li><code>changedTouches</code> (inner circle, red)</li>
+</ul>
+<p>All events only bound to <code>button</code> element, but once touched, touchpoints that didn't originate on the button (from the <code>touches</code> list) will also appear.</p>
+	<script src="scripts/script.js"></script>
+</body>
+</html>
