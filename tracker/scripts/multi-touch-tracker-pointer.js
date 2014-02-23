@@ -29,6 +29,14 @@ function loop() {
 		c.beginPath();
 		c.arc(points[i].clientX, points[i].clientY, 50, 0, Math.PI*2, true);
 		c.stroke();
+
+		// for pointer events, add extra circle to denote a primary pointer
+		if(points[i].isPrimary) {
+			c.beginPath();
+			c.arc(points[i].clientX, points[i].clientY, 65, 0, Math.PI*2, true);
+			c.stroke();
+		}
+		
 	}
 
 }
