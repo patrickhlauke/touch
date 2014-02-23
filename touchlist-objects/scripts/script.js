@@ -78,6 +78,7 @@ function init() {
 	b.addEventListener('touchstart', positionHandler, false );
 	b.addEventListener('touchmove',  positionHandler, false );
 	b.addEventListener('touchend',  positionHandler, false );
+	b.addEventListener('touchcancel',  positionHandler, false );
 	
 	setInterval(loop, 1000/35);
 	
