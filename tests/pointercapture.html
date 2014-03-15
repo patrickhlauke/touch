@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="style.css">
 <style>
-button { touch-action:none; }
+button { touch-action:none; font-size: 1em;}
 </style>
 <script>
 
@@ -14,11 +14,10 @@ window.addEventListener('load', function() {
 	var c = document.getElementById('capture');
 
 	var report = function(e) {
-		e.target.innerHTML = 'Tap/click and move!';
 		if (e.offsetX) {
-			e.target.innerHTML += ' (x: '+Math.floor(e.offsetX)+' y: '+Math.floor(e.offsetY)+')';
+			e.target.innerHTML = 'x: '+Math.floor(e.offsetX)+' y: '+Math.floor(e.offsetY);
 		} else if (e.targetTouches) {
-			e.target.innerHTML += ' (x: '+Math.floor(e.targetTouches[0].clientX)+' y: '+Math.floor(e.targetTouches[0].clientY)+')';
+			e.target.innerHTML = 'x: '+Math.floor(e.targetTouches[0].clientX)+' y: '+Math.floor(e.targetTouches[0].clientY);
 		}
 		e.preventDefault();
 	}
