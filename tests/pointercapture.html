@@ -28,10 +28,18 @@ window.addEventListener('load', function() {
 	c.addEventListener('touchstart',report, false);
 	c.addEventListener('touchmove',report, false);
 
+	n.addEventListener('MSPointerDown', report, false);
+	n.addEventListener('MSPointerMove', report, false);
+
 	n.addEventListener('pointerdown', report, false);
 	n.addEventListener('pointermove', report, false);
 
-	c.addEventListener('pointerdown', function(e) { if (!e.target.pointer) { e.target.pointer = e.pointerId; report(e); this.setPointerCapture(e.pointerId); } } , false);
+	c.addEventListener('MSPointerDown', function(e) { if (!e.target.pointer) { e.target.pointer = e.pointerId; report(e); if (this.setPointerCapture) { this.setPointerCapture(e.pointerId); }  else if (this.msSetPointerCapture) { this.msSetPointerCapture(e.pointerId); } } }, false);
+	c.addEventListener('MSPointerUp', function(e) { if (e.pointerId == e.target.pointer) { e.target.pointer = false; } }, false);
+	c.addEventListener('MSPointerCancel', function(e) { if (e.pointerId == e.target.pointer) { e.target.pointer = false; } }, false);
+	c.addEventListener('MSPointerMove', report, false);
+
+	c.addEventListener('pointerdown', function(e) { if (!e.target.pointer) { e.target.pointer = e.pointerId; report(e); if (this.setPointerCapture) { this.setPointerCapture(e.pointerId); }  else if (this.msSetPointerCapture) { this.msSetPointerCapture(e.pointerId); } } } , false);
 	c.addEventListener('pointerup', function(e) { if (e.pointerId == e.target.pointer) { e.target.pointer = false; } }, false);
 	c.addEventListener('pointercancel', function(e) { if (e.pointerId == e.target.pointer) { e.target.pointer = false; } }, false);
 	c.addEventListener('pointermove', report, false);
