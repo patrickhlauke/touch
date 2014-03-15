@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Pointer Events - setPointerCapture</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<style>
+button { touch-action:none; }
+</style>
+<script>
+
+
+window.addEventListener('load', function() {
+	var n = document.getElementById('nocapture');
+	var c = document.getElementById('capture');
+
+	var report = function(e) {
+		e.target.innerHTML = 'Tap/click and move!';
+		if (e.offsetX) {
+			e.target.innerHTML += ' (x: '+Math.floor(e.offsetX)+' y: '+Math.floor(e.offsetY)+')';
+		} else if (e.targetTouches) {
+			e.target.innerHTML += ' (x: '+Math.floor(e.targetTouches[0].clientX)+' y: '+Math.floor(e.targetTouches[0].clientY)+')';
+		}
+		e.preventDefault();
+	}
+
+
+	n.addEventListener('touchstart',report, false);
+	n.addEventListener('touchmove',report, false);
+	c.addEventListener('touchstart',report, false);
+	c.addEventListener('touchmove',report, false);
+
+	n.addEventListener('pointerdown', report, false);
+	n.addEventListener('pointermove', report, false);
+
+	c.addEventListener('pointerdown', function(e) { if (!e.target.pointer) { e.target.pointer = e.pointerId; report(e); this.setPointerCapture(e.pointerId); } } , false);
+	c.addEventListener('pointerup', function(e) { if (e.pointerId == e.target.pointer) { e.target.pointer = false; } }, false);
+	c.addEventListener('pointercancel', function(e) { if (e.pointerId == e.target.pointer) { e.target.pointer = false; } }, false);
+	c.addEventListener('pointermove', report, false);
+
+
+}, false);
+</script>
+</head><body>
+<h1><code>setPointerCapture</code></h1>
+<p>This test requires either Touch Events or Pointer Events, and illustrates the difference between the implicit and explicit capture in those event models.</p>
+<p>For both buttons, <code>pointermove</code> and <code>touchmove</code> events fired on the element update the X/Y coordinates. The difference shows when you tap/click on the buttons and then move your finger/stylus/mouse outside of the element: with Touch Events and their intrinsic capture model expressed through <code>targetTouches</code>, the coordinates are still tracked, while by default Pointer Events cease to fire as soon as the pointer leaves the boundaries of the element, unless you use <code>setPointerCapture</code>.</p>
+<p>First, a button without <code>setPointerCapture</code>.</p>
+<button id="nocapture">Tap/click and move!</button>
+<p>The following button includes extra code to explicitly <code>setPointerCapture</code> on <code>pointerdown</code>. Pointer events are now fired even after pointer leaves the element, as long as the pointer is still down.</p>
+<button id="capture">Tap/click and move!</button>
+</body></html>
