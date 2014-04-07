@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Touch/pointer test results</title>
+<meta charset=utf-8>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Test results</h1>
+<p>Some of the more interesting data points from running my various <a href="http://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
+<p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
+<h2>Touchscreen activation/tap event order</h2>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>1st tap</th>
+	<th>2nd tap</th>
+	<th>tap out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>FirefoxOS 1.1</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>iOS7 / Safari/WebView</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>(mouseenter)</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> (see <a href="https://bugs.webkit.org/show_bug.cgi?id=128534">webkit bug relating to <code>mouseenter</code></a>)</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseleave</code> &gt; <code>mouseout</code> (when tapping to another focusable/activatable element, otherwise <code>none</code>)</td>
+</tr>
+<tr>
+	<td>Android 4.3 / Chrome M32</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Miren Browser, Maxthon Browser, Dolphin Browser, &quot;Browser&quot; (webkit 534.30)</td>
+	<td><em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code></td>
+</tr>
+<tr>
+	<td>Android 4.3 / UCBrowser 9.6 (webkit 533.1)</td>
+	<td><em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Opera 19 (Blink)</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Opera Classic</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Firefox</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Puffin (no touch event support)</td>
+	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code></td>
+</tr>
+<tr>
+	<td>Blackberry Playbook 2.0 (2.1.0.1917) / &quot;Browser&quot; (webkit 536.2)</td>
+	<td><code>touchstart</code> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code></td>
+</tr>
+<tr>
+	<td>Windows Phone 8 / IE10 (pointer events, vendor-prefixed)</td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>MSPointerOver</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>MSPointerDown</code> &gt; <code>mousedown</code> &gt; <code>MSGotPointerCapture</code> &gt; <code>focus</code> (if previously focus was somewhere else on page) &gt; <code>MSPointerUp</code> &gt; <code>mouseup</code> &gt; <code>MSLostPointerCapture</code> &gt; <code>MSPointerOut</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>focus</code> (if nothing previously focused on page) &gt; <code>click</code> <hr> if moving finger slightly during press: <em><strong><code>mousemove</code></strong></em> &gt; <code>MSPointerOver</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>MSPointerDown</code> &gt; <code>mousedown</code> &gt; <code>MSGotPointerCapture</code> &gt; <code>focus</code> &gt; [<code>MSPointerMove</code> &gt; <code>mousemove</code>] &gt; <code>MSPointerUp</code> &gt; <code>mouseup</code> &gt; <em><strong><code>click</code></strong></em> &gt; <code>MSLostPointerCapture</code> &gt; <code>MSPointerOut</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>MSPointerOver</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>MSPointerDown</code> &gt; <code>mousedown</code> &gt; <code>MSGotPointerCapture</code> &gt; <code>MSPointerUp</code> &gt; <code>mouseup</code> &gt; <code>MSLostPointerCapture</code> &gt; <code>MSPointerOut</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>click</code> <hr> if finger slightly moving during press: <em><strong><code>mousemove</code></strong></em> &gt; <code>MSPointerOver</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>MSPointerDown</code> &gt; <code>mousedown</code> &gt; <code>MSGotPointerCapture</code> &gt; [<code>MSPointerMove</code> &gt; <code>mousemove</code>] &gt; <code>MSPointerUp</code> &gt; <code>mouseup</code> &gt; <em><strong><code>click</code></strong></em> &gt; <code>MSLostPointerCapture</code> &gt; <code>MSPointerOut</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></td>
+	<td><code>blur</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Touchscreen + assistive technology event order</h2>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>move to button</th>
+	<th>1st activation</th>
+	<th>2nd activation</th>
+	<th>leave button</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>iOS7 / Safari/WebView + VoiceOver (with and without keyboard)</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>(mouseenter)</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>blur</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> (see <a href="https://bugs.webkit.org/show_bug.cgi?id=128534">webkit bug relating to <code>mouseenter</code></a>)</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (when moving to another focusable element, otherwise <code>none</code>)<hr> <code>mouseleave</code> &gt; <code>mouseout</code> (fired after element was already left, if original element was activated, and now another element was activated)</td>
+</tr>
+<tr>
+	<td>Android 4.3 / Chrome M32 + TalkBack (effectively ChromeVox)</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Miren Browser, Maxthon Browser, Dolphin Browser, &quot;Browser&quot; (webkit 534.30) + TalkBack (effectively ChromeVox)</td>
+	<td><code>focus</code></td>
+	<td><code>blur</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <code>focus</code></td>
+	<td><code>blur</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <code>focus</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Firefox + TalkBack</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>touchstart</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (when moving to another focusable element, otherwise <code>none</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2>Touch devices with paired keyboard/mouse</h2>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>move to button</th>
+	<th>1st activation</th>
+	<th>2nd activation</th>
+	<th>leave button</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>Android 4.3 / Chrome M32 + mouse</td>
+	<td><code>mouseenter</code> &gt; <code>mouseover</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseleave</code> &gt; <code>mouseout</code></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Chrome M32 + keyboard</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Opera 19 (Blink) + keyboard (no focus indication)</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Blackberry Playbook 2.0 (2.1.0.1917) / &quot;Browser&quot; (webkit 536.2) + mouse</td>
+	<td><em><strong><code>mouseover</code></strong></em></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>mouseout</code></strong></em></td>
+</tr>
+<tr>
+	<td>Blackberry Playbook 2.0 (2.1.0.1917) / &quot;Browser&quot; (webkit 536.2) + keyboard</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em></td>
+</tr>
+</tbody>
+</table>
+<p>iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).</p>
+<p>FirefoxOS (ZTE Open) currently does not support paired bluetooth mouse/keyboard. Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
+<h2>Desktop with touchscreen</h2>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>1st tap</th>
+	<th>2nd tap</th>
+	<th>tap out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>Windows 8 / Chrome (supports touch events)</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox</td>
+	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 12 (Presto)</td>
+	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) (supports touch events)</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 (supports pointer events)</td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>focus</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code> &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Desktop with assistive technology</h2>
+<p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events in Chrome/JAWS/NVDA and Firefox/NVDA, which are not fired when assistive technology is not present.</p>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>move to button</th>
+	<th>1st activation</th>
+	<th>2nd activation</th>
+	<th>leave button</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>Windows 8 / Chrome + JAWS 15</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome + NVDA 2014.1</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome + Narrator</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 + JAWS 15</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 + NVDA 2014.1</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 + Narrator</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox + JAWS 15</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox + NVDA 2014.1</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td>`blur</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox + Narrator</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + JAWS 15</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + NVDA 2014.1</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + Narrator</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+</tbody>
+</table>
+<p>Opera 12 (Presto) seems to have no support for assistive technology.</p>
+<h2>Desktop with touchscreen and assistive technology</h2>
+<p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;, instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.</p>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>move to button</th>
+	<th>1st activation</th>
+	<th>2nd activation</th>
+	<th>leave button</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>Windows 8 / Chrome + JAWS 15 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome + NVDA 2014.1 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome + Narrator gesture navigation and touch explore</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 + JAWS 15 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>focus</code> &gt; <code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 + NVDA 2014.1 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>focus</code> &gt; <code>click</code></td>
+	<td><code>click</code></td>
+	<td><em><strong><code>none</code></strong></em> (<em><strong>not even when moving to/activating another element</strong></em>)</td>
+</tr>
+<tr>
+	<td>Windows 8 / IE11 + Narrator gesture navigation and touch explore</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>focus</code> &gt; <code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox + JAWS 15 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox + NVDA 2014.1 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox + Narrator gesture navigation and touch explore</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + JAWS 15 gesture navigation (no visible outline / focus indication) <strong>[touch explore not working]</strong></td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + NVDA 2014.1 gesture navigation <em><strong>and touch explore</strong></em> (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + Narrator gesture navigation <strong>[touch explore not working]</strong></td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> (only once moved to another focusable element <strong>and</strong> activated that element)</td>
+</tr>
+</tbody>
+</table>
+<p>Opera 12 (Presto) seems to have no support for assistive technology.</p>
+
+</body>
+</html>
