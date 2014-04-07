@@ -171,6 +171,13 @@
 	<td><code>mouseout</code> (when moving to another focusable element, otherwise <code>none</code>)</td>
 </tr>
 <tr>
+	<td>Android 2.3.7 / &quot;Browser&quot; + mouse</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code></td>
+</tr>
+<tr>
 	<td>Android 4.3 / Chrome M32 + mouse</td>
 	<td><code>mouseenter</code> &gt; <code>mouseover</code></td>
 	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -209,6 +216,7 @@
 </table>
 <p>iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).</p>
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard. Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
+<p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
 <h2>Desktop with touchscreen</h2>
 <table>
 <thead>
@@ -253,7 +261,7 @@
 </tbody>
 </table>
 <h2>Desktop with assistive technology</h2>
-<p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events in OS X (when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.</p>
+<p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.</p>
 <table>
 <thead>
 <tr>

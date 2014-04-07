@@ -42,6 +42,7 @@ No assistive technology available (yet) for Firefox OS, Windows Phone 8 or Black
 Browser | move to button | 1st activation | 2nd activation | leave button
 -- | -- | -- | -- | --
 Android 2.1 (HTC Hero) + built-in trackball / "Internet" (WebKit 530.17)  | _**`mouseover`**_ > _**`mousemove`**_ | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | `mouseout` (when moving to another focusable element, otherwise `none`)
+Android 2.3.7 / "Browser" + mouse | _**`none`**_ | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
 Android 4.3 / Chrome M32 + mouse | `mouseenter` > `mouseover` | _**`mousemove`**_ > `touchstart` > `touchend` > `mousedown` > _**`focus`**_ > `mouseup` > `click` | _**`mousemove`**_ > `touchstart` > `touchend` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout`
 Android 4.3 / Chrome M32 + keyboard | `focus` | `click` | `click` | `blur`
 Android 4.3 / Opera 19 (Blink) + keyboard (no focus indication) | `focus` | `click` | `click` | `blur`
@@ -51,6 +52,8 @@ BlackBerry PlayBook 2.0 (2.1.0.1917) / "Browser" (WebKit 536.2) + keyboard | _**
 iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).
 
 Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard. Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.
+
+Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.
 
 ## Desktop with touchscreen
 Browser | 1st tap | 2nd tap | tap out
@@ -63,7 +66,7 @@ Windows 8 / IE11 (supports pointer events) | `mousemove` > `pointerover` > `mous
 
 ## Desktop with assistive technology
 
-Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events in OS X (when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.
+Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.
 
 Browser | move to button | 1st activation | 2nd activation | leave button
 -- | -- | -- | -- | --
