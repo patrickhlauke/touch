@@ -13,7 +13,7 @@ See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/
 Browser | 1st tap | 2nd tap | tap out
 -- | -- | -- | --
 Firefox OS 1.1 | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mouseenter` > `mousemove` > `mousedown` > `focus` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > `mouseleave` > `blur`
-iOS7.1 / Safari/WebView | `touchstart` > (`touchmove`)+ > `touchend` > `(mouseenter)` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout` <small>(when tapping to another focusable/activatable element, otherwise `none`)</small>
+iOS7.1 / Safari/WebView | `touchstart` > (`touchmove`)+ > `touchend` > `(mouseenter)` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout` <br><small>(when tapping to another focusable/activatable element, otherwise `none`)</small>
 Android 2.1 (HTC Hero) / "Internet" (WebKit 530.17)  | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
 Android 2.3.7 / "Browser" (WebKit 533.1)  | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
 Android 4.3 / Chrome M34 | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > _**`focus`**_ > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > _**`blur`**_
@@ -43,10 +43,10 @@ Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch 
 
 Browser | move to button | 1st activation | 2nd activation | leave button
 -- | -- | -- | -- | --
-iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard) | _**`focus`**_ | `touchstart` > `touchend` > `mouseenter` > `mouseover` > `mousemove` > `mousedown` > _**`blur`**_ > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `blur` <small>(when moving to another focusable element, otherwise `none`)</small><hr> `mouseleave` > `mouseout` <small>(fired after element was already left, if original element was activated, and now another element was activated)</small>
+iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard) | _**`focus`**_ | `touchstart` > `touchend` > `mouseenter` > `mouseover` > `mousemove` > `mousedown` > _**`blur`**_ > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `blur` <br><small>(when moving to another focusable element, otherwise `none`)</small><hr> `mouseleave` > `mouseout` <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small>
 Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox) | `focus` | _**`blur`**_ > `mousedown` > `mouseup` > `click` > _**`focus`**_ | _**`blur`**_ > `mousedown` > `mouseup` > `click` > _**`focus`**_ | _**`blur`**_
 Android 4.3 / Miren Browser, Maxthon Browser, Dolphin Browser, "Browser" (WebKit 534.30) + TalkBack (effectively ChromeVox) | `focus` | `blur` > `mousedown` > `mouseup` > `click` > `focus` | `blur` > `mousedown` > `mouseup` > `click` > `focus`  | `blur`
-Android 4.3 / Firefox 28 + TalkBack | _**`none`**_ | `touchstart` > _**`mousedown`**_ > _**`focus`**_ > `touchend` > `mouseup` > `click` | `touchstart` > _**`mousedown`**_ > `touchend` > `mouseup` > `click` | `blur` <small>(when moving to another focusable element, otherwise `none`)</small>
+Android 4.3 / Firefox 28 + TalkBack | _**`none`**_ | `touchstart` > _**`mousedown`**_ > _**`focus`**_ > `touchend` > `mouseup` > `click` | `touchstart` > _**`mousedown`**_ > `touchend` > `mouseup` > `click` | `blur` <br><small>(when moving to another focusable element, otherwise `none`)</small>
 
 No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.
 
@@ -56,7 +56,7 @@ There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where `mouseenter
 
 Browser | move to button | 1st activation | 2nd activation | leave button
 -- | -- | -- | -- | --
-Android 2.1 (HTC Hero) + built-in trackball / "Internet" (WebKit 530.17)  | _**`mouseover`**_ > _**`mousemove`**_ | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | `mouseout` <small>(when moving to another focusable element, otherwise `none`)</small>
+Android 2.1 (HTC Hero) + built-in trackball / "Internet" (WebKit 530.17)  | _**`mouseover`**_ > _**`mousemove`**_ | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | `mouseout` <br><small>(when moving to another focusable element, otherwise `none`)</small>
 Android 2.3.7 / "Browser" + mouse | _**`none`**_ | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
 Android 4.3 / Chrome M34 + mouse | `mouseenter` > `mouseover` | _**`mousemove`**_ > `touchstart` > `touchend` > `mousedown` > _**`focus`**_ > `mouseup` > `click` | _**`mousemove`**_ > `touchstart` > `touchend` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout`
 Android 4.3 / Chrome M34 + keyboard | `focus` | `click` | `click` | `blur`
