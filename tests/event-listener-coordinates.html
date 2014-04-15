@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head><meta charset=utf-8>
-<title>Event listener (shows events, no timings) with clientX/clientY coordinates</title>
+<title>Event listener (shows events, no timings) with coordinates</title>
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="style.css">
 <script>
@@ -50,12 +50,20 @@ window.addEventListener('load', function() {
 		o.innerHTML += e.type;
 		o.innerHTML += '<br>';
 		if ((e.changedTouches) && (e.changedTouches.length > 0)) {
+			o.innerHTML += ' screenX: '+e.changedTouches[0].screenX;
+			o.innerHTML += ' screenY: '+e.changedTouches[0].screenY;
 			o.innerHTML += ' clientX: '+e.changedTouches[0].clientX;
 			o.innerHTML += ' clientY: '+e.changedTouches[0].clientY;
+			o.innerHTML += ' pageX: '+e.changedTouches[0].pageX;
+			o.innerHTML += ' pageY: '+e.changedTouches[0].pageY;
 			o.innerHTML += '<br>';
 		} else if (e.clientX && e.clientY) {
+			o.innerHTML += ' screenX: '+e.screenX;
+			o.innerHTML += ' screenY: '+e.screenY;
 			o.innerHTML += ' clientX: '+e.clientX;
 			o.innerHTML += ' clientY: '+e.clientY;
+			o.innerHTML += ' pageX: '+e.pageX;
+			o.innerHTML += ' pageY: '+e.pageY;
 			o.innerHTML += '<br>';
 		}
 	}
@@ -66,7 +74,7 @@ window.addEventListener('load', function() {
 </script>
 </head><body>
 <h1>Event listener</h1>
-<p>Lists the order of all relevant events being fired, including <code>clientX</code> / <code>clientY</code> coordinates if present (for touch, only looks at first <code>Touch</code> in <code>changedTouches</code>).</p>
+<p>Lists the order of all relevant events being fired, including <code>screenX</code>/<code>screenY</code>, <code>clientX</code>/<code>clientY</code>, <code>pageX</code>/<code>pageY</code> coordinates if present (for touch, only looks at first <code>Touch</code> in <code>changedTouches</code>).</p>
 <button class="button">Test button!</button>
 <output></output>
 </body></html>
