@@ -54,7 +54,7 @@ No assistive technology available (yet) for Firefox OS, Windows Phone 8 or Black
 
 There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where `mouseenter` mouse compatibility event is not being fired correctly - see [Bug 128534 - `mouseenter` mouse compat event not fired when listeners for touch events](https://bugs.WebKit.org/show_bug.cgi?id=128534).
 
-## Mobile/tablet touch devices with paired keyboard/mouse
+## Mobile/tablet touch devices with paired keyboard/mouse event order
 
 Browser | move to button | 1st activation | 2nd activation | leave button
 -- | -- | -- | -- | --
@@ -72,7 +72,7 @@ Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard
 
 Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.
 
-## Desktop with touchscreen
+## Desktop with touchscreen event order
 Browser | 1st tap | 2nd tap | tap out
 -- | -- | -- | --
 Windows 8 / Chrome 33 (supports touch events) | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > `focus` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > `blur`
@@ -83,7 +83,7 @@ Windows 8 / IE11 (supports pointer events) | `mousemove` > `pointerover` > `mous
 
 If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including `click`) are generally _**not**_ fired.
 
-## Desktop with assistive technology
+## Desktop with assistive technology event order
 
 Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.
 
@@ -97,19 +97,22 @@ Windows 8 / Chrome 33 + Narrator | `focus` | `click` | `click` | `blur`
 Windows 8 / IE11 + JAWS 15 | `focus` |  `click` | `click` | `blur`
 Windows 8 / IE11 + NVDA 2014.1 | `focus` |  `click` | `click` | `blur`
 Windows 8 / IE11 + Narrator | `focus` |  `click` | `click` | `blur`
+Windows 8 / IE11 + ZoomText 10.1 | `focus` |  `click` | `click` | `blur`
 Windows 8 / Firefox 28 + JAWS 15 | `focus` |  `click` | `click` | `blur`
 Windows 8 / Firefox 28 + NVDA 2014.1 | `focus` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | `blur
 Windows 8 / Firefox 28 + Narrator | `focus` |  `click` | `click` | `blur`
+Windows 8 / Firefox 28 + ZoomText 10.1 | `focus` |  `click` | `click` | `blur`
 Windows 8 / Opera 20 (Blink) + JAWS 15 | `focus` |  `click` | `click` | `blur`
 Windows 8 / Opera 20 (Blink) + NVDA 2014.1 | `focus` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | `blur`
 Windows 8 / Opera 20 (Blink) + Narrator | `focus` |  `click` | `click` | `blur`
+Windows 8 / Opera 20 (Blink) + ZoomText 10.1 | `focus` |  `click` | `click` | `blur`
 OS X 10.9.2 / Safari 7.0.2 + VoiceOver | `focus` | `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> `mousedown` > `mouseup` > `click` <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small> |  `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> `mousedown` > `mouseup` > `click` <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small> | `blur`
 OS X 10.9.2 / Chrome 33 + VoiceOver | `focus` | `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> `mousedown` > `mouseup` > `click` <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small> |  `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> `mousedown` > `mouseup` > `click` <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small> | `blur`
 OS X 10.9.2 / Firefox 29 + VoiceOver | `focus` | `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> `mousedown` > _**`blur`**_ >  `mouseup` > `click` <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small> |  `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> `mousedown` >`mouseup` > `click` <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small> | `blur` <br><small>(if not activated or activated using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small> <hr> _**`none`**_ <br><small>(if activated using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small>
 
-Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology.
+Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology. ZoomText 10.1 currently not working at all with Chrome (34).
 
-## Desktop with touchscreen and assistive technology
+## Desktop with touchscreen and assistive technology event order
 
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore", instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.
 

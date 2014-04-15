@@ -165,7 +165,7 @@
 </table>
 <p>No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.</p>
 <p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a>.</p>
-<h2>Mobile/tablet touch devices with paired keyboard/mouse</h2>
+<h2>Mobile/tablet touch devices with paired keyboard/mouse event order</h2>
 <table>
 <thead>
 <tr>
@@ -231,7 +231,7 @@
 <p>iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).</p>
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard. Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
 <p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
-<h2>Desktop with touchscreen</h2>
+<h2>Desktop with touchscreen event order</h2>
 <table>
 <thead>
 <tr>
@@ -275,7 +275,7 @@
 </tbody>
 </table>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including <code>click</code>) are generally <em><strong>not</strong></em> fired.</p>
-<h2>Desktop with assistive technology</h2>
+<h2>Desktop with assistive technology event order</h2>
 <p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.</p>
 <p>Included primarily as a point of comparison for the more specific case of desktop with touchscreen and assistive technology.</p>
 <table>
@@ -332,6 +332,13 @@
 	<td><code>blur</code></td>
 </tr>
 <tr>
+	<td>Windows 8 / IE11 + ZoomText 10.1</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
 	<td>Windows 8 / Firefox 28 + JAWS 15</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
@@ -353,6 +360,13 @@
 	<td><code>blur</code></td>
 </tr>
 <tr>
+	<td>Windows 8 / Firefox 28 + ZoomText 10.1</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
 	<td>Windows 8 / Opera 20 (Blink) + JAWS 15</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
@@ -368,6 +382,13 @@
 </tr>
 <tr>
 	<td>Windows 8 / Opera 20 (Blink) + Narrator</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + ZoomText 10.1</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
@@ -396,8 +417,8 @@
 </tr>
 </tbody>
 </table>
-<p>Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology.</p>
-<h2>Desktop with touchscreen and assistive technology</h2>
+<p>Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology. ZoomText 10.1 currently not working at all with Chrome (34).</p>
+<h2>Desktop with touchscreen and assistive technology event order</h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;, instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.</p>
 <table>
 <thead>
