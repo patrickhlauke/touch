@@ -13,7 +13,7 @@ See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/
 Browser | 1st tap | 2nd tap | tap out
 -- | -- | -- | --
 Firefox OS 1.1 | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mouseenter` > `mousemove` > `mousedown` > `focus` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > `mouseleave` > `blur`
-iOS7.1 / Safari/WebView | `touchstart` > (`touchmove`)+ > `touchend` > `(mouseenter)` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` (see [WebKit bug relating to `mouseenter`](https://bugs.WebKit.org/show_bug.cgi?id=128534)) | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout` (when tapping to another focusable/activatable element, otherwise `none`)
+iOS7.1 / Safari/WebView | `touchstart` > (`touchmove`)+ > `touchend` > `(mouseenter)` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout` (when tapping to another focusable/activatable element, otherwise `none`)
 Android 2.1 (HTC Hero) / "Internet" (WebKit 530.17)  | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
 Android 2.3.7 / "Browser" (WebKit 533.1)  | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
 Android 4.3 / Chrome M34 | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > _**`focus`**_ > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > _**`blur`**_
@@ -29,23 +29,27 @@ Windows Phone 8 / IE10 (pointer events, vendor-prefixed)| _**`mousemove`**_ > `M
 
 Generally, only a single ("sacrificial") `mousemove` is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.
 
-iOS Safari/WebView mouse compatibility events (and final `click` event) are only fired when a single finger is on the touchscreen. As soon as there's two or more (even outside of the element we're listening on), only touch events are fired and mouse compatibility events are suppressed.
+There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where `mouseenter` mouse compatibility event is not being fired correctly - see [Bug 128534 - `mouseenter` mouse compat event not fired when listeners for touch events](https://bugs.WebKit.org/show_bug.cgi?id=128534).
 
-If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including `click`) are generally _**not**_ fired.
+In the touch event model, mouse compatibility events (and final `click`) are only fired when a single finger is on the touchscreen. As soon as there's two or more (even outside of the element we're listening on), only touch events are fired and mouse compatibility events are suppressed.
 
-There appears to be a bug in older versions of Blink (noticed in Android/Chrome M34, Android/Opera, Android/Maxthon) where even the slightest movement during a tap results in `touchstart`, a _**single**_ `touchmove` only, and a `touchcancel`, with no further events being dispatched. This behavior is inconsistent with other implementations (as noted above, the result is usually `touchstart`, a few `touchmove` events, a `touchend` and then - provided the movement was within the threshold - the mouse compatibility and `click` events). Android/Chrome M35 (beta) seems to have fixed this bug.
+If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including `click`) are generally _**not**_ fired. There is a bug in current Blink implementations (again, Chrome M34 and related browsers) that, even on slight movement during tap, fires just a single `touchmove` and `touchcancel` - 
+
+There appears to be a bug in older versions of Blink (noticed in Android/Chrome M34, Android/Opera, Android/Maxthon) where even the slightest movement during a tap results in `touchstart`, a _**single**_ `touchmove` only, and a `touchcancel`, with no further events being dispatched. This behavior is inconsistent with other implementations (as noted above, the result is usually `touchstart`, a few `touchmove` events, a `touchend` and then - provided the movement was within the threshold - the mouse compatibility and `click` events). Android/Chrome M35 (beta) seems to have fixed this bug - see [Issue 363319:	Swiping over a button with touch event handlers results in a single touchmove then touchcancel](https://code.google.com/p/chromium/issues/detail?id=363319).
 
 ## Mobile/tablet touchscreen + assistive technology event order
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore".
 
 Browser | move to button | 1st activation | 2nd activation | leave button
 -- | -- | -- | -- | --
-iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard) | _**`focus`**_ | `touchstart` > `touchend` > `(mouseenter)` > `mouseover` > `mousemove` > `mousedown` > _**`blur`**_ > `mouseup` > `click` (see [WebKit bug relating to `mouseenter`](https://bugs.WebKit.org/show_bug.cgi?id=128534)) | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `blur` (when moving to another focusable element, otherwise `none`)<hr> `mouseleave` > `mouseout` (fired after element was already left, if original element was activated, and now another element was activated)
+iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard) | _**`focus`**_ | `touchstart` > `touchend` > `mouseenter` > `mouseover` > `mousemove` > `mousedown` > _**`blur`**_ > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `blur` (when moving to another focusable element, otherwise `none`)<hr> `mouseleave` > `mouseout` (fired after element was already left, if original element was activated, and now another element was activated)
 Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox) | `focus` | _**`blur`**_ > `mousedown` > `mouseup` > `click` > _**`focus`**_ | _**`blur`**_ > `mousedown` > `mouseup` > `click` > _**`focus`**_ | _**`blur`**_
 Android 4.3 / Miren Browser, Maxthon Browser, Dolphin Browser, "Browser" (WebKit 534.30) + TalkBack (effectively ChromeVox) | `focus` | `blur` > `mousedown` > `mouseup` > `click` > `focus` | `blur` > `mousedown` > `mouseup` > `click` > `focus`  | `blur`
 Android 4.3 / Firefox 28 + TalkBack | _**`none`**_ | `touchstart` > _**`mousedown`**_ > _**`focus`**_ > `touchend` > `mouseup` > `click` | `touchstart` > _**`mousedown`**_ > `touchend` > `mouseup` > `click` | `blur` (when moving to another focusable element, otherwise `none`)
 
 No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.
+
+There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where `mouseenter` mouse compatibility event is not being fired correctly - see [Bug 128534 - `mouseenter` mouse compat event not fired when listeners for touch events](https://bugs.WebKit.org/show_bug.cgi?id=128534).
 
 ## Mobile/tablet touch devices with paired keyboard/mouse
 
