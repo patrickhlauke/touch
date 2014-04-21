@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="http://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
 <p>Some of these results first appeared in my presentation <a href="http://www.slideshare.net/redux">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 15 April 2014.</small></p>
+<p><small>Last updated 21 April 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Mobile/tablet touchscreen activation/tap event order</h2>
 <table>
 <thead>
@@ -18,7 +18,7 @@
 	<th>Browser</th>
 	<th>1st tap</th>
 	<th>2nd tap</th>
-	<th>tap out</th>
+	<th>Tap out</th>
 </tr>
 </thead>
 <tbody>
@@ -120,60 +120,61 @@
 <p>There is a bug in current Blink implementations (noticed in Android/Chrome M34, M35 beta, and related Blink-based browsers like Opera) which also suppresses actual touch events if the first touch happened on a region with no touch handlers - see <a href="https://code.google.com/p/chromium/issues/detail?id=363321">Issue 363321:	No touch are ever events fired if the first finger went down in an area with no handler</a>.</p>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including <code>click</code>) are generally <em><strong>not</strong></em> fired.</p>
 <p>There is a bug in older versions of Blink (noticed in Android/Chrome M34, Android/Opera, Android/Maxthon) where even the slightest movement during a tap results in <code>touchstart</code>, a <em><strong>single</strong></em> <code>touchmove</code> only, and a <code>touchcancel</code>, with no further events being dispatched. This behavior is inconsistent with other implementations (as noted above, the result is usually <code>touchstart</code>, a few <code>touchmove</code> events, a <code>touchend</code> and then - provided the movement was within the threshold - the mouse compatibility and <code>click</code> events). Android/Chrome M35 (beta) seems to have fixed this bug - see <a href="https://code.google.com/p/chromium/issues/detail?id=363319">Issue 363319:	Swiping over a button with touch event handlers results in a single touchmove then touchcancel</a>.</p>
-<h2>Mobile/tablet touchscreen + assistive technology event order</h2>
+<p>When testing touch events on desktop using developer tools emulation, note there are currently bugs in the order/type of events being fired:</p>
+<ul>
+<li>Chrome: <a href="https://code.google.com/p/chromium/issues/detail?id=181204">Issue 181204:	Emulate touch events - event order different from real devices</a></li>
+<li>Firefox: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=920956">Bug 920956 - DevTools touch emulation: suppress regular mouse events, emulate 300ms delay</a></li>
+</ul>
+<h2>Mobile/tablet touchscreen with assistive technology event order</h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;.</p>
 <table>
 <thead>
 <tr>
 	<th>Browser</th>
-	<th>move to button</th>
+	<th>Move to button</th>
 	<th>1st activation</th>
 	<th>2nd activation</th>
-	<th>leave button</th>
+	<th>Leave button</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-	<td>iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard)</td>
+	<td>iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><em><strong><code>focus</code></strong></em></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseenter</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>blur</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>blur</code> <br><small>(when moving to another focusable element, otherwise <code>none</code>)</small><hr> <code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small></td>
+	<td><code>blur</code> <br><small>(when moving to another focusable element, otherwise <code>none</code>)</small><hr> <em><strong><code>mouseleave</code></strong></em> &gt; <em><strong><code>mouseout</code></strong></em> <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small></td>
 </tr>
 <tr>
-	<td>Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox)</td>
-	<td><code>focus</code></td>
+	<td>Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox, same behavior in other WebView/WebKit enabled browsers like Miren, Maxthon, etc)</td>
+	<td><code>focus</code><hr><em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mouseover</code></strong></em> &gt; (<em><strong><code>mousemove</code></strong></em>)+ &gt; <code>focus</code><br><small>(when using &quot;touch explore&quot;)</small></td>
 	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
 	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
-	<td><em><strong><code>blur</code></strong></em></td>
-</tr>
-<tr>
-	<td>Android 4.3 / Miren Browser, Maxthon Browser, Dolphin Browser, &quot;Browser&quot; (WebKit 534.30) + TalkBack (effectively ChromeVox)</td>
-	<td><code>focus</code></td>
-	<td><code>blur</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <code>focus</code></td>
-	<td><code>blur</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <code>focus</code></td>
-	<td><code>blur</code></td>
+	<td><code>blur</code><hr>(<em><strong><code>mousemove</code></strong></em>)+ &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <em><strong><code>mouseout</code></strong></em><br><small>(when using &quot;touch expore&quot;)</small></td>
 </tr>
 <tr>
 	<td>Android 4.3 / Firefox 28 + TalkBack</td>
-	<td><em><strong><code>none</code></strong></em></td>
+	<td><em><strong><code>none</code></strong></em><hr><code>mousover</code><br><small>(when using &quot;touch explore&quot;)</small></td>
 	<td><code>touchstart</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>blur</code> <br><small>(when moving to another focusable element, otherwise <code>none</code>)</small></td>
+	<td><code>blur</code> <br><small>(only if element was activated at least once, and only when moving to another focusable element and activating it, otherwise <code>none</code>)</small><hr><code>mouseout</code> &gt; <code>blur</code><br><small>(when using &quot;touch explore&quot; - <code>blur</code> also only fired if element was activated at least once, and only when moving to another focusable element and activating it)</small></td>
 </tr>
 </tbody>
 </table>
 <p>No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.</p>
+<p>Moving the focus (swiping left/right and using “touch explore”) will fire a JavaScript <code>focus</code> event – except in Android / Firefox with TalkBack, where <code>focus</code> is only sent as part of the series of events that follow an activation (double-tap).</p>
+<p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
+<p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
 <p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a>.</p>
 <h2>Mobile/tablet touch devices with paired keyboard/mouse event order</h2>
 <table>
 <thead>
 <tr>
 	<th>Browser</th>
-	<th>move to button</th>
+	<th>Move to button</th>
 	<th>1st activation</th>
 	<th>2nd activation</th>
-	<th>leave button</th>
+	<th>Leave button</th>
 </tr>
 </thead>
 <tbody>
@@ -238,7 +239,7 @@
 	<th>Browser</th>
 	<th>1st tap</th>
 	<th>2nd tap</th>
-	<th>tap out</th>
+	<th>Tap out</th>
 </tr>
 </thead>
 <tbody>
@@ -276,16 +277,17 @@
 </table>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including <code>click</code>) are generally <em><strong>not</strong></em> fired.</p>
 <h2>Desktop with assistive technology event order</h2>
-<p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present.</p>
+<p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present, and are most likely meant for compatibility with sites that assume mouse interactions.</p>
 <p>Included primarily as a point of comparison for the more specific case of desktop with touchscreen and assistive technology.</p>
+<p>This table also includes classic Opera 12 (Presto) which has a unique <em>spatial navigation</em> feature (also used in Opera-based TV browsers): using <kbd>SHIFT</kbd>+cursor keys, this mode allows to set focus with the keyboard not in a sequential tab order, but based on the relative position of elements in the rendered layout (e.g. using <kbd>SHIFT</kbd>+<kbd>→</kbd> to move to the closest focusable element to the right of the current element). Again, for compatibility with mouse-centric sites/scripts, Opera's spatial navigation fires the whole range of mouse events when entering and leaving an element.</p>
 <table>
 <thead>
 <tr>
 	<th>Browser</th>
-	<th>move to button</th>
+	<th>Move to button</th>
 	<th>1st activation</th>
 	<th>2nd activation</th>
-	<th>leave button</th>
+	<th>Leave button</th>
 </tr>
 </thead>
 <tbody>
@@ -297,7 +299,7 @@
 	<td><code>blur</code></td>
 </tr>
 <tr>
-	<td>Windows 8 / Chrome 33 + NVDA 2014.1</td>
+	<td>Windows 8 / Chrome 34 + NVDA 2014.1</td>
 	<td><code>focus</code></td>
 	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
 	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
@@ -341,8 +343,8 @@
 <tr>
 	<td>Windows 8 / Firefox 28 + JAWS 15</td>
 	<td><code>focus</code></td>
-	<td><code>click</code></td>
-	<td><code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
 <tr>
@@ -350,7 +352,7 @@
 	<td><code>focus</code></td>
 	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
 	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
-	<td>`blur</td>
+	<td><code>blur</code></td>
 </tr>
 <tr>
 	<td>Windows 8 / Firefox 28 + Narrator</td>
@@ -395,6 +397,13 @@
 	<td><code>blur</code></td>
 </tr>
 <tr>
+	<td>Windows 8 / Opera 12 (Presto) + Spatial Navigation <br><small>(<kbd>SHIFT</kbd>+cursor keys)</small></td>
+	<td><code>focus</code> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code> &gt; <em><strong><code>mouseout</code></strong></em> &gt; <em><strong><code>mouseleave</code></strong></em></td>
+</tr>
+<tr>
 	<td>OS X 10.9.2 / Safari 7.0.2 + VoiceOver</td>
 	<td><code>focus</code></td>
 	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small></td>
@@ -417,6 +426,7 @@
 </tr>
 </tbody>
 </table>
+<p>When using VoiceOver on OS X, different events are fired depending on how elements are activated – for instance, activating a button with <kbd>SPACE</kbd> or <kbd>ENTER</kbd> will simply fire <code>click</code>, whereas <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>SPACE</kbd> (the key combination prompted by VoiceOver) also fires the aforementioned &quot;faked&quot; mouse events.</p>
 <p>Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology. ZoomText 10.1 currently not working at all with Chrome (34).</p>
 <h2>Desktop with touchscreen and assistive technology event order</h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;, instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.</p>
@@ -424,10 +434,10 @@
 <thead>
 <tr>
 	<th>Browser</th>
-	<th>move to button</th>
+	<th>Move to button</th>
 	<th>1st activation</th>
 	<th>2nd activation</th>
-	<th>leave button</th>
+	<th>Leave button</th>
 </tr>
 </thead>
 <tbody>
@@ -517,7 +527,124 @@
 </tr>
 </tbody>
 </table>
+<p>Using a desktop screenreader with a touchscreen and touch gestures (swipe left/right and using &quot;touch explore&quot;, similar to mobile/tablet screenreaders), <em>none</em> of the tested combinations of browser/AT fired a <code>focus</code> event when moving the focus outline to an element – <code>focus</code> is only sent as a result of a double-tap activation.</p>
 <p>Opera 12 (Presto) on Windows seems to have no support for assistive technology.</p>
+<h2>&quot;Faked&quot; event coordinates</h2>
+<p>As noted in the &quot;Desktop with assistive technology&quot; and &quot;Desktop with touchscreen and assistive technology&quot; sections, even when not using a traditional pointing device, certain combinations of browser/AT generate &quot;fake&quot; mouse events for compatibility with legacy sites/scripts that hang behavior on traditional mouse events.</p>
+<p>As part of an admittedly philosophical discussion on whether or not setting focus with a keyboard or screenreader (jumping from one focusable element to the next, usually in linear tab order) could also be considered an act of &quot;pointing&quot; (and as such should generate pointer events - see <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24786#c5">Bug 24786 - ACTION-64: Propose a non-normative note re the keyboard compat issue</a>), I tested if these &quot;faked&quot; events, as well as the final <code>click</code>, also carry any coordinates in their event object.</p>
+<p>Any combinations of browser/AT not listed in this table do not generate &quot;fake&quot; mouse events, and any traditional <code>focus</code>, <code>click</code>, <code>blur</code> events they do fire do not contain any coordinates in their event object, as would be the case with regular keyboard interactions.</p>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th>Events fired on activation<br><small>(unless otherwise noted)</small></th>
+	<th>Coordinates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>iOS7.1 / Safari/WebView</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; (<code>blur</code>) &gt; <code>mouseup</code> &gt; <code>click</code> <hr> <code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(when tapping to another focusable/activatable element)</small></td>
+	<td>center of element <hr> center of the <em>new</em> element that received focus</td>
+</tr>
+<tr>
+	<td>Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox) <strong>only touch explore</strong></td>
+	<td><code>mouseenter</code> &gt; <code>mouseover</code> &gt; (<code>mousemove</code>)+ &gt; (<code>focus</code>)<br><small>(when moving to element using &quot;touch explore&quot;)</small><hr>(<code>mousemove</code>)+ &gt; <code>mouseleave</code> &gt; <code>mouseout</code><br><small>(when moving away from element using &quot;touch expore&quot;)</small></td>
+	<td><code>screenX</code>/<code>screenY</code> are <code>0</code><br><code>clientX</code>/<code>clientY</code> and <code>pageX</code>/<code>pageY</code> correspond to finger position</td>
+</tr>
+<tr>
+	<td>Android 4.3 / Firefox 28 + TalkBack <strong>using swipe gestures</strong></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; (focus) &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>center of element</td>
+</tr>
+<tr>
+	<td>Android 4.3 / Firefox 28 + TalkBack <strong>using touch explore</strong></td>
+	<td><code>mouseover</code><br><small>(when moving to element using &quot;touch explore&quot;)</small><hr><code>mouseout</code><br><small>(when moving away from element using &quot;touch expore&quot;)</small></td>
+	<td>finger position</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome 34 + JAWS 15</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome 34 + JAWS 15 gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome 34 + NVDA 2014.1</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> using <kbd>SPACE</kbd></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome 34 + NVDA 2014.1 gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Chrome 34 + Narrator gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox 28 + JAWS 15</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>center of element</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox 28 + JAWS 15 gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>center of element</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox 28 + NVDA 2014.1</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>center of element</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox 28 + NVDA 2014.1 gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>center of element</td>
+</tr>
+<tr>
+	<td>Windows 8 / Firefox 28 + Narrator touchscreen</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>center of element</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + Narrator gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + JAWS 15 gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + NVDA 2014.1</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 20 (Blink) + NVDA 2014.1 gesture navigation</td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>none</td>
+</tr>
+<tr>
+	<td>Windows 8 / Opera 12 (Presto) <strong>Spatial Navigation</strong></td>
+	<td><code>focus</code> &gt; <code>mouseenter</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> when focusing<br><code>click</code> when activating<br><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code> when leaving</td>
+	<td>top left corner of element</td>
+</tr>
+</tbody>
+</table>
+<p>One interesting result which is not included in this table (as it's likely a bug): even for traditional keyboard navigation (with and without Narrator), IE11 passes along coordinates in the event object for the <code>click</code> event when an element is activated. However, these coordinates are meaningless - see <a href="https://connect.microsoft.com/IE/feedback/details/856583/ie11-click-event-has-strange-illogical-screenx-screeny-clientx-clienty-pagex-pagey-coordinates">Bug 856583: IE11 click event has strange/illogical screenX/screenY, clientX/clientY, pageX/pageY coordinates</a>:</p>
+<ul>
+<li>using <kbd>ENTER</kbd> <code>screenX</code>/<code>screenY</code> are <code>0</code></li>
+<li>using <kbd>SPACE</kbd> <code>screenX</code>/<code>screenY</code> are screen coordinates of top left corner of the browser viewport</li>
+<li><code>clientX</code>/<code>clientY</code> and <code>pageX</code>/<code>pageY</code> contain negative values, the inverse of the coordinates of the top left corner of browser viewport</li>
+</ul>
 
 </body>
 </html>
