@@ -160,9 +160,9 @@ Any combinations of browser/AT not listed in this table do not generate "fake" m
 
 Browser | Events fired on activation<br><small>(unless otherwise noted)</small> | Coordinates
 -- | -- | --
-iOS7.1 / Safari/WebView | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > (`blur`) > `mouseup` > `click` <hr> `mouseleave` > `mouseout` <br><small>(when tapping to another focusable/activatable element)</small> | center of element <hr> center of the _new_ element that received focus
+iOS7.1 / Safari/WebView + VoiceOver | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > (`blur`) > `mouseup` > `click` <hr> `mouseleave` > `mouseout`<br><small>(when moving to another focusable/activatable element)</small> | center of element <hr> center of the _new_ element that received focus<br><small>(when moving to another focusable/activatable element)</small>
 Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox) **only touch explore** | `mouseenter` > `mouseover` > (`mousemove`)+ > (`focus`)<br><small>(when moving to element using "touch explore")</small><hr>(`mousemove`)+ > `mouseleave` > `mouseout`<br><small>(when moving away from element using "touch expore")</small>| `screenX`/`screenY` are `0`<br>`clientX`/`clientY` and `pageX`/`pageY` correspond to finger position
-Android 4.3 / Firefox 28 + TalkBack **using swipe gestures** | `touchstart` > `mousedown` > (focus) > `touchend` > `mouseup` > `click` | center of element
+Android 4.3 / Firefox 28 + TalkBack **using swipe gestures** | `touchstart` > `mousedown` > (`focus`) > `touchend` > `mouseup` > `click` | center of element
 Android 4.3 / Firefox 28 + TalkBack **using touch explore** | `mouseover`<br><small>(when moving to element using "touch explore")</small><hr>`mouseout`<br><small>(when moving away from element using "touch expore")</small>| finger position
 Windows 8 / Chrome 34 + JAWS 15 | `mousedown` > `mouseup` > `click` | none
 Windows 8 / Chrome 34 + JAWS 15 gesture navigation | `mousedown` > `mouseup` > `click` | none 

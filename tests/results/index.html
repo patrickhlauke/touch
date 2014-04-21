@@ -543,9 +543,9 @@
 </thead>
 <tbody>
 <tr>
-	<td>iOS7.1 / Safari/WebView</td>
-	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; (<code>blur</code>) &gt; <code>mouseup</code> &gt; <code>click</code> <hr> <code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(when tapping to another focusable/activatable element)</small></td>
-	<td>center of element <hr> center of the <em>new</em> element that received focus</td>
+	<td>iOS7.1 / Safari/WebView + VoiceOver</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; (<code>blur</code>) &gt; <code>mouseup</code> &gt; <code>click</code> <hr> <code>mouseleave</code> &gt; <code>mouseout</code><br><small>(when moving to another focusable/activatable element)</small></td>
+	<td>center of element <hr> center of the <em>new</em> element that received focus<br><small>(when moving to another focusable/activatable element)</small></td>
 </tr>
 <tr>
 	<td>Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox) <strong>only touch explore</strong></td>
@@ -554,7 +554,7 @@
 </tr>
 <tr>
 	<td>Android 4.3 / Firefox 28 + TalkBack <strong>using swipe gestures</strong></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; (focus) &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; (<code>focus</code>) &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td>center of element</td>
 </tr>
 <tr>
