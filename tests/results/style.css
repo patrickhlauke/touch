@@ -100,12 +100,12 @@ h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
 /* LINKS
 =============================================================================*/
 
-a {
+a[href] {
   color: #4183C4;
   text-decoration: none;
 }
 
-a:hover {
+a[href]:hover {
   text-decoration: underline;
 }
 
