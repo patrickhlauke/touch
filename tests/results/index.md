@@ -6,9 +6,19 @@ Some of these results first appeared in my presentation [Getting touchy - an int
 
 See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/mobile/tableTouch.html), where he tests some further aspects beyond the scope of my tests.
 
-<small>Last updated 21 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
+<small>Last updated 22 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
-## Mobile/tablet touchscreen activation/tap event order
+## Contents
+
+- [Mobile/tablet touchscreen activation/tap event order](#mobile-tablet-touchscreen-events)
+- [Mobile/tablet touchscreen with assistive technology event order](#mobile-tablet-touchscreen-assistive-technology-events)
+- [Mobile/tablet touch devices with paired keyboard/mouse event order](#mobile-tablet-keyboard-mouse-events)
+- [Desktop with touchscreen event order](#desktop-touchscreen-events)
+- [Desktop with assistive technology event order](#desktop-assistive-technology-events)
+- [Desktop with touchscreen and assistive technology event order](#desktop-touchscreen-assistive-technology-events)
+- ["Faked" event coordinates](#faked-event-coordinates)
+
+## <a name="mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a>
 
 Browser | 1st tap | 2nd tap | Tap out
 -- | -- | -- | --
@@ -45,7 +55,7 @@ When testing touch events on desktop using developer tools emulation, note there
 - Chrome: [Issue 181204:	Emulate touch events - event order different from real devices](https://code.google.com/p/chromium/issues/detail?id=181204)
 - Firefox: [Bug 920956 - DevTools touch emulation: suppress regular mouse events, emulate 300ms delay](https://bugzilla.mozilla.org/show_bug.cgi?id=920956)
 
-## Mobile/tablet touchscreen with assistive technology event order
+## <a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a>
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore".
 
 Browser | Move to button | 1st activation | 2nd activation | Leave button
@@ -64,7 +74,7 @@ There are dramatic differences in the events being fired between gesture navigat
 
 There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where `mouseenter` mouse compatibility event is not being fired correctly - see [Bug 128534 - `mouseenter` mouse compat event not fired when listeners for touch events](https://bugs.WebKit.org/show_bug.cgi?id=128534).
 
-## Mobile/tablet touch devices with paired keyboard/mouse event order
+## <a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a>
 
 Browser | Move to button | 1st activation | 2nd activation | Leave button
 -- | -- | -- | -- | --
@@ -82,7 +92,7 @@ Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard
 
 Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.
 
-## Desktop with touchscreen event order
+## <a name="desktop-touchscreen-events">Desktop with touchscreen event order</a>
 Browser | 1st tap | 2nd tap | Tap out
 -- | -- | -- | --
 Windows 8 / Chrome 33 (supports touch events) | `touchstart` > (`touchmove`)+ > `touchend` > `mouseover` > `mousemove` > `mousedown` > `focus` > `mouseup` > `click` | `touchstart` > (`touchmove`)+ > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > `blur`
@@ -93,7 +103,7 @@ Windows 8 / IE11 (supports pointer events) | `mousemove` > `pointerover` > `mous
 
 If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including `click`) are generally _**not**_ fired.
 
-## Desktop with assistive technology event order
+## <a name="desktop-assistive-technology-events">Desktop with assistive technology event order</a>
 
 Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present, and are most likely meant for compatibility with sites that assume mouse interactions.
 
@@ -127,7 +137,7 @@ When using VoiceOver on OS X, different events are fired depending on how elemen
 
 Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology. ZoomText 10.1 currently not working at all with Chrome (34).
 
-## Desktop with touchscreen and assistive technology event order
+## <a name="desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a>
 
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore", instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.
 
@@ -150,7 +160,7 @@ Using a desktop screenreader with a touchscreen and touch gestures (swipe left/r
 
 Opera 12 (Presto) on Windows seems to have no support for assistive technology.
 
-## "Faked" event coordinates
+## <a name="faked-event-coordinates">"Faked" event coordinates</a>
 
 As noted in the "Desktop with assistive technology" and "Desktop with touchscreen and assistive technology" sections, even when not using a traditional pointing device, certain combinations of browser/AT generate "fake" mouse events for compatibility with legacy sites/scripts that hang behavior on traditional mouse events.
 
