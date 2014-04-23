@@ -6,7 +6,7 @@ Some of these results first appeared in my presentation [Getting touchy - an int
 
 See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/mobile/tableTouch.html), where he tests some further aspects beyond the scope of my tests.
 
-<small>Last updated 22 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
+<small>Last updated 23 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
 ## Contents
 
@@ -66,7 +66,7 @@ Android 4.3 / Firefox 28 + TalkBack | _**`none`**_<hr>`mousover`<br><small>(when
 
 No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.
 
-Moving the focus (swiping left/right and using “touch explore”) will fire a JavaScript `focus` event – except in Android / Firefox with TalkBack, where `focus` is only sent as part of the series of events that follow an activation (double-tap).
+Moving the focus (swiping left/right and using “touch explore”) will fire a JavaScript `focus` event – except in Android / Firefox with TalkBack, where `focus` is only sent as part of the series of events that follow an activation (double-tap). Though perhaps not a problem in practice, it does represent an incompatibility with other implementations - see [Bug 1000082 - [AccessFu] When virtual focus is on a button or link, fire actual focus on the element, too](https://bugzilla.mozilla.org/show_bug.cgi?id=1000082), with thanks to [Marco Zehe](http://www.marcozehe.de).
 
 Mobile/tablet screenreaders are quite liberal in firing additional `blur` events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to "stick" after a user tapped on an in-page link or control. Careful if your code assumes `blur` means the user has moved away from the focusable element, as the AT focus is actually still there.
 
