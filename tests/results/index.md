@@ -6,7 +6,7 @@ Some of these results first appeared in my presentation [Getting touchy - an int
 
 See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/mobile/tableTouch.html), where he tests some further aspects beyond the scope of my tests.
 
-<small>Last updated 23 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
+<small>Last updated 24 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
 ## Contents
 
@@ -79,11 +79,16 @@ There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where `mouseenter
 Browser | Move to button | 1st activation | 2nd activation | Leave button
 -- | -- | -- | -- | --
 Android 2.1 (HTC Hero) + built-in trackball / "Internet" (WebKit 530.17)  | _**`mouseover`**_ > _**`mousemove`**_ | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousemove`**_ > _**`mousedown`**_ > _**`mouseup`**_ > `click` | `mouseout` <br><small>(when moving to another focusable element, otherwise `none`)</small>
-Android 2.3.7 / "Browser" + mouse | _**`none`**_ | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`
-Android 4.3 / Chrome M34 + mouse | `mouseenter` > `mouseover` | _**`mousemove`**_ > `touchstart` > `touchend` > `mousedown` > _**`focus`**_ > `mouseup` > `click` | _**`mousemove`**_ > `touchstart` > `touchend` > `mousedown` > `mouseup` > `click` | `mouseleave` > `mouseout`
+Android 2.3.7 / "Browser" + mouse | _**`none`**_ | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout`<br><small>(when clicking somewhere else)</small>
+Android 2.3.7 / Firefox 28 + mouse | _**`none`**_ | `touchstart` > `touchend` > `mouseover` > `mouseenter` > `mousemove` > `mousedown` > `focus` > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > `mouseleave` > `blur`<br><small>(when clicking somewhere else)</small>
+Android 2.3.7 / Opera 12 + mouse | _**`none`**_ | `touchstart` > `touchend` > `mouseover` > `mousemove` > `mousedown` > `focus` > `mouseup` > `click` | `touchstart` > `touchend` `mousedown` > `mouseup` > `click` | `mouseout` > `mouseleave` > `blur`<br><small>(when clicking somewhere else)</small>
+Android 4.3 / "Browser" + mouse | `mouseover` > (`mousemove`)+ | (`mousemove`)+ > `touchstart` > `touchend` >  (`mousemove`)+ > `mousedown` > `mouseup` > `click` | (`mousemove`)+ > `touchstart` > `touchend` >  (`mousemove`)+ > `mousedown` > `mouseup` > `click` | (`mousemove`)+ > `mouseout`
+Android 4.3 / Chrome M34 + mouse | `mouseenter` > `mouseover` > (`mousemove`)+ | _**`mouseleave`**_ > _**`mouseout`**_ > `touchstart` > `touchend` > _**`mouseenter`**_ > _**`mouseover`**_ > (`mousemove`)+ > `mousedown` > _**`focus`**_ > `mouseup` > `click` > _**`mousemove`**_ | _**`mouseleave`**_ > _**`mouseout`**_ > `touchstart` > `touchend` > _**`mouseenter`**_ > _**`mouseover`**_ > (`mousemove`)+ > `mousedown` > `mouseup` > `click` > _**`mousemove`**_ | (`mousemove`)+ > `mouseleave` > `mouseout`
 Android 4.3 / Chrome M34 + keyboard | `focus` | `click` | `click` | `blur`
 Android 4.3 / Opera 19 (Blink) + keyboard (no focus indication) | `focus` | `click` | `click` | `blur`
-BlackBerry PlayBook 2.0 (2.1.0.1917) / "Browser" (WebKit 536.2) + mouse |  _**`mouseover`**_ | _**`mousedown`**_ > _**`mouseup`**_ > _**`click`**_ | _**`mousedown`**_ > _**`mouseup`**_ > _**`click`**_ |  _**`mouseout`**_
+Android 4.3 / Firefox 28 + mouse | `mouseover` > `mouseenter` > (`mousemove`)+ | _**`mouseleave`**_ > `touchstart` > `touchend` > `mouseenter` > (`mousemove`)+ > `mousedown` > `focus` > `mouseup` > `click` | _**`mouseleave`**_ > `touchstart` > `touchend` > `mouseenter` > (`mousemove`)+ > `mousedown` > `mouseup` > `click` > _**`mousemove`**_ | (`mousemove`)+ > `mouseout` > `mouseleave`
+Android 4.3 / Firefox 28 + keyboard | `focus` | `click` | `click` | `blur`
+BlackBerry PlayBook 2.0 (2.1.0.1917) / "Browser" (WebKit 536.2) + mouse |  _**`mouseover`**_ > (`mousemove`)+ | _**`mousedown`**_ > _**`mouseup`**_ > _**`click`**_ | _**`mousedown`**_ > _**`mouseup`**_ > _**`click`**_ |  (`mousemove`)+ > _**`mouseout`**_
 BlackBerry PlayBook 2.0 (2.1.0.1917) / "Browser" (WebKit 536.2) + keyboard | _**`focus`**_ | _**`click`**_ | _**`click`**_ | _**`blur`**_
 
 iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).
