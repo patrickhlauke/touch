@@ -6,7 +6,7 @@ Some of these results first appeared in my presentation [Getting touchy - an int
 
 See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/mobile/tableTouch.html), where he tests some further aspects beyond the scope of my tests.
 
-<small>Last updated 24 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
+<small>Last updated 25 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
 ## Contents
 
@@ -63,6 +63,7 @@ Browser | Move to button | 1st activation | 2nd activation | Leave button
 iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard, and using "touch explore") | _**`focus`**_ | `touchstart` > `touchend` > `mouseenter` > `mouseover` > `mousemove` > `mousedown` > _**`blur`**_ > `mouseup` > `click` | `touchstart` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `blur` <br><small>(when moving to another focusable element, otherwise `none`)</small><hr> _**`mouseleave`**_ > _**`mouseout`**_ <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small>
 Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox, same behavior in other WebView/WebKit enabled browsers like Miren, Maxthon, etc) | `focus`<hr>_**`mouseenter`**_ > _**`mouseover`**_ > (_**`mousemove`**_)+ > `focus`<br><small>(when using "touch explore")</small> | _**`blur`**_ > `mousedown` > `mouseup` > `click` > _**`focus`**_ | _**`blur`**_ > `mousedown` > `mouseup` > `click` > _**`focus`**_ | `blur`<hr>(_**`mousemove`**_)+ > _**`mouseleave`**_ > _**`mouseout`**_<br><small>(when using "touch expore")</small>
 Android 4.3 / Firefox 28 + TalkBack | _**`none`**_<hr>`mousover`<br><small>(when using "touch explore")</small> | `touchstart` > _**`mousedown`**_ > _**`focus`**_ > `touchend` > `mouseup` > `click` | `touchstart` > _**`mousedown`**_ > `touchend` > `mouseup` > `click` | `blur` <br><small>(only if element was activated at least once, and only when moving to another focusable element and activating it, otherwise `none`)</small><hr>`mouseout` > `blur`<br><small>(when using "touch explore" - `blur` also only fired if element was activated at least once, and only when moving to another focusable element and activating it)</small>
+Windows Phone 8.1 / IE11 + Narrator | `none` | `focus` > `click` | `click` | `blur`<br><small>(after moving and activating another focusable element)
 
 No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.
 
