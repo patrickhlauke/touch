@@ -6,7 +6,7 @@ Some of these results first appeared in my presentation [Getting touchy - an int
 
 See also [Peter-Paul Koch's <cite>Touch table</cite>](http://www.quirksmode.org/mobile/tableTouch.html), where he tests some further aspects beyond the scope of my tests.
 
-<small>Last updated 25 April 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
+<small>Last updated 1 May 2014. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
 ## Contents
 
