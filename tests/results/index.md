@@ -119,6 +119,7 @@ This table also includes classic Opera 12 (Presto) which has a unique _spatial n
 
 Browser | Move to button | 1st activation | 2nd activation | Leave button
 -- | -- | -- | -- | --
+Windows 8 / Chrome 34 + ChromeVox 1.31.4 | `focus` | `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small> <hr> _**`mousedown`**_ > _**`mouseup`**_ > `click` <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small> | `click` <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small> <hr> _**`mousedown`**_ > _**`mouseup`**_ > `click` <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small> | `blur`
 Windows 8 / Chrome 33 + JAWS 15 | `focus` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | `blur`
 Windows 8 / Chrome 34 + NVDA 2014.1 | `focus` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | _**`mousedown`**_ > _**`mouseup`**_ > `click` | `blur`
 Windows 8 / Chrome 33 + Narrator | `focus` | `click` | `click` | `blur`
@@ -164,7 +165,7 @@ Windows 8 / Opera 20 (Blink) + Narrator gesture navigation **[touch explore not 
 
 Using a desktop screenreader with a touchscreen and touch gestures (swipe left/right and using "touch explore", similar to mobile/tablet screenreaders), _none_ of the tested combinations of browser/AT fired a `focus` event when moving the focus outline to an element – `focus` is only sent as a result of a double-tap activation.
 
-Opera 12 (Presto) on Windows seems to have no support for assistive technology.
+Opera 12 (Presto) on Windows seems to have no support for assistive technology. Chrome+ChromeVox does not currently support touch swipes/gestures on desktop.
 
 ## <a name="faked-event-coordinates">"Faked" event coordinates</a>
 
@@ -180,9 +181,10 @@ iOS7.1 / Safari/WebView + VoiceOver | `touchstart` > `touchend` > `mouseover` > 
 Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox) **only touch explore** | `mouseenter` > `mouseover` > (`mousemove`)+ > (`focus`)<br><small>(when moving to element using "touch explore")</small><hr>(`mousemove`)+ > `mouseleave` > `mouseout`<br><small>(when moving away from element using "touch expore")</small>| `screenX`/`screenY` are `0`<br>`clientX`/`clientY` and `pageX`/`pageY` correspond to finger position
 Android 4.3 / Firefox 28 + TalkBack **using swipe gestures** | `touchstart` > `mousedown` > (`focus`) > `touchend` > `mouseup` > `click` | center of element
 Android 4.3 / Firefox 28 + TalkBack **using touch explore** | `mouseover`<br><small>(when moving to element using "touch explore")</small><hr>`mouseout`<br><small>(when moving away from element using "touch expore")</small>| finger position
+Windows 8 / Chrome 34 + ChromeVox 1.34.1 | `mousedown` > `mousemup` > `click` <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small> | none
 Windows 8 / Chrome 34 + JAWS 15 | `mousedown` > `mouseup` > `click` | none
 Windows 8 / Chrome 34 + JAWS 15 gesture navigation | `mousedown` > `mouseup` > `click` | none 
-Windows 8 / Chrome 34 + NVDA 2014.1 | `mousedown` > `mouseup` > `click` using <kbd>SPACE</kbd> | none 	
+Windows 8 / Chrome 34 + NVDA 2014.1 | `mousedown` > `mouseup` > `click` <br><small>(using <kbd>SPACE</kbd>)</small> | none 	
 Windows 8 / Chrome 34 + NVDA 2014.1 gesture navigation | `mousedown` > `mouseup` > `click` | none 	
 Windows 8 / Chrome 34 + Narrator gesture navigation | `mousedown` > `mouseup` > `click` | none 	
 Windows 8 / Firefox 28 + JAWS 15 | `mousedown` > `mouseup` > `click` | center of element
@@ -194,7 +196,7 @@ Windows 8 / Opera 20 (Blink) + Narrator gesture navigation | `mousedown` > `mous
 Windows 8 / Opera 20 (Blink) + JAWS 15 gesture navigation | `mousedown` > `mouseup` > `click` | none
 Windows 8 / Opera 20 (Blink) + NVDA 2014.1 | `mousedown` > `mouseup` > `click` | none
 Windows 8 / Opera 20 (Blink) + NVDA 2014.1 gesture navigation | `mousedown` > `mouseup` > `click` | none
-Windows 8 / Opera 12 (Presto) **Spatial Navigation** | `focus` > `mouseenter` > `mouseover` > `mousemove` when focusing<br>`click` when activating<br>`mouseout` > `mouseleave` > `blur` when leaving | top left corner of element
+Windows 8 / Opera 12 (Presto) **Spatial Navigation** | `focus` > `mouseenter` > `mouseover` > `mousemove` <br><small>(when focusing)</small><hr>`click` <br><small>(when activating)</small><hr>`mouseout` > `mouseleave` > `blur` <br><small>(when leaving)</small> | top left corner of element
 
 One interesting result which is not included in this table (as it's likely a bug): even for traditional keyboard navigation (with and without Narrator), IE11 passes along coordinates in the event object for the `click` event when an element is activated. However, these coordinates are meaningless - see [Bug 856583: IE11 click event has strange/illogical screenX/screenY, clientX/clientY, pageX/pageY coordinates](https://connect.microsoft.com/IE/feedback/details/856583/ie11-click-event-has-strange-illogical-screenx-screeny-clientx-clienty-pagex-pagey-coordinates):
 

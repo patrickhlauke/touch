@@ -344,6 +344,13 @@
 </thead>
 <tbody>
 <tr>
+	<td>Windows 8 / Chrome 34 + ChromeVox 1.31.4</td>
+	<td><code>focus</code></td>
+	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small> <hr> <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small> <hr> <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
 	<td>Windows 8 / Chrome 33 + JAWS 15</td>
 	<td><code>focus</code></td>
 	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
@@ -580,7 +587,7 @@
 </tbody>
 </table>
 <p>Using a desktop screenreader with a touchscreen and touch gestures (swipe left/right and using &quot;touch explore&quot;, similar to mobile/tablet screenreaders), <em>none</em> of the tested combinations of browser/AT fired a <code>focus</code> event when moving the focus outline to an element – <code>focus</code> is only sent as a result of a double-tap activation.</p>
-<p>Opera 12 (Presto) on Windows seems to have no support for assistive technology.</p>
+<p>Opera 12 (Presto) on Windows seems to have no support for assistive technology. Chrome+ChromeVox does not currently support touch swipes/gestures on desktop.</p>
 <h2><a name="faked-event-coordinates">&quot;Faked&quot; event coordinates</a></h2>
 <p>As noted in the &quot;Desktop with assistive technology&quot; and &quot;Desktop with touchscreen and assistive technology&quot; sections, even when not using a traditional pointing device, certain combinations of browser/AT generate &quot;fake&quot; mouse events for compatibility with legacy sites/scripts that hang behavior on traditional mouse events.</p>
 <p>As part of an admittedly philosophical discussion on whether or not setting focus with a keyboard or screenreader (jumping from one focusable element to the next, usually in linear tab order) could also be considered an act of &quot;pointing&quot; (and as such should generate pointer events - see <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24786#c5">Bug 24786 - ACTION-64: Propose a non-normative note re the keyboard compat issue</a>), I tested if these &quot;faked&quot; events, as well as the final <code>click</code>, also carry any coordinates in their event object.</p>
@@ -615,6 +622,11 @@
 	<td>finger position</td>
 </tr>
 <tr>
+	<td>Windows 8 / Chrome 34 + ChromeVox 1.34.1</td>
+	<td><code>mousedown</code> &gt; <code>mousemup</code> &gt; <code>click</code> <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td>none</td>
+</tr>
+<tr>
 	<td>Windows 8 / Chrome 34 + JAWS 15</td>
 	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td>none</td>
@@ -626,7 +638,7 @@
 </tr>
 <tr>
 	<td>Windows 8 / Chrome 34 + NVDA 2014.1</td>
-	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> using <kbd>SPACE</kbd></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>SPACE</kbd>)</small></td>
 	<td>none</td>
 </tr>
 <tr>
@@ -686,7 +698,7 @@
 </tr>
 <tr>
 	<td>Windows 8 / Opera 12 (Presto) <strong>Spatial Navigation</strong></td>
-	<td><code>focus</code> &gt; <code>mouseenter</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> when focusing<br><code>click</code> when activating<br><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code> when leaving</td>
+	<td><code>focus</code> &gt; <code>mouseenter</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> <br><small>(when focusing)</small><hr><code>click</code> <br><small>(when activating)</small><hr><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code> <br><small>(when leaving)</small></td>
 	<td>top left corner of element</td>
 </tr>
 </tbody>
