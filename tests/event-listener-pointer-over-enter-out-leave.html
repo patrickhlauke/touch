@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Event listener - pointer over/enter/out/leave</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<style>
+html { 
+	touch-action: none;
+ }
+output { width: 25em; display: inline-block; }
+</style>
+<script>
+window.addEventListener('load', function() {
+	var t = 0;
+	var events = [
+	'pointercancel',
+	'pointerover',
+	'pointerout',
+	'pointerenter',
+	'pointerleave'
+	];
+	var o1 = document.getElementsByTagName('output')[0];
+	var o2 = document.getElementsByTagName('output')[1];
+	var report = function(e) {
+		e.target.innerHTML += e.type + '<br>'
+	}
+	for (var i=0; i<events.length; i++) {
+		o1.addEventListener(events[i], report, true);
+		o2.addEventListener(events[i], report, true);
+	}
+}, false);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<p>Test for <code>pointerover</code>, <code>pointerenter</code>, <code>pointerout</code>, <code>pointerleave</code>. Page has <code>touch-action:none;</code> to suppress scrolling behavior that swallows events.</p>
+<output>Touch area 1<br></output>
+<output>Touch area 2<br></output>
+</body></html>
