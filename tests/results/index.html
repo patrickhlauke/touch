@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="http://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
 <p>Some of these results first appeared in my presentation <a href="http://www.slideshare.net/redux">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 1 May 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 5 June 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -108,6 +108,12 @@
 	<td>BlackBerry PlayBook 2.0 (2.1.0.1917) / &quot;Browser&quot; (WebKit 536.2)</td>
 	<td><code>touchstart</code> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code></td>
+</tr>
+<tr>
+	<td>Blackberry Z10 (BBOS 10.1) / &quot;Browser&quot;</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code></td>
 </tr>
 <tr>
