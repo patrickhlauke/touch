@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="http://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
 <p>Some of these results first appeared in my presentation <a href="http://www.slideshare.net/redux">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 5 June 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 26 June 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -127,6 +127,12 @@
 	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; (<code>pointermove</code> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>click</code>  <hr> if moving finger slightly during press:<br>  <code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <em><strong><code>pointermove</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; (<code>pointermove</code> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code> &gt; <code>click</code></td>
 	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; (<code>pointermove</code> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code> &gt; <code>click</code> <hr> unable to replicate a tap with slight movement which does not result in a <code>pointercancel</code></td>
 	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Opera Mini 8 / iOS7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
+	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code>)</small></td>
 </tr>
 </tbody>
 </table>
