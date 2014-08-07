@@ -21,6 +21,7 @@
 <li><a href="#desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a></li>
 <li><a href="#faked-event-coordinates">&quot;Faked&quot; event coordinates</a></li>
 </ul>
+
 <h2><a name="mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></h2>
 <table>
 <thead>
@@ -129,6 +130,16 @@
 	<td><code>blur</code></td>
 </tr>
 <tr>
+	<td>Windows Phone 8.1 Update 1 / IE11 (pointer events + touch events)</td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <em><strong><code>focus</code></strong></em> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code>  &gt; <code>click</code>
+	<hr> if moving finger slightly during press:<br>
+	<code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <em><strong><code>focus</code></strong></em> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; (<code>pointermove</code> &gt; <em><strong><code>touchmove</code></strong></em> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code>  &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code> &gt; <code>click</code>
+	<hr> if moving finger slightly during press:<br>
+	<code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>tochstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; (<code>pointermove</code> &gt; <em><strong><code>touchmove</code></strong> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
 	<td>Opera Mini 8 / iOS7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
 	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -147,6 +158,8 @@
 <li>Chrome: <a href="https://code.google.com/p/chromium/issues/detail?id=181204">Issue 181204:	Emulate touch events - event order different from real devices</a></li>
 <li>Firefox: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=920956">Bug 920956 - DevTools touch emulation: suppress regular mouse events, emulate 300ms delay</a></li>
 </ul>
+<p>Note the mix of pointer and touch events in Windows Phone 8.1 Update 1 - see <a href="http://blogs.msdn.com/b/ie/archive/2014/07/31/the-mobile-web-should-just-work-for-everyone.aspx">MSDN: The Mobile Web should just work for everyone</a>.</p>
+
 <h2><a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a></h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;.</p>
 <table>
@@ -195,6 +208,7 @@
 <p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
 <p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
 <p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a>.</p>
+
 <h2><a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a></h2>
 <table>
 <thead>
@@ -296,6 +310,7 @@
 <p>iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).</p>
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard. Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
 <p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
+
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
 <thead>
@@ -340,6 +355,7 @@
 </tbody>
 </table>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including <code>click</code>) are generally <em><strong>not</strong></em> fired.</p>
+
 <h2><a name="desktop-assistive-technology-events">Desktop with assistive technology event order</a></h2>
 <p>Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present, and are most likely meant for compatibility with sites that assume mouse interactions.</p>
 <p>Included primarily as a point of comparison for the more specific case of desktop with touchscreen and assistive technology.</p>
@@ -499,6 +515,7 @@
 </table>
 <p>When using VoiceOver on OS X, different events are fired depending on how elements are activated – for instance, activating a button with <kbd>SPACE</kbd> or <kbd>ENTER</kbd> will simply fire <code>click</code>, whereas <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>SPACE</kbd> (the key combination prompted by VoiceOver) also fires the aforementioned &quot;faked&quot; mouse events.</p>
 <p>Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology. ZoomText 10.1 currently not working at all with Chrome (34).</p>
+
 <h2><a name="desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a></h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;, instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.</p>
 <table>
@@ -600,6 +617,7 @@
 </table>
 <p>Using a desktop screenreader with a touchscreen and touch gestures (swipe left/right and using &quot;touch explore&quot;, similar to mobile/tablet screenreaders), <em>none</em> of the tested combinations of browser/AT fired a <code>focus</code> event when moving the focus outline to an element – <code>focus</code> is only sent as a result of a double-tap activation.</p>
 <p>Opera 12 (Presto) on Windows seems to have no support for assistive technology. Chrome+ChromeVox does not currently support touch swipes/gestures on desktop.</p>
+
 <h2><a name="faked-event-coordinates">&quot;Faked&quot; event coordinates</a></h2>
 <p>As noted in the &quot;Desktop with assistive technology&quot; and &quot;Desktop with touchscreen and assistive technology&quot; sections, even when not using a traditional pointing device, certain combinations of browser/AT generate &quot;fake&quot; mouse events for compatibility with legacy sites/scripts that hang behavior on traditional mouse events.</p>
 <p>As part of an admittedly philosophical discussion on whether or not setting focus with a keyboard or screenreader (jumping from one focusable element to the next, usually in linear tab order) could also be considered an act of &quot;pointing&quot; (and as such should generate pointer events - see <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24786#c5">Bug 24786 - ACTION-64: Propose a non-normative note re the keyboard compat issue</a>), I tested if these &quot;faked&quot; events, as well as the final <code>click</code>, also carry any coordinates in their event object.</p>
