@@ -27,16 +27,16 @@
           handleEvent: function (e) {
             this[e.type](e);
           },
-          pointerdown: function (e) {
+          msPointerDown: function (e) {
             if (e.pointerType == 'touch') {
               var div = e.currentTarget;
-              div.setPointerCapture(e.pointerId);
+              if (div.setPointerCapture) { div.setPointerCapture(e.pointerId); }  else if (div.msSetPointerCapture) { div.msSetPointerCapture(e.pointerId); }
               e.currentTarget.textContent = 'start';
               this.diffY = e.pageY - parseFloat(div.style.top || 60);
               this.diffX = e.pageX - parseFloat(div.style.left || 60);
             }
           },
-          pointermove: function (e) {
+          msPointerMove: function (e) {
             if (e.pointerType == 'touch') {
               var div = e.currentTarget;
               e.preventDefault();
@@ -45,7 +45,7 @@
               div.style.left = (e.pageX - this.diffX) + 'px';
             }
           },
-          pointerup: function (e) {
+          msPointerUp: function (e) {
             if (e.pointerType == 'touch') {
               e.preventDefault();
               e.currentTarget.textContent = 'end';
