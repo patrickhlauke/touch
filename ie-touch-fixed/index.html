@@ -27,7 +27,7 @@
           handleEvent: function (e) {
             this[e.type](e);
           },
-          msPointerDown: function (e) {
+          MSPointerDown: function (e) {
             if (e.pointerType == 'touch') {
               var div = e.currentTarget;
               if (div.setPointerCapture) { div.setPointerCapture(e.pointerId); }  else if (div.msSetPointerCapture) { div.msSetPointerCapture(e.pointerId); }
@@ -36,7 +36,7 @@
               this.diffX = e.pageX - parseFloat(div.style.left || 60);
             }
           },
-          msPointerMove: function (e) {
+          MSPointerMove: function (e) {
             if (e.pointerType == 'touch') {
               var div = e.currentTarget;
               e.preventDefault();
@@ -45,13 +45,13 @@
               div.style.left = (e.pageX - this.diffX) + 'px';
             }
           },
-          msPointerUp: function (e) {
+          MSPointerUp: function (e) {
             if (e.pointerType == 'touch') {
               e.preventDefault();
               e.currentTarget.textContent = 'end';
             }
           },
-          pointercancel: function (e) {
+          MSpointercancel: function (e) {
             if (e.pointerType == 'touch') {
               e.preventDefault();
               e.currentTarget.textContent = 'cancel';
