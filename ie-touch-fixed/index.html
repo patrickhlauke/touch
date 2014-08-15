@@ -25,7 +25,13 @@
       var
         handler = {
           handleEvent: function (e) {
-            this[e.type](e);
+            var et = e.type;
+            /* hacky, but as Andrea also wants it to work in vendor-prefixed IE10... */
+            if (et == 'pointerdown') { et = 'MSPointerDown'; }
+            if (et == 'pointermove') { et = 'MSPointerMove'; }
+            if (et == 'pointerup') { et = 'MSPointerUp'; }
+            if (et == 'pointercancel') { et = 'MSPointerCancel'; }
+            this[et](e);
           },
           MSPointerDown: function (e) {
             if (e.pointerType == 'touch') {
