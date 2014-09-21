@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="http://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
 <p>Some of these results first appeared in my presentation <a href="http://www.slideshare.net/redux">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 14 August June 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 21 September 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -19,6 +19,7 @@
 <li><a href="#desktop-touchscreen-events">Desktop with touchscreen event order</a></li>
 <li><a href="#desktop-assistive-technology-events">Desktop with assistive technology event order</a></li>
 <li><a href="#desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a></li>
+<li><a href="#suppressing-300ms-delay">Suppressing 300ms delay for touchscreen interactions</a>
 <li><a href="#faked-event-coordinates">&quot;Faked&quot; event coordinates</a></li>
 </ul>
 
@@ -625,6 +626,96 @@
 <p>Using a desktop screenreader with a touchscreen and touch gestures (swipe left/right and using &quot;touch explore&quot;, similar to mobile/tablet screenreaders), <em>none</em> of the tested combinations of browser/AT fired a <code>focus</code> event when moving the focus outline to an element – <code>focus</code> is only sent as a result of a double-tap activation.</p>
 <p>Opera 12 (Presto) on Windows seems to have no support for assistive technology. Chrome+ChromeVox does not currently support touch swipes/gestures on desktop.</p>
 
+<h2><a name="suppressing-300ms-delay">Suppressing 300ms delay for touchscreen interactions</a></h2>
+<table>
+<thead>
+<tr>
+	<th>Browser</th>
+	<th><code>&lt;meta name="viewport" content="user-scalable=no"&gt;</code></th>
+	<th><code>&lt;meta name="viewport" content="minimum-scale=1,maximum-scale=1"&gt;</code></th>
+	<th><code>&lt;meta name="viewport" content="width=device-width"&gt;</code></th>
+	<th><code>touch-action:none</code></th>
+	<th><code>touch-action:manipulation</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>iOS 8 / Safari/WebView</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Browser (WebKit 534.30)</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>Android 4.3 / Chrome 37</td>
+	<td>Yes</td>
+	<td>Yes</td>
+	<td>Yes<br><small>(<a href="http://updates.html5rocks.com/2013/12/300ms-tap-delay-gone-away">Chrome 32+</a>)</small></td>
+	<td>Yes<br><small>(<a href="https://code.google.com/p/chromium/issues/detail?id=340060">Chrome 35+</a>)</small></td>
+	<td>Yes<br><small>(<a href="https://code.google.com/p/chromium/issues/detail?id=349016">Chrome 35+</a>)</small></td>
+</tr>
+<tr>
+	<td>Android / Firefox 32</td>
+	<td>Yes</td>
+	<td>Yes</td>
+	<td>Yes<br><small>(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=941995">Firefox 30+</a>)</small></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>Firefox OS 1.3</td>
+	<td>Yes<br><small>(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=922896">Firefox OS 1.3+</a>)</small></td>
+	<td>Yes<br><small>(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=922896">Firefox OS 1.3+</a>)</small></td>
+	<td><small>?</small></td>
+	<td><small>?</small></td>
+	<td><small>?</small></td>
+</tr>
+<tr>
+	<td>Windows Phone 8.1 / IE 11</td>
+	<td>Yes<br><small>(IE11+)</small></td>
+	<td>Yes<br><small>(IE11+)</small></td>
+	<td></td>
+	<td>Yes<br><small>(IE10 <code>-ms-touch-action</code>, IE11+ unprefixed)</small></td>
+	<td>Yes<br><small>(IE10 <code>-ms-touch-action</code>, IE11+ unprefixed)</small></td>
+</tr>
+<tr>
+	<td>Windows 8.1 / Chrome 37</td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+</tr>
+<tr>
+	<td>Windows 8.1 / Firefox 32</td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+	<td><small>N/A</small></td>
+</tr>
+<tr>
+	<td>Windows 8.1 / IE 11</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>Yes<br><small>(IE10 <code>-ms-touch-action</code>, IE11+ unprefixed)</small></td>
+	<td>Yes<br><small>(IE10 <code>-ms-touch-action</code>, IE11+ unprefixed)</small></td>
+</tr>
+</tbody>
+</table>
+
+<p>On Windows 8.1 on a touchscreen device, Chrome and Firefox do not currently support "double-tap to zoom", so no 300ms delay is present (hence the "N/A" entries in the table). Internet Explorer, on the other hand, does support "double-tap to zoom", so touch-optimisations to remove the delay may also be necessary on desktop. Also note that <code>viewport</code> is not supported/ignored on desktop in IE (with some exception when it comes to "Metro" snap mode), so pages using those <code>viewport</code> directives are still zoomable - "double-tap to zoom" still works in these cases, but cannot be prevented by merely adding <code>viewport</code>.</p>
+
 <h2><a name="faked-event-coordinates">&quot;Faked&quot; event coordinates</a></h2>
 <p>As noted in the &quot;Desktop with assistive technology&quot; and &quot;Desktop with touchscreen and assistive technology&quot; sections, even when not using a traditional pointing device, certain combinations of browser/AT generate &quot;fake&quot; mouse events for compatibility with legacy sites/scripts that hang behavior on traditional mouse events.</p>
 <p>As part of an admittedly philosophical discussion on whether or not setting focus with a keyboard or screenreader (jumping from one focusable element to the next, usually in linear tab order) could also be considered an act of &quot;pointing&quot; (and as such should generate pointer events - see <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24786#c5">Bug 24786 - ACTION-64: Propose a non-normative note re the keyboard compat issue</a>), I tested if these &quot;faked&quot; events, as well as the final <code>click</code>, also carry any coordinates in their event object.</p>
@@ -660,7 +751,7 @@
 </tr>
 <tr>
 	<td>Windows 8 / Chrome 34 + ChromeVox 1.34.1</td>
-	<td><code>mousedown</code> &gt; <code>mousemup</code> &gt; <code>click</code> <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>ChromeVox</kbd>+<kbd>SPACE</kbd>)</small></td>
 	<td>none</td>
 </tr>
 <tr>

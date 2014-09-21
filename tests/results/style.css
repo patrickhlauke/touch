@@ -102,11 +102,6 @@ h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
 
 a[href] {
   color: #4183C4;
-  text-decoration: none;
-}
-
-a[href]:hover {
-  text-decoration: underline;
 }
 
 /* LISTS
@@ -281,4 +276,12 @@ table tr:nth-child(2n) {
 
 img {
   max-width: 100%
+}
+
+/* CUSTOM
+=============================================================================*/
+
+small {
+  color: #777;
+  font-size: 0.8em;
 }
