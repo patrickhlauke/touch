@@ -65,7 +65,7 @@ window.addEventListener('load', function() {
 		if (e.type == 'click') {
 			t=0;
 		}
-		setTimeout(delayedInnerHTML(s), 100);
+		setTimeout(function() { delayedInnerHTML(s) }, 100);
 	}
 
 	delayedInnerHTML = function(s) {
