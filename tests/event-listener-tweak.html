@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Event listener</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<script>
+window.addEventListener('load', function() {
+	var t = 0;
+	var events = [
+	'MSPointerDown',
+	'MSPointerUp',
+	'MSPointerCancel',
+	'MSPointerMove',
+	'MSPointerOver',
+	'MSPointerOut',
+	'MSPointerEnter',
+	'MSPointerLeave',
+	'MSGotPointerCapture',
+	'MSLostPointerCapture',
+	'pointerdown',
+	'pointerup',
+	'pointercancel',
+	'pointermove',
+	'pointerover',
+	'pointerout',
+	'pointerenter',
+	'pointerleave',
+	'gotpointercapture',
+	'lostpointercapture',
+	'touchstart',
+	'touchmove',
+	'touchend',
+	'touchenter',
+	'touchleave',
+	'touchcancel',
+	'mouseover',
+	'mousemove',
+	'mouseout',
+	'mouseenter',
+	'mouseleave',
+	'mousedown',
+	'mouseup',
+	'focus',
+	'blur',
+	'click'
+	];
+	var b = document.getElementsByTagName('button')[0];
+	var o = document.getElementsByTagName('output')[0],
+	report = function(e) {
+		/* Hack - would normally use e.timeStamp but it's whack in Fx/Android
+		   As a result, the timings will be slightly inflated due to processing*/
+		var now = new Date().getTime();
+		var delta = now-t;
+		var s;
+		s = e.type;
+		if (t>0) {
+			if ((now-t)>150) {
+				s += ' (<strong>' + (delta) + 'ms</strong>)';
+			} else {
+				s += ' (' + (delta) + 'ms)';
+			}
+		}
+		t=now;
+		s += '<br>';
+		if (e.type == 'click') {
+			t=0;
+		}
+		setTimeout(delayedInnerHTML(s), 100);
+	}
+
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
+	}
+
+	for (var i=0; i<events.length; i++) {
+		b.addEventListener(events[i], report, false);
+	}
+}, false);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<button class="button">Test button!</button>
+<output></output>
+</body></html>
