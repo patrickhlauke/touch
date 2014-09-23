@@ -5,10 +5,16 @@
 <link rel="stylesheet" href="style.css">
 <script>
 window.addEventListener('load', function() {
-	var b = document.getElementsByTagName('button')[0];
-	var o = document.getElementsByTagName('output')[0],
+	var b = document.getElementById('b');
+	var o = document.getElementById('o'),
 	report = function(e) {
-		o.innerHTML += 'event fired<br>';
+		var s = 'event fired - '+e.type+'<br>';
+		setTimeout(function() { delayedInnerHTML(s) }, 100);
+	}
+
+	/* Hack to work around new iOS8 behavior where innerHTML counts as a content change - previously, it was safe to use, see http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html */
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
 	}
 	
 	/* and here we have it...the naive approach to handling touch */
@@ -20,6 +26,6 @@ window.addEventListener('load', function() {
 </head><body>
 <h1>Event listener</h1>
 <p>Naive "if touch, then only listen to touch" demonstration that kills the button for mouse/keyboard users entirely.</p>
-<button class="button">Test button!</button>
-<output></output>
+<button id="b">Test button!</button>
+<output id="o"></output>
 </body></html>

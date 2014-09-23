@@ -44,29 +44,34 @@ window.addEventListener('load', function() {
 	'touchleave',
 	'touchcancel'	
 	];
-	var b = document.getElementsByTagName('button')[0];
-	var o = document.getElementsByTagName('output')[0],
+	var b = document.getElementById('b');
+	var o = document.getElementById('o'),
 	report = function(e) {
-		o.innerHTML += e.type;
-		o.innerHTML += '<br>';
+		var s = e.type + '<br>';
 		if ((e.changedTouches) && (e.changedTouches.length > 0)) {
-			o.innerHTML += ' screenX: '+e.changedTouches[0].screenX;
-			o.innerHTML += ' screenY: '+e.changedTouches[0].screenY;
-			o.innerHTML += ' clientX: '+e.changedTouches[0].clientX;
-			o.innerHTML += ' clientY: '+e.changedTouches[0].clientY;
-			o.innerHTML += ' pageX: '+e.changedTouches[0].pageX;
-			o.innerHTML += ' pageY: '+e.changedTouches[0].pageY;
-			o.innerHTML += '<br>';
+			s += ' screenX: '+e.changedTouches[0].screenX;
+			s += ' screenY: '+e.changedTouches[0].screenY;
+			s += ' clientX: '+e.changedTouches[0].clientX;
+			s += ' clientY: '+e.changedTouches[0].clientY;
+			s += ' pageX: '+e.changedTouches[0].pageX;
+			s += ' pageY: '+e.changedTouches[0].pageY;
+			s += '<br>';
 		} else if (e.clientX && e.clientY) {
-			o.innerHTML += ' screenX: '+e.screenX;
-			o.innerHTML += ' screenY: '+e.screenY;
-			o.innerHTML += ' clientX: '+e.clientX;
-			o.innerHTML += ' clientY: '+e.clientY;
-			o.innerHTML += ' pageX: '+e.pageX;
-			o.innerHTML += ' pageY: '+e.pageY;
-			o.innerHTML += '<br>';
+			s += ' screenX: '+e.screenX;
+			s += ' screenY: '+e.screenY;
+			s += ' clientX: '+e.clientX;
+			s += ' clientY: '+e.clientY;
+			s += ' pageX: '+e.pageX;
+			s += ' pageY: '+e.pageY;
+			s += '<br>';
 		}
+		setTimeout(function() { delayedInnerHTML(s) }, 100);
 	}
+
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
+	}
+
 	for (var i=0; i<events.length; i++) {
 		b.addEventListener(events[i], report, false);
 	}
@@ -75,6 +80,6 @@ window.addEventListener('load', function() {
 </head><body>
 <h1>Event listener</h1>
 <p>Lists the order of all relevant events being fired, including <code>screenX</code>/<code>screenY</code>, <code>clientX</code>/<code>clientY</code>, <code>pageX</code>/<code>pageY</code> coordinates if present (for touch, only looks at first <code>Touch</code> in <code>changedTouches</code>).</p>
-<button class="button">Test button!</button>
-<output></output>
+<button id="b">Test button!</button>
+<output id="o"></output>
 </body></html>

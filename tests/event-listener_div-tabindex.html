@@ -3,80 +3,12 @@
 <title>Event listener with generic div and tabindex=0</title>
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="style.css">
-<script>
-window.addEventListener('load', function() {
-	var t = 0;
-	var events = [
-	'MSPointerDown',
-	'MSPointerUp',
-	'MSPointerCancel',
-	'MSPointerMove',
-	'MSPointerOver',
-	'MSPointerOut',
-	'MSPointerEnter',
-	'MSPointerLeave',
-	'MSGotPointerCapture',
-	'MSLostPointerCapture',
-	'pointerdown',
-	'pointerup',
-	'pointercancel',
-	'pointermove',
-	'pointerover',
-	'pointerout',
-	'pointerenter',
-	'pointerleave',
-	'gotpointercapture',
-	'lostpointercapture',
-	'touchstart',
-	'touchmove',
-	'touchend',
-	'touchenter',
-	'touchleave',
-	'touchcancel',
-	'mouseover',
-	'mousemove',
-	'mouseout',
-	'mouseenter',
-	'mouseleave',
-	'mousedown',
-	'mouseup',
-	'focus',
-	'blur',
-	'click'
-	];
-	var b = document.getElementsByTagName('div')[0];
-	var o = document.getElementsByTagName('output')[0],
-	report = function(e) {
-		/* Hack - would normally use e.timeStamp but it's whack in Fx/Android
-		   As a result, the timings will be slightly inflated due to processing*/
-		var now = new Date().getTime();
-		var delta = now-t;
-		o.innerHTML += e.type;
-		if (t>0) {
-			if ((now-t)>150) {
-				o.innerHTML += ' (<strong>' + (delta) + 'ms</strong>)';
-			} else {
-				o.innerHTML += ' (' + (delta) + 'ms)';
-			}
-		}
-		t=now;
-		o.innerHTML += '<br>';
-		if (e.type == 'click') {
-			t=0;
-		}
-	}
-	for (var i=0; i<events.length; i++) {
-		b.addEventListener(events[i], report, false);
-	}
-	/* because we also automatically add an event listener for click, this should solve the
-	   "Making elements clickable" issue in iOS. If your code only listens to other events, you'll
-	   need to inject a sacrificial click event handler as per http://developer.apple.com/library/ios/#documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW6 */
-}, false);
-</script>
+<script src="report.js"></script>
+<!-- because we also automatically add an event listener for click, this should solve the "Making elements clickable" issue in iOS. If your code only listens to other events, you'll need to inject a sacrificial click event handler as per http://developer.apple.com/library/ios/#documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW6 -->
 </head><body>
 <h1>Event listener</h1>
 <p>Page with generic <code>div</code> and <code>tabindex=0</code>.</p>
-<div class="button" tabindex="0" role="button">Test button!</div>
+<div class="button" id="b" tabindex="0" role="button">Test button!</div>
 <p><small>Also note the <code>div</code> has been given an ARIA <code>role="button"</code>.</small></p>
-<output></output>
+<output id="o"></output>
 </body></html>

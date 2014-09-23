@@ -44,28 +44,35 @@ window.addEventListener('load', function() {
 	'blur',
 	'click'
 	];
-	var b = document.getElementsByTagName('button')[0];
-	var o = document.getElementsByTagName('output')[0],
+	var b = document.getElementById('b');
+	var o = document.getElementById('o'),
 	report = function(e) {
 		e.preventDefault();
 		/* Hack - would normally use e.timeStamp but it's whack in Fx/Android
 		   As a result, the timings will be slightly inflated due to processing*/
 		var now = new Date().getTime();
 		var delta = now-t;
-		o.innerHTML += e.type;
+		var s = e.type;
 		if (t>0) {
 			if ((now-t)>150) {
-				o.innerHTML += ' (<strong>' + (delta) + 'ms</strong>)';
+				s += ' (<strong>' + (delta) + 'ms</strong>)';
 			} else {
-				o.innerHTML += ' (' + (delta) + 'ms)';
+				s += ' (' + (delta) + 'ms)';
 			}
 		}
 		t=now;
-		o.innerHTML += '<br>';
+		s += '<br>';
 		if (e.type == 'click') {
 			t=0;
 		}
+		setTimeout(function() { delayedInnerHTML(s) }, 100);
 	}
+
+	/* Hack to work around new iOS8 behavior where innerHTML counts as a content change - previously, it was safe to use, see http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html */
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
+	}
+
 	for (var i=0; i<events.length; i++) {
 		b.addEventListener(events[i], report, false);
 	}
@@ -74,6 +81,6 @@ window.addEventListener('load', function() {
 </head><body>
 <h1>Event listener</h1>
 <p>Page with <code>preventDefault()</code>.</p>
-<button class="button">Test button!</button>
-<output></output>
+<button id="b">Test button!</button>
+<output id="o"></output>
 </body></html>

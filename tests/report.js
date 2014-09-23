@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html><head><meta charset=utf-8>
-<title>Event listener</title>
-<meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="style.css">
-<script>
 window.addEventListener('load', function() {
 	var t = 0;
 	var events = [
@@ -44,8 +38,8 @@ window.addEventListener('load', function() {
 	'blur',
 	'click'
 	];
-	var b = document.getElementsByTagName('button')[0];
-	var o = document.getElementsByTagName('output')[0],
+	var b = document.getElementById('b');
+	var o = document.getElementById('o'),
 	report = function(e) {
 		/* Hack - would normally use e.timeStamp but it's whack in Fx/Android
 		   As a result, the timings will be slightly inflated due to processing*/
@@ -68,6 +62,7 @@ window.addEventListener('load', function() {
 		setTimeout(function() { delayedInnerHTML(s) }, 100);
 	}
 
+	/* Hack to work around new iOS8 behavior where innerHTML counts as a content change - previously, it was safe to use, see http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html */
 	delayedInnerHTML = function(s) {
 		o.innerHTML += s;
 	}
@@ -76,9 +71,3 @@ window.addEventListener('load', function() {
 		b.addEventListener(events[i], report, false);
 	}
 }, true);
-</script>
-</head><body>
-<h1>Event listener</h1>
-<button class="button">Test button!</button>
-<output></output>
-</body></html>
