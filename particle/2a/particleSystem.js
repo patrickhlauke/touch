@@ -68,8 +68,6 @@ function Emitter(canvas) {
 		this.reset();
 		var that = this;
 		this.canvas.addEventListener('mousemove', function(e) { that.pop(e); }, false);
-		this.canvas.addEventListener('touchmove', function(e) { that.pop(e); }, false);
-		this.canvas.addEventListener('dblclick', function(e) { that.reset(e); }, false);
 	}
 	
 	this.reset = function(e) {

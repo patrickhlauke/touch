@@ -72,7 +72,6 @@ function Emitter(canvas) {
 		this.canvas.addEventListener('mousemove', function(e) { e.preventDefault(); that.pop(e); }, false);
 		this.canvas.addEventListener('touchstart', function(e) { e.preventDefault(); that.pop(e); }, false);
 		this.canvas.addEventListener('touchmove', function(e) { e.preventDefault(); that.pop(e); }, false);
-		this.canvas.addEventListener('dblclick', function(e) { that.reset(e); }, false);
 	}
 	
 	this.reset = function(e) {
