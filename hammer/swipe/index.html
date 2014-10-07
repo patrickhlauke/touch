@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Swipe (with Hammer.js)</title>
+<meta name="viewport" content="width=device-width">
+<style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+output {
+	display: block;
+	padding: 1em 0.5em;
+	font-size: 0.75em;
+	background: #ddd;
+	height: 2em;
+	overflow:auto;
+	font-size: 3em;
+	text-align: center;
+}
+</style>
+<script src="../hammer.min.js"></script>
+<script>
+window.addEventListener('load', function() {
+	var o = document.getElementsByTagName('output')[0];
+	/* var hammertime = new Hammer(myElement, myOptions); */
+	var hammertime = new Hammer(o);
+	/* by default only horizontal pan/swipe is fully supported */
+	hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+	/* the magic... */
+	hammertime.on('swipe', function(ev) {
+		var direction = '';
+	    switch(ev.direction) {
+	    	case Hammer.DIRECTION_LEFT:
+	    		direction = 'left';
+	    		break;
+	    	case Hammer.DIRECTION_RIGHT:
+	    		direction = 'right';
+	    		break;
+	    	case Hammer.DIRECTION_UP:
+	    		direction = 'up';
+	    		break;
+	    	case Hammer.DIRECTION_DOWN:
+	    		direction = 'down';
+	    		break;
+	    }
+	    o.innerHTML = ev.type + ' ' + direction;
+	});
+}, false);
+</script>
+</head><body>
+<h1>Swipe</h1>
+<p>Detecting swipe gestures using Hammer.js</p>
+<output></output>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</body></html>
