@@ -6,14 +6,6 @@ var canvas,
 
 var points = [];
 
-function resetCanvas (e) {
-	// resize the canvas - but remember - this clears the canvas too.
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	//make sure we scroll to the top left.
-	window.scrollTo(0,0);
-}
-
 function loop() {
 	/* hack to work around lack of orientationchange/resize event */
 	if(canvas.height != window.innerHeight) {
