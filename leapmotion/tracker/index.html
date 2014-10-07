@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tracker - LeapMotion</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+  <style>
+  body {
+    background-color: #000000;
+    margin: 0px;
+  }
+  canvas {
+    background-color:#222;
+    display:block; 
+    position:absolute; 
+  }
+  .container {
+    width:auto;
+    text-align:center;
+  }
+  /* additional Pointer events behavior */
+
+  canvas {
+      touch-action: none;
+  }
+  </style>
+
+  <!-- LeapMotion API -->
+  <script src="../leap.min.js"></script>
+
+</head>
+<body>
+
+<script>
+var canvas,
+  c, // c is the canvas' context 2D
+  container;
+
+var points = [];
+
+function loop() {
+  /* hack to work around lack of orientationchange/resize event */
+  if(canvas.height != window.innerHeight) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  c.clearRect(0,0,canvas.width, canvas.height);
+  c.strokeStyle = "#eee";
+  c.lineWidth = "10";
+
+  for (var i = 0; i<points.length; i++) {
+    /* work out extra LeapMotion values */
+    var radius = 50*(1-(Math.abs(points[i].distance)));
+    c.lineWidth = 10*(1-(Math.abs(points[i].distance)));
+    /* draw all circles */
+    c.beginPath();
+    c.arc(points[i].clientX, points[i].clientY, radius, 0, Math.PI*2, true);
+    c.stroke();
+  }
+}
+
+function init() {
+  canvas = document.createElement( 'canvas' );
+  c = canvas.getContext( '2d' );
+  container = document.createElement( 'div' );
+  container.className = "container";
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  container.appendChild(canvas);
+  document.body.appendChild( container );
+
+  var controller = new Leap.Controller();
+
+  controller.on('connect', function(){
+     setInterval(function(){
+        var frame = controller.frame();
+        if (frame.pointables.length > 0) {
+          // clear existing points
+          points = [];
+          for (var i = 0; i < frame.pointables.length; i++) {
+            var pointable = frame.pointables[i];
+            var interactionBox = frame.interactionBox;
+            var pos = interactionBox.normalizePoint(pointable.stabilizedTipPosition, true);
+            var x = canvas.width * pos[0];
+            var y = canvas.height * (1 - pos[1]);
+            // construct a "fake" and expanded event object (just so the loop can remain same-ish)
+            points[i] = { clientX: x.toFixed(1), clientY: y.toFixed(1), distance: pointable.touchDistance };
+          }
+        }
+        loop();
+     }, 1000/60);
+  });
+  controller.connect();
+}
+
+window.addEventListener('load',function() {
+  /* hack to prevent firing the init script before the window object's values are populated */
+  setTimeout(init,100);
+},false);
+</script>
+</body>
+</html>
