@@ -12,6 +12,7 @@ button { touch-action:none; font-size: 1em;}
 window.addEventListener('load', function() {
 	var n = document.getElementById('nocapture');
 	var c = document.getElementById('capture');
+	var njt = document.getElementById('nocapture-just-touch');
 
 	var report = function(e) {
 		if (e.offsetX) {
@@ -27,6 +28,8 @@ window.addEventListener('load', function() {
 	n.addEventListener('touchmove',report, false);
 	c.addEventListener('touchstart',report, false);
 	c.addEventListener('touchmove',report, false);
+	njt.addEventListener('touchstart',report, false);
+	njt.addEventListener('touchmove',report, false);
 
 	n.addEventListener('MSPointerDown', report, false);
 	n.addEventListener('MSPointerMove', report, false);
@@ -50,9 +53,11 @@ window.addEventListener('load', function() {
 </head><body>
 <h1><code>setPointerCapture</code></h1>
 <p>This test requires either Touch Events or Pointer Events, and illustrates the difference between the implicit and explicit capture in those event models.</p>
-<p>For both buttons, <code>pointermove</code> and <code>touchmove</code> events fired on the element update the X/Y coordinates. The difference shows when you tap/click on the buttons and then move your finger/stylus/mouse outside of the element: with Touch Events and their intrinsic capture model expressed through <code>targetTouches</code>, the coordinates are still tracked, while by default Pointer Events cease to fire as soon as the pointer leaves the boundaries of the element, unless you use <code>setPointerCapture</code>.</p>
+<p>For both buttons, <code>pointermove</code> and <code>touchmove</code> events fired on the element update the X/Y coordinates. The difference shows when you tap/click on the buttons and then move your finger/stylus/mouse outside of the element: with Touch Events and their implicit capture model expressed through <code>targetTouches</code>, the coordinates are still tracked, while by default Pointer Events cease to fire as soon as the pointer leaves the boundaries of the element, unless you use <code>setPointerCapture</code>.</p>
 <p>First, a button without <code>setPointerCapture</code>.</p>
 <button id="nocapture">Tap/click and move!</button>
 <p>The following button includes extra code to explicitly <code>setPointerCapture</code> on <code>pointerdown</code>. Pointer events are now fired even after pointer leaves the element, as long as the pointer is still down.</p>
 <button id="capture">Tap/click and move!</button>
+<p>Interestingly, starting with IE11 on Windows Phone 8.1 Update 1 (Preview for Developers), IE on mobile will support both Touch Events and Pointer Events. Testing the first button (without explicit <code>setPointerCapture</code>) initially made me think that the implicit capture that's a feature of Touch Events was not supported. However, it turns out that this is determined by the event listeners that are being registered - in the above two buttons, I register <strong>both</strong> touch and pointer listeners, and this requires explicit <code>setPointerCapture</code>. But if we <strong>just</strong> register Touch Events, the implicit capture works just fine.</p>
+<button id="nocapture-just-touch">Tap/click and move!</button>
 </body></html>
