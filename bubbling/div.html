@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Event bubbling</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<script src="report.js"></script>
+<style>
+div { padding: 1em; border: 1px gray solid; }
+output { margin-top: 2em;}
+</style>
+</head>
+<body>
+<h1>Event bubbling</h1>
+<p><code>&lt;div></code></p>
+<div id="outer">
+<div id="middle">
+<div id="inner">
+<div id="b" class="button">Test</div>
+</div>
+</div>
+</div>
+<p>Events that bubble up to <code>body</code>:</p>
+<output id="o"></output>
+</body>
+</html>
