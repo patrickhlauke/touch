@@ -34,15 +34,18 @@ function toArray(arr) {
  
 toArray(document.querySelectorAll('.colour-changer')).forEach(function(div, i, arr) {
   var hue = (i / arr.length) * 360;
+  var lightness = 50;
   div.style.background = 'hsl(' + hue + ', 100%, 50%)';
   
   div.addEventListener('touchmove', function(event) {
-    hue = (hue + 10) % 360;
-    div.style.background = 'hsl(' + hue + ', 15%, 60%)';
+    lightness = (lightness + 49) % 100;
+    console.log(lightness)
+    div.style.background = 'hsl(' + hue + ', 0%, ' + lightness + '%)';
   });
 
   div.addEventListener('touchend', function(event) {
     hue = (hue + 180) % 360;
+    lightness = 50;
     div.style.background = 'hsl(' + hue + ', 100%, 50%)';
   });
 
