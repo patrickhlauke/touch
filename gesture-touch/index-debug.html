@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Gesture (e.g. scroll, pinch-zoom) and touchmove/touchend - with added debug output</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+html,body {
+  background: #eee;
+  color: #333;
+  font: 1em/1 Arial, sans; max-width: 45em;
+}
+
+div {
+  background:#fff;
+  border:1px #ccc solid;
+  color: #000;
+  margin: 0.5em 0;
+  padding: 2em;
+}
+
+output {
+  display: block;
+  padding: 1em;
+  font-size: 0.75em;
+  background: #ddd;
+  height: 20em;
+  overflow:auto;
+}
+</style>
+</head>
+<body>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+  <output id="o"></output>
+<script>
+/*
+   Ported/adapted from http://jsbin.com/ebolif/3/edit - demonstration of Touch Events spec grey area (does touchmove fire during scroll / touchend fire at end of scroll?) as demonstrated in https://www.youtube.com/watch?v=h2djIdAFc5U#t=518
+*/
+
+function toArray(arr) {
+  return Array.prototype.slice.call(arr);
+}
+ 
+toArray(document.querySelectorAll('div')).forEach(function(div, i, arr) {
+  var move=0;
+  var timer=0;
+  var hue = (i / arr.length) * 360;
+
+  div.addEventListener('touchstart', function(event) {
+    clearTimeout(timer);
+    move=0;
+    div.innerHTML = "&nbsp;";
+    debug(event);
+    div.style.background = 'hsl(' + hue + ', 100%, 70%)';
+  });
+  
+  div.addEventListener('touchmove', function(event) {
+    move+=1;
+    div.innerHTML = 'touchmove ('+move+')';
+    debug(event);
+  });
+
+  div.addEventListener('touchcancel', function(event) {
+    div.innerHTML += ' touchcancel';
+    div.style.background = 'hsl(' + hue + ', 100%, 85%)';
+    debug(event);
+    timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
+  });
+
+  div.addEventListener('touchend', function(event) {
+    div.innerHTML += ' touchend';
+    div.style.background = 'hsl(' + hue + ', 100%, 85%)';
+    debug(event);
+    timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
+  });
+
+});
+
+function debug(event) {
+  var received = new Date(event.timeStamp);
+  document.getElementById('o').innerHTML += event.type +' '+ received.getHours() + ':' + pad(received.getMinutes(),2) + ':' + pad(received.getSeconds(),2) + '.' + pad(received.getMilliseconds(),3) + '<br>';
+  var now = new Date(event.timeStamp);
+  document.getElementById('o').innerHTML += ' - processed at '+ now.getHours() + ':' + pad(now.getMinutes(),2) + ':' + pad(now.getSeconds(),2) + '.' + pad(now.getMilliseconds(),3) + '<br>';
+}
+
+// formatting utility
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length - size);
+}
+</script>
+</body>
+</html>
