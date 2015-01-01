@@ -10,7 +10,9 @@
 <h1>iOS - Making Elements Clickable</h1>
 <p>Test to see if the advice given in <a target=_blank href="https://developer.apple.com/library/IOS/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW6">iOS Developer Library - Safari Web Content Guide - Handling Events - Making Elements Clickable</a> is actually still accurate...</p>
 
-<span id="b" class="button" onmouseover="alert('mouseover triggered...')">Test <code>&lt;span></code></span>
+<span id="b" class="button" onmouseover="alert('mouseover triggered...')" onmouseout="alert('mouseout triggered...')">Test <code>&lt;span></code></span>
+
+<p>From testing on iOS devices, it seems that the advice in Apple's documentation is incorrect - this page uses the exact same code that Apple has as example for <a target=_blank href="https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW6">making elements clickable</a>, but it works fine <strong>without</strong> needing to add any empty <code>onclick</code> or similar...(though yes, there are still certain iOS specifc tweaks necessary in order to get event <em>delegation</em>/<em>bubbling</em> to work correctly - see <a target=_blank href="http://patrickhlauke.github.io/getting-touchy-presentation/?full#167">Getting touchy - an introduction to touch and pointer events / mouse and click event bubbling in iOS</a>)</p>
 
 </body>
 </html>
