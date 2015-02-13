@@ -59,13 +59,14 @@ window.addEventListener('load', function() {
 
 		if (['keydown','keyup','keypress'].indexOf(e.type) != -1 ) {
 			s += ' key:';
-			if (e.key !== undefined) {
+			/* if (e.key !== undefined) {
 				s += e.key;
 			} else if (e.keyIdentifier !== undefined) {
 				s += e.keyIdentifier;
 			} else if (e.keyCode !== undefined) {
 				s += e.keyCode;
-			}
+			} */
+			s += e.keyCode;
 		}
 
 		if (t>0) {
