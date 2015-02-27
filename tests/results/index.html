@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 6 November 2014. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 27 February 2015. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -840,6 +840,11 @@
 	<td>Windows 8 / Opera 12 (Presto) <strong>Spatial Navigation</strong></td>
 	<td><code>focus</code> &gt; <code>mouseenter</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> <br><small>(when focusing)</small><hr><code>click</code> <br><small>(when activating)</small><hr><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code> <br><small>(when leaving)</small></td>
 	<td>top left corner of element</td>
+</tr>
+<tr>
+	<td>Windows Phone 8.1 Update 1 / IE11 + Narrator</td>
+	<td><code>focus</code> &gt; <code>click</code></td>
+	<td>none</td>
 </tr>
 </tbody>
 </table>
