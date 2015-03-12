@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pointer/hover/any-pointer/any-hover</title>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+</script>
+<style>
+table {
+  border-collapse: collapse;
+}
+tr { 
+	border-bottom: 1px #ddd solid;
+}
+td, th { padding: 0.5em 0.75em; text-align: left; }
+</style>
+</head>
+<body>
+<h1><code>pointer</code> / <code>hover</code> / <code>any-pointer</code> / <code>any-hover</code></h1>
+<table id="results">
+	<tr><th>feature</th><th>matches</th></tr>
+</table>
+</body>
+<script>
+var tests = [
+	"pointer:none",
+	"pointer:coarse",
+	"pointer:fine",
+	"hover:none",
+	"hover:on-demand",
+	"hover:hover",
+	"any-pointer:none",
+	"any-pointer:coarse",
+	"any-pointer:fine",
+	"any-hover:none",
+	"any-hover:on-demand",
+	"any-hover:hover"
+];
+
+var t = document.getElementById('results');
+var results = '';
+
+for (var i=0; i<tests.length; i++) {
+	results += '<tr><td><code>'+tests[i]+'</code<</td><td>'+window.matchMedia("("+tests[i]+")").matches+'</td></tr>'
+}
+t.innerHTML += results;
+</script>
+</html>
