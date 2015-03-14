@@ -14,12 +14,19 @@ tr {
 	border-bottom: 1px #ddd solid;
 }
 td, th { padding: 0.5em 0.75em; text-align: left; }
+tbody th { font-weight: normal;}
+td { background-color: #fcc;}
+td.true { background-color: #cfc;}
 </style>
 </head>
 <body>
 <h1><code>pointer</code> / <code>hover</code> / <code>any-pointer</code> / <code>any-hover</code></h1>
-<table id="results">
-	<tr><th>feature</th><th>matches</th></tr>
+<table>
+	<thead>
+		<tr><th>feature</th><th>matches</th></tr>
+	</thead>
+	<tbody id="results">
+	</tbody>
 </table>
 </body>
 <script>
@@ -38,12 +45,26 @@ var tests = [
 	"any-hover:hover"
 ];
 
-var t = document.getElementById('results');
-var results = '';
+
+function populateTable() {
+	var results = '';
+	var t = document.getElementById('results');
+
+	for (var i=0; i<tests.length; i++) {
+		results += '<tr><th><code>'+tests[i]+'</code<</th><td';
+		if (window.matchMedia("("+tests[i]+")").matches) {
+			results += ' class="true"';
+		}
+		results += '>'+window.matchMedia("("+tests[i]+")").matches+'</td></tr>'
+	}
+	t.innerHTML = results;
+}
+
+populateTable();
 
 for (var i=0; i<tests.length; i++) {
-	results += '<tr><td><code>'+tests[i]+'</code<</td><td>'+window.matchMedia("("+tests[i]+")").matches+'</td></tr>'
+	var mql = matchMedia('('+tests[i]+')');
+	mql.onchange = populateTable;
 }
-t.innerHTML += results;
 </script>
 </html>
