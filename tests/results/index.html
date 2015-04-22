@@ -47,6 +47,12 @@
 	<td><code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code>)</small></td>
 </tr>
 <tr>
+	<td>Opera Mini 8 / iOS7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
+	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code>)</small></td>
+</tr>
+<tr>
 	<td>Android 2.1 (HTC Hero) / &quot;Internet&quot; (WebKit 530.17)</td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -139,12 +145,6 @@
 	<hr> if moving finger slightly during press:<br>
 	<code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>tochstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; (<code>pointermove</code> &gt; <em><strong><code>touchmove</code></strong></em> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(slightly erratic - sometimes only fires <code>pointermove</code> &gt; <code>mousemove</code> without <code>touchmove</code>, sometimes just <code>pointermove</code> &gt; <code>mousemove</code> followed by full <code>pointermove</code> &gt; <code>touchmove</code> &gt; <code>mousemove</code>)</small></td>
 	<td><code>blur</code></td>
-</tr>
-<tr>
-	<td>Opera Mini 8 / iOS7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
-	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code>)</small></td>
 </tr>
 </tbody>
 </table>
