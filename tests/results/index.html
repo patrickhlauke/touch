@@ -146,6 +146,12 @@
 	<code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>tochstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; (<code>pointermove</code> &gt; <em><strong><code>touchmove</code></strong></em> &gt; <code>mousemove</code>)+ &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(slightly erratic - sometimes only fires <code>pointermove</code> &gt; <code>mousemove</code> without <code>touchmove</code>, sometimes just <code>pointermove</code> &gt; <code>mousemove</code> followed by full <code>pointermove</code> &gt; <code>touchmove</code> &gt; <code>mousemove</code>)</small></td>
 	<td><code>blur</code></td>
 </tr>
+<tr>
+	<td>Windows 10 Mobile Technical Preview (OS version 10.0.12534.59) / Spartan (pointer events + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code> - also <code>focus</code> and <code>lostpointercapture</code> currently happen differently than on desktop with touch)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code> - also <code>focus</code> and <code>lostpointercapture</code> currently happen differently than on desktop with touch)</small></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(note <strong>no</strong> <code>blur</code>, even when tapping away to another focusable element)</small></td>
+</tr>
 </tbody>
 </table>
 <p>Generally, only a single (&quot;sacrificial&quot;) <code>mousemove</code> is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.</p>
@@ -160,6 +166,7 @@
 <li>Firefox: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=920956">Bug 920956 - DevTools touch emulation: suppress regular mouse events, emulate 300ms delay</a></li>
 </ul>
 <p>Note the mix of pointer and touch events in Windows Phone 8.1 Update 1 - see <a href="http://blogs.msdn.com/b/ie/archive/2014/07/31/the-mobile-web-should-just-work-for-everyone.aspx">MSDN: The Mobile Web should just work for everyone</a>.</p>
+<p>Note that Spartan on current Windows 10 Mobile Technical Preview behaves subtly differently from Spartan on Windows 10 Technical Preview on desktop with touchscreen.</p>
 
 <h2><a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a></h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;.</p>
@@ -216,6 +223,7 @@
 <p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
 <p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
 <p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <strike><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></strike> (fixed in iOS8).</p>
+<p>Windows 10 Mobile Technical Preview (OS version 10.0.12534.59) / Spartan does not currently seem to work with Narrator - some of the browser interface components can be navigated and are announced correctly, but the main web content area is inaccessible, even using "touch to explore". Likewise, the version of Internet Explorer that comes with this Technical Preview makes Narrator completely sluggish and unusable, so impossible to test.</p>
 
 <h2><a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a></h2>
 <table>
