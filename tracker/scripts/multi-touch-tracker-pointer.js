@@ -34,19 +34,17 @@ function loop() {
 }
 
 function positionHandler(e) {
+	console.log('event: '+e.type);
 	if (e.type == 'mousemove') {
 		points[0] = e;
 	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')) {
 		points = e.targetTouches;
 		e.preventDefault();
-	} else if ((e.type == 'pointerdown')||(e.type == 'pointermove')||(e.type == 'pointerup')
-				||(e.type == 'MSPointerDown')||(e.type == 'MSPointerMove')||(e.type == 'MSPointerUp')) {
+	} else {
 		/* fairly ugly, unoptimised approach of manually replicating the targetTouches array */
 		switch (e.type) {
 			case 'pointerdown':
 			case 'MSPointerDown':
-				points.push(e);
-				break;
 			case 'pointermove':
 			case 'MSPointerMove':
 				for (var i = 0, found = false; i<points.length; i++) {
@@ -62,6 +60,10 @@ function positionHandler(e) {
 				break;
 			case 'pointerup':
 			case 'MSPointerUp':
+			case 'pointercancel':
+			case 'MSPointerCancel':
+			case 'pointerout':
+			case 'MSPointerOut':
 				for (var i = 0; i<points.length; i++) {
 					if (points[i].pointerId == e.pointerId) {
 						points.splice(i,1);
@@ -90,9 +92,15 @@ function init() {
 		canvas.addEventListener('pointerdown',  positionHandler, false );
 		canvas.addEventListener('pointermove',  positionHandler, false );
 		canvas.addEventListener('pointerup',  positionHandler, false );
+		canvas.addEventListener('pointercancel',  positionHandler, false );
+		canvas.addEventListener('pointerover',  positionHandler, false );
+		canvas.addEventListener('pointerout',  positionHandler, false );
 		canvas.addEventListener('MSPointerDown',  positionHandler, false );
 		canvas.addEventListener('MSPointerMove',  positionHandler, false );
 		canvas.addEventListener('MSPointerUp',  positionHandler, false );
+		canvas.addEventListener('MSPointerCancel',  positionHandler, false );
+		canvas.addEventListener('MSPointerOver',  positionHandler, false );
+		canvas.addEventListener('MSPointerOut',  positionHandler, false );
 	} else {
 		canvas.addEventListener('mousemove',  positionHandler, false );
 		canvas.addEventListener('touchstart', positionHandler, false );
