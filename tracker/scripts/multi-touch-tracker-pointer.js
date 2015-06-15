@@ -34,7 +34,7 @@ function loop() {
 }
 
 function positionHandler(e) {
-	console.log('event: '+e.type);
+	console.log('event: '+e.type+' button:'+e.button+' buttons:'+e.buttons);
 	if (e.type == 'mousemove') {
 		points[0] = e;
 	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')) {
