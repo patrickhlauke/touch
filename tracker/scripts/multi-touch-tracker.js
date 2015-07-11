@@ -27,7 +27,7 @@ function loop() {
 
 function positionHandler(e) {
 	if ((e.clientX)&&(e.clientY)) {
-		points[0] = e;
+		points = [e];
 	} else if (e.targetTouches) {
 		points = e.targetTouches;
 		e.preventDefault();

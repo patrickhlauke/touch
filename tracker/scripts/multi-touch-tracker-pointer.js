@@ -36,8 +36,8 @@ function loop() {
 function positionHandler(e) {
 	console.log('event: '+e.type+' button:'+e.button+' buttons:'+e.buttons);
 	if (e.type == 'mousemove') {
-		points[0] = e;
-	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')) {
+		points = [e];
+	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')) {
 		points = e.targetTouches;
 		e.preventDefault();
 	} else {
@@ -105,6 +105,7 @@ function init() {
 		canvas.addEventListener('mousemove',  positionHandler, false );
 		canvas.addEventListener('touchstart', positionHandler, false );
 		canvas.addEventListener('touchmove',  positionHandler, false );
+		canvas.addEventListener('touchend',  positionHandler, false );
 	}
 	setInterval(loop, 1000/35);
 	
