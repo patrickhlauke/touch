@@ -57,6 +57,9 @@ function init() {
 	canvas.addEventListener('touchstart', positionHandler, false );
 	canvas.addEventListener('touchmove',  positionHandler, false );
 	
+	// suppress context menu
+	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
+	
 	setInterval(loop, 1000/35);
 	
 }

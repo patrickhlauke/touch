@@ -53,6 +53,9 @@ function init() {
 	canvas.addEventListener('gesturestart', function(e) { e.preventDefault(); }, false);
 	canvas.addEventListener('gesturechange', function(e) { e.preventDefault(); }, false);
 
+	// suppress context menu
+	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
+
 	setInterval(loop, 1000/35);
 	
 }

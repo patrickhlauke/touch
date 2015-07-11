@@ -113,6 +113,10 @@ function init() {
 		canvas.addEventListener('touchmove',  positionHandler, false );
 		canvas.addEventListener('touchend',  positionHandler, false );
 	}
+
+	// suppress context menu
+	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
+
 	setInterval(loop, 1000/35);
 	
 }
