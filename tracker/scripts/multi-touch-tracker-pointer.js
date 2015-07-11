@@ -17,15 +17,22 @@ function loop() {
 	c.lineWidth = "10";
 
 	for (var i = 0; i<points.length; i++) {
+		/* if pressure property is present and not 0, set radius, otherwise default */
+		if (typeof(points[i].pressure) != 'undefined' && points[i].pressure != null) {
+			radius = 35 + (points[i].pressure * 25);
+		} else {
+			radius = 50;
+		}
+
 		/* draw all circles */
 		c.beginPath();
-		c.arc(points[i].clientX, points[i].clientY, 50, 0, Math.PI*2, true);
+		c.arc(points[i].clientX, points[i].clientY, radius, 0, Math.PI*2, true);
 		c.stroke();
 
 		// for pointer events, add extra circle to denote a primary pointer
 		if(points[i].isPrimary) {
 			c.beginPath();
-			c.arc(points[i].clientX, points[i].clientY, 65, 0, Math.PI*2, true);
+			c.arc(points[i].clientX, points[i].clientY, radius + 15, 0, Math.PI*2, true);
 			c.stroke();
 		}
 		
@@ -34,7 +41,6 @@ function loop() {
 }
 
 function positionHandler(e) {
-	console.log('event: '+e.type+' button:'+e.button+' buttons:'+e.buttons);
 	if (e.type == 'mousemove') {
 		points = [e];
 	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')) {
