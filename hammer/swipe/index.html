@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head><meta charset=utf-8>
 <title>Swipe (with Hammer.js)</title>
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <style>
 html,body {
 	background: #eee;
@@ -27,9 +27,9 @@ output {
 <script src="../hammer.min.js"></script>
 <script>
 window.addEventListener('load', function() {
-	var o = document.getElementsByTagName('output')[0];
+	var el = document.getElementsByTagName('output')[0];
 	/* var hammertime = new Hammer(myElement, myOptions); */
-	var hammertime = new Hammer(o);
+	var hammertime = Hammer(el, { touchAction: 'none' });
 	/* by default only horizontal pan/swipe is fully supported */
 	hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 	/* the magic... */
@@ -49,13 +49,14 @@ window.addEventListener('load', function() {
 	    		direction = 'down';
 	    		break;
 	    }
-	    o.innerHTML = ev.type + ' ' + direction;
+	    el.innerHTML = ev.type + ' ' + direction;
 	});
 }, false);
 </script>
 </head><body>
 <h1>Swipe</h1>
-<p>Detecting swipe gestures using Hammer.js</p>
+<p>Detecting swipe gestures using <a href="http://hammerjs.github.io/">Hammer.js</a></p>
+<pre><code>var hammertime = Hammer(el, { touchAction: 'none' });
+hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });</code></pre>
 <output></output>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 </body></html>
