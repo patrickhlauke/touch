@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pointer Events - pen with tilt support tracker (WebGL)</title>
+<title>Pointer Events - pen with tilt and pressure tracker (WebGL)</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script> -->
+<script src="three_r71.min.js"></script>
 <script src="OrbitControls.js"></script>
 <style>
 body { touch-action: none; }
@@ -24,7 +25,7 @@ body { touch-action: none; }
 // with separate Wacom-style digitizer tablets), it's an assumption that's sure
 // to be proven wrong in some (future?) scenarios.
 
-var camera, controls, scene, renderer, pivot, tiltX, tiltY, newTiltX, newTiltY;
+var camera, controls, scene, renderer, stylusObject, pressurePad, tiltX, tiltY, newTiltX, newTiltY;
 
 init();
 animate();
@@ -63,7 +64,17 @@ function init() {
 	var line = new THREE.Line( geometry, line_material, THREE.LinePieces );
 	scene.add( line );
 
-	// Stylus
+	// Pressure indicator
+	var pad_material = new THREE.LineBasicMaterial( { color: 0x666666 } ),
+		circleGeometry = new THREE.CircleGeometry( 100, 40 );
+	pressurePad = new THREE.Mesh( circleGeometry, pad_material );
+	pressurePad.material.side = THREE.DoubleSide;
+	rotateAroundWorldAxis( pressurePad, new THREE.Vector3( 1, 0, 0 ) , 270 * Math.PI / 180 );
+	pressurePad.position.y = -74;
+	pressurePad.visible = false;
+	scene.add( pressurePad );
+
+	// stylusObject
 	var material = new THREE.MeshPhongMaterial( { color: 0xeeeeee, specular: 0xbbbbbb, shininess: 5, shading: THREE.FlatShading } );
 
 	var barrel = new THREE.CylinderGeometry( 10, 10, 250, 40 );
@@ -72,19 +83,16 @@ function init() {
 	var cone = new THREE.CylinderGeometry( 10, 0, 40, 40 );
 	var mesh2 = new THREE.Mesh( cone, material );
 	mesh2.position.y = 20;
-	pivot = new THREE.Object3D();
-	pivot.add( mesh );
-	pivot.add( mesh2 );
-	pivot.position.y = -75;
-	scene.add( pivot );
+	stylusObject = new THREE.Object3D();
+	stylusObject.add( mesh );
+	stylusObject.add( mesh2 );
+	stylusObject.position.y = -40;
+	stylusObject.visible = false;
+	scene.add( stylusObject );
 	tiltX = 0;
 	tiltY = 0;
 	newTiltX = 0;
 	newTiltY = 0;
-	// set initial rotation perpendicular to our grid (see the note in the animate() function
-	// for details on why tiltX/tiltY are not applied to world x/y axes)
-	rotateAroundWorldAxis( pivot, new THREE.Vector3( 1, 0, 0 ) , tiltY * Math.PI / 180 );
-	rotateAroundWorldAxis( pivot, new THREE.Vector3( 0, 0, 1 ) , tiltX * Math.PI / 180 );
 
 	// Lights
 	scene.add( new THREE.AmbientLight( 0x111111 ) );
@@ -96,10 +104,14 @@ function init() {
 	scene.add( directionalLight );
 
 	// Listeners
-
 	window.addEventListener( 'resize', onWindowResize, false );
-	window.addEventListener( 'pointermove', onPointerMove, false );
-	window.addEventListener( 'pointerdown', function(e) { if ( e.pointerType == 'pen' ) { e.preventDefault(); } } );
+	var webglcanvas = document.getElementsByTagName('canvas')[0];
+	webglcanvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, true);
+	webglcanvas.addEventListener('pointerenter', onPointer, false);
+	webglcanvas.addEventListener('pointerdown', onPointer, false);
+	webglcanvas.addEventListener('pointerup', onPointer, false);
+	webglcanvas.addEventListener('pointermove', onPointer, false);
+	webglcanvas.addEventListener('pointerleave', onPointer, false);
 }
 
 function onWindowResize() {
@@ -108,30 +120,60 @@ function onWindowResize() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-function onPointerMove(e) {
+function onPointer(e) {
 	if ( e.pointerType == 'pen' ) {
-		// simplified assumption: only one pen at any given time - otherwise,
-		// we'd really need multiple objects and build an array/collection of pointers
-		newTiltX = -e.tiltX;
-		newTiltY = e.tiltY;
-		pivot.position.x = ( ( e.x / window.innerWidth ) * 1000 ) - 500 ;
-		pivot.position.z = ( ( e.y / window.innerHeight ) *1000 ) - 500 ;
+		console.log( e.type + " - pressure: " + e.pressure + " tiltX: " + e.tiltX + " tiltY: " + e.tiltY + " button: " + e.button + " buttons: " + e.buttons);
+		e.preventDefault(); // this is only necessary to prevent ThreeJS' orbit controls from reacting
+		switch ( e.type ) {
+			// doing simple three.js parameter assignments directly for events,
+			// as they are not expensive in terms of calculations
+			case 'pointerenter':
+			case 'pointerdown':
+			case 'pointerup':
+			case 'pointermove':
+				if ( e.pressure == 0 ) {
+					stylusObject.position.y = -40;
+				} else {
+					stylusObject.position.y = -75;
+				}
+				stylusObject.visible = true;
+				pressurePad.visible = true;	
+				// simplified assumption: only one pen at any given time - otherwise,
+				// we'd really need multiple objects and build an array/collection of pointers
+				newTiltX = -e.tiltX;
+				newTiltY = e.tiltY;
+				stylusObject.position.x = pressurePad.position.x = ( ( e.x / window.innerWidth ) * 1000 ) - 500 ;
+				stylusObject.position.z = pressurePad.position.z = ( ( e.y / window.innerHeight ) *1000 ) - 500 ;
+				// change pressure indicator (minimum 0.05 scale)
+				pressurePad.scale.x = (e.pressure > 0.05) ? e.pressure : 0.05;
+				pressurePad.scale.y = (e.pressure > 0.05) ? e.pressure : 0.05;
+				break;
+
+			case 'pointerleave':
+				stylusObject.visible = false;
+				pressurePad.visible = false;
+				break;
+
+		}
 	}
 }
 
 function animate() {
 	requestAnimationFrame( animate );
+	// doing rotations on animation frame, rather than directly on pointermove,
+	// as they are more expensive to calculate, involving matrix transformations
+
 	// reset - to avoid complex calculation, simply rotate the object back to its original position
-	rotateAroundWorldAxis( pivot, new THREE.Vector3( 0, 0, 1 ) , -tiltX * Math.PI / 180 );
-	rotateAroundWorldAxis( pivot, new THREE.Vector3( 1, 0, 0 ) , -tiltY * Math.PI / 180 );
+	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , -tiltX * Math.PI / 180 );
+	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , -tiltY * Math.PI / 180 );
 	// update axis with the new tiltX/tiltY
 	// note: Pointer Events tiltX/tiltY are in degrees, not radians
 	// and the axes for tiltX/tiltY are different in relation to the standard three.js world,
 	// hence the weird mapping of tiltY to the world's x axis and tiltX to the world's z axis
 	tiltX = newTiltX;
 	tiltY = newTiltY;
-	rotateAroundWorldAxis( pivot, new THREE.Vector3( 1, 0, 0 ) , tiltY * Math.PI / 180 );
-	rotateAroundWorldAxis( pivot, new THREE.Vector3( 0, 0, 1 ) , tiltX * Math.PI / 180 );
+	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , tiltY * Math.PI / 180 );
+	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , tiltX * Math.PI / 180 );
 	render();
 }
 
