@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset=utf-8 />
-<title>Gesture (e.g. scroll, pinch-zoom) and touchmove/touchend</title>
+<title>Gesture (e.g. scroll, pinch-zoom), touch events and pointer events</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 html,body {
@@ -55,7 +55,7 @@ toArray(document.querySelectorAll('div')).forEach(function(div, i, arr) {
   
   div.addEventListener('touchmove', function(event) {
     move+=1;
-    div.innerHTML = 'touchmove ('+move+')';
+    div.innerHTML = ' touchmove ('+move+')';
   });
 
   div.addEventListener('touchcancel', function(event) {
@@ -66,6 +66,32 @@ toArray(document.querySelectorAll('div')).forEach(function(div, i, arr) {
 
   div.addEventListener('touchend', function(event) {
     div.innerHTML += ' touchend';
+    div.style.background = 'hsl(' + hue + ', 100%, 85%)';
+    timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
+  });
+
+  /* Expanded to also show pointer events now */
+
+    div.addEventListener('&nbsp;', function(event) {
+    clearTimeout(timer);
+    move=0;
+    div.innerHTML = "pointerdown";
+    div.style.background = 'hsl(' + hue + ', 100%, 70%)';
+  });
+  
+  div.addEventListener('pointermove', function(event) {
+    move+=1;
+    div.innerHTML = ' pointermove ('+move+')';
+  });
+
+  div.addEventListener('pointercancel', function(event) {
+    div.innerHTML += ' pointercancel';
+    div.style.background = 'hsl(' + hue + ', 100%, 85%)';
+    timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
+  });
+
+  div.addEventListener('pointerup', function(event) {
+    div.innerHTML += ' pointerup';
     div.style.background = 'hsl(' + hue + ', 100%, 85%)';
     timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
   });
