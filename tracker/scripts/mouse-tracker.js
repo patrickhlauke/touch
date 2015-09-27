@@ -6,7 +6,7 @@ var canvas,
 
 var posX, posY;
 
-function loop() {
+function draw() {
 	/* hack to work around lack of orientationchange/resize event */
 	if(canvas.height != window.innerHeight) {
 		canvas.width = window.innerWidth;
@@ -25,6 +25,7 @@ function loop() {
 function positionHandler(e) {
 	posX = e.clientX;
 	posY = e.clientY;
+	window.requestAnimationFrame(draw);
 }
 
 function init() {
@@ -39,9 +40,7 @@ function init() {
 	c.strokeStyle = "#ffffff";
 	c.lineWidth =2;
 	
-	canvas.addEventListener('mousemove', positionHandler, false );
-	setInterval(loop, 1000/35);
-	
+	canvas.addEventListener('mousemove', positionHandler, false );	
 }
 
 window.addEventListener('load',function() {
