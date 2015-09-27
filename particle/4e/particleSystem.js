@@ -34,7 +34,8 @@ function Emitter(canvas) {
 				this.particles[i].h += 1;
 				
 			}
-			this.draw();
+			var that = this;
+			window.requestAnimationFrame(function() { that.draw(); });
 		}
 	}
 	
@@ -53,8 +54,9 @@ function Emitter(canvas) {
 	this.init = function() {
 		this.reset();
 		var that = this;
-		this.canvas.addEventListener('pointermove', function(e) { that.react(e); }, false);
-		this.canvas.addEventListener('MSPointerMove', function(e) { that.react(e); }, false);
+		var debouncedReact = debounce(function(e) { that.react(e); }, 5, true);
+		this.canvas.addEventListener('pointermove', debouncedReact, false);
+		this.canvas.addEventListener('MSPointerMove', debouncedReact, false);
 	}
 	
 	this.reset = function(e) {

@@ -14,7 +14,7 @@ function resetCanvas (e) {
 	window.scrollTo(0,0);
 }
 
-function loop() {
+function draw() {
 	/* hack to work around lack of orientationchange/resize event */
 	if(canvas.height != window.innerHeight) {
 		canvas.width = window.innerWidth;
@@ -39,6 +39,7 @@ function positionHandler(e) {
 		posY = e.targetTouches[0].clientY;
 		e.preventDefault();
 	}
+	window.requestAnimationFrame(draw);
 }
 
 function init() {
@@ -59,9 +60,6 @@ function init() {
 	
 	// suppress context menu
 	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
-	
-	setInterval(loop, 1000/35);
-	
 }
 
 window.addEventListener('load',function() {

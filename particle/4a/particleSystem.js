@@ -43,7 +43,8 @@ function Emitter(canvas) {
 			this.particles[i].h += 1;
 			
 		}
-		this.draw();
+		var that = this;
+		window.requestAnimationFrame(function() { that.draw(); });
 	}
 	
 	this.draw = function() {
@@ -61,10 +62,10 @@ function Emitter(canvas) {
 	this.init = function() {
 		this.reset();
 		var that = this;
-		this.canvas.addEventListener('mousemove', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('touchstart', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('touchmove', function(e) { e.preventDefault(); that.react(e); }, false);
-		this.canvas.addEventListener('dblclick', function(e) { that.reset(e); }, false);
+		var debouncedReact = debounce(function(e) { e.preventDefault(); that.react(e); }, 5, true);
+		this.canvas.addEventListener('mousemove', debouncedReact, false);
+		this.canvas.addEventListener('touchstart', debouncedReact, false);
+		this.canvas.addEventListener('touchmove', debouncedReact, false);
 	}
 	
 	this.reset = function(e) {

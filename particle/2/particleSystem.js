@@ -48,7 +48,8 @@ function Emitter(canvas) {
 				popped = true;
 			}
 		}
-		this.draw();
+		var that = this;
+		window.requestAnimationFrame(function() { that.draw(); });
 	}
 	
 	this.draw = function() {
@@ -67,7 +68,8 @@ function Emitter(canvas) {
 	this.init = function() {
 		this.reset();
 		var that = this;
-		this.canvas.addEventListener('mousemove', function(e) { that.pop(e); }, false);
+		var debouncedPop = debounce(function(e) { that.pop(e); }, 4, true);
+		this.canvas.addEventListener('mousemove', debouncedPop, false);
 	}
 	
 	this.reset = function(e) {
