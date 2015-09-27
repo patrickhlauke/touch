@@ -70,9 +70,10 @@ function Emitter(canvas) {
 	this.init = function() {
 		this.reset();
 		var that = this;
-		this.canvas.addEventListener('mousemove', function(e) { e.preventDefault(); that.pop(e); }, false);
-		this.canvas.addEventListener('touchstart', function(e) { e.preventDefault(); that.pop(e); }, false);
-		this.canvas.addEventListener('touchmove', function(e) { e.preventDefault(); that.pop(e); }, false);
+		var debouncedPop = debounce(function(e) { e.preventDefault(); that.pop(e); }, 4, true);
+		this.canvas.addEventListener('mousemove', debouncedPop, false);
+		this.canvas.addEventListener('touchstart', debouncedPop, false);
+		this.canvas.addEventListener('touchmove', debouncedPop, false);
 	}
 	
 	this.reset = function(e) {

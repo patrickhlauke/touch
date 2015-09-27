@@ -59,7 +59,8 @@ function Emitter(canvas) {
 	this.init = function() {
 		this.reset();
 		var that = this;
-		this.canvas.addEventListener('mousemove', function(e) { e.preventDefault(); that.react(e); }, false);
+		var debouncedReact = debounce(function(e) { e.preventDefault(); that.react(e); }, 5, true);
+		this.canvas.addEventListener('mousemove', debouncedReact, false);
 	}
 	
 	this.reset = function(e) {
