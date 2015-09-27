@@ -40,7 +40,8 @@ function Emitter(canvas) {
 			this.particles[i].h += 1;
 			
 		}
-		this.draw();
+		var that = this;
+		window.requestAnimationFrame(function() { that.draw(); });
 	}
 	
 	this.draw = function() {

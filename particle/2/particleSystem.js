@@ -48,7 +48,8 @@ function Emitter(canvas) {
 				popped = true;
 			}
 		}
-		this.draw();
+		var that = this;
+		window.requestAnimationFrame(function() { that.draw(); });
 	}
 	
 	this.draw = function() {
