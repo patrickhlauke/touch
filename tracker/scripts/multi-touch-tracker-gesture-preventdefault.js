@@ -2,19 +2,20 @@
 
 var canvas,
 	c, // c is the canvas' context 2D
-	container;
+	container,
+	ratio;
 
 var points = [];
 
 function draw() {
 	/* hack to work around lack of orientationchange/resize event */
-	if(canvas.height != window.innerHeight) {
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+	if(canvas.height != window.innerHeight * ratio) {
+		canvas.width = window.innerWidth * ratio;
+		canvas.height = window.innerHeight * ratio;
 	} else {
 		c.clearRect(0,0,canvas.width, canvas.height);
 	}
-	
+
 	for (var i = 0; i<points.length; i++) {
 		/* draw all circles */
 		c.beginPath();
@@ -39,8 +40,42 @@ function init() {
 	c = canvas.getContext( '2d' );
 	container = document.createElement( 'div' );
 	container.className = "container";
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	// HiDPI canvas http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+	devicePixelRatio = window.devicePixelRatio || 1,
+	backingStoreRatio = c.webkitBackingStorePixelRatio ||
+	                    c.mozBackingStorePixelRatio ||
+	                    c.msBackingStorePixelRatio ||
+	                    c.oBackingStorePixelRatio ||
+	                    c.backingStorePixelRatio || 1,
+
+	ratio = devicePixelRatio / backingStoreRatio;
+	// ensure we have a value set for auto.
+    // If auto is set to false then we
+    // will simply not upscale the canvas
+    // and the default behaviour will be maintained
+    if (typeof auto === 'undefined') {
+        auto = true;
+    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+	// upscale the canvas if the two ratios don't match
+    if (auto && devicePixelRatio !== backingStoreRatio) {
+
+        var oldWidth = canvas.width;
+        var oldHeight = canvas.height;
+
+        canvas.width = oldWidth * ratio;
+        canvas.height = oldHeight * ratio;
+
+        canvas.style.width = oldWidth + 'px';
+        canvas.style.height = oldHeight + 'px';
+
+        // now scale the context to counter
+        // the fact that we've manually scaled
+        // our canvas element
+        c.scale(ratio, ratio);
+
+    }
 	container.appendChild(canvas);
 	document.body.appendChild( container );
 	c.strokeStyle = "#eee";
