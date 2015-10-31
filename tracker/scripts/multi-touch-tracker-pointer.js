@@ -129,7 +129,7 @@ function init() {
 	c.lineWidth = "10";
 	
 	/* feature detect - in this case not dangerous, as pointer is not exclusively touch */
-	if ((window.navigator.msPointerEnabled)||(window.navigator.pointerEnabled)) {
+	if ((window.PointerEvent)||(window.navigator.pointerEnabled)||(window.navigator.msPointerEnabled)) {
 		canvas.addEventListener('pointerdown',  positionHandler, false );
 		canvas.addEventListener('pointermove',  positionHandler, false );
 		canvas.addEventListener('pointerup',  positionHandler, false );
