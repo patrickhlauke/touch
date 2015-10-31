@@ -11,10 +11,9 @@ function draw() {
 	if(canvas.height != window.innerHeight) {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
+	} else {
+		c.clearRect(0,0,canvas.width, canvas.height);
 	}
-	c.clearRect(0,0,canvas.width, canvas.height);
-	c.strokeStyle = "#eee";
-	c.lineWidth = "10";
 
 	for (var i = 0; i<points.length; i++) {
 		/* if pressure property is present and not 0, set radius, otherwise default */
@@ -91,8 +90,8 @@ function init() {
 	canvas.height = window.innerHeight;
 	container.appendChild(canvas);
 	document.body.appendChild( container );
-	c.strokeStyle = "#ffffff";
-	c.lineWidth =2;
+	c.strokeStyle = "#eee";
+	c.lineWidth = "10";
 	
 	/* feature detect - in this case not dangerous, as pointer is not exclusively touch */
 	if ((window.navigator.msPointerEnabled)||(window.navigator.pointerEnabled)) {

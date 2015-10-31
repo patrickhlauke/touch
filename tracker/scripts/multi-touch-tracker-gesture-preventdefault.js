@@ -11,11 +11,10 @@ function draw() {
 	if(canvas.height != window.innerHeight) {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
+	} else {
+		c.clearRect(0,0,canvas.width, canvas.height);
 	}
-	c.clearRect(0,0,canvas.width, canvas.height);
-	c.strokeStyle = "#eee";
-	c.lineWidth = "10";
-
+	
 	for (var i = 0; i<points.length; i++) {
 		/* draw all circles */
 		c.beginPath();
@@ -44,8 +43,8 @@ function init() {
 	canvas.height = window.innerHeight;
 	container.appendChild(canvas);
 	document.body.appendChild( container );
-	c.strokeStyle = "#ffffff";
-	c.lineWidth =2;
+	c.strokeStyle = "#eee";
+	c.lineWidth = "10";
 	
 	canvas.addEventListener('mousemove',  positionHandler, false );
 	canvas.addEventListener('touchstart', positionHandler, false );
