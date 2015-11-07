@@ -117,17 +117,10 @@ function init() {
 	                    c.backingStorePixelRatio || 1,
 
 	ratio = devicePixelRatio / backingStoreRatio;
-	// ensure we have a value set for auto.
-    // If auto is set to false then we
-    // will simply not upscale the canvas
-    // and the default behaviour will be maintained
-    if (typeof auto === 'undefined') {
-        auto = true;
-    }
-    canvas.width = window.innerWidth;
+	canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 	// upscale the canvas if the two ratios don't match
-    if (auto && devicePixelRatio !== backingStoreRatio) {
+    if (devicePixelRatio !== backingStoreRatio) {
 
         var oldWidth = canvas.width;
         var oldHeight = canvas.height;
