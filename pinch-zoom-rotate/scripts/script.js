@@ -16,15 +16,15 @@ function resetCanvas (e) {
 
 function loop() {
 	/* hack to work around lack of orientationchange/resize event */
-	if(canvas.height != window.innerHeight) {
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+	if(canvas.height != window.innerHeight * ratio) {
+		canvas.width = window.innerWidth * ratio;
+		canvas.height = window.innerHeight * ratio;
+	} else {
+		c.clearRect(0,0,canvas.width, canvas.height);
 	}
 
 	/* only do stuff if there's two active touchpoints going on */
 	if ((!active)||(points.length < 2)) { return; }
-
-	c.clearRect(0,0,canvas.width, canvas.height);
 
 	/* Work out gesture/calculations */
 	posx = (points[0].clientX+points[1].clientX)/2;
@@ -74,8 +74,35 @@ function init() {
 	c = canvas.getContext( '2d' );
 	container = document.createElement( 'div' );
 	container.className = "container";
+	// HiDPI canvas http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+	devicePixelRatio = window.devicePixelRatio || 1,
+	backingStoreRatio = c.webkitBackingStorePixelRatio ||
+	                    c.mozBackingStorePixelRatio ||
+	                    c.msBackingStorePixelRatio ||
+	                    c.oBackingStorePixelRatio ||
+	                    c.backingStorePixelRatio || 1,
+
+	ratio = devicePixelRatio / backingStoreRatio;
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
+	// upscale the canvas if the two ratios don't match
+    if (devicePixelRatio !== backingStoreRatio) {
+
+        var oldWidth = canvas.width;
+        var oldHeight = canvas.height;
+
+        canvas.width = oldWidth * ratio;
+        canvas.height = oldHeight * ratio;
+
+        canvas.style.width = oldWidth + 'px';
+        canvas.style.height = oldHeight + 'px';
+
+        // now scale the context to counter
+        // the fact that we've manually scaled
+        // our canvas element
+        c.scale(ratio, ratio);
+
+    }
 	container.appendChild(canvas);
 	document.body.appendChild( container );
 	
