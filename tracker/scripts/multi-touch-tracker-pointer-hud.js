@@ -2,6 +2,7 @@
 
 var canvas,
 	c, // c is the canvas' context 2D
+	ratio,
 	container;
 
 var points = [];
@@ -157,8 +158,34 @@ function init() {
 }
 
 function resetCanvas() {
+    // HiDPI canvas http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+	devicePixelRatio = window.devicePixelRatio || 1,
+	backingStoreRatio = c.webkitBackingStorePixelRatio ||
+	                    c.mozBackingStorePixelRatio ||
+	                    c.msBackingStorePixelRatio ||
+	                    c.oBackingStorePixelRatio ||
+	                    c.backingStorePixelRatio || 1,
+
+	ratio = Math.ceil(devicePixelRatio / backingStoreRatio);
 	canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+	// upscale the canvas if the two ratios don't match
+    if (devicePixelRatio !== backingStoreRatio) {
+
+        var oldWidth = canvas.width;
+        var oldHeight = canvas.height;
+
+        canvas.width = oldWidth * ratio;
+        canvas.height = oldHeight * ratio;
+
+        canvas.style.width = oldWidth + 'px';
+        canvas.style.height = oldHeight + 'px';
+
+        // now scale the context to counter
+        // the fact that we've manually scaled
+        // our canvas element
+        c.scale(ratio, ratio);
+    }
     c.strokeStyle = "#eee";
 	c.lineWidth = "10";
 }
