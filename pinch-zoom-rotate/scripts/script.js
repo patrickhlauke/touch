@@ -2,23 +2,15 @@
 
 var canvas,
 	c, // c is the canvas' context 2D
+	devicePixelRatio,
 	container;
 
 var points = [], prevpoints = [], active, posx, posy, rotation, size;
 
-function resetCanvas (e) {
-	// resize the canvas - but remember - this clears the canvas too.
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	//make sure we scroll to the top left.
-	window.scrollTo(0,0);
-}
-
 function loop() {
 	/* hack to work around lack of orientationchange/resize event */
-	if(canvas.height != window.innerHeight * ratio) {
-		canvas.width = window.innerWidth * ratio;
-		canvas.height = window.innerHeight * ratio;
+	if(canvas.height != window.innerHeight * devicePixelRatio) {
+		resetCanvas();
 	} else {
 		c.clearRect(0,0,canvas.width, canvas.height);
 	}
@@ -74,35 +66,7 @@ function init() {
 	c = canvas.getContext( '2d' );
 	container = document.createElement( 'div' );
 	container.className = "container";
-	// HiDPI canvas http://www.html5rocks.com/en/tutorials/canvas/hidpi/
-	devicePixelRatio = window.devicePixelRatio || 1,
-	backingStoreRatio = c.webkitBackingStorePixelRatio ||
-	                    c.mozBackingStorePixelRatio ||
-	                    c.msBackingStorePixelRatio ||
-	                    c.oBackingStorePixelRatio ||
-	                    c.backingStorePixelRatio || 1,
-
-	ratio = devicePixelRatio / backingStoreRatio;
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	// upscale the canvas if the two ratios don't match
-    if (devicePixelRatio !== backingStoreRatio) {
-
-        var oldWidth = canvas.width;
-        var oldHeight = canvas.height;
-
-        canvas.width = oldWidth * ratio;
-        canvas.height = oldHeight * ratio;
-
-        canvas.style.width = oldWidth + 'px';
-        canvas.style.height = oldHeight + 'px';
-
-        // now scale the context to counter
-        // the fact that we've manually scaled
-        // our canvas element
-        c.scale(ratio, ratio);
-
-    }
+	resetCanvas();
 	container.appendChild(canvas);
 	document.body.appendChild( container );
 	
@@ -116,6 +80,16 @@ function init() {
 	rotation = 0;
 
 	setInterval(loop, 1000/25);
+}
+
+function resetCanvas() {
+    // HiDPI canvas adapted from http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+	devicePixelRatio = window.devicePixelRatio || 1;
+	canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    c.scale(devicePixelRatio, devicePixelRatio);
 }
 
 window.addEventListener('load',function() {
