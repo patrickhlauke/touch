@@ -21,6 +21,10 @@ function draw() {
 		/* if pressure property is present and not 0, set radius, otherwise default */
 		if (typeof(points[i].pressure) != 'undefined' && points[i].pressure != null) {
 			radius = 35 + (points[i].pressure * 25);
+		} else if (typeof(points[i].force) != 'undefined' && points[i].force != null) {
+			radius = 35 + (points[i].force * 25);
+		} else if (typeof(points[i].webkitForce) != 'undefined' && points[i].webkitForce != null) {
+			radius = 35 + (points[i].webkitForce * 25);
 		} else {
 			radius = 50;
 		}
@@ -61,7 +65,7 @@ function draw() {
 			case 'mousemove':
 				hud_props = ['mouse','clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
 				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
-					hud_props.push('force: '+((points[i].force !== undefined) ? points[i].force : points[i].webkitForce));
+					hud_props.push( ((points[i].force !== undefined) ? 'force: '+points[i].force : 'webkitForce: '+points[i].webkitForce) );
 				}
 				break;
 		}
