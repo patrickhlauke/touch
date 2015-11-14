@@ -8,6 +8,7 @@ var canvas,
 var points = [];
 
 function draw() {
+	var radiusX, radiusY, rotationAngle, pressure;
 	/* hack to work around lack of orientationchange/resize event */
 	if(canvas.height != window.innerHeight * devicePixelRatio) {
 		resetCanvas();
@@ -29,9 +30,17 @@ function draw() {
 			radius = 50;
 		}
 
+		pressure = points[i].pressure || points[i].force || points[i].webkitForce || 0.5;
+		rotationAngle = points[i].rotationAngle || 0;
+		radiusX = points[i].radiusX || 50;
+		radiusY = points[i].radiusY || 50;
+		radiusX += (0.2 + pressure) * 30;
+		radiusY += (0.2 + pressure) * 30;
+
 		/* draw all circles */
 		c.beginPath();
-		c.arc(points[i].clientX, points[i].clientY, radius, 0, Math.PI*2, true);
+		//c.arc(points[i].clientX, points[i].clientY, radius, 0, Math.PI*2, true);
+		c.ellipse(points[i].clientX, points[i].clientY, radiusX, radiusY, rotationAngle * Math.PI/180, 0, Math.PI*2, true);
 		c.stroke();
 
 		// for pointer events, add extra circle to denote a primary pointer
@@ -45,7 +54,7 @@ function draw() {
 		var hud_props = [];
 		switch(points[i].type) {
 			case undefined:
-				hud_props = ['touch', 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
+				hud_props = ['touch', 'identifier: '+points[i].identifier, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
 				if (points[i].radiusX && points[i].radiusY) {
 					hud_props.push('radiusX: '+points[i].radiusX+' radiusY: '+points[i].radiusY);
 				}
@@ -60,7 +69,7 @@ function draw() {
 			case 'MSPointerDown':
 			case 'pointermove':
 			case 'MSPointerMove':
-				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType,'isPrimary: '+points[i].isPrimary,'clientX: '+points[i].x+' clientY: '+points[i].y,'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY,'pressure: '+points[i].pressure];
+				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].x+' clientY: '+points[i].y, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY, 'pressure: '+points[i].pressure];
 				break;
 			case 'mousemove':
 				hud_props = ['mouse','clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
