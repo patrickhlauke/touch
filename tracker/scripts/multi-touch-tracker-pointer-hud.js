@@ -39,14 +39,13 @@ function draw() {
 
 		/* draw all circles */
 		c.beginPath();
-		//c.arc(points[i].clientX, points[i].clientY, radius, 0, Math.PI*2, true);
 		c.ellipse(points[i].clientX, points[i].clientY, radiusX, radiusY, rotationAngle * Math.PI/180, 0, Math.PI*2, true);
 		c.stroke();
 
 		// for pointer events, add extra circle to denote a primary pointer
 		if(points[i].isPrimary) {
 			c.beginPath();
-			c.arc(points[i].clientX, points[i].clientY, radius + 15, 0, Math.PI*2, true);
+			c.ellipse(points[i].clientX, points[i].clientY, radiusX+15, radiusY+15, rotationAngle * Math.PI/180, 0, Math.PI*2, true);
 			c.stroke();
 		}
 
