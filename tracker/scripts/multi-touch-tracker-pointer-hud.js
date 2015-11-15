@@ -93,9 +93,31 @@ function draw() {
 
 function positionHandler(e) {
 	if (e.type == 'mousemove') {
-		points = [e];
-	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')) {
-		points = e.targetTouches;
+		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
+		for (var i = 0; i<points.length; i++) {
+			if (points[i].type == 'mousemove') {
+				points.splice(i,1);
+			}
+		}
+		points.push(e);
+	} else if (e.type == 'mouseout') {
+		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
+		for (var i = 0; i<points.length; i++) {
+			if (points[i].type == 'mousemove') {
+				points.splice(i,1);
+			}
+		}
+	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')||(e.type == 'touchcancel')) {
+		// remove all previous touch events from the array
+		for (var i = 0; i<points.length; i++) {
+			if (points[i].type == undefined) {
+				points.splice(i,1);
+				i--;
+			}
+		}
+		// merge in targetTouches array (this works because each event has a "global" view of *all* touches)
+		Array.prototype.push.apply(points, e.targetTouches);
+		// prevent mouse compat events
 		e.preventDefault();
 	} else {
 		/* fairly ugly, unoptimised approach of manually replicating the targetTouches array */
@@ -158,9 +180,11 @@ function init() {
 		canvas.addEventListener('MSPointerOut',  positionHandler, false );
 	} else {
 		canvas.addEventListener('mousemove',  positionHandler, false );
+		canvas.addEventListener('mouseout',  positionHandler, false );
 		canvas.addEventListener('touchstart', positionHandler, false );
 		canvas.addEventListener('touchmove',  positionHandler, false );
 		canvas.addEventListener('touchend',  positionHandler, false );
+		canvas.addEventListener('touchcancel',  positionHandler, false );
 	}
 
 	// suppress context menu
