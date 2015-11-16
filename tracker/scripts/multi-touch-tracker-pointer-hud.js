@@ -89,7 +89,7 @@ function draw() {
 		c.fillStyle = "#aaa";
 		c.font = "10px Arial";
 		for (var h_i = 1, h_j = hud_props.length; h_i<h_j; h_i++) {
-			c.fillText(hud_props[h_i], points[i].clientX + 70, points[i].clientY + (h_i + 1) * 12);
+			c.fillText(hud_props[h_i], points[i].clientX + radiusX + 20, points[i].clientY + (h_i + 1) * 12);
 		}
 
 
