@@ -30,12 +30,12 @@ function draw() {
 			radius = 50;
 		}
 
-		pressure = points[i].pressure || points[i].force || points[i].webkitForce || 0.5;
+		pressure = points[i].pressure || points[i].force || points[i].webkitForce|| 0.1;
 		rotationAngle = points[i].rotationAngle || 0;
 		radiusX = points[i].radiusX || 50;
 		radiusY = points[i].radiusY || 50;
-		radiusX += (0.2 + pressure) * 30;
-		radiusY += (0.2 + pressure) * 30;
+		radiusX += pressure * 35;
+		radiusY += pressure * 35;
 
 		/* draw all circles */
 		c.beginPath();
@@ -44,8 +44,10 @@ function draw() {
 
 		// for pointer events, add extra circle to denote a primary pointer
 		if(points[i].isPrimary) {
+			radiusX += 15;
+			radiusY += 15;
 			c.beginPath();
-			c.ellipse(points[i].clientX, points[i].clientY, radiusX+15, radiusY+15, rotationAngle * Math.PI/180, 0, Math.PI*2, true);
+			c.ellipse(points[i].clientX, points[i].clientY, radiusX, radiusY, rotationAngle * Math.PI/180, 0, Math.PI*2, true);
 			c.stroke();
 		}
 
@@ -85,7 +87,7 @@ function draw() {
 		}
 		c.font = "30px Arial";
 		c.fillStyle = "#fff";
-		c.fillText(hud_props[0], points[i].clientX + 70, points[i].clientY);
+		c.fillText(hud_props[0], points[i].clientX + radiusX + 20, points[i].clientY);
 		c.fillStyle = "#aaa";
 		c.font = "10px Arial";
 		for (var h_i = 1, h_j = hud_props.length; h_i<h_j; h_i++) {
