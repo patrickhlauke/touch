@@ -18,7 +18,7 @@ function draw() {
 	c.strokeStyle = "#eee";
 	c.lineWidth = "10";
 
-	for (var i = 0, j = points.length; i<j; i++) {
+	for (var i = 0, l = points.length; i<l; i++) {
 		/* if pressure property is present and not 0, set radius, otherwise default */
 		if (typeof(points[i].pressure) != 'undefined' && points[i].pressure != null) {
 			radius = 35 + (points[i].pressure * 25);
@@ -94,7 +94,7 @@ function draw() {
 function positionHandler(e) {
 	if (e.type == 'mousemove') {
 		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
-		for (var i = 0; i<points.length; i++) {
+		for (var i = 0, l = points.length; i<l; i++) {
 			if (points[i].type == 'mousemove') {
 				points.splice(i,1);
 			}
@@ -102,14 +102,14 @@ function positionHandler(e) {
 		points.push(e);
 	} else if (e.type == 'mouseout') {
 		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
-		for (var i = 0; i<points.length; i++) {
+		for (var i = 0, l = points.length; i<l; i++) {
 			if (points[i].type == 'mousemove') {
 				points.splice(i,1);
 			}
 		}
 	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')||(e.type == 'touchcancel')) {
 		// remove all previous touch events from the array
-		for (var i = 0; i<points.length; i++) {
+		for (var i = 0, l = points.length; i<l; i++) {
 			if (points[i].type == undefined) {
 				points.splice(i,1);
 				i--;
@@ -123,10 +123,10 @@ function positionHandler(e) {
 		/* fairly ugly, unoptimised approach of manually replicating the targetTouches array */
 		switch (e.type) {
 			case 'pointerdown':
-			case 'MSPointerDown':
 			case 'pointermove':
+			case 'MSPointerDown':
 			case 'MSPointerMove':
-				for (var i = 0, found = false; i<points.length; i++) {
+				for (var i = 0, found = false, l = points.length; i<l; i++) {
 					if (points[i].pointerId == e.pointerId) {
 						points[i] = e;
 						found = true;
@@ -138,12 +138,12 @@ function positionHandler(e) {
 				}
 				break;
 			case 'pointerup':
-			case 'MSPointerUp':
-			case 'pointercancel':
-			case 'MSPointerCancel':
 			case 'pointerout':
+			case 'pointercancel':
+			case 'MSPointerUp':
 			case 'MSPointerOut':
-				for (var i = 0; i<points.length; i++) {
+			case 'MSPointerCancel':
+				for (var i = 0, l = points.length; i<l; i++) {
 					if (points[i].pointerId == e.pointerId) {
 						points.splice(i,1);
 						break;
@@ -163,30 +163,20 @@ function init() {
 	resetCanvas();
 	container.appendChild(canvas);
 	document.body.appendChild( container );
-		
+	var events = [];
 	/* feature detect - in this case not dangerous, as pointer is not exclusively touch */
 	if ((window.PointerEvent)||(window.navigator.pointerEnabled)||(window.navigator.msPointerEnabled)) {
-		canvas.addEventListener('pointerdown',  positionHandler, false );
-		canvas.addEventListener('pointermove',  positionHandler, false );
-		canvas.addEventListener('pointerup',  positionHandler, false );
-		canvas.addEventListener('pointercancel',  positionHandler, false );
-		canvas.addEventListener('pointerover',  positionHandler, false );
-		canvas.addEventListener('pointerout',  positionHandler, false );
-		canvas.addEventListener('MSPointerDown',  positionHandler, false );
-		canvas.addEventListener('MSPointerMove',  positionHandler, false );
-		canvas.addEventListener('MSPointerUp',  positionHandler, false );
-		canvas.addEventListener('MSPointerCancel',  positionHandler, false );
-		canvas.addEventListener('MSPointerOver',  positionHandler, false );
-		canvas.addEventListener('MSPointerOut',  positionHandler, false );
+		events = ['pointerover', 'pointerdown', 'pointermove', 'pointerup', 'pointerout', 'pointercancel',
+		          'MSPointerOver', 'MSPointerDown', 'MSPointerMove', 'MSPointerUp', 'MSPointerOut', 'MSPointerCancel'];
 	} else {
-		canvas.addEventListener('mousemove',  positionHandler, false );
-		canvas.addEventListener('mouseout',  positionHandler, false );
-		canvas.addEventListener('touchstart', positionHandler, false );
-		canvas.addEventListener('touchmove',  positionHandler, false );
-		canvas.addEventListener('touchend',  positionHandler, false );
-		canvas.addEventListener('touchcancel',  positionHandler, false );
+		events = ['mouseover', 'mousedown', 'mousemove', 'mouseup', 'mouseout',
+		          'touchstart', 'touchmove', 'touchend', 'touchcancel'];
 	}
 
+	for (var i=0, l=events.length; i<l; i++) {
+		canvas.addEventListener(events[i],  positionHandler, false );
+	}
+	
 	// suppress context menu
 	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
 
