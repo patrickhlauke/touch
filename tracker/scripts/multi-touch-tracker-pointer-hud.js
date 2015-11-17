@@ -100,31 +100,30 @@ function draw() {
 }
 
 function positionHandler(e) {
-	if (e.type == 'mousemove') {
+	if ((e.type == 'mousemove') || (e.type == 'mouseout')) {
 		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
 		for (var i = 0, l = points.length; i<l; i++) {
 			if (points[i].type == 'mousemove') {
 				points.splice(i,1);
 			}
 		}
-		points.push(e);
-	} else if (e.type == 'mouseout') {
-		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
-		for (var i = 0, l = points.length; i<l; i++) {
-			if (points[i].type == 'mousemove') {
-				points.splice(i,1);
-			}
+		if (e.type == 'mousemove') {
+			// add new mouse event entry
+			points.push(e);
 		}
 	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')||(e.type == 'touchcancel')) {
-		// remove all previous touch events from the array
+		// remove any points except for mouse (to allow possibility of simultaneous mouse and touch - Chromebook Pixel?)
 		for (var i = 0, l = points.length; i<l; i++) {
-			if (points[i].type == undefined) {
+			if (points[i].type != 'mousemove') {
 				points.splice(i,1);
 				i--;
+				l--;
 			}
 		}
-		// merge in targetTouches array (this works because each event has a "global" view of *all* touches)
-		Array.prototype.push.apply(points, e.targetTouches);
+		// add in all entries from the array-like targetTouches
+		for (var i = 0, l = e.targetTouches.length; i<l; i++) {
+			points.push(e.targetTouches[i]);
+		}
 		// prevent mouse compat events
 		e.preventDefault();
 	} else {
