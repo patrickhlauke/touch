@@ -170,6 +170,8 @@ function init() {
 	resetCanvas();
 	container.appendChild(canvas);
 	document.body.appendChild( container );
+	// use debounced function for better performance on older/underpowered devices (e.g. Nexus 10)
+	var debouncedPositionHandler = debounce(positionHandler, 5, true);
 	var events = [];
 	/* feature detect - in this case not dangerous, as pointer is not exclusively touch */
 	if ((window.PointerEvent)||(window.navigator.pointerEnabled)||(window.navigator.msPointerEnabled)) {
@@ -181,7 +183,11 @@ function init() {
 	}
 
 	for (var i=0, l=events.length; i<l; i++) {
-		canvas.addEventListener(events[i],  positionHandler, false );
+		if ((events[i] == 'mousemove')||(events[i] == 'touchmove')) {
+			canvas.addEventListener(events[i],  debouncedPositionHandler, false );
+		} else {
+			canvas.addEventListener(events[i],  positionHandler, false );
+		}
 	}
 	
 	// suppress context menu
