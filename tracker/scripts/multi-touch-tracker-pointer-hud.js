@@ -32,8 +32,8 @@ function draw() {
 
 		pressure = points[i].pressure || points[i].force || points[i].webkitForce|| 0.1;
 		rotationAngle = points[i].rotationAngle || 0;
-		radiusX = points[i].radiusX || 50;
-		radiusY = points[i].radiusY || 50;
+		radiusX = points[i].radiusX || 40;
+		radiusY = points[i].radiusY || 40;
 		radiusX += pressure * 35;
 		radiusY += pressure * 35;
 
