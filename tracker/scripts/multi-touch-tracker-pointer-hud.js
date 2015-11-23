@@ -32,8 +32,15 @@ function draw() {
 
 		pressure = points[i].pressure || points[i].force || points[i].webkitForce|| 0.1;
 		rotationAngle = points[i].rotationAngle || 0;
-		radiusX = points[i].radiusX || 40;
-		radiusY = points[i].radiusY || 40;
+		if ((points[i].radiusX) && (points[i].radiusY)) {
+			radiusX = points[i].radiusX;
+			radiusY = points[i].radiusY;
+		} else if ((points[i].width) && (points[i].width != 0) && (points[i].height) && (points[i].height != 0))  {
+			radiusX = points[i].width / 2;
+			radiusY = points[i].height / 2;
+		} else {
+			radiusX = radiusY = 40;
+		}
 		radiusX += pressure * 35;
 		radiusY += pressure * 35;
 
@@ -74,7 +81,7 @@ function draw() {
 			case 'MSPointerDown':
 			case 'MSPointerMove':
 			case 'MSPointerUp':
-				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].x+' clientY: '+points[i].y, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY, 'pressure: '+points[i].pressure];
+				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].x+' clientY: '+points[i].y, 'width: '+points[i].width, 'height: '+points[i].height, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY, 'pressure: '+points[i].pressure];
 				break;
 			case 'mousedown':				
 			case 'mousemove':
