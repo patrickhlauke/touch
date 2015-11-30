@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pointer-Events width, height</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<script src="scripts/rAF.js"></script>
+<style>
+body {
+	background-color: #000000;
+	margin: 0px;
+}
+canvas {
+	background-color:#222;
+	display:block; 
+	position:absolute; 
+	-ms-touch-action: none;
+	    touch-action: none;
+}
+</style>
+</head>
+<body>
+<script>
+var canvas,
+	c,
+	devicePixelRatio,
+	container;
+
+var points = [];
+
+function draw() {
+	var width, height;
+	/* hack to work around lack of orientationchange/resize event */
+	if(canvas.height != window.innerHeight * devicePixelRatio) {
+		resetCanvas();
+	} else {
+		c.clearRect(0,0,canvas.width, canvas.height);
+	}
+	c.strokeStyle = "#eee";
+	c.lineWidth = "2";
+
+	for (var i = 0, l = points.length; i<l; i++) {
+		width = points[i].width || 80;
+		height = points[i].height || 80;
+
+		// add some pixels for better visibility
+		if (points[i].pointerType == "touch") {
+			width += 30;
+			height += 30;
+		}
+
+		/* draw all circles */
+		c.beginPath();
+		c.rect(points[i].clientX-width/2, points[i].clientY-height/2, width, height);
+		c.stroke();
+
+		// HUD (hacky)
+		var hud_props = ['pointer ('+points[i].pointerType+')', 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY, 'width: '+points[i].width+' height: '+points[i].height];
+
+		c.font = "30px Arial";
+		c.fillStyle = "#fff";
+		c.fillText(hud_props[0], points[i].clientX + points[i].width/2 + 20, points[i].clientY);
+		c.fillStyle = "#aaa";
+		c.font = "10px Arial";
+		for (var h_i = 1, h_j = hud_props.length; h_i<h_j; h_i++) {
+			c.fillText(hud_props[h_i], points[i].clientX + points[i].width/2 + 20, points[i].clientY + (h_i + 1) * 12);
+		}
+	}
+}
+
+function positionHandler(e) {
+	// stop scrolling etc
+	e.preventDefault();
+
+	/* fairly ugly, unoptimised approach of manually replicating the targetTouches array */
+	switch (e.type) {
+		case 'pointerdown':
+		case 'pointermove':
+		case 'MSPointerDown':
+		case 'MSPointerMove':
+			for (var i = 0, found = false, l = points.length; i<l; i++) {
+				if (points[i].pointerId == e.pointerId) {
+					points[i] = e;
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				points.push(e);
+			}
+			break;
+		case 'pointerup':
+		case 'pointerout':
+		case 'pointercancel':
+		case 'MSPointerUp':
+		case 'MSPointerOut':
+		case 'MSPointerCancel':
+			for (var i = 0, l = points.length; i<l; i++) {
+				if (points[i].pointerId == e.pointerId) {
+					points.splice(i,1);
+					break;
+				}
+			}
+			break;
+	}
+	window.requestAnimationFrame(draw);
+}
+
+function init() {
+	canvas = document.createElement( 'canvas' );
+	c = canvas.getContext( '2d' );
+	container = document.createElement( 'div' );
+	container.className = "container";
+	resetCanvas();
+	container.appendChild(canvas);
+	document.body.appendChild( container );
+	var events = ['pointerover', 'pointerdown', 'pointermove', 'pointerup', 'pointerout', 'pointercancel', 'MSPointerOver', 'MSPointerDown', 'MSPointerMove', 'MSPointerUp', 'MSPointerOut', 'MSPointerCancel'];
+	for (var i=0, l=events.length; i<l; i++) {
+		canvas.addEventListener(events[i],  positionHandler, false );
+	}
+	// suppress context menu
+	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
+}
+
+function resetCanvas() {
+    // HiDPI canvas adapted from http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+	devicePixelRatio = window.devicePixelRatio || 1;
+	canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    c.scale(devicePixelRatio, devicePixelRatio);
+}
+
+window.addEventListener('load',function() {
+	/* hack to prevent firing the init script before the window object's values are populated */
+	setTimeout(init,100);
+},false);
+</script
+</body>
+</html>

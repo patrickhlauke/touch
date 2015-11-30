@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Touch-Events (+Mouse) force, Pointer-Events pressure</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+<script src="scripts/rAF.js"></script>
+<style>
+body {
+	background-color: #000000;
+	margin: 0px;
+}
+canvas {
+	background-color:#222;
+	display:block; 
+	position:absolute; 
+	-ms-touch-action: none;
+	    touch-action: none;
+}
+</style>
+</head>
+<body>
+<script>
+var canvas,
+	c,
+	devicePixelRatio,
+	container;
+
+var points = [];
+
+function draw() {
+	var radius;
+	/* hack to work around lack of orientationchange/resize event */
+	if(canvas.height != window.innerHeight * devicePixelRatio) {
+		resetCanvas();
+	} else {
+		c.clearRect(0,0,canvas.width, canvas.height);
+	}
+	c.strokeStyle = "#eee";
+	c.lineWidth = "10";
+
+	for (var i = 0, l = points.length; i<l; i++) {
+		/* if pressure property is present and not 0, set radius, otherwise default */
+		if (typeof(points[i].pressure) != 'undefined' && points[i].pressure != null) {
+			radius = 35 + (points[i].pressure * 25);
+		} else if (typeof(points[i].force) != 'undefined' && points[i].force != null) {
+			radius = 35 + (points[i].force * 25);
+		} else if (typeof(points[i].webkitForce) != 'undefined' && points[i].webkitForce != null) {
+			radius = 35 + (points[i].webkitForce * 25);
+		} else {
+			radius = 50;
+		}
+
+		/* draw all circles */
+		c.beginPath();
+		c.ellipse(points[i].clientX, points[i].clientY, radius, radius, 0, 0, Math.PI*2, true);
+		c.stroke();
+
+		// HUD (hacky)
+		var hud_props = [];
+		switch(points[i].type) {
+			case undefined:
+				hud_props = ['touch', 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
+				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
+					hud_props.push( ((points[i].force !== undefined) ? 'force: '+points[i].force : 'webkitForce: '+points[i].webkitForce) );
+				}
+				break;
+			case 'pointerover':
+			case 'pointerdown':
+			case 'pointermove':
+			case 'pointerup':
+			case 'MSPointerOver':
+			case 'MSPointerDown':
+			case 'MSPointerMove':
+			case 'MSPointerUp':
+				hud_props = ['pointer ('+points[i].pointerType+')', 'clientX: '+points[i].x+' clientY: '+points[i].y, 'pressure: '+points[i].pressure];
+				break;
+			case 'mousedown':				
+			case 'mousemove':
+			case 'mouseup':
+				hud_props = ['mouse','clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
+				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
+					hud_props.push( ((points[i].force !== undefined) ? 'force: '+points[i].force : 'webkitForce: '+points[i].webkitForce) );
+				}
+				break;
+		}
+		c.font = "30px Arial";
+		c.fillStyle = "#fff";
+		c.fillText(hud_props[0], points[i].clientX + radius + 20, points[i].clientY);
+		c.fillStyle = "#aaa";
+		c.font = "10px Arial";
+		for (var h_i = 1, h_j = hud_props.length; h_i<h_j; h_i++) {
+			c.fillText(hud_props[h_i], points[i].clientX + radius + 20, points[i].clientY + (h_i + 1) * 12);
+		}
+	}
+}
+
+function positionHandler(e) {
+	// stop scrolling etc
+	e.preventDefault();
+
+	if ((e.type == 'mousemove') || (e.type == 'mouseout')) {
+		// remove previous mouse entry from the array (assumes only a single mouse is ever present)
+		for (var i = 0, l = points.length; i<l; i++) {
+			if (points[i].type == 'mousemove') {
+				points.splice(i,1);
+			}
+		}
+		if (e.type == 'mousemove') {
+			// add new mouse event entry
+			points.push(e);
+		}
+	} else if ((e.type == 'touchstart')||(e.type == 'touchmove')||(e.type == 'touchend')||(e.type == 'touchcancel')) {
+		// remove any points except for mouse (to allow possibility of simultaneous mouse and touch - Chromebook Pixel?)
+		for (var i = 0, l = points.length; i<l; i++) {
+			if (points[i].type != 'mousemove') {
+				points.splice(i,1);
+				i--;
+				l--;
+			}
+		}
+		// add in all entries from the array-like targetTouches
+		for (var i = 0, l = e.targetTouches.length; i<l; i++) {
+			points.push(e.targetTouches[i]);
+		}
+		// prevent mouse compat events
+		e.preventDefault();
+	} else {
+		/* fairly ugly, unoptimised approach of manually replicating the targetTouches array */
+		switch (e.type) {
+			case 'pointerdown':
+			case 'pointermove':
+			case 'MSPointerDown':
+			case 'MSPointerMove':
+				for (var i = 0, found = false, l = points.length; i<l; i++) {
+					if (points[i].pointerId == e.pointerId) {
+						points[i] = e;
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					points.push(e);
+				}
+				break;
+			case 'pointerup':
+			case 'pointerout':
+			case 'pointercancel':
+			case 'MSPointerUp':
+			case 'MSPointerOut':
+			case 'MSPointerCancel':
+				for (var i = 0, l = points.length; i<l; i++) {
+					if (points[i].pointerId == e.pointerId) {
+						points.splice(i,1);
+						break;
+					}
+				}
+				break;
+		}
+	}
+	window.requestAnimationFrame(draw);
+}
+
+function init() {
+	canvas = document.createElement( 'canvas' );
+	c = canvas.getContext( '2d' );
+	container = document.createElement( 'div' );
+	container.className = "container";
+	resetCanvas();
+	container.appendChild(canvas);
+	document.body.appendChild( container );
+	/* feature detect - in this case not dangerous, as pointer is not exclusively touch */
+	var events = [];
+	if ((window.PointerEvent)||(window.navigator.pointerEnabled)||(window.navigator.msPointerEnabled)) {
+		events = ['pointerover', 'pointerdown', 'pointermove', 'pointerup', 'pointerout', 'pointercancel',
+		          'MSPointerOver', 'MSPointerDown', 'MSPointerMove', 'MSPointerUp', 'MSPointerOut', 'MSPointerCancel'];
+	} else {
+		events = ['mouseover', 'mousedown', 'mousemove', 'mouseup', 'mouseout',
+		          'touchstart', 'touchmove', 'touchend', 'touchcancel'];
+	}
+	for (var i=0, l=events.length; i<l; i++) {
+		canvas.addEventListener(events[i],  positionHandler, false );
+	}
+	// suppress context menu
+	canvas.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false)
+}
+
+function resetCanvas() {
+    // HiDPI canvas adapted from http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+	devicePixelRatio = window.devicePixelRatio || 1;
+	canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    c.scale(devicePixelRatio, devicePixelRatio);
+}
+
+window.addEventListener('load',function() {
+	/* hack to prevent firing the init script before the window object's values are populated */
+	setTimeout(init,100);
+},false);
+</script>
+</body>
+</html>
