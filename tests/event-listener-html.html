@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Event listener for event on &lt;html&gt;</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<style>
+html {
+	margin: 0;
+	background-color: #5290ba;
+}
+body {
+	height: 0;
+	margin: 0;
+}
+h1, p {
+	background-color: #eee;
+	padding-left: 8px;
+	margin-top: 0;
+	margin-bottom: 0;
+	border-width: 1em 0 0 0;
+	border-color: #eee;
+	border-style: solid;
+}
+.i {
+	margin-bottom: 4rem !important;
+}
+</style>
+<script>
+window.addEventListener('load', function() {
+	var events = [
+	'mouseover',
+	// 'mousemove', // Fires annoyingly frequently on desktop, cluttering the results
+	'mouseout',
+	'mouseenter',
+	'mouseleave',
+	'mousedown',
+	'mouseup',
+	'focus',
+	'blur',
+	'click',
+	'MSPointerDown',
+	'MSPointerUp',
+	'MSPointerCancel',
+	'MSPointerMove',
+	'MSPointerOver',
+	'MSPointerOut',
+	'MSPointerEnter',
+	'MSPointerLeave',
+	'MSGotPointerCapture',
+	'MSLostPointerCapture',
+	'pointerdown',
+	'pointerup',
+	'pointercancel',
+	'pointermove',
+	'pointerover',
+	'pointerout',
+	'pointerenter',
+	'pointerleave',
+	'gotpointercapture',
+	'lostpointercapture',
+	'touchstart',
+	'touchmove',
+	'touchend',
+	'touchenter',
+	'touchleave',
+	'touchcancel'	
+	];
+	var h = document.getElementsByTagName('html')[0];
+	var o = document.getElementById('o');
+	var report = function(e) {
+		if (e.eventPhase === Event.AT_TARGET) {
+			var s = e.type + '<br>';
+			setTimeout(function() { delayedInnerHTML(s) }, 100);
+		}
+	};
+
+	/* Hack to work around new iOS8 behavior where innerHTML counts as a content change - previously, it was safe to use, see http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html */
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
+	}
+
+	for (var i=0; i<events.length; i++) {
+		h.addEventListener(events[i], report, false);
+	}
+}, false);
+</script>
+</head>
+<body>
+<h1>Event listener</h1>
+<p>Test to see what events the <code>&lt;html&gt;</code> itself fires.</p>
+<p class="i">Tap or click the blue area below this text.</p>
+<p>Events (other than <code>mousemove</code>) targeted at the <code>&lt;html&gt;</code> element:</p>
+<output id="o"></output>
+</body>
+</html>
