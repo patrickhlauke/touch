@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 30 December 2015. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 12 January 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -748,12 +748,12 @@
 </thead>
 <tbody>
 <tr>
-	<td>iOS 9.2 / Safari/WebView<br><small>(see note below about heuristics)</small></td>
+	<td>iOS 9.3 / Safari/WebView</td>
+	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=149968">iOS 9.3</a>)</small></td>
+	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=149968">iOS 9.3</a>)</small></td>
+	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">iOS 9.3</a>)</small></td>
 	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
+	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=149854">iOS 9.3</a>)</small></td>
 </tr>
 <tr>
 	<td>Android 4.3 / Browser (WebKit 534.30)</td>
@@ -850,6 +850,7 @@
 <p><strong>iOS 8 update:</strong> it seems that in iOS 8, some heuristics have been included in Safari that prevent the 300ms delay from happening depending on the duration of the touch/tap. Fast taps have 300ms delay (as they're more likely to be the first of a quick double-tap, presumably), while slightly slower taps (if the delay between <code>touchstart</code> and <code>touchend</code> is above a certain threshold, around 125ms, without too much movement) fire the mouse compatibility events instantly (see <a href="https://github.com/ftlabs/fastclick/issues/262#issuecomment-56362437">Disable FastClick on iOS 8 #262</a> and my short video <a href="https://www.youtube.com/watch?v=k-UiuPp2CK0">iOS8/Safari 300ms delay heuristics</a>). It seems this only happens in Safari, and not in the generic UIWebView, so other browsers like iOS/Chrome still have the delay regardless of tap speed - however, it's likely present in WKWebView and will roll into other browsers when they upgrade to this. <strong>Update:</strong> rather than an explict heuristic, this is more of a side effect of a change in iOS' gesture recogniser.</p>
 <p>Also, in a change from iOS 7, <code>innerHTML</code> now also seems to count as a "content change" (see <a href="http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html">The iOS event cascade and innerHTML</a>)<strike>so my tests will need to be updated, as currently no <code>click</code> event is being fired on them.</strike></p>
 <p><strong>iOS/WebKit update (December 2015):</strong> all relevant bugs (<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">Bug 150604</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=149968">Bug 149968</a>) and <a href="https://bugs.webkit.org/show_bug.cgi?id=149854">Bug 149854</a>) are now <q>RESOLVED FIXED</q>. See <a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/">More Responsive Tapping on iOS</a>. However, no indication has yet been given when these changes will find their way into iOS - all signs are still pointing towards a future iOS 10 release (since Apple don't historically make such wide-sweeping changes in iOS point releases).</p>
+<p><strong>iOS 9.3 Preview (January 2016)</strong> now includes the viewport and <code>touch-action:manipulation</code> optimisations.</p>
 <p>On Windows 8.1 and Windows 10 on a touchscreen device, Chrome and Firefox do not currently support "double-tap to zoom", so no 300ms delay is present (hence the "N/A" entries in the table). Internet Explorer, on the other hand, does support "double-tap to zoom", so touch-optimisations to remove the delay (using <code>touch-action:manipulation</code>) will also be necessary on desktop. Also note that <code>viewport</code> is not supported/ignored on desktop in IE (with some exception when it comes to "Metro" snap mode), so pages using those <code>viewport</code> directives are still zoomable - "double-tap to zoom" still works in these cases, but cannot be prevented by merely adding <code>viewport</code>.</p>
 
 <h2><a name="faked-event-coordinates">&quot;Faked&quot; event coordinates</a></h2>
