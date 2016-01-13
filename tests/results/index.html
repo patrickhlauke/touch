@@ -7,10 +7,10 @@
 </head>
 <body>
 <h1>Touch/pointer events test results</h1>
-<p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement).</p>
+<p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 12 January 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 13 January 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -739,11 +739,11 @@
 <thead>
 <tr>
 	<th>Browser</th>
-	<th><code>&lt;meta name="viewport" content="user-scalable=no"&gt;</code></th>
-	<th><code>&lt;meta name="viewport" content="minimum-scale=1,maximum-scale=1"&gt;</code></th>
-	<th><code>&lt;meta name="viewport" content="width=device-width"&gt;</code></th>
-	<th><code>touch-action:none</code></th>
-	<th><code>touch-action:manipulation</code></th>
+	<th><a href="../event-listener_user-scalable-no.html"><code>&lt;meta name="viewport" content="user-scalable=no"&gt;</code></a></th>
+	<th><a href="../event-listener_minimum-maximum-scale.html"><code>&lt;meta name="viewport" content="minimum-scale=1,maximum-scale=1"&gt;</code></a></th>
+	<th><a href="../event-listener_width-device-width.html"><code>&lt;meta name="viewport" content="width=device-width"&gt;</code></a></th>
+	<th><a href="../event-listener_touch-action-none_no-meta.html"><code>touch-action:none</code></a></th>
+	<th><a href="../event-listener_touch-action-manipulation_no-meta.html"><code>touch-action:manipulation</code></a></th>
 </tr>
 </thead>
 <tbody>
@@ -861,7 +861,7 @@
 <thead>
 <tr>
 	<th>Browser</th>
-	<th>Events fired on activation<br><small>(unless otherwise noted)</small></th>
+	<th><a href="../event-listener-coordinates.html">Events fired on activation</a><br><small>(unless otherwise noted)</small></th>
 	<th>Coordinates</th>
 </tr>
 </thead>
