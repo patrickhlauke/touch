@@ -734,7 +734,7 @@
 <p>Opera 12 (Presto) on Windows seems to have no support for assistive technology. Chrome+ChromeVox does not currently support touch swipes/gestures on desktop.</p>
 
 <h2><a name="suppressing-300ms-delay">Suppressing 300ms delay for touchscreen interactions</a></h2>
-<p>Small series of tests to check which of the "tricks" used to suppress the dreaded 300ms delay (for Touch Events, between <code>touchend</code> and the compatibility mouse events, including <code>click</code>; for Pointer Events, just before the <code>click</code>) actually works in various browsers/OSs. Where known, this also includes the particular version of the browser that added support, with reference to the related bug/announcement. Blank cells mean that a particular trick/technique has no effect and that the 300ms delay is still present.</p>
+<p>Small series of tests to check which of the "tricks" used to suppress the dreaded 300ms delay (for Touch Events, between <code>touchend</code> and the compatibility mouse events, including <code>click</code>; for Pointer Events, just before the <code>click</code>) actually works in various browsers/OSs. Where known, this also includes the particular version of the browser that added support, with reference to the related bug/announcement. Blank cells mean that a particular trick/technique has no effect and that the 300ms delay is still present. (Note that, to be precise, on iOS the delay is actually 350ms)</p>
 <table>
 <thead>
 <tr>
