@@ -195,6 +195,13 @@
 	<td><code>blur</code> <br><small>(when moving to another focusable element, otherwise <code>none</code>)</small><hr> <em><strong><code>mouseleave</code></strong></em> &gt; <em><strong><code>mouseout</code></strong></em> <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small></td>
 </tr>
 <tr>
+	<td>iOS9.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code><strong>mouseover</strong></code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><strong><code>blur</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> <br><small>(when moving to another focusable element, otherwise <code>none</code>)</small><hr> <em><strong><code><strong>mouseout</strong></code></strong></em> &gt; <em><strong><code>mouseleave</code></strong></em> <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small></td>
+</tr>
+<tr>
 	<td>Android 4.3 / Chrome M34 + TalkBack (effectively ChromeVox, same behavior in other WebView/WebKit enabled browsers like Miren, Maxthon, etc)</td>
 	<td><code>focus</code><hr><em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mouseover</code></strong></em> &gt; (<em><strong><code>mousemove</code></strong></em>)+ &gt; <code>focus</code><br><small>(when using &quot;touch explore&quot;)</small></td>
 	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
