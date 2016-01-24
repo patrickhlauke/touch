@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 22 January 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 24 January 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -200,6 +200,13 @@
 	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
 	<td><em><strong><code>blur</code></strong></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>focus</code></strong></em></td>
 	<td><code>blur</code><hr>(<em><strong><code>mousemove</code></strong></em>)+ &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <em><strong><code>mouseout</code></strong></em><br><small>(when using &quot;touch expore&quot;)</small></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 47 + TalkBack</td>
+	<td><code><strong>none</strong></code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</td>
 </tr>
 <tr>
 	<td>Android 4.3 / Firefox 28 + TalkBack</td>
