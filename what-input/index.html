@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>What Input?</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<script src="report.js"></script>
+<style>
+[data-whatinput='mouse'] .-mouse,
+[data-whatinput='keyboard'] .-keyboard,
+[data-whatinput='touch'] .-touch {
+  background-color: #9F1839;
+  color: #fff;
+}
+</style>
+</head><body>
+<h1>What Input?</h1>
+<p>Simple test (based on the standard event listener tests, just to ensure that no events are inappropriately suppressed) of <cite><a href="https://github.com/ten1seven/what-input">What Input?</a></cite> – a global utility for tracking the current input method (<span class="input-display -mouse">mouse</span>, <span class="input-display -keyboard">keyboard</span> or <span class="input-display -touch">touch</span>).</p>
+<button id="b">Test button!</button>
+<output id="o"></output>
+<script src="http://ten1seven.github.io/what-input/what-input.js"></script>
+</body></html>
