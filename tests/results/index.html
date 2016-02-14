@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 24 January 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 14 February 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -77,7 +77,19 @@
 	<td><code>mouseout</code></td>
 </tr>
 <tr>
+	<td>Android 6 / Dolphin Browser 11.5</td>
+	<td><em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code></td>
+</tr>
+<tr>
 	<td>Android 4.3 / UC Browser 9.6 (WebKit 533.1)</td>
+	<td><em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 6 / UC Browser 10.8</td>
 	<td><em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <em><strong><code>blur</code></strong></em></td>
@@ -795,6 +807,22 @@
 	<td></td>
 	<td></td>
 	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>Android 6 / Dolphin 11.5</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>Android 6 / UC Browser 10.8</td>
+	<td></td>
+	<td></td>
+	<td>Yes</td>
 	<td></td>
 	<td></td>
 </tr>
