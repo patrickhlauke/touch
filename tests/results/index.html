@@ -223,6 +223,13 @@
 	<td><code>blur</code> <br><small>(only if element was activated at least once, and only when moving to another focusable element and activating it, otherwise <code>none</code>)</small><hr><code>mouseout</code> &gt; <code>blur</code><br><small>(when using &quot;touch explore&quot; - <code>blur</code> also only fired if element was activated at least once, and only when moving to another focusable element and activating it)</small></td>
 </tr>
 <tr>
+	<td>Blackberry (BBOS10) / Browser + Screen Reader</td>
+	<td><code><strong>none</strong></code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code><br><small>(after moving to and activating another focusable element)</td>
+</tr>
+<tr>
 	<td>Windows Phone 8.1 / IE11 + Narrator</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
