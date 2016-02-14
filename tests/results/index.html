@@ -332,6 +332,20 @@
 	<td><code>blur</code></td>
 </tr>
 <tr>
+	<td>Android 6 / Chrome + mouse</td>
+	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+</td>
+	<td><em><strong><code>mouseout</code></strong></em> &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>mousemove</code></strong></em></td>
+	<td><em><strong><code>mouseout</code></strong></em> &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>mousemove</code></strong></em></td>
+	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseoleave</code></td>
+</tr>
+<tr>
+	<td>Android 6 / Chrome + keyboard</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
 	<td>Android 4.3 / Opera 19 (Blink) + keyboard (no focus indication)</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
@@ -347,6 +361,20 @@
 </tr>
 <tr>
 	<td>Android 4.3 / Firefox 28 + keyboard</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 6 / Firefox 44 + mouse</td>
+	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <code>mousemove</code> </td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>mousemove</code></strong></em></td>
+	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseleave</code></td>
+</tr>
+<tr>
+	<td>Android 6 / Firefox 44 + keyboard</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
