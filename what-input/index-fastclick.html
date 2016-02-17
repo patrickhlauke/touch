@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html><head><meta charset=utf-8>
+<html>
+<head>
+<meta charset=utf-8>
 <title>What Input? (with Fastclick)</title>
 <link rel="stylesheet" href="style.css">
-<script src="https://raw.githubusercontent.com/ftlabs/fastclick/master/lib/fastclick.js"></script>
 <script src="report.js"></script>
 <style>
 [data-whatinput='mouse'] .-mouse,
@@ -18,5 +19,14 @@
 <p>This quick variant removes the `width=device-width` viewport and adds <cite><a href="https://github.com/ftlabs/fastclick">FastClick.js</a></cite>, to verify that these two libraries don't clash.</p>
 <button id="b">Test button!</button>
 <output id="o"></output>
+<script src="fastclick.js"></script>
+<script>
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+</script>
 <script src="http://ten1seven.github.io/what-input/what-input.js"></script>
-</body></html>
+</body>
+</html>
