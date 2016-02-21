@@ -235,6 +235,13 @@
 	<td><code>blur</code> <br><small>(only if element was activated at least once, and only when moving to another focusable element and activating it, otherwise <code>none</code>)</small><hr><code>mouseout</code> &gt; <code>blur</code><br><small>(when using &quot;touch explore&quot; - <code>blur</code> also only fired if element was activated at least once, and only when moving to another focusable element and activating it)</small></td>
 </tr>
 <tr>
+	<td>Android 6.0.1 / Firefox 47 + TalkBack</td>
+	<td><em><strong><code>none</code></strong></em><hr><code>mousover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+<br><small>(when using &quot;touch explore&quot;)</small></td>
+	<td><code>touchstart</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code> <br><small>(only if element was activated at least once, and only when moving to another focusable element and activating it, otherwise <code>none</code>)</small><hr><code>mouseout</code> &gt; <code>mouseleave</code> <code>blur</code><br><small>(when using &quot;touch explore&quot; - <code>blur</code> also only fired if element was activated at least once, and only when moving to another focusable element and activating it)</small></td>
+</tr>
+<tr>
 	<td>Blackberry (BBOS10) / Browser + Screen Reader</td>
 	<td><code><strong>none</strong></code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
