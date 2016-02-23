@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html><head><meta charset=utf-8>
-<title>Event listener on  text input (includes keyboard events)</title>
+<title>Event listener on text input (includes keyboard events)</title>
 <meta name="viewport" content="width=device-width">
 <link rel="stylesheet" href="style.css">
+<style>
+input {
+    font-size: 2em;
+    padding: 0.25em;
+    margin: 0 0 1em 0;
+}
+</style>
 <script>
 window.addEventListener('load', function() {
 	var t = 0;
@@ -96,7 +103,7 @@ window.addEventListener('load', function() {
 </script>
 </head><body>
 <h1>Event listener</h1>
-<p>including keyboard events - on a text input...</p>
+<p>Including keyboard events, using a text input...</p>
 <input type="text" id="b">
 <output id="o"></output>
 <p><small>Additional <a href="#">dummy link</a> to test certain events only firing once another element receives focus.</small></p>
