@@ -58,7 +58,9 @@ window.addEventListener('load', function() {
 <h1>Swipe</h1>
 <p>Detecting swipe gestures using <a href="http://hammerjs.github.io/">Hammer.js</a></p>
 <pre><code>var hammertime = Hammer(el);
-hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });</code></pre>
+hammertime.get('swipe').set({
+    direction: Hammer.DIRECTION_ALL
+});</code></pre>
 <output></output>
 <p><small>Ensure that you're using Hammer.js v2.0.5 or greater, as previous versions contain a fundamental problem with <code>touch-action</code> values – see <cite><a href="https://github.com/hammerjs/hammer.js/pull/855">Fix erroneous `pan-x pan-y` use and handling #855</a></cite>.</small></p>
 </body></html>
