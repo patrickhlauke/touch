@@ -1,7 +1,7 @@
 html,body {
 	background: #eee;
 	color: #333;
-	font: 1em/1 Arial, sans; max-width: 45em;
+	font: 1em/1.3 Arial, sans; max-width: 45em;
 }
 
 h1 {
@@ -15,6 +15,7 @@ output {
 	background: #ddd;
 	height: 20em;
 	overflow:auto;
+	line-height: 1;
 }
 
 output strong {
@@ -34,51 +35,30 @@ button, .button {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-
-	background: #ddd;
-	background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
-	background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
-	background: -moz-linear-gradient(top, #65a9d7, #3e779d);
-	background: -ms-linear-gradient(top, #65a9d7, #3e779d);
-	background: -o-linear-gradient(top, #65a9d7, #3e779d);
-	background: linear-gradient(to bottom, #65a9d7 0%,#3e779d 100%);
-
-	-webkit-box-shadow: rgba(0,0,0,0.4) 0 0.1rem 0, inset rgba(255,255,255,0.4) 0 0.1rem 0;
-	-moz-box-shadow: rgba(0,0,0,0.4) 0 0.1rem 0, inset rgba(255,255,255,0.4) 0 0.1rem 0;
-	box-shadow: rgba(0,0,0,0.4) 0 0.1rem 0, inset rgba(255,255,255,0.4) 0 0.1rem 0;
-
-	border: 0.1rem solid #0a3c59;
-	border-radius: 0.2rem;
 	font: 1.6rem/3.8rem Arial, Sans-serif;
-	color: #06426c;
 	text-align: center;
-	text-shadow: 0.1rem 0.1rem 0 #7ea4bd;
 	text-decoration: none;
 	outline: none;
-
+    color: #fff;
+    text-decoration: none;
+    background-color: #0099e5;
+    border: 1px solid #06A;
+    border-radius: 0.3rem;
+    -webkit-box-shadow: 0px 1px 0px rgba(255,255,255,0.15) inset;
+    box-shadow: 0px 1px 0px rgba(255,255,255,0.15) inset;
 	transition: color .1s linear;
 }
 
 button:focus, button:hover,
 .button:focus, .button:hover {
-	color: #fff;
-	text-shadow: 0.1rem 0.1rem 0 #1e4158;
+	background-color: #0AF;
 }
 
 button:active,
 .button:active  {
-	border-color: #008aaa;
-
-	background: #008aaa;
-	background: #65a9d7;
-	background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
-	background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
-	background: -moz-linear-gradient(top, #3e779d, #65a9d7);
-	background: -ms-linear-gradient(top, #3e779d, #65a9d7);
-	background: -o-linear-gradient(top, #3e779d, #65a9d7);
-	background: linear-gradient(top, #3e779d, #65a9d7);
-	
-	color: #fff
+	background-color: #0099e5;
+    -webkit-box-shadow: 0px 1px 0px rgba(0,0,0,0.15) inset;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.15) inset;
 }
 
 button::-moz-focus-inner,
