@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Debouncing/throttling touchmove and mousemove</title>
+<title>Debouncing/throttling touchmove and mousemove - with limit.js</title>
 <meta name="viewport" content="width=device-width">
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
 <script type='text/javascript' src="limit.js"></script>
@@ -27,7 +27,7 @@ $(document).bind('mousemove', function(e) {
 
 $(document).bind('mousemove', function(e) {
   $("#debounce").children().last().text(debounceCalls++);
-}.debounce(150)); // debounce with a 150 millisecond limit
+}.debounce(50)); // debounce with a 50 millisecond limit
 
 $(document).bind('mousemove', function(e) {
   $("#throttle").children().last().text(throttleCalls++);
@@ -41,7 +41,7 @@ $(document).bind('touchmove', function(e) {
 $(document).bind('touchmove', function(e) {
   e.preventDefault();
   $("#debounce").children().last().text(debounceCalls++);
-}.debounce(150)); // debounce with a 150 millisecond limit
+}.debounce(50)); // debounce with a 50 millisecond limit
 
 $(document).bind('touchmove', function(e) {
   e.preventDefault();
