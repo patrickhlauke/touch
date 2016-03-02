@@ -36,7 +36,11 @@ window.addEventListener('load', function() {
 	'mouseup',
 	'focus',
 	'blur',
-	'click'
+	'click',
+	'webkitmouseforcewillbegin',
+	'webkitmouseforcedown',
+	'webkitmouseforceup',
+	'webkitmouseforcechanged'
 	];
 	var b = document.getElementById('b');
 	var o = document.getElementById('o'),
