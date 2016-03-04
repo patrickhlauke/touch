@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset=utf-8>
+<head>
+<title>3D jQuery Rotator by Creative Punch - modified to just use Pointer Events (and PEP)</title>
+<script src="https://code.jquery.com/pep/0.4.1/pep.js"></script>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab);
+
+body {
+  background: #30303A;
+}
+
+h1 {
+  font-family: "Roboto Slab", sans-serif;
+  color: #151520;
+  text-align: center;
+  font-size: 2em;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+}
+
+a {
+  color: #eee;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ddf;
+  text-decoration: underline;
+}
+
+p {
+  text-align: center;
+  color: white;
+  font-size: 1.5em;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(359deg);
+    -ms-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+#spinner {
+  height: 60px;
+  width: 60px;
+  margin: 110px auto;
+  -webkit-animation: rotation .6s infinite linear;
+  animation: rotation .6s infinite linear;
+  border-left: 6px solid rgba(0, 174, 239, 0.15);
+  border-right: 6px solid rgba(0, 174, 239, 0.15);
+  border-bottom: 6px solid rgba(0, 174, 239, 0.15);
+  border-top: 6px solid rgba(0, 174, 239, 0.8);
+  border-radius: 100%;
+}
+
+#rotator {
+  width: 400px;
+  height: 300px;
+  margin: 30px auto;
+  position: relative;
+  border: 5px solid #39F;
+}
+
+#rotator img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  cursor: pointer;
+  touch-action:pan-y; /* only CSS addition - takes role of preventDefault in original demo */
+} </style>
+</head>
+<body>
+<h1>3D Rotator by <a href="http://creative-punch.net" target="_blank">Creative Punch</a></h1>
+<p>Modified to just use Pointer Events (and <a href="https://github.com/jquery/PEP">PEP</a>).</p>
+<p>Click and drag using mouse, stylus or touchscreen to rotate the images.</p>
+
+<div id="rotator" touch-action="none"> <!-- PEP-specific attribute (to match effect of touch-action CSS) -->
+  <!-- Our loading animation, pure CSS, no image -->
+  <div id="spinner"></div>    
+  <img src="./images/1.jpg">
+  <img src="./images/2.jpg">
+  <img src="./images/3.jpg">
+  <img src="./images/4.jpg">
+  <img src="./images/5.jpg">
+  <img src="./images/6.jpg">
+  <img src="./images/7.jpg">
+  <img src="./images/8.jpg">
+  <img src="./images/9.jpg">
+  <img src="./images/10.jpg">
+  <img src="./images/11.jpg">
+  <img src="./images/12.jpg"> 
+</div>
+<p><small>Adapted from <a href="http://codepen.io/CreativePunch/pen/sucHI">CodePen: 3D jQuery rotator</a> – see the article <a href="http://creative-punch.net/2014/03/3d-rotator-using-jquery/">3D rotator using jQuery</a></small></p>
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<!-- make sure it's a recent version of jQuery, which properly supports pointer events (otherwise e.clientX etc won't be passed in the jQuery event object) -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js"></script>
+<script>
+var threshold = 20;
+var loaded = false;
+var mouseDown = false;
+var initX = 0;
+var currentX = 0;
+var offset = 0;
+var images;
+var currentImage;
+var nextImage;
+var prevImage;
+$(function () {
+    $('#rotator').imagesLoaded(function () {
+        $('#spinner').fadeOut(500, function () {
+            images = $('#rotator').find('img');
+            currentImage = images.first();
+            nextImage = currentImage.next('img');
+            prevImage = images.last();
+            currentImage.fadeIn(500);
+            loaded = true;
+        });
+    });
+    $(this).on('pointerdown', function (e) { // only need pointer events now, as mouse is polyfilled in all browsers
+        e.preventDefault(); /* in case of pointer events, this also prevents mouse compatibility events, so functions won't double-fire */
+        if (loaded) {
+            mouseDown = true;
+            initX = e.clientX;
+        }
+    });
+    $(this).on('pointermove', function (e) { // only need pointer events now, as mouse is polyfilled in all browsers
+        if (mouseDown) {
+            currentX = e.clientX;
+            offset = currentX - initX;
+            if (offset < -threshold) {
+                prevImage.show();
+                currentImage.hide();
+                nextImage = currentImage;
+                currentImage = prevImage;
+                prevImage = prevImage.prev('img');
+                if (!prevImage.length) {
+                    prevImage = images.last();
+                }
+                initX = currentX;
+            }
+            if (offset > threshold) {
+                nextImage.show();
+                currentImage.hide();
+                prevImage = currentImage;
+                currentImage = nextImage;
+                nextImage = nextImage.next('img');
+                if (!nextImage.length) {
+                    nextImage = images.first();
+                }
+                initX = currentX;
+            }
+        }
+    });
+    $(this).on('pointerup', function () { // only need pointer events now, as mouse is polyfilled in all browsers
+        mouseDown = false;
+        currentX = 0;
+    });
+});
+</script>
+</body></html>
