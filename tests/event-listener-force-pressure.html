@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Event listener (force/webkitForce/pressure)</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<script>
+	window.addEventListener('load', function() {
+	var events = [
+	'MSPointerDown',
+	'MSPointerUp',
+	'MSPointerCancel',
+	'MSPointerMove',
+	'MSPointerOver',
+	'MSPointerOut',
+	'MSPointerEnter',
+	'MSPointerLeave',
+	'MSGotPointerCapture',
+	'MSLostPointerCapture',
+	'pointerdown',
+	'pointerup',
+	'pointercancel',
+	'pointermove',
+	'pointerover',
+	'pointerout',
+	'pointerenter',
+	'pointerleave',
+	'gotpointercapture',
+	'lostpointercapture',
+	'touchstart',
+	'touchmove',
+	'touchend',
+	'touchenter',
+	'touchleave',
+	'touchcancel',
+	'mouseover',
+	'mousemove',
+	'mouseout',
+	'mouseenter',
+	'mouseleave',
+	'mousedown',
+	'mouseup',
+	'focus',
+	'blur',
+	'click',
+	'webkitmouseforcewillbegin',
+	'webkitmouseforcedown',
+	'webkitmouseforceup',
+	'webkitmouseforcechanged'
+	];
+	var b = document.getElementById('b');
+	var o = document.getElementById('o'),
+	report = function(e) {
+		var s;
+		s = e.type;
+		if ((typeof(e.targetTouches) != 'undefined') && (e.targetTouches.length > 0) && (typeof(e.targetTouches[0].force) != 'undefined')) {
+			s += ' - force: '+e.targetTouches[0].force;
+		} else if (typeof(e.webkitForce) != 'undefined') {
+			s += ' - webkitForce: '+e.webkitForce;
+		} else if (typeof(e.pressure) != 'undefined') {
+			s += ' - pressure: '+e.pressure;
+		}
+		s += '<br>';
+		setTimeout(function() { delayedInnerHTML(s) }, 100);
+	}
+
+	/* Hack to work around new iOS8 behavior where innerHTML counts as a content change - previously, it was safe to use, see http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html */
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
+	}
+
+	for (var i=0; i<events.length; i++) {
+		b.addEventListener(events[i], report, false);
+	}
+}, true);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<p>Shows events and, if present, the value of the <code>force</code> / <code>webkitForce</code> / <code>pressure</code> property.</p>
+<button id="b">Test button!</button>
+<output id="o"></output>
+<p><small>Additional <a href="#">dummy link</a> to test certain events only firing once another element receives focus.</small></p>
+</body></html>
