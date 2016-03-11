@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 14 February 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 11 March 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -165,10 +165,16 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(note <strong>no</strong> <code>blur</code>, even when tapping away to another focusable element)</small></td>
 </tr>
 <tr>
-	<td>Windows 10 Mobile / Microsoft Edge (pointer events + touch events)</td>
+	<td>Windows 10 Mobile / Microsoft Edge 11 (pointer events + touch events)</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code> - also <code>focus</code> and <code>lostpointercapture</code> currently happen differently than on desktop with touch)</small></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code> - also <code>focus</code> and <code>lostpointercapture</code> currently happen differently than on desktop with touch)</small></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 10 Mobile / Microsoft Edge 13 (pointer events + touch events)</td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <em><strong><code>focus</code></strong></em> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(same as desktop with touchscreen, barring the faked touch events which are disabled on desktop)</small></td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(same as desktop with touchscreen, barring the faked touch events which are disabled on desktop)</small></td>
+	<td><code>blur</code></td>
 </tr>
 </tbody>
 </table>
