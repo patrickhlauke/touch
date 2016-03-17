@@ -1,0 +1,37 @@
+/* typeface: Nintendoid by patrick h. lauke */
+@font-face {
+    font-family: 'Nintendoid';
+    src: url('../resources/nintendoid.eot');
+    src: url('../resources/nintendoid.eot?#iefix') format('embedded-opentype'),
+         url('../resources/nintendoid.woff') format('woff'),
+         url('../resources/nintendoid.ttf') format('truetype'),
+         url('../resources/nintendoid.svg#nintendoid_1regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html, body { margin: 0; padding: 0; }
+html { margin: 5px; }
+body { font: 8px Nintendoid, sans-serif; background-color: #212121; color: #fff; width: 360px; margin: 24px auto 0 auto; position: relative; }
+h1,h2 { font-size: 16px; font-weight: normal; margin: 0; padding: 0; text-transform: uppercase; color: #f00; }
+h2 { margin-bottom: 8px; }
+p { margin: 0; padding: 0; }
+small { font-size: 8px; }
+a {  color: #f00; }
+canvas { display: block; margin: 16px 0; border-bottom: 2px #555 solid; cursor: none; }
+dt { float: left; }
+#autopilot { font-size: 16px; text-transform: uppercase; position: absolute; top: 200px; width:360px; text-align:center; background-color: rgba(0,0,0,0.5); }
+.off { display: none; }
+
+@media (max-height: 500px) {
+	h1,h2 { font-size: 8px; }
+	body { margin: 0 auto; }
+	canvas { margin: 2px 0; }
+}
+
+@-o-viewport {
+	width: 372px auto;
+	orientation: portrait; // not implemented yet?
+	resolution: device; // not implemented yet?
+}
