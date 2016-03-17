@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Event listener naive event doubling</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style.css">
+<script>
+window.addEventListener('load', function() {
+	var b = document.getElementById('b');
+	var o = document.getElementById('o'),
+	report = function(e) {
+		var s = 'event fired - '+e.type+'<br>';
+		setTimeout(function() { delayedInnerHTML(s) }, 100);
+	}
+
+	/* Hack to work around new iOS8 behavior where innerHTML counts as a content change - previously, it was safe to use, see http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html */
+	delayedInnerHTML = function(s) {
+		o.innerHTML += s;
+	}
+	
+	/* and here we have it...the naive approach to handling touch AND mouse */
+	b.addEventListener('touchend', report, false);
+	b.addEventListener('click', report, false);
+
+}, false);
+</script>
+</head><body>
+<h1>Event listener</h1>
+<p>Naive example of handling both <code>touchend</code> and <code>click</code>, which results in functions being fired twice (once for touch, then for the compatibility mouse events).</p>
+<button id="b">Test button!</button>
+<output id="o"></output>
+<p><small>Additional <a href="#">dummy link</a> to test certain events only firing once another element receives focus.</small></p>
+</body></html>
