@@ -77,13 +77,11 @@ function init() {
           // clear existing points
           points = [];
           for (var i = 0; i < frame.pointables.length; i++) {
-            var pointable = frame.pointables[i];
-            var interactionBox = frame.interactionBox;
-            var pos = interactionBox.normalizePoint(pointable.stabilizedTipPosition, true);
-            var x = canvas.width * pos[0];
-            var y = canvas.height * (1 - pos[1]);
+            var pos = frame.interactionBox.normalizePoint(frame.pointables[i].stabilizedTipPosition, true);
+            var x = window.innerWidth * pos[0];
+            var y = window.innerHeight * (1 - pos[1]);
             // construct a "fake" and expanded event object (just so the loop can remain same-ish)
-            points[i] = { clientX: x.toFixed(1), clientY: y.toFixed(1), distance: pointable.touchDistance };
+            points[i] = { clientX: x.toFixed(1), clientY: y.toFixed(1), distance: frame.pointables[i].touchDistance };
           }
         }
         loop();
