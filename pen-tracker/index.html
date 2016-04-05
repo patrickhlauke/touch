@@ -20,10 +20,10 @@ body { touch-action: none; margin: 0; padding: 0; overflow: hidden; }
 // http://www.w3.org/TR/pointerevents/#widl-PointerEvent-tiltX
 // http://www.w3.org/TR/pointerevents/#widl-PointerEvent-tiltY
 
-// One major simplification: this code assumes only a single "pen" pointer is
-// present - while this is currently true for most scenarios (Surface etc, computers
-// with separate Wacom-style digitizer tablets), it's an assumption that's sure
-// to be proven wrong in some (future?) scenarios.
+// One major simplification: this code only visualises a single (primary) "pen" pointer
+// While currently most scenarios will only have a single pen (Surface etc, computers
+// with separate Wacom-style digitizer tablets), a future version should really cater for
+// multiple pens (distinguished based on their pointerId)
 
 var camera, controls, scene, renderer, stylusObject, pressurePad, tiltX, tiltY, newTiltX, newTiltY;
 
@@ -121,7 +121,8 @@ function onWindowResize() {
 }
 
 function onPointer(e) {
-	if ( e.pointerType == 'pen' ) {
+	// only react to *primary* pen/stylus (as we're only drawing a single 3D pen)
+	if ( ( e.pointerType == 'pen' ) && e.isPrimary ) {
 		console.log( e.type + " - pressure: " + e.pressure + " tiltX: " + e.tiltX + " tiltY: " + e.tiltY + " button: " + e.button + " buttons: " + e.buttons);
 		e.preventDefault(); // this is only necessary to prevent ThreeJS' orbit controls from reacting
 		switch ( e.type ) {
@@ -138,7 +139,7 @@ function onPointer(e) {
 				}
 				stylusObject.visible = true;
 				pressurePad.visible = true;	
-				// simplified assumption: only one pen at any given time - otherwise,
+				// simplified implementation: only one pen/stylus (the primary) - otherwise,
 				// we'd really need multiple objects and build an array/collection of pointers
 				newTiltX = -e.tiltX;
 				newTiltY = e.tiltY;
