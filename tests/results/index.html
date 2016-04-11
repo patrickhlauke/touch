@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 11 March 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 11 April 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -269,7 +269,7 @@
 	<td><code>blur</code><br><small>(after moving and activating another focusable element)</td>
 </tr>
 <tr>
-	<td>Windows 10 Mobile / Microsoft Edge + Narrator</td>
+	<td>Windows 10 Mobile / Microsoft Edge + Narrator (without keyboard)</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
@@ -282,6 +282,7 @@
 <p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
 <p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
 <p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <strike><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></strike> (fixed in iOS8).</p>
+<p>Currently in Microsoft Edge 13 it is not possible to use Narrator together with a paired keyboard on a Windows 10 Mobile device to navigate the actual web content – it seems the web view itself is not exposed correctly when using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>.</p>
 
 <h2><a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a></h2>
 <table>
@@ -422,18 +423,26 @@
 	<td><em><strong><code>blur</code></strong></em></td>
 </tr>
 <tr>
-	<td>Windows 10 Mobile / Microsoft Spartan + mouse</td>
+	<td>Windows 10 Mobile / Microsoft Edge + mouse</td>
 	<td><code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; (<code>pointermove</code> &gt; <code>mousemove</code>)+</td>
 	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code></td>
+</tr>
+<tr>
+	<td>Windows 10 Mobile / Microsoft Edge + keyboard</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em></td>
+</tr>
 </tbody>
 </table>
 <p>iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).</p>
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard.</p>
 <p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
 <p>Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
-<p>Windows 10 Mobile does support paired bluetooth mouse and keyboard - with a mouse, Microsoft Edge behaves exactly the same as Win8.1/IE11 or Windows 10/Microsoft Edge, firing the same events and <em>no</em> faked touch events (even though it does support both touch and pointer events). However, it is not possible to use to keyboard to navigate - using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> has no effect.</p>
+<p>Windows 10 Mobile does support paired bluetooth mouse and keyboard - with a mouse, Microsoft Edge behaves exactly the same as Win8.1/IE11 or Windows 10/Microsoft Edge, firing the same events and <em>no</em> faked touch events (even though it does support both touch and pointer events). <strike>However, it is not possible to use to keyboard to navigate - using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> has no effect.</strike> Using a paired keyboard, Microsoft Edge also behaves the same way as its desktop counterpart, only firing <code>focus</code>, <code>click</code> and <code>blur</code> events.</p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
