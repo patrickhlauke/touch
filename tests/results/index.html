@@ -176,6 +176,12 @@
 	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(same as desktop with touchscreen, barring the faked touch events which are disabled on desktop)</small></td>
 	<td><code>blur</code></td>
 </tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 53 (Dev) (pointer events experimental support + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>Generally, only a single (&quot;sacrificial&quot;) <code>mousemove</code> is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.</p>
@@ -274,6 +280,13 @@
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>blur</code><br><small>(after moving and activating another focusable element)</td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 53 (Dev) + TalkBack (pointer events experimental support + touch events)</td>
+	<td><code>none</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving and double-tapping another element)</td>
 </tr>
 </tbody>
 </table>
