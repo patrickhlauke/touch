@@ -528,6 +528,12 @@
 	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>click</code></strong></em> &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code></td>
 	<td><code>blur</code></td>
 </tr>
+<tr>
+	<td>Windows 10 / Chrome 53 (Dev) (pointer events experimental support + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap. For browsers supporting Touch Events, no mouse compatibility events nor <code>click</code> are generally fired.</p>
@@ -715,6 +721,27 @@
 	<td><code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
+<tr>
+	<td>Windows 10 / Chrome 53 + NVDA 2016.2.1</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 10 / Chrome 53 + JAWS 17</td>
+	<td><code>focus</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr>
+	<td>Windows 10 / Chrome 53 + Narrator</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>When using VoiceOver on OS X, different events are fired depending on how elements are activated – for instance, activating a button with <kbd>SPACE</kbd> or <kbd>ENTER</kbd> will simply fire <code>click</code>, whereas <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>SPACE</kbd> (the key combination prompted by VoiceOver) also fires the aforementioned &quot;faked&quot; mouse events.</p>
@@ -836,6 +863,27 @@
 	<td><em><strong><code>none</code></strong></em></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
+	<td><code>blur</code> <br><small>(only once moved to another focusable element <strong>and</strong> activated that element)</small></td>
+</tr>
+<tr>
+	<td>Windows 10 / Chrome 53 + NVDA 2016.2.1 gesture navigation and touch explore (no visible outline / focus indication)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>focus</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code> <br><small>(only once moved to another focusable element <strong>and</strong> activated that element)</small></td>
+</tr>
+<tr>
+	<td>Windows 10 / Chrome 53 + JAWS 17</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>focus</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><code>blur</code> <br><small>(only once moved to another focusable element <strong>and</strong> activated that element)</small></td>
+</tr>
+<tr>
+	<td>Windows 10 / Chrome 53 + Narrator gesture navigation and touch explore</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>focus</code> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
+	<td><em><strong><code>blur</code></strong></em> &gt; <em><strong><code>focus</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code></td>
 	<td><code>blur</code> <br><small>(only once moved to another focusable element <strong>and</strong> activated that element)</small></td>
 </tr>
 </tbody>
