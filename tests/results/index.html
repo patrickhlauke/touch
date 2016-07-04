@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 21 June 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 4 July 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -449,6 +449,20 @@
 	<td><em><strong><code>click</code></strong></em></td>
 	<td><em><strong><code>blur</code></strong></em></td>
 </tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 53 (Dev) + keyboard</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 53 (Dev) + mouse (pointer events experimental support + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code></td>
+	<td><strong><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></strong> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>(gotpointercapture)</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>(lostpointercapture)</code> &gt; <code>touchend</code> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <strong><code>focus</code></strong> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><strong><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></strong> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>(gotpointercapture)</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>(lostpointercapture)</code> &gt; <code>touchend</code> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <strong><code>blur</code></strong></td>
+</tr>
 </tbody>
 </table>
 <p>iOS does not support paired mouse, paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures).</p>
@@ -456,6 +470,7 @@
 <p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
 <p>Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
 <p>Windows 10 Mobile does support paired bluetooth mouse and keyboard - with a mouse, Microsoft Edge behaves exactly the same as Win8.1/IE11 or Windows 10/Microsoft Edge, firing the same events and <em>no</em> faked touch events (even though it does support both touch and pointer events). <strike>However, it is not possible to use to keyboard to navigate - using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> has no effect.</strike> Using a paired keyboard, Microsoft Edge also behaves the same way as its desktop counterpart, only firing <code>focus</code>, <code>click</code> and <code>blur</code> events.</p>
+<p>In Android/Chrome 53 (Dev), note how the browser (which supports both touch and pointer events) when paired with a mouse attempts to keep "closure" of the mouse pointer by continuously adding/removing the pointer (firing extra sets of <code>pointerover</code> / <code>pointerenter</code> / <code>pointerout</code> / <code>pointerleave</code> and related compatibility mouse events), compared to Windows 10 Mobile with mouse.</p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
