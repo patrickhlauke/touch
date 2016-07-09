@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 4 July 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 9 July 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -182,6 +182,12 @@
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
+<tr>
+	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6</td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <strong><em><code>focus</code></em></strong> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <strong><em><code>blur</code></em></strong></td>
+</tr>
 </tbody>
 </table>
 <p>Generally, only a single (&quot;sacrificial&quot;) <code>mousemove</code> is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.</p>
@@ -287,6 +293,13 @@
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving and double-tapping another element)</td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + TalkBack</td>
+	<td><code>none</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</td>
 </tr>
 </tbody>
 </table>
@@ -462,6 +475,20 @@
 	<td><strong><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></strong> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>(gotpointercapture)</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>(lostpointercapture)</code> &gt; <code>touchend</code> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <strong><code>focus</code></strong> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><strong><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></strong> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>(gotpointercapture)</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>(lostpointercapture)</code> &gt; <code>touchend</code> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <strong><code>blur</code></strong></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + keyboard</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + mouse</td>
+	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+</td>
+	<td><em><strong><code>mousemove</code></strong></em>  &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>(mousemove)+</code></strong></em> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseoleave</code></td>
 </tr>
 </tbody>
 </table>
