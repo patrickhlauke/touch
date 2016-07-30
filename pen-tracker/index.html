@@ -124,7 +124,14 @@ function onPointer(e) {
 	// only react to *primary* pen/stylus (as we're only drawing a single 3D pen)
 	if ( ( e.pointerType == 'pen' ) && e.isPrimary ) {
 		console.log( e.type + " - pressure: " + e.pressure + " tiltX: " + e.tiltX + " tiltY: " + e.tiltY + " button: " + e.button + " buttons: " + e.buttons);
-		e.preventDefault(); // this is only necessary to prevent ThreeJS' orbit controls from reacting
+		if (e.type == 'pointerdown') {
+			// disable the orbit controls
+			e.preventDefault();
+			controls.enabled = false;
+		} else if ((e.type == 'pointerup') || (e.type == 'pointerleave')) {
+			controls.enabled = true;
+		}
+
 		switch ( e.type ) {
 			// doing simple three.js parameter assignments directly for events,
 			// as they are not expensive in terms of calculations
