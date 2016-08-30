@@ -171,7 +171,7 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr>
-	<td>Windows 10 Mobile / Microsoft Edge 13 (pointer events + touch events)</td>
+	<td>Windows 10 Mobile / Microsoft Edge 21.10549 (pointer events + touch events)</td>
 	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <em><strong><code>focus</code></strong></em> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(same as desktop with touchscreen, barring the faked touch events which are disabled on desktop)</small></td>
 	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code><br><small>(same as desktop with touchscreen, barring the faked touch events which are disabled on desktop)</small></td>
 	<td><code>blur</code></td>
@@ -287,7 +287,7 @@
 	<td><code>blur</code><br><small>(after moving and activating another focusable element)</td>
 </tr>
 <tr>
-	<td>Windows 10 Mobile / Microsoft Edge 13 + Narrator (without keyboard)</td>
+	<td>Windows 10 Mobile / Microsoft Edge 21.10549 + Narrator (without keyboard)</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
@@ -321,7 +321,7 @@
 <p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
 <p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
 <p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <strike><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></strike> (fixed in iOS8).</p>
-<p>Currently in Microsoft Edge 13 it is not possible to use Narrator together with a paired keyboard on a Windows 10 Mobile device to navigate the actual web content – it seems the web view itself is not exposed correctly when using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>.</p>
+<p>Currently in Microsoft Edge 21.10549 it is not possible to use Narrator together with a paired keyboard on a Windows 10 Mobile device to navigate the actual web content – it seems the web view itself is not exposed correctly when using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>.</p>
 
 <h2><a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a></h2>
 <table>
