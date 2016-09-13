@@ -81,7 +81,7 @@ function draw() {
 			case 'MSPointerDown':
 			case 'MSPointerMove':
 			case 'MSPointerUp':
-				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY, 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width, 'height: '+points[i].height, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY, 'pressure: '+points[i].pressure];
+				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY, 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width, 'height: '+points[i].height, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY+' twist: '+points[i].twist, 'tangentialPressure: '+points[i].tangentialPressure, 'pressure: '+points[i].pressure];
 				break;
 			case 'mousedown':				
 			case 'mousemove':
