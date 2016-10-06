@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 30 August 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 6 October 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -969,6 +969,14 @@
 	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=149854">iOS 9.3</a> - only if applied to actual clickable element, see <a href="https://bugs.webkit.org/show_bug.cgi?id=149854#c25">Bug 149854 comment #25</a>)</small></td>
 </tr>
 <tr>
+	<td>iOS 10 / Safari/WebView</td>
+	<td></td>
+	<td></td>
+	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">iOS 9.3</a> - except if content is zoomed in beyond initial value)</small></td>
+	<td></td>
+	<td>Yes<br><small>(<a href="https://bugs.webkit.org/show_bug.cgi?id=149854">iOS 9.3</a> - only if applied to actual clickable element, see <a href="https://bugs.webkit.org/show_bug.cgi?id=149854#c25">Bug 149854 comment #25</a>)</small></td>
+</tr>
+<tr>
 	<td>Android 4.3 / Browser (WebKit 534.30)</td>
 	<td></td>
 	<td></td>
@@ -1092,6 +1100,7 @@
 </table>
 <p>In short, the suggested approach for all modern browsers is to use a combination of <code>&lt;meta name="viewport" content="width=device-width"&gt;</code> (which you're likely to be already using anyway for mobile-friendly sites) and, if needed, explicit use of <code>touch-action:manipulation</code> on instant controls (such as links or buttons).</p>
 <p>To work around 300ms delay in situations where none of the tricks/techniques are supported - in particular, on older iOS/WebKit - developers will have to resort to explicit JavaScript handling (e.g. listening to <code>touchend</code> - which fires as soon as a touch point on a touchscreen is lifted, and before the 300ms delay - and suppressing mouse compatibility and <code>click</code> events), being mindful of not making naive "touch <em>or</em> mouse" assumptions - see <a href="https://hacks.mozilla.org/2013/04/detecting-touch-its-the-why-not-the-how/">Detecting touch: it’s the ‘why’, not the ‘how’</a>. In most cases, simply dropping in <a href="https://github.com/ftlabs/fastclick">FTLabs' fastclick</a> (or using a custom event handler like <a href="https://github.com/alexgibson/tap.js">tap.js</a>) should achieve the desired result with minimal effort.</p>
+<p><strong>iOS 10 update:</strong> Safari now ignores <code>user-scalable=no</code>, <code>minimum-scale=1, maximum-scale=1</code> and similar - by default, users are always able to zoom. The 300ms optimization that was present in 9.3 for these two cases does not work in Safari anymore. For embedded WebViews, these viewport directives supposedly still work (not tested), so it is possible that in these cases (e.g. for hybrid native/web applications) the optimization will still occur.</p>
 <p><strong>iOS 9.3 update:</strong> this release finally included some of the common ways in which to suppress the delay (<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">Bug 150604 - Implement viewport-width-based fast-click heuristic</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=149968">Bug 149968 - Web pages with unscalable viewports shouldn't have a single tap delay</a>) and <a href="https://bugs.webkit.org/show_bug.cgi?id=149854">Bug 149854 - Implement touch-action: manipulation; for iOS</a>). See <a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/">WebKit blog: More Responsive Tapping on iOS</a>.</p>
 <p><strong>iOS 8 update:</strong> it seems that in iOS 8, some heuristics have been included in Safari that prevent the 300ms delay from happening depending on the duration of the touch/tap. Fast taps have 300ms delay (as they're more likely to be the first of a quick double-tap, presumably), while slightly slower taps (if the delay between <code>touchstart</code> and <code>touchend</code> is above a certain threshold, around 125ms, without too much movement) fire the mouse compatibility events instantly (see <a href="https://github.com/ftlabs/fastclick/issues/262#issuecomment-56362437">Disable FastClick on iOS 8 #262</a> and my short video <a href="https://www.youtube.com/watch?v=k-UiuPp2CK0">iOS8/Safari 300ms delay heuristics</a>). It seems this only happens in Safari, and not in the generic UIWebView, so other browsers like iOS/Chrome still have the delay regardless of tap speed - however, it's likely present in WKWebView and will roll into other browsers when they upgrade to this. <strong>Update:</strong> rather than an explict heuristic, this is more of a side effect of a change in iOS' gesture recogniser.</p>
 <p>Also, in a change from iOS 7, <code>innerHTML</code> now also seems to count as a "content change" (see <a href="http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html">The iOS event cascade and innerHTML</a>)<strike>so my tests will need to be updated, as currently no <code>click</code> event is being fired on them.</strike></p>
