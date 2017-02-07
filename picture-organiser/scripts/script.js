@@ -10,8 +10,8 @@
 	this.store[1] = new this.coords(-1,-1);
 	this.dx = 0;
 	this.dy = 0;
-	this.angle = 0;
-	this.size = 0.5;
+	this.angle = element.angle;
+	this.size = element.size;
 	var that = this;
 	this.element.addEventListener('touchstart', function(e) { e.preventDefault(); e.stopPropagation(); that.init(); that.gesture(e); }, true);
 		this.element.addEventListener('touchmove', function(e) { e.preventDefault(); e.stopPropagation(); that.gesture(e); }, true);
@@ -100,12 +100,16 @@
 window.addEventListener('load',function() {
 	var images = document.getElementsByTagName('img');
 	for (var i = 0; i<images.length; i++) {
-		// attach the handler
-		var gh = new gestureHandler(images[i]);
 		// randomise the position
 		images[i].style.left = Math.random()*(window.innerWidth-images[i].clientWidth)+'px';
 		images[i].style.top = Math.random()*(window.innerHeight-images[i].clientHeight)+'px';
 		images[i].style.zIndex = i;
+		// randomise scale/rotation
+		images[i].size = (Math.random()*0.25)+0.5;
+		images[i].angle = (Math.random()*Math.PI/4)*(-1 + Math.random()*2);
+		images[i].style.OTransform = images[i].style.MozTransform = images[i].style.webkitTransform = images[i].style.transform = 'rotate('+images[i].angle+'rad) scale('+images[i].size+')';
+		// attach the handler
+		var gh = new gestureHandler(images[i]);
 	}
 	window.addEventListener('touchmove',function(e) { e.preventDefault(); },false);
 	/* known (intentional) issue: this last statement prevents scrolling, so on small screen devices the SD panel will be cut off and non-scrollable */
