@@ -70,7 +70,7 @@ function draw() {
 					hud_props.push('rotationAngle: '+points[i].rotationAngle);
 				}
 				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
-					hud_props.push('force: '+((points[i].force !== undefined) ? points[i].force : points[i].webkitForce));
+					hud_props.push('force: '+((points[i].force !== undefined) ? points[i].force.toFixed(5) : points[i].webkitForce.toFixed(5)));
 				}
 				break;
 			case 'pointerover':
@@ -81,14 +81,14 @@ function draw() {
 			case 'MSPointerDown':
 			case 'MSPointerMove':
 			case 'MSPointerUp':
-				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY, 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width, 'height: '+points[i].height, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY+' twist: '+points[i].twist, 'tangentialPressure: '+points[i].tangentialPressure, 'pressure: '+points[i].pressure];
+				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY, 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width, 'height: '+points[i].height, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY+' twist: '+points[i].twist, 'tangentialPressure: '+points[i].tangentialPressure, 'pressure: '+points[i].pressure.toFixed(5)];
 				break;
 			case 'mousedown':				
 			case 'mousemove':
 			case 'mouseup':
 				hud_props = ['mouse','clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
 				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
-					hud_props.push( ((points[i].force !== undefined) ? 'force: '+points[i].force : 'webkitForce: '+points[i].webkitForce) );
+					hud_props.push( ((points[i].force !== undefined) ? 'force: '+points[i].force.toFixed(5) : 'webkitForce: '+points[i].webkitForce.toFixed(5)) );
 				}
 				break;
 		}
