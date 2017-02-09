@@ -2,6 +2,7 @@ html,body {
 	background: #eee;
 	color: #fff;
 	font: 1em/1 Arial, sans; max-width: 45em;
+	touch-action: none;
 }
 
 h1 {
