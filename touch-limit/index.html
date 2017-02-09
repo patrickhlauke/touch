@@ -12,8 +12,13 @@ html,body {
   font: 1em/1.35 Arial, Helvetica, sans;
 }
   h1 { font-size: 1.2em; font-weight: bold; }
-  .status div div { width: 160px; display: inline-block; }
-  .status div div:last-child { width: 40px; text-align: right; }
+  .status { max-width: 500px; font-size: 1em; font-weight: bold; }
+  #unlimited { color: #070; border-right: 1px #ccc solid; }
+  #debounced { color: #900; border-right: 1px #ccc solid; }
+  #throttled { color: #009; }
+  .status > div { width: 32%; height: 5em; float: left; }
+  .status span { display: block; text-align: center; }
+  .status .counter { font-size: 2.5em; }
 </style>
 <script>
 $(window).load(function(){
@@ -22,30 +27,30 @@ var unlimitedCalls = 0,
     throttleCalls = 0;
 
 $(document).bind('mousemove', function(e) {
-  $("#unlimited").children().last().text(unlimitedCalls++);
+  $("#unlimited").children().first().text(unlimitedCalls++);
 }); // no limit applied
 
 $(document).bind('mousemove', function(e) {
-  $("#debounce").children().last().text(debounceCalls++);
+  $("#debounced").children().first().text(debounceCalls++);
 }.debounce(50)); // debounce with a 50 millisecond limit
 
 $(document).bind('mousemove', function(e) {
-  $("#throttle").children().last().text(throttleCalls++);
+  $("#throttled").children().first().text(throttleCalls++);
 }.throttle(150)); // throttle with a 150 millisecond limit    
 
 $(document).bind('touchmove', function(e) {
   e.preventDefault();
-  $("#unlimited").children().last().text(unlimitedCalls++);
+  $("#unlimited").children().first().text(unlimitedCalls++);
 }); // no limit applied
 
 $(document).bind('touchmove', function(e) {
   e.preventDefault();
-  $("#debounce").children().last().text(debounceCalls++);
+  $("#debounced").children().first().text(debounceCalls++);
 }.debounce(50)); // debounce with a 50 millisecond limit
 
 $(document).bind('touchmove', function(e) {
   e.preventDefault();
-  $("#throttle").children().last().text(throttleCalls++);
+  $("#throttled").children().first().text(throttleCalls++);
 }.throttle(150)); // throttle with a 150 millisecond limit 
 
 });  
@@ -58,16 +63,16 @@ $(document).bind('touchmove', function(e) {
 <p>Uses <a href="https://github.com/m-gagne/limit.js">limit.js</a> to debounce and throttle <code>mousemove</code> and <code>touchmove</code> events.</p> 
 <div class="status">
 <div id="unlimited">
-<div>Unlimited calls:</div>
-<div>0</div>
+<span class="counter">0</span>
+<span>unlimited</span>
 </div>
-<div id="debounce">
-<div>Debounced calls:</div>
-<div>0</div>
+<div id="debounced">
+<span class="counter">0</span>
+<span>debounced</span>
 </div>
-<div id="throttle">
-<div>Throttled calls:</div>
-<div>0</div>
+<div id="throttled">
+<span class="counter">0</span>
+<span>throttled</span>
 </div>
 </div>
 </body>
