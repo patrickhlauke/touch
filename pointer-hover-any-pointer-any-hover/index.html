@@ -7,9 +7,13 @@
 <script>
 </script>
 <style>
+html,body {
+  font: 1em/1.35 Arial, Helvetica, sans;
+}
 table {
   border-collapse: collapse;
 }
+tr, th, td { border: 1px #ddd solid; }
 tr { 
 	border-bottom: 1px #ddd solid;
 }
@@ -17,6 +21,7 @@ td, th { padding: 0.5em 0.75em; text-align: left; }
 tbody th { font-weight: normal;}
 td { background-color: #fcc;}
 td.true { background-color: #cfc;}
+output { font-family: monospace; }
 </style>
 </head>
 <body>
@@ -28,6 +33,7 @@ td.true { background-color: #cfc;}
 	<tbody id="results">
 	</tbody>
 </table>
+<p><small>Note: <code>hover:on-demand</code> / <code>any-hover:on-demand</code> have been <a href="https://lists.w3.org/Archives/Public/www-style/2016Feb/0041.html">removed from the specification</a>.</small></p>
 </body>
 <script>
 var tests = [
@@ -35,13 +41,11 @@ var tests = [
 	"pointer:coarse",
 	"pointer:fine",
 	"hover:none",
-	"hover:on-demand",
 	"hover:hover",
 	"any-pointer:none",
 	"any-pointer:coarse",
 	"any-pointer:fine",
 	"any-hover:none",
-	"any-hover:on-demand",
 	"any-hover:hover"
 ];
 
@@ -55,7 +59,7 @@ function populateTable() {
 		if (window.matchMedia("("+tests[i]+")").matches) {
 			results += ' class="true"';
 		}
-		results += '>'+window.matchMedia("("+tests[i]+")").matches+'</td></tr>'
+		results += '><output>'+window.matchMedia("("+tests[i]+")").matches+'</output></td></tr>'
 	}
 	t.innerHTML = results;
 }
