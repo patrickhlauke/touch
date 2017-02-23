@@ -55,7 +55,7 @@ function populateTable() {
 	var t = document.getElementById('results');
 
 	for (var i=0; i<tests.length; i++) {
-		results += '<tr><th><code>'+tests[i]+'</code<</th><td';
+		results += '<tr><th><code>'+tests[i]+'</code></th><td';
 		if (window.matchMedia("("+tests[i]+")").matches) {
 			results += ' class="true"';
 		}
