@@ -5,59 +5,57 @@
 <meta name="viewport" content="width=device-width">
 <style>
 html,body {
-	background: #eee;
-	color: #333;
-	font: 1em/1.35 Arial, Helvetica, sans;
+  font: 1em/1.35 Arial, Helvetica, sans;
 }
+table {
+  border-collapse: collapse;
+}
+tr, th, td { border: 1px #ddd solid; }
+tr { 
+	border-bottom: 1px #ddd solid;
+}
+td, th { padding: 0.5em 0.75em; text-align: left; }
+tbody th { font-weight: normal;}
+td { background-color: #fcc;}
+td.true { background-color: #cfc;}
+output { font-family: monospace; }
 </style>
 </head>
 <body>
 <h1>Pointer/multitouch detect</h1>
-<output></output>
-<p><small><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22890">W3C bugzilla - Bug 22890 - It is not clear why navigator.pointerEnabled is needed</a></small></p>
+<table>
+	<thead>
+		<tr><th>test</th><th>result</th></tr>
+	</thead>
+	<tbody id="results">
+	</tbody>
+</table>
+<p><small>Early versions of the spec included <code>navigator.pointerEnabled</code> – this has been deprecated (see <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22890">W3C bugzilla bug 22890</a>).</small></p>
 </body>
 <script>
-var o = document.getElementsByTagName('output')[0];
+var tests = [
+	"window.PointerEvent",
+	"navigator.maxTouchPoints",
+	"navigator.maxTouchPoints > 0",
+	"navigator.maxTouchPoints > 1"
+];
 
-o.innerHTML += "<s>navigator.pointerEnabled: </s>";
-o.innerHTML += "<s>"+navigator.pointerEnabled+"</s>";
-o.innerHTML += '<br>';
 
-o.innerHTML += "<s>navigator.msPointerEnabled: </s>";
-o.innerHTML += "<s>"+navigator.msPointerEnabled+"</s>";
-o.innerHTML += '<br>';
+function populateTable() {
+	var results = '';
+	var t = document.getElementById('results');
 
-o.innerHTML += "window.PointerEvent: ";
-o.innerHTML += window.PointerEvent;
-o.innerHTML += '<br>';
+	for (var i=0; i<tests.length; i++) {
+		results += '<tr><th><code>'+tests[i]+'</code></th><td';
+		if (eval(tests[i])) {
+			results += ' class="true"';
+		}
+		results += '><output>'+eval(tests[i])+'</output></td></tr>'
+	}
+	t.innerHTML = results;
+}
 
-o.innerHTML += "window.MSPointerEvent: ";
-o.innerHTML += window.MSPointerEvent;
-o.innerHTML += '<br>';
-
-o.innerHTML += "navigator.maxTouchPoints > 0 : ";
-o.innerHTML += navigator.maxTouchPoints > 0;
-o.innerHTML += '<br>';
-
-o.innerHTML += "navigator.msMaxTouchPoints > 0 : ";
-o.innerHTML += navigator.msMaxTouchPoints > 0;
-o.innerHTML += '<br>';
-
-o.innerHTML += "navigator.maxTouchPoints > 1 : ";
-o.innerHTML += navigator.maxTouchPoints > 1;
-o.innerHTML += '<br>';
-
-o.innerHTML += "navigator.msMaxTouchPoints > 1 : ";
-o.innerHTML += navigator.msMaxTouchPoints > 1;
-o.innerHTML += '<br>';
-
-o.innerHTML += "navigator.maxTouchPoints : ";
-o.innerHTML += navigator.maxTouchPoints;
-o.innerHTML += '<br>';
-
-o.innerHTML += "navigator.msMaxTouchPoints : ";
-o.innerHTML += navigator.msMaxTouchPoints;
-o.innerHTML += '<br>';
-
+populateTable();
 </script>
+</body>
 </html>

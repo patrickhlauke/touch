@@ -5,26 +5,54 @@
 <meta name="viewport" content="width=device-width">
 <style>
 html,body {
-	background: #eee;
-	color: #333;
-	font: 1em/1.35 Arial, Helvetica, sans;
+  font: 1em/1.35 Arial, Helvetica, sans;
 }
+table {
+  border-collapse: collapse;
+}
+tr, th, td { border: 1px #ddd solid; }
+tr { 
+	border-bottom: 1px #ddd solid;
+}
+td, th { padding: 0.5em 0.75em; text-align: left; }
+tbody th { font-weight: normal;}
+td { background-color: #fcc;}
+td.true { background-color: #cfc;}
+output { font-family: monospace; }
 </style>
 </head>
 <body>
 <h1>Touch detects</h1>
-<output></output>
+<table>
+	<thead>
+		<tr><th>test</th><th>result</th></tr>
+	</thead>
+	<tbody id="results">
+	</tbody>
+</table>
 </body>
 <script>
-var o = document.getElementsByTagName('output')[0];
+var tests = [
+	"window.TouchEvent",
+	"'ontouchstart' in window",
+	"'ontouchend' in document"
+];
 
-o.innerHTML += "'ontouchstart' in window : ";
-o.innerHTML += 'ontouchstart' in window;
-o.innerHTML += '<br>';
 
-o.innerHTML += "'ontouchend' in document : ";
-o.innerHTML += 'ontouchend' in document;
-o.innerHTML += '<br>';
+function populateTable() {
+	var results = '';
+	var t = document.getElementById('results');
 
+	for (var i=0; i<tests.length; i++) {
+		results += '<tr><th><code>'+tests[i]+'</code></th><td';
+		if (eval(tests[i])) {
+			results += ' class="true"';
+		}
+		results += '><output>'+eval(tests[i])+'</output></td></tr>'
+	}
+	t.innerHTML = results;
+}
+
+populateTable();
 </script>
 </html>
