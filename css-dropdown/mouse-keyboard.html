@@ -14,7 +14,7 @@ h1 {
 	font-size: 1.2em;
 }
 
-a:focus { outline: 3px blue solid; }
+a:focus { outline: 5px blue solid; outline-offset: -5px; }
 
 ul, ul.menu, ul.menu li {
 	list-style: none;
@@ -22,10 +22,10 @@ ul, ul.menu, ul.menu li {
 	margin: 0;
 }
 
-ul.menu li { display: block; float: left; 	background: red;
+ul.menu > li { display: block; float: left; 	background: red;
 	border: 1px black solid; }
 
-ul.menu ul.submenu li { background: orange; }
+ul.menu ul.submenu li { background: orange; border-top: 1px black solid;}
 
 ul.menu li ul.submenu li { float: none; }
 
@@ -35,12 +35,10 @@ ul.menu li a {
 	margin: 0;
 	color: white;
 	text-decoration: none;
+	min-width: 6em;
 }
 ul.menu ul.submenu { display: none; }
 ul.menu li:hover ul.submenu,
-ul.menu li:focus ul.submenu {
-	display: block;
-}
 ul.menu li.focus ul.submenu {
 	display: block;
 }
