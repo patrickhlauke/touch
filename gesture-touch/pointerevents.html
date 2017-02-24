@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset=utf-8 />
-<title>Gesture (e.g. scroll, pinch-zoom) and touch events</title>
+<title>Gesture (e.g. scroll, pinch-zoom) and pointer events</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 html,body {
@@ -46,26 +46,26 @@ toArray(document.querySelectorAll('div')).forEach(function(div, i, arr) {
   var timer=0;
   var hue = (i / arr.length) * 360;
 
-  div.addEventListener('touchstart', function(event) {
+  div.addEventListener('&nbsp;', function(event) {
     clearTimeout(timer);
     move=0;
-    div.innerHTML = "&nbsp;";
+    div.innerHTML = "pointerdown";
     div.style.background = 'hsl(' + hue + ', 100%, 70%)';
   });
   
-  div.addEventListener('touchmove', function(event) {
+  div.addEventListener('pointermove', function(event) {
     move+=1;
-    div.innerHTML = ' touchmove ('+move+')';
+    div.innerHTML = ' pointermove ('+move+')';
   });
 
-  div.addEventListener('touchcancel', function(event) {
-    div.innerHTML += ' touchcancel';
+  div.addEventListener('pointercancel', function(event) {
+    div.innerHTML += ' pointercancel';
     div.style.background = 'hsl(' + hue + ', 100%, 85%)';
     timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
   });
 
-  div.addEventListener('touchend', function(event) {
-    div.innerHTML += ' touchend';
+  div.addEventListener('pointerup', function(event) {
+    div.innerHTML += ' pointerup';
     div.style.background = 'hsl(' + hue + ', 100%, 85%)';
     timer = setTimeout(function() { div.innerHTML = "&nbsp;"; div.style.background = "#fff"; }, 1000);
   });
