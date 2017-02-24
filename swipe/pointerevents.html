@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html><head><meta charset=utf-8>
+<title>Swipe with pointer events</title>
+<meta name="viewport" content="width=device-width">
+<style>
+html,body {
+	background: #eee;
+	color: #333;
+	font: 1em/1.3 Arial, sans; max-width: 45em;
+}
+
+h1 {
+	font-size: 1.2em;
+}
+
+output {
+	display: block;
+	padding: 1em 0.5em;
+	background: #ddd;
+	height: 2em;
+	overflow:auto;
+	font-size: 3em;
+	text-align: center;
+	touch-action: none;
+}
+</style>
+<script>
+window.addEventListener('load', function() {
+	var start = {};
+	var end = {};
+	var tracking = false;
+	var thresholdTime = 500;
+	var thresholdDistance = 100;
+	var o = document.getElementsByTagName('output')[0];
+	gestureStart = function(e) {
+		o.innerHTML = '';
+		tracking = true;
+		/* Hack - would normally use e.timeStamp but it's whack in Fx/Android */
+		start.t = new Date().getTime();
+		start.x = e.clientX;
+		start.y = e.clientY;
+	};
+	gestureMove = function(e) {
+		if (tracking) {
+			e.preventDefault();
+			end.x = e.clientX;
+			end.y = e.clientY;
+		}
+	}
+	gestureEnd = function(e) {
+		if (tracking) {
+			tracking = false;
+			var now = new Date().getTime();
+			var deltaTime = now - start.t;
+			var deltaX = end.x - start.x;
+			var deltaY = end.y - start.y;
+			/* work out what the movement was */
+			if (deltaTime > thresholdTime) {
+				/* gesture too slow */
+				return;
+			} else {
+				if ((deltaX > thresholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
+					o.innerHTML = 'swipe right';
+				} else if ((-deltaX > thresholdDistance)&&(Math.abs(deltaY) < thresholdDistance)) {
+					o.innerHTML = 'swipe left';
+				} else if ((deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
+					o.innerHTML = 'swipe down';
+				} else if ((-deltaY > thresholdDistance)&&(Math.abs(deltaX) < thresholdDistance)) {
+					o.innerHTML = 'swipe up';
+				} else {
+					o.innerHTML = '';
+				}
+			}
+		}
+	}
+
+	o.addEventListener('pointerdown', gestureStart, false);
+	o.addEventListener('pointermove', gestureMove, false);
+	o.addEventListener('pointerup', gestureEnd, false);
+	o.addEventListener('pointerleave', gestureEnd, false);
+	o.addEventListener('pointercancel', gestureEnd, false);
+
+}, false);
+</script>
+</head><body>
+<h1>Swipe</h1>
+<p>Detecting swipe gestures from basic principles (using pointer events).</p>
+<output></output>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</body></html>
