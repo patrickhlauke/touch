@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>touch-action scrollingo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+  html, body {
+      font: 1em/1.35 Arial, Helvetica, sans;
+      margin: 0;
+      padding: 0 1em 2em 1em;
+
+      box-sizing: border-box;
+
+      width: 100%;
+    }
+
+    .none {
+      touch-action: none;
+    }
+
+    .pan-x {
+      touch-action: pan-x;
+    }
+
+    .pan-y {
+      touch-action: pan-y;
+    }
+
+    .pan-right {
+      touch-action: pan-right;
+    }
+
+    .pan-left {
+      touch-action: pan-left;
+    }
+
+    .pan-up {
+      touch-action: pan-up;
+    }
+
+    .pan-down {
+      touch-action: pan-down;
+    }
+
+    .pan-x-pinch-zoom {
+      touch-action: pan-x pinch-zoom;
+    }
+
+    .scroller {
+      display:flex;
+      flex-direction: row;
+      width: 100%;
+      height: 200px;
+      overflow: auto;
+    }
+
+    .scroller div {
+      min-width: 100%;
+      height: 400px;
+    }
+
+    .scroller div div {
+      min-width: 100%;
+      height: 200px;
+    }
+
+    .scroller div:nth-child(1) {
+      background-color: #1abc9c;
+    }
+
+    .scroller div:nth-child(1) div {
+      background-color: #9B59B6;
+    }
+
+    .scroller div:nth-child(2) {
+      background-color: #2ecc71;
+    }
+
+    .scroller div:nth-child(2) div {
+      background-color: #34495E;
+    }
+
+    .scroller div:nth-child(3) {
+      background-color: #3498db;
+    }
+
+    .scroller div:nth-child(3) div {
+      background-color: #F1C40F;
+    }
+  </style>
+</head>
+<body>
+
+<h1><code>touch-action</code> scrolling</h1>
+<p>borrowed/adapted from <a href="https://developers.google.com/web/updates/2016/10/touch-action">Matt Gaunt's <cite>Touch Action Options</cite></a>. visually illustrates effect of various <code>touch-action</code> values on browser's default scroll behavior. below are containers with <code>overflow: auto</code>, containing coloured boxes – notice how <code>touch-action</code> influences the kind of interaction the browser handles/allows. the intercepted movements (which are not handled by the browser) could then be intercepted by Pointer Events in JavaScript (not shown here).</p>
+
+<h2><code>touch-action: auto</code></h2>
+<section class="scroller">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+
+<h2><code>touch-action: none</code></h2>
+<section class="scroller none">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+
+<h2><code>touch-action: pan-x</code></h2>
+<section class="scroller pan-x">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+
+<h2><code>touch-action: pan-y</code></h2>
+
+<section class="scroller pan-y">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+
+<h2><code>touch-action: pan-right</code></h2>
+<section class="scroller pan-right">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+
+<h2><code>touch-action: pan-down</code></h2>
+<section class="scroller pan-down">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+
+<h2><code>touch-action: pan-x pinch-zoom</code></h2>
+<section class="scroller pan-x-pinch-zoom">
+  <div><div></div></div>
+  <div><div></div></div>
+  <div><div></div></div>
+</section>
+  
+</body>
+</html>
