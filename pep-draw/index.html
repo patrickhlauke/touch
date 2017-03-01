@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PEP Draw</title>
+<script src="https://code.jquery.com/pep/0.4.2/pep.js"></script>
+<style>
+body {
+	margin: 0;
+}
+
+.description {
+	padding: 1em;
+	font-family: sans-serif;
+}
+
+#drawSurface { 
+	border-bottom: 3px solid #bada55;
+}
+
+code {
+	background: #ccc;
+	padding: 4px;
+}
+</style>
+</head>
+<body>
+<canvas id="drawSurface" touch-action="none"></canvas>
+<div class="description">
+  <h1>PEP Draw</h1>
+  <h2>In the canvas above, we are drawing squares when the event <code>pointermove</code> is triggered.</h2>
+  <p><small>Original demo code by <a href="https://jsbin.com/xemixu/2/edit?html,js,output">Alex Schmitz</a></small></p>
+</body>
+<script>
+window.addEventListener('load', function() {
+        var canvas = document.getElementById("drawSurface");
+        var context = canvas.getContext("2d");
+  
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight / 3;
+        context.fillStyle = "blue";
+        canvas.addEventListener("pointermove", paint, false);
+  
+        function paint( event ) { 
+            context.fillRect( event.clientX, event.clientY, 5, 5 );
+        }
+});
+</script>
+</html>
