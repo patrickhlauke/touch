@@ -49,7 +49,7 @@ toArray(document.querySelectorAll('div')).forEach(function(div, i, arr) {
   div.addEventListener('touchstart', function(event) {
     clearTimeout(timer);
     move=0;
-    div.innerHTML = "&nbsp;";
+    div.innerHTML = "touchstart";
     div.style.background = 'hsl(' + hue + ', 100%, 70%)';
   });
   

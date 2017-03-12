@@ -46,7 +46,7 @@ toArray(document.querySelectorAll('div')).forEach(function(div, i, arr) {
   var timer=0;
   var hue = (i / arr.length) * 360;
 
-  div.addEventListener('&nbsp;', function(event) {
+  div.addEventListener('pointerdown', function(event) {
     clearTimeout(timer);
     move=0;
     div.innerHTML = "pointerdown";
