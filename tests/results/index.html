@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 6 October 2016. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 15 March 2017. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -183,6 +183,12 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr>
+	<td>Android 6.0.1 / Chrome 56 (pointer events + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
 	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6</td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <strong><em><code>focus</code></em></strong> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -301,6 +307,13 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving and double-tapping another element)</td>
 </tr>
 <tr>
+	<td>Android 6.0.1 / Chrome 56 + TalkBack (pointer events + touch events)</td>
+	<td><code>none</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <strong><code>mouseover</code></strong> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
 	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + TalkBack</td>
 	<td><code>none</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -389,7 +402,7 @@
 	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+</td>
 	<td><em><strong><code>mouseout</code></strong></em> &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>mousemove</code></strong></em></td>
 	<td><em><strong><code>mouseout</code></strong></em> &gt; <em><strong><code>mouseleave</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><strong><code>mousemove</code></strong></em></td>
-	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseoleave</code></td>
+	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseleave</code></td>
 </tr>
 <tr>
 	<td>Android 6 / Chrome + keyboard</td>
@@ -490,6 +503,20 @@
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <strong><code>blur</code></strong></td>
 </tr>
 <tr>
+	<td>Android 6.0.1 / Chrome 56 + keyboard</td>
+	<td><em><strong><code>focus</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>click</code></strong></em></td>
+	<td><em><strong><code>blur</code></strong></em></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 56 + mouse (pointer events + touch events)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code></strong> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code></strong> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <strong><code>blur</code></strong></td>
+</tr>
+<tr>
 	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + keyboard</td>
 	<td><em><strong><code>focus</code></strong></em></td>
 	<td><em><strong><code>click</code></strong></em></td>
@@ -497,11 +524,25 @@
 	<td><em><strong><code>blur</code></strong></em></td>
 </tr>
 <tr>
-	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + mouse</td>
+	<td>Android 6.0.1 (on Samsung Note) / Samsung Internet for Android 4.0.20-6 + mouse</td>
 	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+</td>
 	<td><em><strong><code>mousemove</code></strong></em>  &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; <em><strong><code>(mousemove)+</code></strong></em> &gt; <code>mousedown</code> &gt; <em><strong><code>focus</code></strong></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><em><strong><code>mousemove</code></strong></em> &gt; <code>touchstart</code> &gt; <code>touchend</code> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseoleave</code></td>
+	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseleave</code></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 (on Google Nexus) / Samsung Internet for Android 5.4 (Beta) + mouse</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 59 + mouse (since Chrome 58, new mouse handling, does <strong>not</strong> mimic touch)</td>
+	<td><em><strong><code>none</code></strong></em></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 </tbody>
 </table>
@@ -511,6 +552,7 @@
 <p>Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
 <p>Windows 10 Mobile does support paired bluetooth mouse and keyboard - with a mouse, Microsoft Edge behaves exactly the same as Win8.1/IE11 or Windows 10/Microsoft Edge, firing the same events and <em>no</em> faked touch events (even though it does support both touch and pointer events). <strike>However, it is not possible to use to keyboard to navigate - using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> has no effect.</strike> Using a paired keyboard, Microsoft Edge also behaves the same way as its desktop counterpart, only firing <code>focus</code>, <code>click</code> and <code>blur</code> events.</p>
 <p>In Android/Chrome 53 (Dev), note how the browser (which supports both touch and pointer events) when paired with a mouse attempts to keep "closure" of the mouse pointer by continuously adding/removing the pointer (firing extra sets of <code>pointerover</code> / <code>pointerenter</code> / <code>pointerout</code> / <code>pointerleave</code> and related compatibility mouse events), compared to Windows 10 Mobile with mouse.</p>
+<p>From Android/Chrome 58 onwards, mouse handling behaves like on desktop, and <a href="https://groups.google.com/a/chromium.org/forum/m/#!msg/blink-dev/cNaFvMaYtNA/41Bstx8oAwAJ">does not mimic touch anymore</a>.</p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
