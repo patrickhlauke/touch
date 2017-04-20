@@ -44,7 +44,7 @@
 	<td>iOS7.1 / Safari/WebView</td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>(mouseenter)</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code>)</small></td>
+	<td><code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code> due to <a href="https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html">iOS's event delegation/bubbling idiosyncrasy</a>)</small></td>
 </tr>
 <tr>
 	<td>Opera Mini 8 / iOS7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
