@@ -66,15 +66,15 @@ function draw() {
 				if (points[i].touchType !== undefined) {
 					hud_props.push('touchType: '+points[i].touchType);
 				}
-				hud_props.push('clientX: '+points[i].clientX+' clientY: '+points[i].clientY);
+				hud_props.push('clientX: '+points[i].clientX.toFixed(5)+' clientY: '+points[i].clientY.toFixed(5));
 				if ((points[i].radiusX !== undefined) && (points[i].radiusY !== undefined)) {
-					hud_props.push('radiusX: '+points[i].radiusX+' radiusY: '+points[i].radiusY);
+					hud_props.push('radiusX: '+points[i].radiusX.toFixed(5)+' radiusY: '+points[i].radiusY.toFixed(5));
 				}
 				if (points[i].rotationAngle !== undefined ) {
-					hud_props.push('rotationAngle: '+points[i].rotationAngle);
+					hud_props.push('rotationAngle: '+points[i].rotationAngle.toFixed(5));
 				}
 				if ((points[i].altitudeAngle !== undefined) && (points[i].azimuthAngle !== undefined)) {
-					hud_props.push('altitudeAngle: '+points[i].altitudeAngle+ ' azimuthAngle: '+points[i].azimuthAngle);
+					hud_props.push('altitudeAngle: '+points[i].altitudeAngle.toFixed(5)+ ' azimuthAngle: '+points[i].azimuthAngle.toFixed(5));
 				}
 				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
 					hud_props.push('force: '+((points[i].force !== undefined) ? points[i].force.toFixed(5) : points[i].webkitForce.toFixed(5)));
@@ -88,7 +88,7 @@ function draw() {
 			case 'MSPointerDown':
 			case 'MSPointerMove':
 			case 'MSPointerUp':
-				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY, 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width, 'height: '+points[i].height, 'tiltX: '+points[i].tiltX+' tiltY: '+points[i].tiltY+' twist: '+points[i].twist, 'tangentialPressure: '+points[i].tangentialPressure, 'pressure: '+points[i].pressure.toFixed(5)];
+				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX.toFixed(5)+' clientY: '+points[i].clientY.toFixed(5), 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width.toFixed(5), 'height: '+points[i].height.toFixed(5), 'tiltX: '+points[i].tiltX.toFixed(5)+' tiltY: '+points[i].tiltY.toFixed(5)+' twist: '+points[i].twist.toFixed(5), 'tangentialPressure: '+points[i].tangentialPressure.toFixed(5), 'pressure: '+points[i].pressure.toFixed(5)];
 				break;
 			case 'mousedown':				
 			case 'mousemove':
