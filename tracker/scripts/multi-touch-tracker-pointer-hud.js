@@ -62,12 +62,19 @@ function draw() {
 		var hud_props = [];
 		switch(points[i].type) {
 			case undefined:
-				hud_props = ['touch', 'identifier: '+points[i].identifier, 'clientX: '+points[i].clientX+' clientY: '+points[i].clientY];
-				if (points[i].radiusX && points[i].radiusY) {
+				hud_props = ['touch', 'identifier: '+points[i].identifier];
+				if (points[i].touchType !== undefined) {
+					hud_props.push('touchType: '+points[i].touchType);
+				}
+				hud_props.push('clientX: '+points[i].clientX+' clientY: '+points[i].clientY);
+				if ((points[i].radiusX !== undefined) && (points[i].radiusY !== undefined)) {
 					hud_props.push('radiusX: '+points[i].radiusX+' radiusY: '+points[i].radiusY);
 				}
-				if (points[i].rotationAngle) {
+				if (points[i].rotationAngle !== undefined ) {
 					hud_props.push('rotationAngle: '+points[i].rotationAngle);
+				}
+				if ((points[i].altitudeAngle !== undefined) && (points[i].azimuthAngle !== undefined)) {
+					hud_props.push('altitudeAngle: '+points[i].altitudeAngle+ ' azimuthAngle: '+points[i].azimuthAngle);
 				}
 				if ((points[i].force !== undefined) || (points[i].webkitForce !== undefined)) {
 					hud_props.push('force: '+((points[i].force !== undefined) ? points[i].force.toFixed(5) : points[i].webkitForce.toFixed(5)));
