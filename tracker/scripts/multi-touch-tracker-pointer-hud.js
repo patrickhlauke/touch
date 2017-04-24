@@ -88,7 +88,14 @@ function draw() {
 			case 'MSPointerDown':
 			case 'MSPointerMove':
 			case 'MSPointerUp':
-				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX.toFixed(5)+' clientY: '+points[i].clientY.toFixed(5), 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width.toFixed(5), 'height: '+points[i].height.toFixed(5), 'tiltX: '+points[i].tiltX.toFixed(5)+' tiltY: '+points[i].tiltY.toFixed(5)+' twist: '+points[i].twist.toFixed(5), 'tangentialPressure: '+points[i].tangentialPressure.toFixed(5), 'pressure: '+points[i].pressure.toFixed(5)];
+				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX.toFixed(5)+' clientY: '+points[i].clientY.toFixed(5), 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width.toFixed(5), 'height: '+points[i].height.toFixed(5), 'tiltX: '+points[i].tiltX.toFixed(5)+' tiltY: '+points[i].tiltY.toFixed(5)];
+				if ((points[i].twist !== undefined)) {
+					hud_props.push('twist: '+points[i].twist.toFixed(5));
+				}
+				if ((points[i].tangentialPressure !== undefined)) {
+					hud_props.push('tangentialPressure: '+points[i].tangentialPressure.toFixed(5));
+				}
+				hud_props.push('pressure: '+points[i].pressure.toFixed(5));
 				break;
 			case 'mousedown':				
 			case 'mousemove':
