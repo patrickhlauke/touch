@@ -200,6 +200,12 @@
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
+<tr>
+	<td>Amazon Fire OS 5.3.3.0 (Android 5.1.1) / Silk Browser 58.2.6.3029.83.10 (pointer events + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>Generally, only a single (&quot;sacrificial&quot;) <code>mousemove</code> is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.</p>
@@ -1127,6 +1133,14 @@
 	<td></td>
 	<td></td>
 	<td></td>
+	<td>Yes</td>
+	<td>Yes</td>
+</tr>
+<tr>
+	<td>Amazon Fire OS 5.3.3.0 (Android 5.1.1) / Silk Browser 58.2.6.3029.83.10</td>
+	<td>Yes</td>
+	<td>Yes</td>
+	<td>Yes</td>
 	<td>Yes</td>
 	<td>Yes</td>
 </tr>
