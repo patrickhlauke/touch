@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<title>Touchscreen detection</title>
+<meta name="viewport" content="width=device-width">
+<style>
+html,body {
+  font: 1em/1.35 Arial, Helvetica, sans;
+}
+ol { margin: 0; padding: 0 0 0 1.5em; }
+li { margin-bottom: 1em; }
+output { font-family: monospace; padding: 1em; }
+output.true { background: #cfc; }
+output.false { background: #fcc; }
+pre { width: 100%; overflow: auto; background: #eee; }
+</style>
+</head>
+<body>
+<h1>Touchscreen detection</h1>
+<output></output>
+<p>Uses a series of APIs / media feature tests to try and determine if a touchscreen is present.</p>
+<pre><code>function detectTouchscreen() {
+  var result = false;
+  if (window.PointerEvent &amp;&amp; ('maxTouchPoints' in navigator)) {
+    // if Pointer Events are supported, just check maxTouchPoints
+    if (navigator.maxTouchPoints > 0) {
+      result = true;
+    }
+  } else {
+    // no Pointer Events...
+    if (window.matchMedia &amp;&amp; window.matchMedia("(any-pointer:coarse)").matches) {
+      // check for any-pointer:coarse which mostly means touchscreen
+      result = true;
+    } else if (window.TouchEvent || ('ontouchstart' in window)) {
+      // last resort - check for exposed touch events API / event handler
+      result = true;
+    }
+  }
+  return result;
+}</code></pre>
+<h2>Detection logic</h2>
+<ol>
+<li>If <a href="https://w3c.github.io/pointerevents/">Pointer Events</a> are supported, it will just check the <code>navigator.maxTouchPoints</code> property. The script omits the vendor-prefixed version of Pointer Events (e.g. <code>navigator.msMaxTouchPoints</code>), as that was only supported in IE10.</li>
+<li>If Pointer Events are not supported, it checks the <code>any-pointer:coarse</code> <a href="https://www.w3.org/TR/mediaqueries-4/#mf-interaction">interaction media feature</a> using <code>window.matchMedia</code>. It does not test for Firefox's proprietary <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#-moz-touch-enabled"><code>-moz-touch-enabled</code> feature</a>, as that is simply a CSS reflection of whether or not Touch Events are enabled (see next test).</li>
+<li>As a last resort, it checks for <a href="https://w3c.github.io/touch-events/">Touch Events</a> support (which in older browsers, which do not support the preceding tests, is generally only exposed when the browser is running on a touchscreen device).</li>
+</ol>
+<p>Note that the <em>presence</em> of a touchscreen still does not guarantee that a user will actually use the touchscreen, as it does not guarantee that there are no other input devices (including mice or keyboards) that the user may use instead. Further, it's always possible that a user may add or enable a touchscreen after the detection was done (for instance, plugging in an external touchscreen monitor). And lastly, a touchscreen being present doesn't mean this is a mobile or tablet device, as there are touch-enabled laptops and desktops. So...use this detection with caution and a big pinch of salt, and understand what it is that you're actually detecting here.</p>
+<p><small>See <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - everything you (n)ever wanted to know about touch and pointer events</a> for more context and information.</small></p>
+</body>
+<script>
+/* Small utility function to detect presence of a touchscreen */
+function detectTouchscreen() {
+  var result = false;
+  if (window.PointerEvent && ('maxTouchPoints' in navigator)) {
+    // if Pointer Events are supported, just check maxTouchPoints
+    if (navigator.maxTouchPoints > 0) {
+      result = true;
+    }
+  } else {
+    // no Pointer Events...
+    if (window.matchMedia && window.matchMedia("(any-pointer:coarse)").matches) {
+      // check for any-pointer:coarse which mostly means touchscreen
+      result = true;
+    } else if (window.TouchEvent || ('ontouchstart' in window)) {
+      // last resort - check for exposed touch events API / event handler
+      result = true;
+    }
+  }
+  return result;
+}
+
+var o = document.getElementsByTagName('output')[0];
+if (detectTouchscreen()) {
+  o.className = 'true';
+  o.innerHTML = 'Touchscreen detected...';
+} else {
+  o.className = 'false';
+  o.innerHTML = 'No touchscreen detected...';
+};
+</script>
+</body>
+</html>
