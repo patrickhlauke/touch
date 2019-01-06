@@ -45,7 +45,7 @@ function Emitter(canvas) {
 	}
 	
 	this.draw = function() {
-		this.canvasContext.clearRect(0, 0, 400, 400);
+		this.canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 		
 		for(var i = 0; i < this.particles.length; i++)
 		{
@@ -61,18 +61,20 @@ function Emitter(canvas) {
 		var that = this;
 		var debouncedReact = debounce(function(e) { e.preventDefault(); that.react(e); }, 5, true);
 		this.canvas.addEventListener('mousemove', debouncedReact, false);
+		var debouncedReset = debounce(function() { that.reset(); }, 10, true);
+		window.addEventListener('resize', debouncedReset);
 	}
 	
 	this.reset = function(e) {
-		if (this.particles.length === 0) {
-			var j = Math.floor(canvas.width/(this.size*2));
-			var h = Math.round(Math.random()*359);
-			for(var i = 0; i < j*j; i++)
-			{
-				this.createParticle((i%j)*(this.size*2)+this.size,Math.floor(i/j)*(this.size*2)+this.size,this.sizeLimit,(h += Math.round(Math.random()*30-15)),0,Math.round(Math.random()*50)+25);
-			}
+		this.canvas.width = window.innerWidth-30;
+		this.canvas.height = window.innerHeight-100;
+		this.particles = [];
+		var j = Math.floor(canvas.width/(this.size*2));
+		var k = Math.floor(canvas.height/(this.size*2));
+		var h = Math.round(Math.random()*359);
+		for(var i = 0; i < j*k; i++) {
+			this.createParticle((i%j)*(this.size*2)+this.size,Math.floor(i/j)*(this.size*2)+this.size,this.sizeLimit,(h += Math.round(Math.random()*30-15)),0,Math.round(Math.random()*50)+25);
 		}
-		
 		this.draw();
 	}
 }
