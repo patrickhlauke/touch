@@ -744,6 +744,12 @@
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
+<tr class="latest">
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120<br><small>(latest update)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap. For browsers supporting Touch Events, no mouse compatibility events nor <code>click</code> are generally fired.</p>
@@ -952,6 +958,13 @@
 	<td><code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
+<tr class="latest">
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox<br><small>(latest update)</small></td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>When using VoiceOver on OS X, different events are fired depending on how elements are activated – for instance, activating a button with <kbd>SPACE</kbd> or <kbd>ENTER</kbd> will simply fire <code>click</code>, whereas <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>SPACE</kbd> (the key combination prompted by VoiceOver) also fires the aforementioned &quot;faked&quot; mouse events.</p>
@@ -1095,6 +1108,20 @@
 	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
 	<td><em><code>blur</code></em> &gt; <em><code>focus</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
 	<td><code>blur</code> <br><small>(only once moved to another focusable element <em>and</em> activated that element)</small></td>
+</tr>
+<tr class="latest">
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox gesture navigation<br><small>(latest update)</small></td>
+	<td><code>focus</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox (touch to explore to move to / away from control)<br><small>(latest update)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt;<code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>pointermove</code> &gt; <code>mousemove</code>)+</td>
+	<td><em><code>focus</code></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code></td>
 </tr>
 </tbody>
 </table>
