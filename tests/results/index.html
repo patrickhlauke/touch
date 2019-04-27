@@ -213,6 +213,12 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code> due to <a href="https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html">iOS's event delegation/bubbling idiosyncrasy</a>)</small></td>
 </tr>
 <tr class="latest">
+	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events)<br><small>(latest update)</small></td>
+	<td><code>pointerdown</code> &gt; </code><code>touchstart</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <em><code>pointerup</code></em> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
+	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</td>
+</tr>
+<tr class="latest">
 	<td>Android 6.0.1 / Chrome 74 (pointer events + touch events)<br><small>(latest update)</small></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -245,7 +251,7 @@
 </ul>
 <p>Note the mix of pointer and touch events in Windows Phone 8.1 Update 1 - see <a href="http://blogs.msdn.com/b/ie/archive/2014/07/31/the-mobile-web-should-just-work-for-everyone.aspx">MSDN: The Mobile Web should just work for everyone</a>.</p>
 <p>Note that Spartan on current Windows 10 Mobile Technical Preview behaves subtly differently from Spartan on Windows 10 Technical Preview on desktop with touchscreen.</p>
-<p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control.</p>
+<p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control. The experimental WebKit feature for pointer events also generates some duplicate <code>pointerup</code> events.</p>
 
 <h2><a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a></h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;.</p>
@@ -363,6 +369,13 @@
 	<td><code><em>none</em></code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
+</tr>
+<tr class="latest">
+	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events) + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)<br><small>(latest update)</small></td>
+	<td><code><em>none</em></code></td>
+	<td><code>pointerdown</code> &gt; </code><code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
+	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
 </tr>
 <tr class="latest">
@@ -628,7 +641,7 @@
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr class="latest">
-	<td>iOS12.2 / Safari/WebView + keyboard<br><small>(latest update)</small></td>
+	<td>iOS12.2 / Safari/WebView + keyboard (without and with Experimental WebKit Features - Pointer Events)<br><small>(latest update)</small></td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
