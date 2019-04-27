@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Touch/pointer events test results</title>
 <meta charset=utf-8>
@@ -233,15 +233,15 @@
 </tbody>
 </table>
 <p>Generally, only a single (&quot;sacrificial&quot;) <code>mousemove</code> is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.</p>
-<p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <strike><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></strike>. This has been fixed in iOS8</p>
+<p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <del><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></del>. This has been fixed in iOS8</p>
 <p>In the touch event model, mouse compatibility events (and final <code>click</code>) are only fired when a single finger is on the touchscreen. As soon as there's two or more (even outside of the element we're listening on), only touch events are fired and mouse compatibility events are suppressed (or, in certain browsers like default Android "Browser", no events are fired at all unless all touches happen on the element with the listener - if, for instance, one finger is touching the screen outside of the element, a tap with a second finger will generate no events at all).</p>
-<p>There is a bug in current Blink implementations (noticed in Android/Chrome M34, M35 beta, and related Blink-based browsers like Opera) which also suppresses actual touch events if the first touch happened on a region with no touch handlers - see <strike><a href="https://code.google.com/p/chromium/issues/detail?id=363321">Issue 363321:	No touch are ever events fired if the first finger went down in an area with no handler</a></strike>.</p>
+<p>There is a bug in current Blink implementations (noticed in Android/Chrome M34, M35 beta, and related Blink-based browsers like Opera) which also suppresses actual touch events if the first touch happened on a region with no touch handlers - see <del><a href="https://code.google.com/p/chromium/issues/detail?id=363321">Issue 363321:	No touch are ever events fired if the first finger went down in an area with no handler</a></del>.</p>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including <code>click</code>) are generally <em><strong>not</strong></em> fired.</p>
-<p>There is a bug in older versions of Blink and Webkit (noticed in Android/Chrome M34, Android/Opera, Android/Maxthon, Android/Browser) where even the slightest movement during a tap results in <code>touchstart</code>, a <em><strong>single</strong></em> <code>touchmove</code> only, and a <code>touchcancel</code>, with no further events being dispatched. This behavior is inconsistent with other implementations (as noted above, the result is usually <code>touchstart</code>, a few <code>touchmove</code> events, a <code>touchend</code> and then - provided the movement was within the threshold - the mouse compatibility and <code>click</code> events). Android/Chrome M35 (beta) seems to have fixed this bug - see <strike><a href="https://code.google.com/p/chromium/issues/detail?id=363319">Issue 363319:	Swiping over a button with touch event handlers results in a single touchmove then touchcancel</a></strike>.</p>
+<p>There is a bug in older versions of Blink and Webkit (noticed in Android/Chrome M34, Android/Opera, Android/Maxthon, Android/Browser) where even the slightest movement during a tap results in <code>touchstart</code>, a <em><strong>single</strong></em> <code>touchmove</code> only, and a <code>touchcancel</code>, with no further events being dispatched. This behavior is inconsistent with other implementations (as noted above, the result is usually <code>touchstart</code>, a few <code>touchmove</code> events, a <code>touchend</code> and then - provided the movement was within the threshold - the mouse compatibility and <code>click</code> events). Android/Chrome M35 (beta) seems to have fixed this bug - see <del><a href="https://code.google.com/p/chromium/issues/detail?id=363319">Issue 363319:	Swiping over a button with touch event handlers results in a single touchmove then touchcancel</a></del>.</p>
 <p>When testing touch events on desktop using developer tools emulation, note there are currently bugs in the order/type of events being fired:</p>
 <ul>
-<li>Chrome: <strike><a href="https://code.google.com/p/chromium/issues/detail?id=181204">Issue 181204:	Emulate touch events - event order different from real devices</a></strike></li>
-<li>Firefox: <strike><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=920956">Bug 920956 - DevTools touch emulation: suppress regular mouse events, emulate 300ms delay</a></strike></li>
+<li>Chrome: <del><a href="https://code.google.com/p/chromium/issues/detail?id=181204">Issue 181204:	Emulate touch events - event order different from real devices</a></del></li>
+<li>Firefox: <del><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=920956">Bug 920956 - DevTools touch emulation: suppress regular mouse events, emulate 300ms delay</a></del></li>
 </ul>
 <p>Note the mix of pointer and touch events in Windows Phone 8.1 Update 1 - see <a href="http://blogs.msdn.com/b/ie/archive/2014/07/31/the-mobile-web-should-just-work-for-everyone.aspx">MSDN: The Mobile Web should just work for everyone</a>.</p>
 <p>Note that Spartan on current Windows 10 Mobile Technical Preview behaves subtly differently from Spartan on Windows 10 Technical Preview on desktop with touchscreen.</p>
@@ -286,7 +286,7 @@
 	<td><code><strong>none</strong></code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Android 4.3 / Firefox 28 + TalkBack</td>
@@ -307,35 +307,35 @@
 	<td><code><strong>none</strong></code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code><br><small>(after moving to and activating another focusable element)</td>
+	<td><code>mouseout</code><br><small>(after moving to and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows Phone 8.1 / IE11 + Narrator</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
-	<td><code>blur</code><br><small>(after moving and activating another focusable element)</td>
+	<td><code>blur</code><br><small>(after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows Phone 8.1 Update 1 / IE11 + Narrator</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
-	<td><code>blur</code><br><small>(after moving and activating another focusable element)</td>
+	<td><code>blur</code><br><small>(after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows 10 Mobile / Microsoft Edge 21.10549 + Narrator (without keyboard)</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
-	<td><code>blur</code><br><small>(after moving and activating another focusable element)</td>
+	<td><code>blur</code><br><small>(after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Chrome 53 (Dev) + TalkBack (pointer events experimental support + touch events)</td>
 	<td><code>none</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving and double-tapping another element)</td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving and double-tapping another element)</small></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Chrome 56 + TalkBack (pointer events + touch events)</td>
@@ -349,14 +349,14 @@
 	<td><code>none</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows 10 Mobile / Microsoft Edge 25.10586.107.0 + Narrator (without keyboard)</td>
 	<td><code>none</code></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
-	<td><code>none</code><br><small>(even after moving and activating another focusable element - however, returning to the button and activating it does fire <code>focus</code> again, so the focus is moved from it, just not reported/<code>blur</code> not fired)</td>
+	<td><code>none</code><br><small>(even after moving and activating another focusable element - however, returning to the button and activating it does fire <code>focus</code> again, so the focus is moved from it, just not reported/<code>blur</code> not fired)</small></td>
 </tr>
 <tr>
 	<td>iOS12.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
@@ -382,15 +382,15 @@
 <tr>
 	<td>Android 6.0.1 / Firefox 66.0.2 + TalkBack</td>
 	<td><code><strong>none</strong></code></td>
-	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; </code><code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><em><strong><code>blur</code></strong></em></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Firefox 66.0.2 + TalkBack + Keyboard</td>
 	<td><code><strong>none</strong></code></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> </code><code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> </code><code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><em><strong><code>blur</code></strong></em></td>
 </tr>
 <tr>
@@ -403,8 +403,8 @@
 <tr>
 	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly) + TalkBack + Keyboard</td>
 	<td><code><strong>none</strong></code></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> </code><code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> </code><code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><em><strong><code>blur</code></strong></em><br><small>(after activating another control)</small></td>
 </tr>
 </tbody>
@@ -413,7 +413,7 @@
 <p>Moving the focus (swiping left/right and using “touch explore”) won't always fire a JavaScript <code>focus</code> event – in many cases, <code>focus</code> is only sent as part of the series of events that follow an activation (double-tap). Though perhaps not a problem in practice, it can cause problems for widgets that expect focus (e.g. skip links that are visually hidden initially) - see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1000082">Bug 1000082 - [AccessFu] When virtual focus is on a button or link, fire actual focus on the element, too</a>, <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=657157">Issue 657157 - Issue with skip links that are visible only on focus</a>.</p>
 <p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
 <p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
-<p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <strike><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></strike> (fixed in iOS8).</p>
+<p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <del><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></del> (fixed in iOS8).</p>
 <p>Currently in Microsoft Edge 21.10549 it is not possible to use Narrator together with a paired keyboard on a Windows 10 Mobile device to navigate the actual web content – it seems the web view itself is not exposed correctly when using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>.</p>
 <p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control.</p>
 <p>First noticed in iOS12.2 (but likely happened some time ago): <code>focus</code> is now not fired anymore when the button receives VO focus. likewise, leaving the button and activating some other control does not fire any events anymore either. Compare to old iOS7.1 behaviour.</p>
@@ -595,8 +595,8 @@
 <tr>
 	<td>Android 6.0.1 / Chrome 56 + mouse (pointer events + touch events)</td>
 	<td><em><strong><code>none</code></strong></em></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code></strong> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code></strong> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <strong><code>blur</code></strong></td>
 </tr>
 <tr>
@@ -661,7 +661,7 @@
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard.</p>
 <p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
 <p>Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
-<p>Windows 10 Mobile does support paired bluetooth mouse and keyboard - with a mouse, Microsoft Edge behaves exactly the same as Win8.1/IE11 or Windows 10/Microsoft Edge, firing the same events and <em>no</em> faked touch events (even though it does support both touch and pointer events). <strike>However, it is not possible to use to keyboard to navigate - using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> has no effect.</strike> Using a paired keyboard, Microsoft Edge also behaves the same way as its desktop counterpart, only firing <code>focus</code>, <code>click</code> and <code>blur</code> events.</p>
+<p>Windows 10 Mobile does support paired bluetooth mouse and keyboard - with a mouse, Microsoft Edge behaves exactly the same as Win8.1/IE11 or Windows 10/Microsoft Edge, firing the same events and <em>no</em> faked touch events (even though it does support both touch and pointer events). <del>However, it is not possible to use to keyboard to navigate - using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> has no effect.</del> Using a paired keyboard, Microsoft Edge also behaves the same way as its desktop counterpart, only firing <code>focus</code>, <code>click</code> and <code>blur</code> events.</p>
 <p>In Android/Chrome 53 (Dev), note how the browser (which supports both touch and pointer events) when paired with a mouse attempts to keep "closure" of the mouse pointer by continuously adding/removing the pointer (firing extra sets of <code>pointerover</code> / <code>pointerenter</code> / <code>pointerout</code> / <code>pointerleave</code> and related compatibility mouse events), compared to Windows 10 Mobile with mouse.</p>
 <p>From Android/Chrome 58 onwards, mouse handling behaves like on desktop, and <a href="https://groups.google.com/a/chromium.org/forum/m/#!msg/blink-dev/cNaFvMaYtNA/41Bstx8oAwAJ">does not mimic touch anymore</a>.</p>
 <p>In Firefox 68.0a1 (Nightly), notice the odd <code>pointerout</code>, <code>pointerleave</code> followed milliseconds later by <code>pointerover</code>, <code>pointerenter</code> - like during each tap/activation, the mouse is completely removed from over the element and then reappears.</p>
@@ -722,14 +722,14 @@
 </tr>
 <tr>
 	<td>Windows 10 Pro Technical Preview (build 10041) / IE (Edge)<br><small>Touch Events enabled, Interop Mouse Events for Touch enabled</small></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>focus</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>focus</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
 	<td><code>blur</code></td>
 </tr>
 <tr>
 	<td>Windows 10 Pro Technical Preview (build 10049) / Spartan<br><small>(same as IE (Edge) with Touch Events enabled, Interop Mouse Events for Touch enabled)</small></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>focus</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; <code>focus</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mouseover</code></strong></em> &gt; <em><strong><code>mouseenter</code></strong></em> &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <em><strong><code>touchstart</code></strong></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <em><strong><code>touchend</code></strong></em> &gt; (<code>lostpointercapture</code>) &gt; <em><strong><code>mousemove</code></strong></em> &gt; <em><strong><code>mousedown</code></strong></em> &gt; <em><strong><code>mouseup</code></strong></em> &gt; <code>click</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> <br><small>(note all mouse events fired after <code>touchend</code>)</small></td>
 	<td><code>blur</code></td>
 </tr>
 <tr>
@@ -1282,7 +1282,7 @@
 <p><strong>iOS 10 update:</strong> Safari now ignores <code>user-scalable=no</code>, <code>minimum-scale=1, maximum-scale=1</code> and similar - by default, users are always able to zoom. The 300ms optimization that was present in 9.3 for these two cases does not work in Safari anymore. For embedded WebViews, these viewport directives supposedly still work (not tested), so it is possible that in these cases (e.g. for hybrid native/web applications) the optimization will still occur.</p>
 <p><strong>iOS 9.3 update:</strong> this release finally included some of the common ways in which to suppress the delay (<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">Bug 150604 - Implement viewport-width-based fast-click heuristic</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=149968">Bug 149968 - Web pages with unscalable viewports shouldn't have a single tap delay</a>) and <a href="https://bugs.webkit.org/show_bug.cgi?id=149854">Bug 149854 - Implement touch-action: manipulation; for iOS</a>). See <a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/">WebKit blog: More Responsive Tapping on iOS</a>.</p>
 <p><strong>iOS 8 update:</strong> it seems that in iOS 8, some heuristics have been included in Safari that prevent the 300ms delay from happening depending on the duration of the touch/tap. Fast taps have 300ms delay (as they're more likely to be the first of a quick double-tap, presumably), while slightly slower taps (if the delay between <code>touchstart</code> and <code>touchend</code> is above a certain threshold, around 125ms, without too much movement) fire the mouse compatibility events instantly (see <a href="https://github.com/ftlabs/fastclick/issues/262#issuecomment-56362437">Disable FastClick on iOS 8 #262</a> and my short video <a href="https://www.youtube.com/watch?v=k-UiuPp2CK0">iOS8/Safari 300ms delay heuristics</a>). It seems this only happens in Safari, and not in the generic UIWebView, so other browsers like iOS/Chrome still have the delay regardless of tap speed - however, it's likely present in WKWebView and will roll into other browsers when they upgrade to this. <strong>Update:</strong> rather than an explict heuristic, this is more of a side effect of a change in iOS' gesture recogniser.</p>
-<p>Also, in a change from iOS 7, <code>innerHTML</code> now also seems to count as a "content change" (see <a href="http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html">The iOS event cascade and innerHTML</a>)<strike>so my tests will need to be updated, as currently no <code>click</code> event is being fired on them.</strike></p>
+<p>Also, in a change from iOS 7, <code>innerHTML</code> now also seems to count as a "content change" (see <a href="http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html">The iOS event cascade and innerHTML</a>)<del>so my tests will need to be updated, as currently no <code>click</code> event is being fired on them.</del></p>
 <p><strong>iOS/WebKit update (December 2015):</strong> all relevant bugs (<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">Bug 150604</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=149968">Bug 149968</a>) and <a href="https://bugs.webkit.org/show_bug.cgi?id=149854">Bug 149854</a>) are now <q>RESOLVED FIXED</q>. See <a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/">More Responsive Tapping on iOS</a>. However, no indication has yet been given when these changes will find their way into iOS - all signs are still pointing towards a future iOS 10 release (since Apple don't historically make such wide-sweeping changes in iOS point releases).</p>
 <p><strong>iOS 9.3 Preview (January 2016)</strong> now includes the viewport and <code>touch-action:manipulation</code> optimisations.</p>
 <p>On Windows 8.1 and Windows 10 on a touchscreen device, Chrome and Firefox do not currently support "double-tap to zoom", so no 300ms delay is present (hence the "N/A" entries in the table). Internet Explorer and Microsoft Edge, on the other hand, does support "double-tap to zoom", so touch-optimisations to remove the delay (using <code>touch-action:manipulation</code>) will also be necessary on desktop. Also note that <code>viewport</code> is not supported/ignored on desktop in IE/Edge (with some exception when it comes to "Metro" snap mode), so pages using those <code>viewport</code> directives are still zoomable - "double-tap to zoom" still works in these cases, but cannot be prevented by merely adding <code>viewport</code>.</p>
