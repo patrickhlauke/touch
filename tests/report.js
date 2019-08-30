@@ -51,6 +51,9 @@ window.addEventListener('load', function() {
 		var delta = now-t;
 		var s;
 		s = e.type;
+                if (e.type == 'click') {
+                        s += ' (detail=' + (e.detail) + ')';
+                }
 		if (t>0) {
 			if ((now-t)>150) {
 				s += ' (<strong>' + (delta) + 'ms</strong>)';
