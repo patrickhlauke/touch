@@ -214,9 +214,9 @@
 </tr>
 <tr>
 	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events)</td>
-	<td><code>pointerdown</code> &gt; </code><code>touchstart</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <em><code>pointerup</code></em> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
+	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <em><code>pointerup</code></em> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</small></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Chrome 74 (pointer events + touch events)</td>
@@ -252,7 +252,7 @@
 	<td>iOS13.1 / Safari (pointer events + touch events)</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</small></td>
 </tr>
 </tbody>
 </table>
@@ -336,49 +336,49 @@
 </tr>
 <tr>
 	<td>Windows Phone 8.1 / IE11 + Narrator</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>blur</code><br><small>(after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows Phone 8.1 Update 1 / IE11 + Narrator</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>blur</code><br><small>(after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows 10 Mobile / Microsoft Edge 21.10549 + Narrator (without keyboard)</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>blur</code><br><small>(after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Chrome 53 (Dev) + TalkBack (pointer events experimental support + touch events)</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; (<code>lostpointercapture</code>) &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving and double-tapping another element)</small></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Chrome 56 + TalkBack (pointer events + touch events)</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <em><code>mouseover</code></em> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr>
 	<td>Android 6.0.1 / Samsung Internet for Android 4.0.20-6 + TalkBack</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(after moving to and activating another focusable element)</small></td>
 </tr>
 <tr>
 	<td>Windows 10 Mobile / Microsoft Edge 25.10586.107.0 + Narrator (without keyboard)</td>
-	<td><code>none</code></td>
+	<td><em><code>none</code></em></td>
 	<td><code>focus</code> &gt; <code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element - however, returning to the button and activating it does fire <code>focus</code> again, so the focus is moved from it, just not reported/<code>blur</code> not fired)</small></td>
@@ -393,7 +393,7 @@
 <tr>
 	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events) + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><code><em>none</em></code></td>
-	<td><code>pointerdown</code> &gt; </code><code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
+	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
 </tr>
@@ -777,7 +777,7 @@
 <p>In Android/Chrome 53 (Dev), note how the browser (which supports both touch and pointer events) when paired with a mouse attempts to keep "closure" of the mouse pointer by continuously adding/removing the pointer (firing extra sets of <code>pointerover</code> / <code>pointerenter</code> / <code>pointerout</code> / <code>pointerleave</code> and related compatibility mouse events), compared to Windows 10 Mobile with mouse.</p>
 <p>From Android/Chrome 58 onwards, mouse handling behaves like on desktop, and <a href="https://groups.google.com/a/chromium.org/forum/m/#!msg/blink-dev/cNaFvMaYtNA/41Bstx8oAwAJ">does not mimic touch anymore</a>.</p>
 <p>In Firefox 68.0a1 (Nightly), notice the odd <code>pointerout</code>, <code>pointerleave</code> followed milliseconds later by <code>pointerover</code>, <code>pointerenter</code> - like during each tap/activation, the mouse is completely removed from over the element and then reappears.</p>
-<p>On Android + mouse, note how Chromium-based browsers all don't fire any events when mouse pointer is moved over the button (compared to desktop); Firefox and Puffin seem the only main browsers that behaves like desktop here (though some of the event sequences are quirky).</p>
+<p>On Android + mouse, note how Chromium-based browsers all don't fire any events when mouse pointer is moved over the button (compared to desktop); Firefox and Puffin seem the only main browsers that behave like desktop here (though some of the event sequences are quirky).</p>
 <p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
@@ -859,6 +859,30 @@
 </tr>
 <tr class="latest">
 	<td>Chromebook Pixel / Chrome OS 69.0.3497.120</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Chrome 77</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44</td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; <em><code>focus</code></em> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code></td>
+	<td><code>mousemove</code> &gt; <code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <em><code>click</code></em> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 78.0.276.11 (beta)</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
@@ -1072,16 +1096,116 @@
 	<td><code>blur</code></td>
 </tr>
 <tr class="latest">
+	<td>Windows 10 / Chrome 77 + NVDA 2019.2</td>
+	<td><code>focus</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Chrome 77 + JAWS 2018</td>
+	<td><code>focus</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Chrome 77 + Narrator (scan mode on)</td>
+	<td><code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69 + NVDA 2019.2</td>
+	<td><code>focus</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69 + JAWS 2018</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69 + Narrator (scan mode on)</td>
+	<td><code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code></td>
+	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44 + NVDA 2019.2</td>
+	<td><code>focus</code></td>
+	<td><em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44 + JAWS 2018</td>
+	<td><code>focus</code></td>
+	<td><em><code>none</code></em> (bug)</td>
+	<td><em><code>none</code></em> (bug)</td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44 + Narrator (scan mode on)</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 79.0.279.0 (Dev) + NVDA 2019.2</td>
+	<td><code>focus</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 79.0.279.0 (Dev) + JAWS 2018</td>
+	<td><code>focus</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 79.0.279.0 (Dev) + Narrator (scan mode on)</td>
+	<td><code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
 	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
+<tr class="latest">
+	<td>macOS Mojave 10.14.5 / Safari 12.1.1 + VoiceOver</td>
+	<td><code>focus</code></td>
+	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>macOS Mojave 10.14.5 / Chrome 77 + VoiceOver</td>
+	<td><code>focus</code></td>
+	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>click</code> <br><small>(using <kbd>ENTER</kbd> or <kbd>SPACE</kbd>)</small><hr> <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> <br><small>(using <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd>)</small></td>
+	<td><code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>When using VoiceOver on OS X, different events are fired depending on how elements are activated – for instance, activating a button with <kbd>SPACE</kbd> or <kbd>ENTER</kbd> will simply fire <code>click</code>, whereas <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>SPACE</kbd> (the key combination prompted by VoiceOver) also fires the aforementioned &quot;faked&quot; mouse events.</p>
+<p>Similarly, switching between reading and forms mode in NVDA, or scan mode on/off in Narrator, can change the events fired.</p>
 <p>Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no (workable) support for assistive technology. ZoomText 10.1 currently not working at all with Chrome (34).</p>
+<p>Recent versions of Firefox (Quantum) don't seem to work at all with VoiceOver on macOS?</p>
 
 <h2><a name="desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a></h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;, instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.</p>
@@ -1209,7 +1333,7 @@
 	<td><code>blur</code> <br><small>(only once moved to another focusable element <em>and</em> activated that element)</small></td>
 </tr>
 <tr>
-	<td>Windows 10 / Chrome 53 + JAWS 17</td>
+	<td>Windows 10 / Chrome 53 + JAWS 17 gesture navigation/td>
 	<td><em><code>none</code></em></td>
 	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
 	<td><em><code>blur</code></em> &gt; <em><code>focus</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
@@ -1221,6 +1345,90 @@
 	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
 	<td><em><code>blur</code></em> &gt; <em><code>focus</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
 	<td><code>blur</code> <br><small>(only once moved to another focusable element <em>and</em> activated that element)</small></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Chrome 77 + NVDA 2019.2 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Chrome 77 + Narrator (scan mode on) gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Chrome 77 + JAWS 2018 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>blur</code></em> &gt; <em><code>focus</code></em><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69 + NVDA 2019.2 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <em><code>focus</code></em> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69 + Narrator (scan mode on) gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><em><code>focus</code></em> &gt; <code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Firefox 69 + JAWS 2018 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><em><code>focus</code></em> &gt; <code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44 + NVDA 2019.2 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44 + Narrator (scan mode on) gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>pointerdown</code></em> &gt; <em><code>mousedown</code></em> &gt; <em><code>pointerup</code></em> &gt;  <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 44 + JAWS 2018 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><em><code>none</code></em> (bug)</td>
+	<td><em><code>none</code></em> (bug)</td>
+	<td><em><code>none</code></em></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 79.0.279.0 (Dev) + NVDA 2019.2 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 79.0.279.0 (Dev) + Narrator (scan mode on) gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Windows 10 / Edge 79.0.279.0 (Dev) + JAWS 2018 gesture navigation</td>
+	<td><em><code>none</code></em></td>
+	<td><code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code> &gt; <code>focus</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <code>click</code></td>
+	<td><code>blur</code></td>
 </tr>
 <tr class="latest">
 	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox gesture navigation</td>
