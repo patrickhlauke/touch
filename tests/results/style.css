@@ -285,3 +285,11 @@ small {
   color: #777;
   font-size: 0.8em;
 }
+
+em {
+  font-weight: bold;
+}
+
+tr.latest {
+  background: #eeffee !important;
+}
