@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 27 April 2019. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 28 September 2019. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -206,35 +206,53 @@
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
-<tr class="latest">
-	<td>iOS12.2 / Safari/WebView<br><small>(latest update)</small></td>
+<tr>
+	<td>iOS12.2 / Safari/WebView</td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code> due to <a href="https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html">iOS's event delegation/bubbling idiosyncrasy</a>)</small></td>
 </tr>
-<tr class="latest">
-	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events)<br><small>(latest update)</small></td>
+<tr>
+	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events)</td>
 	<td><code>pointerdown</code> &gt; </code><code>touchstart</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <em><code>pointerup</code></em> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</td>
 </tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 74 (pointer events + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr >
+	<td>Android 6.0.1 / Firefox 66.0.2</td>
+	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <em><code>mouseenter</code></em> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><code>focus</code></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <em><code>mouseleave</code></em> &gt; <em><code>blur</code></em></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt;  <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
 <tr class="latest">
-	<td>Android 6.0.1 / Chrome 74 (pointer events + touch events)<br><small>(latest update)</small></td>
+	<td>Android 10 / Chrome 77 (pointer events + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; (<code>pointermove</code>)+ &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; (<code>pointermove</code>)+ &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>Android 10 / Firefox 68.1.1 (with Pointer Events enabled explicitly in <code>about:config</code>)</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr class="latest">
-	<td>Android 6.0.1 / Firefox 66.0.2<br><small>(latest update)</small></td>
-	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <em><code>mouseenter</code></em> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><code>focus</code></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <em><code>mouseleave</code></em> &gt; <em><code>blur</code></em></td>
-</tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly)<br><small>(latest update)</small></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt;  <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+	<td>iOS13.1 / Safari (pointer events + touch events)</td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</td>
 </tr>
 </tbody>
 </table>
@@ -252,6 +270,7 @@
 <p>Note the mix of pointer and touch events in Windows Phone 8.1 Update 1 - see <a href="http://blogs.msdn.com/b/ie/archive/2014/07/31/the-mobile-web-should-just-work-for-everyone.aspx">MSDN: The Mobile Web should just work for everyone</a>.</p>
 <p>Note that Spartan on current Windows 10 Mobile Technical Preview behaves subtly differently from Spartan on Windows 10 Technical Preview on desktop with touchscreen.</p>
 <p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control. The experimental WebKit feature for pointer events also generates some duplicate <code>pointerup</code> events.</p>
+<p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
 
 <h2><a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a></h2>
 <p>Using touch gestures (e.g. swipe left/right, double-tap to activate) and &quot;touch explore&quot;.</p>
@@ -364,62 +383,91 @@
 	<td><code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element - however, returning to the button and activating it does fire <code>focus</code> again, so the focus is moved from it, just not reported/<code>blur</code> not fired)</small></td>
 </tr>
-<tr class="latest">
-	<td>iOS12.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)<br><small>(latest update)</small></td>
+<tr>
+	<td>iOS12.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><code><em>none</em></code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
 </tr>
-<tr class="latest">
-	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events) + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)<br><small>(latest update)</small></td>
+<tr>
+	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events) + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><code><em>none</em></code></td>
 	<td><code>pointerdown</code> &gt; </code><code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
 </tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Chrome 74 + TalkBack<br><small>(latest update)</small></td>
+<tr>
+	<td>Android 6.0.1 / Chrome 74 + TalkBack</td>
 	<td><code><em>none</em></code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
+<tr>
+	<td>Android 6.0.1 / Chrome 74 + TalkBack + keyboard</td>
+	<td><code><em>none</em></code></td>
+	<td><code>focus</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>blur</code><br><small>(but only when activating certain other controls, not consistently?)</small></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Firefox 66.0.2 + TalkBack</td>
+	<td><code><em>none</em></code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><code>blur</code></em></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Firefox 66.0.2 + TalkBack + Keyboard</td>
+	<td><code><em>none</em></code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><code>blur</code></em></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly) + TalkBack</td>
+	<td><code><em>none</em></code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
+</tr>
+<tr>
+	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly) + TalkBack + Keyboard</td>
+	<td><code><em>none</em></code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><code>blur</code></em><br><small>(after activating another control)</small></td>
+</tr>
 <tr class="latest">
-	<td>Android 6.0.1 / Chrome 74 + TalkBack + keyboard<br><small>(latest update)</small></td>
+	<td>Android 10 / Chrome 77 + TalkBack + keyboard</td>
 	<td><code><em>none</em></code></td>
 	<td><code>focus</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>blur</code><br><small>(but only when activating certain other controls, not consistently?)</small></td>
 </tr>
 <tr class="latest">
-	<td>Android 6.0.1 / Firefox 66.0.2 + TalkBack<br><small>(latest update)</small></td>
-	<td><code><em>none</em></code></td>
-	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><em><code>blur</code></em></td>
-</tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Firefox 66.0.2 + TalkBack + Keyboard<br><small>(latest update)</small></td>
-	<td><code><em>none</em></code></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><em><code>blur</code></em></td>
-</tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly) + TalkBack<br><small>(latest update)</small></td>
-	<td><code><em>none</em></code></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
-</tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Firefox 68.0a1 (Nightly) + TalkBack + Keyboard<br><small>(latest update)</small></td>
+	<td>Android 10 / Firefox 68.1.1 (with Pointer Events explicitly enabled in <code>about:config) + TalkBack</td>
 	<td><code><em>none</em></code></td>
 	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><em><code>blur</code></em><br><small>(after activating another control)</small></td>
 </tr>
+<tr class="latest">
+	<td>Android 10 / Firefox 68.1.1 (with Pointer Events explicitly enabled in <code>about:config) + TalkBack + keyboard</td>
+	<td><code><em>none</em></code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>touchstart</code> &gt; <code>mousedown</code> &gt; <code>touchend</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><em><code>blur</code></em><br><small>(after activating another control)</small></td>
+</tr>
+<tr class="latest">
+	<td>iOS 13.1 / Safari + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
+	<td><code><em>none</em></code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <em><code>focus</code></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
+</tr>
+
 </tbody>
 </table>
 <p>No assistive technology available (yet) for Firefox OS, Windows Phone 8 or BlackBerry PlayBook.</p>
@@ -431,6 +479,7 @@
 <p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control.</p>
 <p>First noticed in iOS12.2 (but likely happened some time ago): <code>focus</code> is now not fired anymore when the button receives VO focus. likewise, leaving the button and activating some other control does not fire any events anymore either. Compare to old iOS7.1 behaviour.</p>
 <p>For Android, latest testing (April 2019) used more appropriate keyboard interaction (<kbd>ALT</kbd>+<kbd>SHIFT</kbd> plus cursor keys / <kbd>ENTER</kbd> to move focus/trigger control) - previous testing may have been limited to just <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>). Note how both Chrome and Firefox still send different event sequence if TalkBack is operated using gestures and keyboard.</p>
+<p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
 
 <h2><a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a></h2>
 <table>
@@ -640,34 +689,49 @@
 	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
-<tr class="latest">
-	<td>iOS12.2 / Safari/WebView + keyboard (without and with Experimental WebKit Features - Pointer Events)<br><small>(latest update)</small></td>
+<tr>
+	<td>iOS12.2 / Safari/WebView + keyboard (without and with Experimental WebKit Features - Pointer Events)</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Chrome 74 + mouse<br><small>(latest update)</small></td>
+<tr>
+	<td>Android 6.0.1 / Chrome 74 + mouse</td>
 	<td><em><code>none</code></em></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; (<code>pointermove</code> &gt; <code>mousemove</code> &gt;) <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(when clicking away on the page/another element)</small></td>
 </tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Firefox 66.0.2 + mouse<br><small>(latest update)</small></td>
+<tr>
+	<td>Android 6.0.1 / Firefox 66.0.2 + mouse</td>
 	<td><code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>mousemove</code>)+</td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; (<code>mousemove</code>)+ &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td>(<code>mousemove</code>)+ &gt; <code>mouseout</code> &gt; <code>mouseleave</code> <small>(when moving the mouse out of the button)</small><br>
 	<code>blur</code> <small>(when clicking away on the page/another element)</small></td>
 </tr>
-<tr class="latest">
-	<td>Android 6.0.1 / Firefox 68.0a1 + mouse<br><small>(latest update)</small></td>
+<tr>
+	<td>Android 6.0.1 / Firefox 68.0a1 + mouse</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointermove</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code>  (&gt; <code>pointermove</code> &gt; <code>mousemove</code>)+</td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <em><code>pointerout</code></em> &gt; <em><code>pointerleave</code></em> &gt; <code>touchend</code> &gt; <em><code>pointerover</code></em> &gt; <em><code>pointerenter</code></em> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <em><code>pointerout</code></em> &gt; <em><code>pointerleave</code></em> &gt; <code>touchend</code> &gt; <em><code>pointerover</code></em> &gt; <em><code>pointerenter</code></em> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(when clicking away on the page/another element)</small></td>
+</tr>
+<tr class="latest">
+	<td>Android 10 / Firefox 68.1.1 + keyboard</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
+<tr class="latest">
+	<td>iOS 13.1 / Safari/WebView + keyboard</td>
+	<td><code>focus</code></td>
+	<td><code>click</code></td>
+	<td><code>click</code></td>
+	<td><code>blur</code></td>
+</tr>
 </tbody>
 </table>
 <p>iOS does not support paired mouse, <del>paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures)</del>. iOS12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).</p>
@@ -758,7 +822,7 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr class="latest">
-	<td>Chromebook Pixel / Chrome OS 69.0.3497.120<br><small>(latest update)</small></td>
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; (<code>gotpointercapture</code>) &gt; <code>pointerup</code> &gt; (<code>lostpointercapture</code>) &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
@@ -972,7 +1036,7 @@
 	<td><code>blur</code></td>
 </tr>
 <tr class="latest">
-	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox<br><small>(latest update)</small></td>
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
@@ -1123,14 +1187,14 @@
 	<td><code>blur</code> <br><small>(only once moved to another focusable element <em>and</em> activated that element)</small></td>
 </tr>
 <tr class="latest">
-	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox gesture navigation<br><small>(latest update)</small></td>
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox gesture navigation</td>
 	<td><code>focus</code></td>
 	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
 <tr class="latest">
-	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox (touch to explore to move to / away from control)<br><small>(latest update)</small></td>
+	<td>Chromebook Pixel / Chrome OS 69.0.3497.120 + ChromeVox (touch to explore to move to / away from control)</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt;<code>mouseover</code> &gt; <code>mouseenter</code> &gt; (<code>pointermove</code> &gt; <code>mousemove</code>)+</td>
 	<td><em><code>focus</code></em> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
