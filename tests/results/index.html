@@ -767,9 +767,15 @@
 	<td><code>click</code></td>
 	<td><code>blur</code></td>
 </tr>
+<tr class="latest">
+	<td>iOS 13.1 / Safari/WebView + mouse</td>
+	<td><code><em>none</em></code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when clicking on another focusable/activatable element)</small></td>
+</tr>
 </tbody>
 </table>
-<p>iOS does not support paired mouse, <del>paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures)</del>. iOS12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).</p>
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard.</p>
 <p>Android 2.3.7 only has partial keyboard support. It was not possible to successfully pair a keyboard or mouse with the Android 2.1 HTC Hero test device.</p>
 <p>Windows Phone 8 (Nokia Lumia 520) does not support paired bluetooth mouse/keyboard.</p>
@@ -779,6 +785,9 @@
 <p>In Firefox 68.0a1 (Nightly), notice the odd <code>pointerout</code>, <code>pointerleave</code> followed milliseconds later by <code>pointerover</code>, <code>pointerenter</code> - like during each tap/activation, the mouse is completely removed from over the element and then reappears.</p>
 <p>On Android + mouse, note how Chromium-based browsers all don't fire any events when mouse pointer is moved over the button (compared to desktop); Firefox and Puffin seem the only main browsers that behave like desktop here (though some of the event sequences are quirky).</p>
 <p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
+<p><del>iOS does not support paired mouse,</del> <del>paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures)</del>.</p>
+<p>iOS12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).</p>
+<p>iOS13 introduced support for mouse, but only as a pointing device for Accessibility > Touch > AssistiveTouch. Once paired, the mouse displays a cursor, but acts exactly like touch - it does not hover, or fire any <code>mouseover</code>/<code>mouseenter</code>/<code>mouseleave</code><code>mouseout</code> (or pointer events equivalent) events. In the pointer events it does fire (on clicking the mouse button), it identifes as a <code>type=="touch"</code> pointer.</p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
