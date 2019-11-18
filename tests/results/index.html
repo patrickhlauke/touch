@@ -41,13 +41,13 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr>
-	<td>iOS7.1 / Safari/WebView</td>
+	<td>iOS 7.1 / Safari/WebView</td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>(mouseenter)</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseleave</code> &gt; <code>mouseout</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code> due to <a href="https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html">iOS's event delegation/bubbling idiosyncrasy</a>)</small></td>
 </tr>
 <tr>
-	<td>Opera Mini 8 / iOS7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
+	<td>Opera Mini 8 / iOS 7.1.1 (Mini mode, Turbo and Wi-Fi consistent with Safari/iOS)</td>
 	<td><code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code><br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code>)</small></td>
@@ -207,13 +207,13 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr>
-	<td>iOS12.2 / Safari/WebView</td>
+	<td>iOS 12.2 / Safari/WebView</td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>touchstart</code> &gt; (<code>touchmove</code>)+ &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> <br><small>(when tapping to another focusable/activatable element, otherwise <code>none</code> due to <a href="https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html">iOS's event delegation/bubbling idiosyncrasy</a>)</small></td>
 </tr>
 <tr>
-	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events)</td>
+	<td>iOS 12.2 / Safari (Experimental WebKit Features - Pointer Events)</td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <em><code>pointerup</code></em> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</small></td>
@@ -249,7 +249,7 @@
 	<td><code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr class="latest">
-	<td>iOS13.1 / Safari (pointer events + touch events)</td>
+	<td>iOS 13.1 / Safari (pointer events + touch events)</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when tapping to another focusable/activatable element)</small></td>
@@ -257,7 +257,7 @@
 </tbody>
 </table>
 <p>Generally, only a single (&quot;sacrificial&quot;) <code>mousemove</code> is fired as part of the mouse compatibility events, just to rattle any legacy scripts that may be listening for this event.</p>
-<p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <del><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></del>. This has been fixed in iOS8</p>
+<p>There is a bug in WebKit (affecting iOS 7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <del><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></del>. This has been fixed in iOS 8</p>
 <p>In the touch event model, mouse compatibility events (and final <code>click</code>) are only fired when a single finger is on the touchscreen. As soon as there's two or more (even outside of the element we're listening on), only touch events are fired and mouse compatibility events are suppressed (or, in certain browsers like default Android "Browser", no events are fired at all unless all touches happen on the element with the listener - if, for instance, one finger is touching the screen outside of the element, a tap with a second finger will generate no events at all).</p>
 <p>There is a bug in current Blink implementations (noticed in Android/Chrome M34, M35 beta, and related Blink-based browsers like Opera) which also suppresses actual touch events if the first touch happened on a region with no touch handlers - see <del><a href="https://code.google.com/p/chromium/issues/detail?id=363321">Issue 363321:	No touch are ever events fired if the first finger went down in an area with no handler</a></del>.</p>
 <p>If during the tap there is too much movement of the finger (based on browser-specific threshold), this is considered a gesture rather than a tap, and any mouse compatibility events (including <code>click</code>) are generally <em>not</em> fired.</p>
@@ -269,7 +269,7 @@
 </ul>
 <p>Note the mix of pointer and touch events in Windows Phone 8.1 Update 1 - see <a href="http://blogs.msdn.com/b/ie/archive/2014/07/31/the-mobile-web-should-just-work-for-everyone.aspx">MSDN: The Mobile Web should just work for everyone</a>.</p>
 <p>Note that Spartan on current Windows 10 Mobile Technical Preview behaves subtly differently from Spartan on Windows 10 Technical Preview on desktop with touchscreen.</p>
-<p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control. The experimental WebKit feature for pointer events also generates some duplicate <code>pointerup</code> events.</p>
+<p>There is some oddity/bug in iOS 12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control. The experimental WebKit feature for pointer events also generates some duplicate <code>pointerup</code> events.</p>
 <p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
 
 <h2><a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a></h2>
@@ -286,14 +286,14 @@
 </thead>
 <tbody>
 <tr>
-	<td>iOS7.1 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
+	<td>iOS 7.1 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><em><code>focus</code></em></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseenter</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><code>blur</code></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>blur</code> <br><small>(when moving to another focusable element without activating the control first, otherwise <code>none</code>)</small><hr> <em><code>mouseleave</code></em> &gt; <em><code>mouseout</code></em> <br><small>(fired after element was already left, if original element was activated, and now another element was activated)</small></td>
 </tr>
 <tr>
-	<td>iOS9.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
+	<td>iOS 9.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><em><code>focus</code></em></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code><em>mouseover</em></code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <em><code>blur</code></em> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -384,14 +384,14 @@
 	<td><code>none</code><br><small>(even after moving and activating another focusable element - however, returning to the button and activating it does fire <code>focus</code> again, so the focus is moved from it, just not reported/<code>blur</code> not fired)</small></td>
 </tr>
 <tr>
-	<td>iOS12.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
+	<td>iOS 12.2 / Safari/WebView + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><code><em>none</em></code></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>none</code><br><small>(even after moving and activating another focusable element)</small></td>
 </tr>
 <tr>
-	<td>iOS12.2 / Safari (Experimental WebKit Features - Pointer Events) + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
+	<td>iOS 12.2 / Safari (Experimental WebKit Features - Pointer Events) + VoiceOver (with and without keyboard, and using &quot;touch explore&quot;)</td>
 	<td><code><em>none</em></code></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code> &gt; <em><code>mousedown</code></em> &gt; <em><code>mouseup</code></em> &gt; <em><code>click</code></em><br><small>(note the odd double firing of events at the end)</small></td>
 	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>pointerup</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
@@ -481,10 +481,10 @@
 <p>Moving the focus (swiping left/right and using “touch explore”) won't always fire a JavaScript <code>focus</code> event – in many cases, <code>focus</code> is only sent as part of the series of events that follow an activation (double-tap). Though perhaps not a problem in practice, it can cause problems for widgets that expect focus (e.g. skip links that are visually hidden initially) - see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1000082">Bug 1000082 - [AccessFu] When virtual focus is on a button or link, fire actual focus on the element, too</a>, <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=657157">Issue 657157 - Issue with skip links that are visible only on focus</a>.</p>
 <p>Mobile/tablet screenreaders are quite liberal in firing additional <code>blur</code> events when an element is activated – presumably in an attempt to prevent focus-specific CSS styles to &quot;stick&quot; after a user tapped on an in-page link or control. Careful if your code assumes <code>blur</code> means the user has moved away from the focusable element, as the AT focus is actually still there.</p>
 <p>There are dramatic differences in the events being fired between gesture navigation and &quot;touch explore&quot; on Android.</p>
-<p>There is a bug in WebKit (affecting iOS7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <del><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></del> (fixed in iOS8).</p>
+<p>There is a bug in WebKit (affecting iOS 7.1/Safari and WebView) where <code>mouseenter</code> mouse compatibility event is not being fired correctly - see <del><a href="https://bugs.WebKit.org/show_bug.cgi?id=128534">Bug 128534 - <code>mouseenter</code> mouse compat event not fired when listeners for touch events</a></del> (fixed in iOS 8).</p>
 <p>Currently in Microsoft Edge 21.10549 it is not possible to use Narrator together with a paired keyboard on a Windows 10 Mobile device to navigate the actual web content – it seems the web view itself is not exposed correctly when using <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>.</p>
-<p>There is some oddity/bug in iOS12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control.</p>
-<p>First noticed in iOS12.2 (but likely happened some time ago): <code>focus</code> is now not fired anymore when the button receives VO focus. likewise, leaving the button and activating some other control does not fire any events anymore either. Compare to old iOS7.1 behaviour.</p>
+<p>There is some oddity/bug in iOS 12.2, with <code>mousedown</code>, <code>mouseup</code> and <code>click</code> being fired twice when first tapping on the control.</p>
+<p>First noticed in iOS 12.2 (but likely happened some time ago): <code>focus</code> is now not fired anymore when the button receives VO focus. likewise, leaving the button and activating some other control does not fire any events anymore either. Compare to old iOS 7.1 behaviour.</p>
 <p>For Android, latest testing (April 2019) used more appropriate keyboard interaction (<kbd>ALT</kbd>+<kbd>SHIFT</kbd> plus cursor keys / <kbd>ENTER</kbd> to move focus/trigger control) - previous testing may have been limited to just <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd>). Note how both Chrome and Firefox still send different event sequence if TalkBack is operated using gestures and keyboard.</p>
 <p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
 
@@ -697,7 +697,7 @@
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> &gt; <code>blur</code></td>
 </tr>
 <tr>
-	<td>iOS12.2 / Safari/WebView + keyboard (without and with Experimental WebKit Features - Pointer Events)</td>
+	<td>iOS 12.2 / Safari/WebView + keyboard (without and with Experimental WebKit Features - Pointer Events)</td>
 	<td><code>focus</code></td>
 	<td><code>click</code></td>
 	<td><code>click</code></td>
@@ -786,8 +786,8 @@
 <p>On Android + mouse, note how Chromium-based browsers all don't fire any events when mouse pointer is moved over the button (compared to desktop); Firefox and Puffin seem the only main browsers that behave like desktop here (though some of the event sequences are quirky).</p>
 <p>For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.</p>
 <p><del>iOS does not support paired mouse,</del> <del>paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures)</del>.</p>
-<p>iOS12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).</p>
-<p>iOS13 introduced support for mouse, but only as a pointing device for Accessibility > Touch > AssistiveTouch. Once paired, the mouse displays a cursor, but acts exactly like touch - it does not hover, or fire any <code>mouseover</code>/<code>mouseenter</code>/<code>mouseleave</code><code>mouseout</code> (or pointer events equivalent) events. In the pointer events it does fire (on clicking the mouse button), it identifes as a <code>type=="touch"</code> pointer.</p>
+<p>iOS 12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).</p>
+<p>iOS 13 introduced support for mouse, but only as a pointing device for Accessibility > Touch > AssistiveTouch. Once paired, the mouse displays a cursor, but acts exactly like touch - it does not hover, or fire any <code>mouseover</code>/<code>mouseenter</code>/<code>mouseleave</code><code>mouseout</code> (or pointer events equivalent) events. In the pointer events it does fire (on clicking the mouse button), it identifes as a <code>type=="touch"</code> pointer.</p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
@@ -1678,7 +1678,7 @@
 <p>To work around 300ms delay in situations where none of the tricks/techniques are supported - in particular, on older iOS/WebKit - developers will have to resort to explicit JavaScript handling (e.g. listening to <code>touchend</code> - which fires as soon as a touch point on a touchscreen is lifted, and before the 300ms delay - and suppressing mouse compatibility and <code>click</code> events), being mindful of not making naive "touch <em>or</em> mouse" assumptions - see <a href="https://hacks.mozilla.org/2013/04/detecting-touch-its-the-why-not-the-how/">Detecting touch: it’s the ‘why’, not the ‘how’</a>. In most cases, simply dropping in <a href="https://github.com/ftlabs/fastclick">FTLabs' fastclick</a> (or using a custom event handler like <a href="https://github.com/alexgibson/tap.js">tap.js</a>) should achieve the desired result with minimal effort.</p>
 <p><em>iOS 10 update:</em> Safari now ignores <code>user-scalable=no</code>, <code>minimum-scale=1, maximum-scale=1</code> and similar - by default, users are always able to zoom. The 300ms optimization that was present in 9.3 for these two cases does not work in Safari anymore. For embedded WebViews, these viewport directives supposedly still work (not tested), so it is possible that in these cases (e.g. for hybrid native/web applications) the optimization will still occur.</p>
 <p><em>iOS 9.3 update:</em> this release finally included some of the common ways in which to suppress the delay (<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">Bug 150604 - Implement viewport-width-based fast-click heuristic</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=149968">Bug 149968 - Web pages with unscalable viewports shouldn't have a single tap delay</a>) and <a href="https://bugs.webkit.org/show_bug.cgi?id=149854">Bug 149854 - Implement touch-action: manipulation; for iOS</a>). See <a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/">WebKit blog: More Responsive Tapping on iOS</a>.</p>
-<p><em>iOS 8 update:</em> it seems that in iOS 8, some heuristics have been included in Safari that prevent the 300ms delay from happening depending on the duration of the touch/tap. Fast taps have 300ms delay (as they're more likely to be the first of a quick double-tap, presumably), while slightly slower taps (if the delay between <code>touchstart</code> and <code>touchend</code> is above a certain threshold, around 125ms, without too much movement) fire the mouse compatibility events instantly (see <a href="https://github.com/ftlabs/fastclick/issues/262#issuecomment-56362437">Disable FastClick on iOS 8 #262</a> and my short video <a href="https://www.youtube.com/watch?v=k-UiuPp2CK0">iOS8/Safari 300ms delay heuristics</a>). It seems this only happens in Safari, and not in the generic UIWebView, so other browsers like iOS/Chrome still have the delay regardless of tap speed - however, it's likely present in WKWebView and will roll into other browsers when they upgrade to this. <em>Update:</em> rather than an explict heuristic, this is more of a side effect of a change in iOS' gesture recogniser.</p>
+<p><em>iOS 8 update:</em> it seems that in iOS 8, some heuristics have been included in Safari that prevent the 300ms delay from happening depending on the duration of the touch/tap. Fast taps have 300ms delay (as they're more likely to be the first of a quick double-tap, presumably), while slightly slower taps (if the delay between <code>touchstart</code> and <code>touchend</code> is above a certain threshold, around 125ms, without too much movement) fire the mouse compatibility events instantly (see <a href="https://github.com/ftlabs/fastclick/issues/262#issuecomment-56362437">Disable FastClick on iOS 8 #262</a> and my short video <a href="https://www.youtube.com/watch?v=k-UiuPp2CK0">iOS 8/Safari 300ms delay heuristics</a>). It seems this only happens in Safari, and not in the generic UIWebView, so other browsers like iOS/Chrome still have the delay regardless of tap speed - however, it's likely present in WKWebView and will roll into other browsers when they upgrade to this. <em>Update:</em> rather than an explict heuristic, this is more of a side effect of a change in iOS' gesture recogniser.</p>
 <p>Also, in a change from iOS 7, <code>innerHTML</code> now also seems to count as a "content change" (see <a href="http://www.quirksmode.org/blog/archives/2014/02/the_ios_event_c.html">The iOS event cascade and innerHTML</a>)<del>so my tests will need to be updated, as currently no <code>click</code> event is being fired on them.</del></p>
 <p><em>iOS/WebKit update (December 2015):</em> all relevant bugs (<a href="https://bugs.webkit.org/show_bug.cgi?id=150604">Bug 150604</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=149968">Bug 149968</a>) and <a href="https://bugs.webkit.org/show_bug.cgi?id=149854">Bug 149854</a>) are now <q>RESOLVED FIXED</q>. See <a href="https://webkit.org/blog/5610/more-responsive-tapping-on-ios/">More Responsive Tapping on iOS</a>. However, no indication has yet been given when these changes will find their way into iOS - all signs are still pointing towards a future iOS 10 release (since Apple don't historically make such wide-sweeping changes in iOS point releases).</p>
 <p><em>iOS 9.3 Preview (January 2016)</em> now includes the viewport and <code>touch-action:manipulation</code> optimisations.</p>
@@ -1699,7 +1699,7 @@
 </thead>
 <tbody>
 <tr>
-	<td>iOS7.1 / Safari/WebView + VoiceOver</td>
+	<td>iOS 7.1 / Safari/WebView + VoiceOver</td>
 	<td><code>touchstart</code> &gt; <code>touchend</code> &gt; <code>mouseover</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; (<code>blur</code>) &gt; <code>mouseup</code> &gt; <code>click</code> <hr> <code>mouseleave</code> &gt; <code>mouseout</code><br><small>(when moving to another focusable/activatable element)</small></td>
 	<td>center of element <hr> center of the <em>new</em> element that received focus<br><small>(when moving to another focusable/activatable element)</small></td>
 </tr>
