@@ -10,7 +10,7 @@
 <p>Some of the more interesting data points from running my various <a href="https://patrickhlauke.github.io/touch">touch/pointer tests</a> on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a &quot;clean&quot; tap without any finger movement). Most testing carried out against this simple <a href="../event-listener.html">event listener test</a>.</p>
 <p>Some of these results first appeared in my presentation <a href="https://patrickhlauke.github.io/getting-touchy-presentation/">Getting touchy - an introduction to touch and pointer events</a>, but have since been retested and are now collated here for easier referencing.</p>
 <p>See also <a href="http://www.quirksmode.org/mobile/tableTouch.html">Peter-Paul Koch's <cite>Touch table</cite></a>, where he tests some further aspects beyond the scope of my tests.</p>
-<p><small>Last updated 28 September 2019. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
+<p><small>Last updated 12 April 2020. See <a href="https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results">complete change history</a>.</small></p>
 <h2>Contents</h2>
 <ul>
 <li><a href="#mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a></li>
@@ -749,8 +749,8 @@
 <tr class="latest">
 	<td>Android 10 / Firefox 68.1.1 (with Pointer Events enabled in <code>about:config</code>) + mouse</td>
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointermove</code> &gt; <code>mouseover</code> &gt; <code>mouseenter</code> &gt; <code>mousemove</code></td>
-	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>(getpointercapture)</code> &gt; <code>pointerup</code> &gt; <code>(lostpointercapture)</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
-	<td><code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>(getpointercapture)</code> &gt; <code>pointerup</code> &gt; <code>(lostpointercapture)</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerdown</code> &gt; <strong><code>touchstart</code></strong> &gt; <strong><code>(gotpointercapture)</code></strong> &gt; <code>pointerup</code> &gt; <strong><code>(lostpointercapture)</code></strong> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <strong><code>touchend</code></strong> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>focus</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerdown</code> &gt; <strong><code>touchstart</code></strong> &gt; <strong><code>(gotpointercapture)</code></strong> &gt; <code>pointerup</code> &gt; <strong><code>(lostpointercapture)</code></strong> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <strong><code>touchend</code></strong> &gt; <code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointermove</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>mouseout</code> &gt; <code>mouseleave</code> <small>(after clicking somehwere else, <code>blur</code></small>)</td>
 </tr>
 <tr class="latest">
@@ -774,6 +774,13 @@
 	<td><code>pointerover</code> &gt; <code>pointerenter</code> &gt; <code>pointerdown</code> &gt; <code>touchstart</code> &gt; <code>gotpointercapture</code> &gt; <code>pointermove</code> &gt; <code>pointermove</code> &gt; <code>pointerup</code> &gt; <code>lostpointercapture</code> &gt; <code>pointerout</code> &gt; <code>pointerleave</code> &gt; <code>touchend</code> &gt; <code>mousemove</code> &gt; <code>mousedown</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
 	<td><code>mouseout</code> &gt; <code>mouseleave</code><br><small>(when clicking on another focusable/activatable element)</small></td>
 </tr>
+<tr class="latest">
+	<td>iPadOS 13.4 / Safari/WebView + mouse</td>
+	<td><code>pointerover</code> &gt; <code>mouseover</code> &gt; <code>pointerenter</code> &gt; <code>mouseenter</code></td>
+	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerdown</code> &gt; <code>mousedown</code> &gt; <code>pointerup</code> &gt; <code>mouseup</code> &gt; <code>click</code></td>
+	<td><code>pointerout</code> &gt; <code>mouseout</code> &gt; <code>pointerleave</code> &gt; <code>mouseleave</code></td>
+</tr>
 </tbody>
 </table>
 <p>Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard.</p>
@@ -788,6 +795,9 @@
 <p><del>iOS does not support paired mouse,</del> <del>paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures)</del>.</p>
 <p>iOS 12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).</p>
 <p>iOS 13 introduced support for mouse, but only as a pointing device for Accessibility > Touch > AssistiveTouch. Once paired, the mouse displays a cursor, but acts exactly like touch - it does not hover, or fire any <code>mouseover</code>/<code>mouseenter</code>/<code>mouseleave</code><code>mouseout</code> (or pointer events equivalent) events. In the pointer events it does fire (on clicking the mouse button), it identifes as a <code>type=="touch"</code> pointer.</p>
+<p>iPadOS 13.4 introduced full support for mouse. It now correctly behaves exactly like a desktop mouse. However, it seems to get confused when a mouse "suddenly appears" (e.g. when navigating via touch, and then simply clicking a mouse button that was previously positioned somehwere like a button ... it then sends a bizarre combination of touch, pointer and mouse events).</p>
+<p>Android 10 / Firefox 68 has some oddities relating to mouse support - see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1629353">https://bugzilla.mozilla.org/show_bug.cgi?id=1629353</a></p>
+<p>Android 10 / Chrome also still does not fully handle mouse hovering - see <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=1028118">https://bugs.chromium.org/p/chromium/issues/detail?id=1028118</a></p>
 
 <h2><a name="desktop-touchscreen-events">Desktop with touchscreen event order</a></h2>
 <table>
