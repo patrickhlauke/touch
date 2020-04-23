@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multitouch tracker (Touch- and Pointer-Events) with HUD</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="styles/styles.css">
+	<style>
+	/* additional Pointer events behavior */
+
+	canvas {
+		-ms-touch-action: none;
+		    touch-action: none;
+	}
+	</style>
+</head>
+<body>
+	<script src="scripts/rAF.js"></script>
+	<script src="scripts/canvas-ellipse-polyfill.js"></script>
+	<script src="scripts/debounce.js"></script>
+	<script src="scripts/multi-touch-tracker-pointer-hud-toucheventsonly.js"></script>
+</body>
+</html>
