@@ -2,8 +2,6 @@
 title: "Touch/pointer events test results"
 ---
 
-# Touch/pointer events test results
-
 Some of the more interesting data points from running my various [touch/pointer tests](https://patrickhlauke.github.io/touch) on a variety of devices/browsers. All tests carried out manually, trying to get the cleanest possible results (e.g. getting a "clean" tap without any finger movement). Most testing carried out against this simple [event listener test](../event-listener.html).
 
 Some of these results first appeared in my presentation [Getting touchy - an introduction to touch and pointer events](https://patrickhlauke.github.io/getting-touchy-presentation/), but have since been retested and are now collated here for easier referencing.

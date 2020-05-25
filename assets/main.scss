@@ -1,0 +1,13 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough) - see https://github.com/jekyll/minima/tree/v2.5.1#customization
+---
+
+@import "minima";
+.whopper {
+  padding: 2em;
+}
+a { color:inherit; text-decoration:none; }
+a:visited { color:#015da7; }
+a:link { color: #015da7; text-decoration: underline; }
+a:hover { text-decoration: none; }
+a:link:hover{ color: #015da7; text-decoration:underline; }

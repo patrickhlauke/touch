@@ -1,6 +1,4 @@
 theme: minima
-minima:
-  skin: classic
 plugins:
   - jekyll-relative-links
 relative_links:

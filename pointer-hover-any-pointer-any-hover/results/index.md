@@ -2,8 +2,6 @@
 title: "pointer/hover/any-pointer/any-hover test results"
 ---
 
-# `pointer`/`hover`/`any-pointer`/`any-hover` test results
-
 | Browser | `pointer:none` | `pointer:coarse` | `pointer:fine` | `hover:none` | `hover:hover` | `any-pointer:none` | `any-pointer:coarse` | `any-pointer:fine` | `any-hover:none` | `any-hover:hover` | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Windows 10 / mouse / Chrome 81 | false | false | true | false | true | false | false | true | false | true |
