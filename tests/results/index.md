@@ -319,6 +319,7 @@ Recent versions of Firefox (Quantum) don't seem to work at all with VoiceOver on
 ## <a name="desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a>
 
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore", instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.
+
 | Browser | Move to button | 1st activation | 2nd activation | Leave button |
 | --- | --- | --- | --- | --- |
 | Windows 8 / Chrome 33 + JAWS 15 gesture navigation and touch explore (no visible outline / focus indication) | *`none`* | *`focus`* > `mousedown` > `mouseup` > `click` | *`blur`* > *`focus`* > `mousedown` > `mouseup` > `click` | `blur` <br><small>(only once moved to another focusable element *and* activated that element)</small> |
