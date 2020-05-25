@@ -1,7 +1,7 @@
 ---
 ---
 
-@import "";
-.container-lg {
-    max-width: none;
+@import "{{ site.theme }}";
+.wrapper {
+    max-width: none !important;
 }
