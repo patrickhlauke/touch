@@ -11,15 +11,10 @@ See also [Peter-Paul Koch's "Touch table"](http://www.quirksmode.org/mobile/tabl
 <small>Last updated 12 April 2020. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
 ## Contents
+{: .no_toc}
 
-* [Mobile/tablet touchscreen activation/tap event order](#mobile-tablet-touchscreen-events)
-* [Mobile/tablet touchscreen with assistive technology event order](#mobile-tablet-touchscreen-assistive-technology-events)
-* [Mobile/tablet touch devices with paired keyboard/mouse event order](#mobile-tablet-keyboard-mouse-events)
-* [Desktop with touchscreen event order](#desktop-touchscreen-events)
-* [Desktop with assistive technology event order](#desktop-assistive-technology-events)
-* [Desktop with touchscreen and assistive technology event order](#desktop-touchscreen-assistive-technology-events)
-* [Suppressing 300ms delay for touchscreen interactions](#suppressing-300ms-delay)
-* ["Faked" event coordinates](#faked-event-coordinates)
+- TOC
+{:toc}
 
 ## Mobile/tablet touchscreen activation/tap event order
 {: #mobile-tablet-touchscreen-events}
