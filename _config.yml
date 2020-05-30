@@ -1,3 +1,5 @@
+name: Patrick H. Lauke touch/pointer tests and demos
+markdown: kramdown
 theme: minima
 plugins:
   - jekyll-relative-links
