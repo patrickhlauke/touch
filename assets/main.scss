@@ -11,3 +11,16 @@ a:visited { color:#015da7; }
 a:link { color: #015da7; text-decoration: underline; }
 a:hover { text-decoration: none; }
 a:link:hover{ color: #015da7; text-decoration:underline; }
+kbd {
+  background: #eee;
+  border: 1px #ddd solid;
+  padding: 0.1em 0.25em;
+  font-size: 0.85em;
+  border-radius: 3px;
+}
+code {
+  font-size: 0.85em;
+}
+tbody tr > td:first-of-type {
+  background: #f9f9f9;
+}
