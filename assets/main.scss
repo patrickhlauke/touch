@@ -3,9 +3,10 @@
 ---
 
 @import "minima";
-.whopper {
+.page-content {
   padding: 2em;
 }
+body { font-size: 0.9em; }
 a { color:inherit; text-decoration:none; }
 a:visited { color:#015da7; }
 a:link { color: #015da7; text-decoration: underline; }
@@ -15,11 +16,11 @@ kbd {
   background: #eee;
   border: 1px #ddd solid;
   padding: 0.1em 0.25em;
-  font-size: 0.85em;
+  font-size: 0.9em;
   border-radius: 3px;
 }
 code {
-  font-size: 0.85em;
+  font-size: 0.9em;
 }
 tbody tr > td:first-of-type {
   background: #f9f9f9;
