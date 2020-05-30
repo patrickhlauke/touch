@@ -21,7 +21,8 @@ See also [Peter-Paul Koch's "Touch table"](http://www.quirksmode.org/mobile/tabl
 * [Suppressing 300ms delay for touchscreen interactions](#suppressing-300ms-delay)
 * ["Faked" event coordinates](#faked-event-coordinates)
 
-## <a name="mobile-tablet-touchscreen-events">Mobile/tablet touchscreen activation/tap event order</a>
+## Mobile/tablet touchscreen activation/tap event order
+{: #mobile-tablet-touchscreen-events}
 
 | Browser | 1st tap | 2nd tap | Tap out |
 | --- | --- | --- | --- |
@@ -87,7 +88,8 @@ There is some oddity/bug in iOS 12.2, with `mousedown`, `mouseup` and `click` be
 
 For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.
 
-## <a name="mobile-tablet-touchscreen-assistive-technology-events">Mobile/tablet touchscreen with assistive technology event order</a>
+## Mobile/tablet touchscreen with assistive technology event order
+{: #mobile-tablet-touchscreen-assistive-technology-events}
 
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore".
 
@@ -141,7 +143,8 @@ For Android, latest testing (April 2019) used more appropriate keyboard interact
 
 For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now behave consistently with Chrome.
 
-## <a name="mobile-tablet-keyboard-mouse-events">Mobile/tablet touch devices with paired keyboard/mouse event order</a>
+## Mobile/tablet touch devices with paired keyboard/mouse event order
+{: #mobile-tablet-keyboard-mouse-events}
 
 | Browser | Move to button | 1st activation | 2nd activation | Leave button |
 | --- | --- | --- | --- | --- |
@@ -217,7 +220,8 @@ Android 10 / Firefox 68 has some oddities relating to mouse support - see [https
 
 Android 10 / Chrome also still does not fully handle mouse hovering - see [https://bugs.chromium.org/p/chromium/issues/detail?id=1028118](https://bugs.chromium.org/p/chromium/issues/detail?id=1028118)
 
-## <a name="desktop-touchscreen-events">Desktop with touchscreen event order</a>
+## Desktop with touchscreen event order
+{: #desktop-touchscreen-events}
 
 | Browser | 1st tap | 2nd tap | Tap out |
 | --- | --- | --- | --- |
@@ -254,7 +258,8 @@ The first preview of Windows 10 / Spartan (build 10049) behaves the same way as 
 
 Windows 10 / Microsoft Edge has <q>Touch events</q> and <q>Mouse events for touch</q> disabled by default.
 
-## <a name="desktop-assistive-technology-events">Desktop with assistive technology event order</a>
+## Desktop with assistive technology event order
+{: #desktop-assistive-technology-events}
 
 Using traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation. Notice the faked mouse events (particularly in OS X, when activating the test button with <kbd>CTRL</kbd>+<kbd>⌥ ALT</kbd>+<kbd>SPACE</kbd> as prompted by VoiceOver), which are not fired when assistive technology is not present, and are most likely meant for compatibility with sites that assume mouse interactions.
 
@@ -314,7 +319,8 @@ Opera 12 (Presto) on Windows, OS X and Opera 20 (Blink) on OS X seem to have no 
 
 Recent versions of Firefox (Quantum) don't seem to work at all with VoiceOver on macOS?
 
-## <a name="desktop-touchscreen-assistive-technology-events">Desktop with touchscreen and assistive technology event order</a>
+## Desktop with touchscreen and assistive technology event order
+{: #desktop-touchscreen-assistive-technology-events}
 
 Using touch gestures (e.g. swipe left/right, double-tap to activate) and "touch explore", instead of traditional <kbd>TAB</kbd> / <kbd>SHIFT</kbd>+<kbd>TAB</kbd> / <kbd>ENTER</kbd> keyboard navigation.
 
@@ -357,7 +363,8 @@ Using a desktop screenreader with a touchscreen and touch gestures (swipe left/r
 
 Opera 12 (Presto) on Windows seems to have no support for assistive technology. Chrome+ChromeVox does not currently support touch swipes/gestures on desktop.
 
-## <a name="suppressing-300ms-delay">Suppressing 300ms delay for touchscreen interactions</a>
+## Suppressing 300ms delay for touchscreen interactions
+{: #suppressing-300ms-delay}
 
 Small series of tests to check which of the "tricks" used to suppress the dreaded 300ms delay (for Touch Events, between `touchend` and the compatibility mouse events, including `click`; for Pointer Events, just before the `click`) actually works in various browsers/OSs. Where known, this also includes the particular version of the browser that added support, with reference to the related bug/announcement. Blank cells mean that a particular trick/technique has no effect and that the 300ms delay is still present. (Note that, to be precise, on iOS the delay is actually 350ms)
 
@@ -409,7 +416,8 @@ On Windows 8.1 and Windows 10 on a touchscreen device, Chrome and Firefox do not
 
 Samsung Internet for Android's default delay is considerably lower than 300ms - on average, closer to 190ms.
 
-## <a name="faked-event-coordinates">"Faked" event coordinates</a>
+## "Faked" event coordinates
+{: #faked-event-coordinates}
 
 As noted in the "Desktop with assistive technology" and "Desktop with touchscreen and assistive technology" sections, even when not using a traditional pointing device, certain combinations of browser/AT generate "fake" mouse events for compatibility with legacy sites/scripts that hang behavior on traditional mouse events.
 
