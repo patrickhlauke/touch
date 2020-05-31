@@ -2,7 +2,7 @@
 title: "pointer/hover/any-pointer/any-hover test results"
 ---
 
-
+Results from manually verifying the reported values of the [`pointer` / `hover` / `any-pointer` / `any-hover` test](../) on different browsers/devices with additional input mechanisms.
 
 | Browser | `pointer:none` | `pointer:coarse` | `pointer:fine` | `hover:none` | `hover:hover` | `any-pointer:none` | `any-pointer:coarse` | `any-pointer:fine` | `any-hover:none` | `any-hover:hover` | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
