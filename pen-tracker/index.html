@@ -26,10 +26,16 @@ body, body * { user-select: none; -webkit-user-select: none; }
 // with separate Wacom-style digitizer tablets), a future version should really cater for
 // multiple pens (distinguished based on their pointerId)
 
-var camera, controls, scene, renderer, stylusObject, pressurePad, tiltX, tiltY, newTiltX, newTiltY;
+var camera, controls, scene, renderer, stylusObject, pressurePad, tiltX, tiltY, newTiltX, newTiltY, azimuth, altitude, newAzimuth, newAltitude, useTilt;
 
 init();
 animate();
+
+function useTiltOrAzimuthAltitudeForRotation(){
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	return urlParams.has('azimuth')?'use_azimuth':'use_tilt';
+}
 
 function init() {
 	// Basic setup
@@ -94,6 +100,12 @@ function init() {
 	tiltY = 0;
 	newTiltX = 0;
 	newTiltY = 0;
+	var untrustedPointerEvent = new PointerEvent('pointermove');	
+	useTilt = (untrustedPointerEvent.azimuthAngle === undefined) || (useTiltOrAzimuthAltitudeForRotation() === 'use_tilt');
+	azimuth = 0;
+	altitude = Math.PI/2;
+	newAzimuth = 0;
+	newAltitude = Math.PI/2;
 
 	// Lights
 	scene.add( new THREE.AmbientLight( 0x111111 ) );
@@ -124,7 +136,7 @@ function onWindowResize() {
 function onPointer(e) {
 	// only react to *primary* pen/stylus (as we're only drawing a single 3D pen)
 	if ( ( e.pointerType == 'pen' ) && e.isPrimary ) {
-		console.log( e.type + " - pressure: " + e.pressure + " tiltX: " + e.tiltX + " tiltY: " + e.tiltY + " button: " + e.button + " buttons: " + e.buttons);
+		console.log( e.type + " - pressure: " + e.pressure + " tiltX: " + e.tiltX + " tiltY: " + e.tiltY + " azimuth: " + e.azimuthAngle + " altitude: " + e.altitudeAngle + " button: " + e.button + " buttons: " + e.buttons);
 		if (e.type == 'pointerdown') {
 			// disable the orbit controls
 			e.preventDefault();
@@ -151,6 +163,10 @@ function onPointer(e) {
 				// we'd really need multiple objects and build an array/collection of pointers
 				newTiltX = -e.tiltX;
 				newTiltY = e.tiltY;
+				if(!useTilt){
+					newAzimuth = 2*Math.PI - e.azimuthAngle;
+					newAltitude = e.altitudeAngle;
+				}
 				stylusObject.position.x = pressurePad.position.x = ( ( e.x / window.innerWidth ) * 1000 ) - 500 ;
 				stylusObject.position.z = pressurePad.position.z = ( ( e.y / window.innerHeight ) *1000 ) - 500 ;
 				// change pressure indicator (minimum 0.05 scale)
@@ -172,17 +188,38 @@ function animate() {
 	// doing rotations on animation frame, rather than directly on pointermove,
 	// as they are more expensive to calculate, involving matrix transformations
 
-	// reset - to avoid complex calculation, simply rotate the object back to its original position
-	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , -tiltX * Math.PI / 180 );
-	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , -tiltY * Math.PI / 180 );
+	if(useTilt){ 
+	  // reset - to avoid complex calculation, simply rotate the object back to its original position
+	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , -tiltX * Math.PI / 180 );
+	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , -tiltY * Math.PI / 180 );
+	}else{
+	  // reset - to avoid complex calculation, simply rotate the object back to its original position
+	  // Keep in mind that the Z and Y axis are interchanged
+	  // myX== X 
+	  // myY == Z 
+	  // myZ == Y
+	  // altitude is a rotation with myY ( Z )
+	  // azimuth is a rotation with myZ  ( Y )
+	  var backRotation = new THREE.Euler(0, -azimuth, -altitude, 'ZYX');
+	  rotateByEulerAngle(stylusObject, backRotation);		
+	}
 	// update axis with the new tiltX/tiltY
 	// note: Pointer Events tiltX/tiltY are in degrees, not radians
 	// and the axes for tiltX/tiltY are different in relation to the standard three.js world,
 	// hence the weird mapping of tiltY to the world's x axis and tiltX to the world's z axis
 	tiltX = newTiltX;
 	tiltY = newTiltY;
-	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , tiltY * Math.PI / 180 );
-	rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , tiltX * Math.PI / 180 );
+	if(useTilt){
+	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , tiltY * Math.PI / 180 );
+	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , tiltX * Math.PI / 180 );
+	}else{
+	  azimuth = newAzimuth;
+	  altitude= newAltitude;
+	  // altitude is a rotation with myY ( Z )
+	  // azimuth is a rotation with myZ  ( Y )
+	  var forwardRotation = new THREE.Euler(0, azimuth, altitude, 'YZX');
+	  rotateByEulerAngle(stylusObject, forwardRotation);
+	}
 	render();
 }
 
@@ -198,6 +235,16 @@ function rotateAroundWorldAxis(object, axis, radians) {
     rotWorldMatrix.multiply( object.matrix ); // pre-multiply
     object.matrix = rotWorldMatrix;
     object.rotation.setFromRotationMatrix( object.matrix );
+}
+
+// helper function to rotate an object using an euler angle
+
+function rotateByEulerAngle(object, euler){
+	var rotMatrix = new THREE.Matrix4();
+	rotMatrix.makeRotationFromEuler(euler);
+	rotMatrix.multiply(object.matrix);
+	object.matrix = rotMatrix;
+	object.rotation.setFromRotationMatrix(object.matrix);
 }
 </script>
 </body>
