@@ -89,6 +89,12 @@ function draw() {
 			case 'MSPointerMove':
 			case 'MSPointerUp':
 				hud_props = ['pointer ('+points[i].pointerType+')'+((points[i].isPrimary === true) ? ' primary' : ''), 'pointerType: '+points[i].pointerType, 'isPrimary: '+points[i].isPrimary, 'pointerId: '+points[i].pointerId, 'clientX: '+points[i].clientX.toFixed(5)+' clientY: '+points[i].clientY.toFixed(5), 'button: '+points[i].button, 'buttons: '+points[i].buttons, 'width: '+points[i].width.toFixed(5), 'height: '+points[i].height.toFixed(5), 'tiltX: '+points[i].tiltX.toFixed(5)+' tiltY: '+points[i].tiltY.toFixed(5)];
+				if(points[i].azimuthAngle !== undefined) {
+					hud_props.push('azimuthAngle: ' + points[i].azimuthAngle.toFixed(5));
+				}
+				if(points[i].altitudeAngle !== undefined) {
+					hud_props.push('altitudeAngle: ' + points[i].altitudeAngle.toFixed(5));
+				}
 				if ((points[i].twist !== undefined)) {
 					hud_props.push('twist: '+points[i].twist.toFixed(5));
 				}
