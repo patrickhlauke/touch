@@ -8,7 +8,7 @@ Some of these results first appeared in my presentation [Getting touchy - an int
 
 See also [Peter-Paul Koch's "Touch table"](http://www.quirksmode.org/mobile/tableTouch.html), where he tests some further aspects beyond the scope of my tests.
 
-<small>Last updated 12 April 2020. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
+<small>Last updated 26 August 2020. See [complete change history](https://github.com/patrickhlauke/touch/commits/gh-pages/tests/results).</small>
 
 ## Contents
 {: .no_toc}
@@ -183,6 +183,7 @@ For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now be
 | Android 10 / Puffin 7.8.3 + mouse | `pointerover` > `pointerenter` > `mouseover` > `mouseenter` | `pointerdown` > `mousedown` > `focus` > `pointerup` > `mouseup` > `click` | `pointerdown` > `mousedown` > `pointerup` > `mouseup` > `click` | `pointerout` > `pointerleave` > `mouseout` > `mouseleave` <small>(after clicking somehwere else, `blur`)</small> |
 | iOS 13.1 / Safari/WebView + keyboard | `focus` | `click` | `click` | `blur` |
 | iOS 13.1 / Safari/WebView + mouse | *`none`* | `pointerover` > `pointerenter` > `pointerdown` > `touchstart` > `gotpointercapture` > `pointermove` > `pointermove` > `pointerup` > `lostpointercapture` > `pointerout` > `pointerleave` > `touchend` > `mouseover` > `mouseenter` > `mousemove` > `mousedown` > `mouseup` > `click` | `pointerover` > `pointerenter` > `pointerdown` > `touchstart` > `gotpointercapture` > `pointermove` > `pointermove` > `pointerup` > `lostpointercapture` > `pointerout` > `pointerleave` > `touchend` > `mousemove` > `mousedown` > `mouseup` > `click` | `mouseout` > `mouseleave`<br><small>(when clicking on another focusable/activatable element)</small> |
+| iOS 13.6 / Safari/WebView + keyboard<br><small>with "Full Keyboard Access" enabled</small> | `focus` | **`pointerover` > `pointerenter` > `pointerdown` > `touchstart` > `pointerover` > `mouseover` > `pointerenter` > `mouseenter` > `gotpointercapture` > `pointerup` > `lostpointercapture` > `pointerout` > `mouseout` > `pointerleave` > `mouseleave` > `pointerout` > `pointerleave` > `touchend` > `mousedown` > `mouseup`** > `click` | **`pointerove` > `pointerenter` > `pointerdown` > `touchstart` > `pointerover` > `mouseover` > `pointerenter` > `mouseenter` > `gotpointercapture` > `pointerup` > `lostpointercapture` > `pointerout` > `mouseout` > `pointerleave` > `mouseleave` > `pointerout` > `pointerleave` > `touchend` > `mousedown` > `mouseup`** > `click` | `blur` |
 | iPadOS 13.4 / Safari/WebView + mouse | `pointerover` > `mouseover` > `pointerenter` > `mouseenter` | `pointerdown` > `mousedown` > `pointerup` > `mouseup` > `click` | `pointerdown` > `mousedown` > `pointerup` > `mouseup` > `click` | `pointerout` > `mouseout` > `pointerleave` > `mouseleave` |
 
 Firefox OS (ZTE Open) currently does not support paired bluetooth mouse/keyboard.
@@ -205,11 +206,13 @@ For Android, most Chromium-based browsers (Edge, Samsung Internet, Brave) now be
 
 <del>iOS does not support paired mouse,</del> <del>paired keyboard only works in same situations as on-screen keyboard (e.g. when prompted to enter a web address, enter data in a text input) unless VoiceOver is also activated (in which case it supports full control, but acts the same as regular VoiceOver with touch gestures)</del>.
 
-iOS 12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>ALT</kbd>+<kbd>TAB</kbd> / <kbd>ALT</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).
+iOS 12.2 (and probably some earlier versions) now supports partial keyboard support even without VoiceOver - navigate using <kbd>Option</kbd>+<kbd>TAB</kbd> / <kbd>Option</kbd>+<kbd>SHIFT</kbd>+<kbd>TAB</kbd>, activate links and buttons using <kbd>ENTER</kbd> (but <kbd>SPACE</kbd> doesn't seem to work for buttons/controls).
 
 iOS 13 introduced support for mouse, but only as a pointing device for Accessibility > Touch > AssistiveTouch. Once paired, the mouse displays a cursor, but acts exactly like touch - it does not hover, or fire any `mouseover`/`mouseenter`/`mouseleave``mouseout` (or pointer events equivalent) events. In the pointer events it does fire (on clicking the mouse button), it identifes as a `type=="touch"` pointer.
 
 iPadOS 13.4 introduced full support for mouse. It now correctly behaves exactly like a desktop mouse. However, it seems to get confused when a mouse "suddenly appears" (e.g. when navigating via touch, and then simply clicking a mouse button that was previously positioned somehwere like a button ... it then sends a bizarre combination of touch, pointer and mouse events).
+
+iOS 13.6 (possibly earlier) has an additional setting under "Accessibility > Keyboards" to enable "Full Keyboard Access". When this is enabled, it is possible to navigate through apps and content (including web content) in a way that's comparable to desktop keyboard access. Note though that, as noted in the table, the event sequence that is fired includes Pointer Events, Touch Events, and fallback mouse events, rather than just classic keyboard events. This is presumably done as a backwards-compatibility measure to ensure that content that makes assumptions ("it's a mobile/iPhone, so don't need to listen to keyboard events...") still works.
 
 Android 10 / Firefox 68 has some oddities relating to mouse support - see [https://bugzilla.mozilla.org/show_bug.cgi?id=1629353](https://bugzilla.mozilla.org/show_bug.cgi?id=1629353). These have been eliminated in the more recent Firefox Preview builds, which use different mouse handling on Android.
 
