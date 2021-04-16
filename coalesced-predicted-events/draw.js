@@ -38,6 +38,7 @@ const eventPos = event => {
     : { x: event.touches[0].clientX, y: event.touches[0].clientY };
 };
 
+initialiseCanvas();
 resetCanvas();
 
 canvas.addEventListener("pointerdown", startDrawing);
@@ -164,15 +165,20 @@ function stopDrawing() {
   drawPoints();
 }
 
+function initialiseCanvas() {
+  const containerRect = container.getBoundingClientRect();
+  canvas.width = containerRect.width * window.devicePixelRatio;
+  canvas.height = containerRect.height * window.devicePixelRatio;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+
 function resetCanvas() {
   uniquePoints = [];
   coalescedPoints = [];
   predictedPoints = [];
   totalUniquePoints = 0;
   totalCoalescedPoints = 0;
-  const containerRect = container.getBoundingClientRect();
-  canvas.width = containerRect.width * window.devicePixelRatio;
-  canvas.height = containerRect.height * window.devicePixelRatio;
   const ctx = canvas.getContext("2d");
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
