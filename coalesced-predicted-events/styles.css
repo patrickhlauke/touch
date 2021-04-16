@@ -1,0 +1,22 @@
+body {
+  font-family: Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  user-select: none;
+}
+h1 { font-size: 1.2em; font-weight: normal; }
+h1 code { font-size: 1.2em; }
+a, a:link, a:visited, a:focus, a:hover { color: #333; }
+header { padding-bottom: 1rem; font-size: 0.85em; }
+canvas {
+  box-sizing: border-box;
+  touch-action: none;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #999;
+  background: #f9f9f9;
+}
+  
