@@ -62,14 +62,18 @@ function startDrawing(event) {
     eventPos(event).x - rect.left,
     eventPos(event).y - rect.top
   ]);
-  coalescedPoints.push([
-    eventPos(event).x - rect.left,
-    eventPos(event).y - rect.top
-  ]);
-  predictedPoints.push([
-    eventPos(event).x - rect.left,
-    eventPos(event).y - rect.top
-  ]);
+  if (supportsCoalescedEvents) {
+    coalescedPoints.push([
+      eventPos(event).x - rect.left,
+      eventPos(event).y - rect.top
+    ]);
+  }
+  if (supportsPredictedEvents) {
+    predictedPoints.push([
+      eventPos(event).x - rect.left,
+      eventPos(event).y - rect.top
+    ]);
+  }
   canvas.addEventListener("pointermove", savePoints);
   rAF = requestAnimationFrame(drawPoints);
 }
