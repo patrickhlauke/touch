@@ -2,8 +2,6 @@ let rAF;
 let uniquePoints = [];
 let coalescedPoints = [];
 let predictedPoints = [];
-let totalUniquePoints = 0;
-let totalCoalescedPoints = 0;
 let rect;
 
 let drawing = false;
@@ -59,8 +57,6 @@ if (!supportsPointerEvents) {
 function startDrawing(event) {
   resetCanvas();
   drawing = true;
-  totalUniquePoints = 0;
-  totalCoalescedPoints = 0;
   rect = canvas.getBoundingClientRect();
   uniquePoints.push([
     eventPos(event).x - rect.left,
@@ -107,11 +103,9 @@ function savePoints(event) {
 }
 
 function drawPoints() {
-  totalUniquePoints += uniquePoints.length;
-  totalCoalescedPoints += coalescedPoints.length;
   const ctx = canvas.getContext("2d");
 
-  /* individual non-coalesced points */
+  /* individual raw non-coalesced points */
 
   ctx.lineWidth = 2;
   ctx.strokeStyle = "#F00";
@@ -121,19 +115,9 @@ function drawPoints() {
     ctx.arc(point[0], point[1], 4, 0, Math.PI * 2, true);
     ctx.stroke();
   });
-
-  /* draw continuous line for the non-coalesced points */
-
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = "#AAA"
-
-  ctx.beginPath();
-  coalescedPoints.forEach(point => {
-    ctx.lineTo(point[0], point[1]);
-    ctx.moveTo(point[0], point[1]);
-  });
-  ctx.closePath();
-  ctx.stroke();
+  
+  coalescedPoints = coalescedPoints.slice(-4); /* free up some memory/processing */
+  
 
   /* actual unique points */
 
@@ -145,20 +129,7 @@ function drawPoints() {
     ctx.fill();
   });
 
-  /* draw continuous line for the regular points, if no line was drawn for the non-coalesced ones */
-
-  if (coalescedPoints.length == 1) { 
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "#AAA"
-  
-    ctx.beginPath();
-    uniquePoints.forEach(point => {
-      ctx.lineTo(point[0], point[1]);
-      ctx.moveTo(point[0], point[1]);
-    });
-    ctx.closePath();
-    ctx.stroke();
-  }
+  uniquePoints = uniquePoints.slice(-4); /* free up some memory/processing */
 
   /* predicted points */
 
@@ -171,7 +142,37 @@ function drawPoints() {
     ctx.stroke();
   });
 
-  predictedPoints = []; 
+  predictedPoints = []; /* free up some memory/processing */
+ 
+  /* draw continuous line for the regular points */
+
+  ctx.lineWidth = 1;
+
+  if (coalescedPoints.length == 1) {
+    ctx.strokeStyle = "#AAA"; /* if there are no non-coalesced raw points, make it solid */
+  } else {
+    ctx.strokeStyle = "#AAAAAA88"; /* otherwise, make it semi-transparent so we can see the contrast in line smoothness */
+  }
+
+  ctx.beginPath();
+  uniquePoints.forEach(point => {
+    ctx.lineTo(point[0], point[1]);
+    ctx.moveTo(point[0], point[1]);
+  });
+  ctx.closePath();
+  ctx.stroke();
+    
+  /* draw continuous line for the raw non-coalesced points */
+
+  ctx.strokeStyle = "#FFAAAABB"
+
+  ctx.beginPath();
+  coalescedPoints.forEach(point => {
+    ctx.lineTo(point[0], point[1]);
+    ctx.moveTo(point[0], point[1]);
+  });
+  ctx.closePath();
+  ctx.stroke();
 
   if (rAF) {
     rAF = requestAnimationFrame(drawPoints);
@@ -198,8 +199,6 @@ function resetCanvas() {
   uniquePoints = [];
   coalescedPoints = [];
   predictedPoints = [];
-  totalUniquePoints = 0;
-  totalCoalescedPoints = 0;
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
