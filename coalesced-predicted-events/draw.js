@@ -81,7 +81,7 @@ function startDrawing(event) {
 function savePoints(event) {
   if (drawing) {
     event.preventDefault();
-    if (typeof event.getCoalescedEvents === "function") {
+   if (typeof event.getCoalescedEvents === "function") {
       const events = event.getCoalescedEvents();
       for (const event of events) {
         coalescedPoints.push([
@@ -111,14 +111,18 @@ function drawPoints() {
   totalCoalescedPoints += coalescedPoints.length;
   const ctx = canvas.getContext("2d");
 
+  /* individual non-coalesced points */
+
   ctx.lineWidth = 2;
   ctx.strokeStyle = "#F00";
 
   coalescedPoints.forEach(point => {
     ctx.beginPath();
-    ctx.arc(point[0], point[1], 4, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
+    ctx.arc(point[0], point[1], 4, 0, Math.PI * 2, true);
     ctx.stroke();
   });
+
+  /* draw continuous line for the non-coalesced points */
 
   ctx.lineWidth = 1;
   ctx.strokeStyle = "#AAA"
@@ -131,22 +135,39 @@ function drawPoints() {
   ctx.closePath();
   ctx.stroke();
 
-  /* coalescedPoints = []; */
+  /* actual unique points */
 
   ctx.fillStyle = "#444";
 
   uniquePoints.forEach(point => {
     ctx.beginPath();
-    ctx.arc(point[0], point[1], 5, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
+    ctx.arc(point[0], point[1], 5, 0, Math.PI * 2, true);
     ctx.fill();
   });
+
+  /* draw continuous line for the regular points, if no line was drawn for the non-coalesced ones */
+
+  if (coalescedPoints.length == 1) { 
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#AAA"
+  
+    ctx.beginPath();
+    uniquePoints.forEach(point => {
+      ctx.lineTo(point[0], point[1]);
+      ctx.moveTo(point[0], point[1]);
+    });
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  /* predicted points */
 
   ctx.lineWidth = 1;
   ctx.strokeStyle = "#888888"
 
   predictedPoints.forEach(point => {
     ctx.beginPath();
-    ctx.arc(point[0], point[1], 4, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
+    ctx.arc(point[0], point[1], 4, 0, Math.PI * 2, true);
     ctx.stroke();
   });
 
