@@ -4,7 +4,7 @@ let coalescedPoints = [];
 let predictedPoints = [];
 let rect;
 
-let drawing = false;
+let activePointerId = null;
 
 const supportsPointerEvents =
   typeof document.defaultView.PointerEvent !== "undefined";
@@ -55,8 +55,10 @@ if (!supportsPointerEvents) {
 }
 
 function startDrawing(event) {
+  /* bail if there's already an active pointer that's doing the drawing, or if it's not a primary pointer */
+  if (activePointerId || !event.isPrimary) { return; }
   resetCanvas();
-  drawing = true;
+  activePointerId = event.pointerId;
   rect = canvas.getBoundingClientRect();
   uniquePoints.push([
     eventPos(event).x - rect.left,
@@ -79,9 +81,10 @@ function startDrawing(event) {
 }
 
 function savePoints(event) {
-  if (drawing) {
+  /* only save points if they're from the pointer we started tracking */
+  if (event.pointerId === activePointerId) {
     event.preventDefault();
-   if (typeof event.getCoalescedEvents === "function") {
+    if (typeof event.getCoalescedEvents === "function") {
       const events = event.getCoalescedEvents();
       for (const event of events) {
         coalescedPoints.push([
@@ -184,7 +187,7 @@ function drawPoints() {
 }
 
 function stopDrawing() {
-  drawing = false;
+  activePointerId = null;
   canvas.removeEventListener("pointermove", savePoints);
   cancelAnimationFrame(rAF);
   rAF = null;
