@@ -144,7 +144,7 @@ function onPointer(e) {
 	
 	if ( ( e.pointerType == 'pen' ) && e.isPrimary ) {
 		var out = document.getElementById("output");
-		out.innerHTML = "pressure: " + e.pressure + "<br>tiltX: " + e.tiltX + "<br>tiltY: " + e.tiltY + "<br>azimuthAngle: " + e.azimuthAngle + "<br>altitudeAngle: " + e.altitudeAngle + "<br>button: " + e.button + "<br>buttons: " + e.buttons;
+		out.innerHTML = "pressure: " + e.pressure + "<br>tangentialPressure: " + e.tangentialPressure + "<br>tiltX: " + e.tiltX + "<br>tiltY: " + e.tiltY + "<br>twist: " + e.twist + "<br>width: " + e.width + "<br>height: " + e.height + "<br>azimuthAngle: " + e.azimuthAngle + "<br>altitudeAngle: " + e.altitudeAngle + "<br>button: " + e.button + "<br>buttons: " + e.buttons;
 	
 		if (e.type == 'pointerdown') {
 			// disable the orbit controls
