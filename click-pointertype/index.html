@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta charset="UTF-8">
+<title>click as Pointer Event</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<h1><code>click</code> as Pointer Event</h1>
+<p>We can check which pointer type (if any) led to a <code>click</code> event being dispatched.</p>
+<button>Click me…</button>
+<pre><output></output></pre>
+<script>
+let b = document.querySelector('button');
+let o = document.querySelector('output');
+b.addEventListener('click',function(e) {
+  if ("pointerType" in e) {
+    if (e.pointerType) {
+      o.innerHTML = "pointerType == '" + e.pointerType + "'";
+    } else {
+      o.innerHTML = "pointerType == ''";
+    }
+  } else {
+    o.innerHTML = "click event is not a PointerEvent";
+  }
+  console.dir(e)
+});
+</script>
+</body>
+</html>

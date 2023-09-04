@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pointer Events - pen with tilt and pressure tracker (WebGL)</title>
+<title>Pointer Events - pen tracker (WebGL)</title>
 <meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script> -->
@@ -12,9 +12,9 @@ body { touch-action: none; margin: 0; padding: 0; overflow: hidden; }
 body, body * { user-select: none; -webkit-user-select: none; }
 #output {
 	position: absolute; z-index: 10; top: 0; left: 0;
-    color: #fff; background: rgba(255,255,255,0.1);
-    margin: 1em; padding: 1em; border: 1px solid #333;
-    font: 1rem/1.5 monospace;
+	color: #fff; background: rgba(255,255,255,0.1);
+	margin: 1em; padding: 1em; border: 1px solid #333;
+	font: 1.25rem/1.5 monospace;
 }
 </style>
 </head>
@@ -197,11 +197,11 @@ function animate() {
 	// doing rotations on animation frame, rather than directly on pointermove,
 	// as they are more expensive to calculate, involving matrix transformations
 
-	if(useTilt){ 
+	if (useTilt) { 
 	  // reset - to avoid complex calculation, simply rotate the object back to its original position
 	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , -tiltX * Math.PI / 180 );
 	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , -tiltY * Math.PI / 180 );
-	}else{
+	} else {
 	  // reset - to avoid complex calculation, simply rotate the object back to its original position
 	  // Keep in mind that the Z and Y axis are interchanged
 	  // myX== X 
@@ -209,8 +209,8 @@ function animate() {
 	  // myZ == Y
 	  // altitude is a rotation with myY ( Z )
 	  // azimuth is a rotation with myZ  ( Y )
-	  var backRotation = new THREE.Euler(0, -azimuth, -altitude, 'ZYX');
-	  rotateByEulerAngle(stylusObject, backRotation);		
+		var backRotation = new THREE.Euler(0, -azimuth, -altitude, 'ZYX');
+		rotateByEulerAngle(stylusObject, backRotation);		
 	}
 	// update axis with the new tiltX/tiltY
 	// note: Pointer Events tiltX/tiltY are in degrees, not radians
@@ -218,16 +218,16 @@ function animate() {
 	// hence the weird mapping of tiltY to the world's x axis and tiltX to the world's z axis
 	tiltX = newTiltX;
 	tiltY = newTiltY;
-	if(useTilt){
+	if (useTilt) {
 	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 1, 0, 0 ) , tiltY * Math.PI / 180 );
 	  rotateAroundWorldAxis( stylusObject, new THREE.Vector3( 0, 0, 1 ) , tiltX * Math.PI / 180 );
-	}else{
-	  azimuth = newAzimuth;
-	  altitude= newAltitude;
+	} else {
+		azimuth = newAzimuth;
+		altitude= newAltitude;
 	  // altitude is a rotation with myY ( Z )
 	  // azimuth is a rotation with myZ  ( Y )
-	  var forwardRotation = new THREE.Euler(0, azimuth, altitude, 'YZX');
-	  rotateByEulerAngle(stylusObject, forwardRotation);
+		var forwardRotation = new THREE.Euler(0, azimuth, altitude, 'YZX');
+		rotateByEulerAngle(stylusObject, forwardRotation);
 	}
 	render();
 }
@@ -239,11 +239,11 @@ function render() {
 // Helper function to rotate an object around an arbitrary axis in world space 
 
 function rotateAroundWorldAxis(object, axis, radians) {
-    var rotWorldMatrix = new THREE.Matrix4();
-    rotWorldMatrix.makeRotationAxis( axis.normalize(), radians );
-    rotWorldMatrix.multiply( object.matrix ); // pre-multiply
-    object.matrix = rotWorldMatrix;
-    object.rotation.setFromRotationMatrix( object.matrix );
+	var rotWorldMatrix = new THREE.Matrix4();
+	rotWorldMatrix.makeRotationAxis( axis.normalize(), radians );
+	rotWorldMatrix.multiply( object.matrix ); // pre-multiply
+	object.matrix = rotWorldMatrix;
+	object.rotation.setFromRotationMatrix( object.matrix );
 }
 
 // helper function to rotate an object using an euler angle

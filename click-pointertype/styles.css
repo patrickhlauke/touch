@@ -1,0 +1,37 @@
+html {
+  font-size: 2.5em;
+}
+
+body {
+  font-family: Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  user-select: none;
+}
+h1 { font-size: 1.5rem; font-weight: normal; }
+
+button {
+  display: inline-block;
+  width: 10em;
+  font-size: 1.25rem;
+  padding: 1rem;
+  border: 0.1em solid black;
+  border-radius: 0.5em;
+}
+
+button:focus-visible {
+  outline: 0.1em solid red;
+  outline-offset: 0.05em;
+}
+
+button:hover, button:focus-visible {
+  background: #005A9C;
+  color: #FFF;
+}
+
+output {
+  font-size: 1.5rem;
+}
