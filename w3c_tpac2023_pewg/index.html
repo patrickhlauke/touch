@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Pointer Events Working Group update / TPAC 2023 / Patrick H. Lauke</title>
+    <link rel="stylesheet" href="shower/themes/redux-w3clite/styles/screen.css">
+    <link rel="stylesheet" href="shower/themes/redux-w3clite/styles/overrides.css">
+    <link rel="stylesheet" href="highlight/styles/sunburst.css">
+    <script src="highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body class="shower list">
+<header class="caption">
+    <h1>Pointer Events Working Group update / TPAC 2023</h1>
+</header>
+
+<!-- -->
+
+<section class="slide title" id="title"><div>
+    <div class="titlestrap">
+        <img src="./images/w3c.svg" alt="W3C" width="125">
+        <h1>Pointer Events Working Group update</h1>
+        <p>changes and additions in <strong>Pointer Events Level 3</strong></p>
+    </div>
+    <p class="info">Patrick H. Lauke / TPAC 2023</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>What are Pointer Events</h2>
+    <p>To better address devices with different input types, this specification defines a more abstract form of input, called a pointer.</p>
+    <p>A higher level event model based on mouse events, but also covering pen, touch, and other (future) pointing devices.</p>
+    <p>Latest stable recommendation: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/pointerevents2/">Pointer Events Level 2 (4 April 2019)</a></p>
+    <p>Work has since been ongoing towards <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/">Pointer Events Level 3 (Editor's draft August 2023)</a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>Pointer Events Level 3</h2>
+    <p>Beyond clarifications for undocumented cases/scenarios that came out of implementation experience and developer adoption, Level 3 includes a few new features:</p>
+    <ul>
+        <li><strong><code>pointerrawupdate</code></strong> event to better react to fast movements</li>
+        <li><strong><code>getCoalescedEvents()</code></strong> and <strong><code>getPredictedEvents()</code></strong> methods</li>
+        <li><strong><code>altitudeAngle</code></strong> and <strong><code>azimuthAngle</code></strong> properties</li>
+        <li>bonus: redefinition of <strong><code>click</code></strong>, <strong><code>auxclick</code></strong>, and <strong><code>contextmenu</code></strong></li>
+    </ul>
+</div></section>
+
+<!-- -->
+
+<section class="slide impact"><div>
+    <div>
+        <h2><code>pointerrawupdate</code></h2>
+    </div>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>The problem</h2>
+    <p>For performance reasons, user agents <strong>MAY</strong> delay the dispatch of <code>pointermove</code> events (as they already do for <code>mousemove</code>).</p>
+    <p>For very fast pointer movements, user agents will generally "coalesce" individual small movements into a single <code>pointermove</code> event.</p>
+    <p>While good for performance, this can be problematic for scenarios where authors want to accurately track high-frequency pointer movements – for instance, drawing applications.</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide"><div>
+    <img src="./images/regular-points.png" alt="">
+    <p>Demo: <a target="_blank" rel="noopener" href="https://patrickhlauke.github.io/touch/draw-pointermove/index.html">basic drawing application using <code>pointermove</code></a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2><code>pointerrawupdate</code></h2>
+    <p>The new <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#the-pointerrawupdate-event"><code>pointerrawupdate</code></a> event aims help make these applications work smoother.</p>
+    <p>Compared to the <code>pointermove</code> event, user agents <strong>SHOULD</strong> dispatch <code>pointerrawupdate</code> as soon as possible.</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide"><div>
+    <img src="./images/rawupdate-points.png" alt="">
+    <p>Demo: <a target="_blank" rel="noopener" href="https://patrickhlauke.github.io/touch/draw-pointerrawupdate/index.html">basic drawing application using <code>pointerrawupdate</code></a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2><code>pointerrawupdate</code></h2>
+    <p>May have a performance impact – authors should keep code executed in response to <code>pointerrawupdate</code> to a minimum (e.g. just store coordinates)</p>
+    <p><strong>Note:</strong> even though <code>pointerrawupdate</code> should fire as soon as possible, the user agent may still coalesce a few individual events/changes.</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide impact"><div>
+    <div>
+        <h2><code>getCoalescedEvents()</code></h2>
+    </div>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>The problem</h2>
+    <p>For very fast pointer movements, user agents will generally "coalesce" individual small movements into a single<br>
+    <code>pointermove</code> or <code>pointerrawupdate</code> event</p>
+    <p>Again, for certain applications, authors may want access to <strong>all</strong> the separate events that were coalesced by the user agent</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2><code>getCoalescedEvents()</code></h2>
+    <p>The new <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#dom-pointerevent-getcoalescedevents"><code>getCoalescedEvents()</code></a> method gives authors access to all the raw position/property changes that were coalesced into an event</p>
+    <p>Best of both worlds – allows for increased granularity, without incurring additional performance penalties:</p>
+    <ul>
+        <li>listen to regular <code>pointermove</code> (or <code>pointerrawupdate</code>) events</li>
+        <li>then process all the coalesced events for that event</li>
+    </ul>
+</div></section>
+
+<!-- -->
+
+<section class="slide code"><div>
+    <pre><code class="html">foo.addEventListener("pointermove", (e)=> {
+    <strong>if (e.getCoalescedEvents) {</strong>
+        <strong>for (let ec of e.getCoalescedEvents()) {</strong>
+            <strong>// access the coalesced event properties</strong>
+            <strong>// like clientX/clientY (more granular)</strong>
+        <strong>}</strong>
+    <strong>}</strong> else {
+        // fallback: use the pointermove event's
+        // properties instead
+    }
+});</code></pre>
+</div></section>
+
+<!-- -->
+
+<section class="slide"><div>
+    <img src="./images/coalesced-points.png" alt="">
+    <p>Demo: <a target="_blank" rel="noopener" href="https://patrickhlauke.github.io/touch/draw-pointermove-coalesced/index.html">basic drawing application using <code>pointermove</code> and <code>getCoalescedEvents()</code></a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide impact"><div>
+    <div>
+        <h2><code>getPredictedEvents()</code></h2>
+    </div>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>The problem</h2>
+    <p>Even with the use of <code>pointerrawupdate</code> and <code>getCoalescedEvents()</code>, certain applications – such as drawing applications – may still exhibit perceived latency.</p>
+    <p>There will always be a gap, no matter how small, between an event being dispatched and the application reacting to it.</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2><code>getPredictedEvents()</code></h2>
+    <p>Some user agents have built-in algorithms which, after a series of confirmed pointer movements, can predict likely future movements.</p>
+    <p>The new <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#dom-pointerevent-getpredictedevents"><code>getPredictedEvents()</code></a> method gives authors access to these predicted events</p>
+    <p>These can be helpful in scenarios like drawing applications: <strong>draw ahead</strong> to predicted positions to reduce perceived latency (but discard these speculative/predicted points when the real points are received).</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide code"><div>
+    <pre><code class="html">foo.addEventListener("pointermove", (e)=> {
+
+    // regular processing of the event,
+    // and/or any coalesced events
+
+    <strong>if (e.getPredictedEvents) {</strong>
+        <strong>for (let ep of e.getPredictedEvents()) {</strong>
+            <strong>// do something with the predicted events,</strong>
+            <strong>// such as speculatively drawing ahead</strong>
+        <strong>}</strong>
+    <strong>}</strong>
+});</code></pre>
+</div></section>
+
+<!-- -->
+
+<section class="slide"><div>
+    <img src="./images/predicted-points.png" alt="">
+    <p>Demo: <a target="_blank" rel="noopener" href="https://patrickhlauke.github.io/touch/draw-predicted/index.html">basic drawing application using <code>pointermove</code> and <code>getPredictedEvents()</code></a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>Out of scope</h2>
+    <p>Both <code>getCoalescedEvents()</code> and <code>getPredictedEvents()</code> <strong>only define the methods/API</strong> to access coalesced and predicted events</p>
+    <p>The Pointer Events specification itself does <strong>not</strong> define how events are coalesced or predicted – this is left up to individual implementations (operating system / user agent dependent)</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide impact"><div>
+    <div>
+        <h2><code>altitudeAngle</code> / <code>azimuthAngle</code></h2>
+    </div>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>The problem</h2>
+    <p>The original Pointer Events specification defined <strong><code>tiltX</code></strong> and <strong><code>tiltY</code></strong> properties to convey the orientation of a stylus</p>
+    <p>These properties are, admittedly, <strong>not very intuitive</strong> for developers</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <img src="./images/tiltX-tiltY_combined.png" alt="Illustrations visualising tiltX and tiltY, in the context of a tablet with a stylus" style="height: 300px">
+    <p><strong><code>tiltX</code></strong>: The plane angle (in degrees, in the range of [-90,90]) between the Y-Z plane and the plane containing both the transducer (e.g. pen/stylus) axis and the Y axis …</p>
+    <p><strong><code>tiltY</code></strong>: The plane angle … between the X-Z plane and the plane containing both the transducer … axis and the X axis …</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2><code>altitudeAngle</code> / <code>azimuthAngle</code></h2>
+    <p>Pointer Events Level 3 "borrows" the <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#dom-pointerevent-altitudeangle"><code>altitudeAngle</code></a> and <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#dom-pointerevent-azimuthangle"><code>azimuthAngle</code></a> properties from <a target="_blank" rel="noopener" href="https://w3c.github.io/touch-events/">Touch Events</a><br>
+    <small>(introduced when Apple expanded Touch Events to support Pencil on iPad)</small></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <img src="./images/altitudeAngle-azimuthAngle_combined.png" alt="Illustrations visualising altitudeAngle and azimuthAngle, in the context of a tablet with a stylus" style="height: 250px">
+    <p><strong><code>altitudeAngle</code></strong>: The altitude (in radians) of the transducer (e.g. pen/stylus), in the range [0,π/2] — where 0 is parallel to the surface (X-Y plane), and π/2 is perpendicular to the surface. …</p>
+    <p><strong><code>azimuthAngle</code></strong>: The azimuth angle (in radians) of the transducer …, in the range [0, 2π] — where 0 represents a transducer whose cap is pointing in the direction of increasing X values (point to "3 o'clock" if looking straight down) on the X-Y plane, and the values progressively increase when going clockwise …</p>
+</div></section>
+
+<!-- -->
+<section class="slide listing"><div>
+    <h2><code>altitudeAngle</code> / <code>azimuthAngle</code></h2>
+    <p>User agents <strong>MUST</strong> provide both the classic <code>tiltX</code>/<code>tiltY</code> and the new <code>altitudeAngle</code>/<code>azimuthAngle</code> properties</p>
+    <p>The specification includes algorithm for <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#converting-between-tiltx-tilty-and-altitudeangle-azimuthangle">converting between the two sets</a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide"><div>
+    <img src="./images/pen-tracker.png" alt="">
+    <p>Demo: <a target="_blank" rel="noopener" href="https://patrickhlauke.github.io/touch/pen-tracker/index.html">pen tracker (using WebGL)</a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide impact"><div>
+    <div>
+        <h2>Bonus:<br><code>click</code> / <code>auxclick</code> / <code>contextmenu</code></h2>
+    </div>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>Redefining events in UI Events</h2>
+    <p>The specification <a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/#dfn-click-auxclick-and-contextmenu-events">redefines <code>click</code>, <code>auxclick</code>, and <code>contextmenu</code> as Pointer Events</a></p>
+    <p>This change is already in the latest <a target="_blank" rel="noopener" href="https://www.w3.org/TR/uievents/">UI Events working draft</a></p>
+    <p>Possible new application: determine what type of input caused one of these events to be fired using the <code>pointerType</code> property</p>
+</div></section>
+
+<!-- -->
+
+<section class="slide"><div>
+    <img src="./images/click-pointerType.png" alt="">
+    <p>Demo: <a target="_blank" rel="noopener" href="https://patrickhlauke.github.io/touch/click-pointertype/index.html">basic button with pointerType check</a></p>
+</div></section>
+
+<!-- -->
+
+<section class="slide listing"><div>
+    <h2>Thank you…</h2>
+    <p>Currently working on last few blockers for Level 3 and <a target="_blank" rel="noopener" href="https://wpt.fyi/results/pointerevents?label=experimental&label=master&aligned">Web Platform Tests</a></p>
+    <p>Hoping to go to Candidate Recommendation (CR) shortly</p>
+    <ul>
+        <li><a target="_blank" rel="noopener" href="https://w3c.github.io/pointerevents/">Pointer Events Level 3 (Editor's Draft)</a></li>
+        <li><a target="_blank" rel="noopener" href="https://github.com/w3c/pointerevents">github.com/w3c/pointerevents</a></li>
+    </ul>
+    <p><a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="images/cc-by-nc-sa.svg" width="150" alt="Creative Commons: Attribution Non-Commercial Share-Alike"></a></p>
+</div></section>
+
+    <!--
+        To hide progress bar from entire presentation
+        just remove “progress” element.
+        -->
+    <div class="progress"><div></div></div>
+    <script src="shower/shower.min.js"></script>
+</body>
+</html>

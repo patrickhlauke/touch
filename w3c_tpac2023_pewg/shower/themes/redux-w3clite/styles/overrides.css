@@ -1,0 +1,394 @@
+html, body { background: #005A9C !important; }
+
+h1,h2,h3,h4,h5,h6 { font-weight:bold; }
+
+strong {
+    white-space: nowrap;
+}
+
+hr {
+    border: 1px #FCB316 solid;
+    margin: 2em auto;
+}
+
+abbr {
+    text-decoration: underline dashed;
+}
+
+.slide p.context {
+    font-size: 0.55em;
+}
+
+.slide blockquote {
+	background: #eee;
+	padding: 0.05em 1.75em;
+}
+
+.slide q {
+    background: #eee;
+    padding: 0 0.5em;
+}
+
+.slide blockquote ul {
+    margin-bottom: 0;
+}
+
+.slide blockquote ul li {
+    line-height: 1;
+}
+
+.caption { color: #fff; }
+
+.list {
+	background: #242424;
+}
+
+.list .slide:before {
+	-webkit-box-shadow: 0 0 0 1px #fff;
+	box-shadow: 0 0 0 1px #fff;
+}
+
+.list .slide.impact>div,
+.list .slide.statement>div {
+	position: absolute;
+	top: 0;
+	-webkit-transform: translateY(0);
+	transform: translateY(0);
+}
+
+.list .slide:after,
+.list .slide.cover:after,
+.list .slide.shout:after {
+	content: none;
+}
+
+.slide {
+	text-align: center;
+	background: #EBEBEB;
+	color: #111;
+	/* background: radial-gradient(ellipse at center, #FFF 0%,#FFF 60%,#FFF 60%,#F7F7F7 100%); */
+}
+
+.list .slide {
+	text-align: center;
+}
+
+.slide:after {
+	content: none;
+}
+
+.slide h2 {
+	margin-bottom: 0.5em;
+}
+
+.slide pre {
+	margin: 0 0 1em;
+}
+
+.slide pre mark {
+	background: #151515;
+	color: #FFF;
+	font-style: normal;
+	font-weight: bold;
+	padding: 0.05em 0.25em;
+	border: 1px #999 solid;
+}
+
+.slide pre code {
+	line-height: 1.25;
+}
+
+.slide p {
+	margin-top: 0.5em;
+	margin-bottom: auto;
+	line-height: 1.25;
+}
+
+.slide ul {
+	margin-top: 0.5em;
+}
+
+.slide ul li {
+	line-height: 1.5;
+	margin-bottom: 0.5em;
+}
+
+.slide ul {
+	list-style: none;
+}
+
+.slide ul li::before {
+	content: "\25AA\00A0\00A0\2009"; /* square */
+	color: #46BFCE; /* not a corporate color, but it's what the powerpoint template uses - can also use #0ff on dark for even better contrast? */
+	font-weight: bold;
+}
+
+.slide ol li:before {
+	color: #005A9C;
+}
+
+.slide.impact ol li:before {
+	color: #0FF;
+}
+
+.slide.statement ol li:before {
+	color: #0FF;
+}
+
+.slide small {
+	font-size: 0.85em;
+}
+
+.slide.listing {
+	text-align: left;
+}
+
+.slide.impact,
+.slide.statement {
+	background: #5B5B5B;
+	color: #fff;
+	font-size: 2.25em;
+	line-height: 1.25;
+}
+
+.slide.impact {
+	background: #4AA0B1;
+}
+
+.slide.statement strong {
+	color: #66D9EF;
+	background: none;
+}
+
+.slide.impact div,
+.slide.statement div {
+	padding-top: 0;
+	height: 100%;
+}
+
+.slide.impact>div div,
+.slide.statement>div div,
+.slide.cover.impact>div div,
+.slide.cover.statement>div div {
+	height: auto;
+	top: 50%;
+	-webkit-transform: translateY(-55%);
+	transform: translateY(-55%);
+	position: relative;
+	padding-top: 0;
+}
+
+.slide.cover.impact>div,
+.slide.cover.statement>div {
+	position: absolute;
+	top: 0;
+	-webkit-transform: none;
+	transform: none;
+	height: inherit;
+}
+
+.slide.cover.impact>div div,
+.slide.cover.statement>div div {
+	background: rgba(255, 255, 255, 0.8);
+	color: #000;
+}
+
+.slide.title img {
+	position: relative;
+	display: inline;
+}
+
+.slide.title h1 {
+	font-size: 1.75em;
+	line-height: 1;
+}
+
+del { opacity: 0.75; }
+
+section.slide {
+	object-fit: contain;
+}
+
+section img {
+	max-height: 45vh;
+	margin: 0 auto;
+	display: block;
+	max-width: 90%;
+}
+section img.cover {
+	min-height: 100%;
+	max-height: none;
+	min-width: 100%;
+}
+
+section dd {
+	margin-bottom: 1em;
+}
+
+pre code.js,
+pre code.css,
+pre code.html { text-align:left; }
+
+/* title slide */
+
+.slide.title {
+	background: #005A9C;
+	color: #fff;
+}
+
+.slide.title h2 {
+	text-transform: lowercase;
+	font-weight: bold;
+	letter-spacing: -0.05em;
+	margin: 0;
+	padding: 0.1em 0 0.1em 0;
+	font-size: 3em;
+}
+
+.slide.title strong {
+	color: #005A9C;
+	background: #fff;
+	padding: 0 0.25em;
+}
+
+.slide.title .titlestrap {
+	text-align: left;
+	padding: 0.5em;
+	margin: 0 -2em 0 -3em;
+	height: auto;
+	top: 50%;
+	-webkit-transform: translateY(-90%);
+	transform: translateY(-90%);
+	position: relative;
+	padding-top: 0;
+}
+
+.slide.title .titlestrap p {
+	font-weight: 700;
+}
+
+.slide.title .info {
+	position: absolute;
+	bottom: 0;
+	background: #FFF;
+	color: #333;
+	padding: 1em 1em 1em 4em;
+	width: 100%;
+	left: 0;
+	text-align: left;
+	font-size: 0.75em;
+}
+
+.slide {
+	background: #fff;
+	color: #333;
+}
+
+.slide h2, .slide h3, .slide h4, .slide h5, .slide h6 {
+	color: #005A9C;
+}
+
+.slide a {
+	color: #005A9C;
+	text-decoration: none;
+	border-bottom: #005A9C66 0.05em solid;
+}
+
+.slide a:focus, .slide a:hover, .slide a:active {
+	border-bottom: #005A9Cee 0.05em solid;
+}
+
+.slide strong {
+	background: #005A9C;
+	color: #fff;
+	padding: 0 0.25em;
+}
+
+
+
+.slide.code {
+	background: #242424;
+	color: #fff;
+}
+
+
+
+.slide.impact small,
+.slide.statement small {
+	font-size: 0.55em;
+}
+
+
+
+.slide.impact {
+	background: #005A9C;
+	color: #fff;
+}
+
+.slide.impact h2, .slide.impact h3, .slide.impact h4, .slide.impact h5, .slide.impact h6 {
+	color: #fff;
+}
+
+.slide.impact a {
+	color: #6D6E71;
+	text-decoration: none;
+	border-bottom: #6D6E7166 0.05em solid;
+}
+
+.slide.impact a:focus, .slide.impact a:hover, .slide.impact a:active {
+	border-bottom: #6D6E71ee 0.05em solid;
+}
+
+.slide.impact strong {
+	background: #fff;
+	color: #005A9C;
+}
+
+
+
+.slide.statement {
+	background: #6D6E71;
+	color: #fff;
+}
+
+.slide.statement h2, .slide.statement h3, .slide.statement h4, .slide.statement h5, .slide.statement h6 {
+	color: #fff;
+}
+
+.slide.statement a {
+	color: #fff;
+	text-decoration: none;
+	border-bottom: #FFFFFF66 0.05em solid;
+}
+
+.slide.statement a:focus, .slide.statement a:hover, .slide.statement a:active {
+	border-bottom: #FFFFFFee 0.05em solid;
+}
+
+.slide.statement strong {
+	background: #2B8790;
+	color: #fff;
+}
+
+.slide blockquote:before {
+    color: #ABABAB;
+    content: '\201C';
+    font-size: 10rem;
+    font-weight: bold;
+}
+
+.slide *+blockquote {
+	margin-top: 2em;
+}
+
+/* special styles */
+
+.pixelated {
+	-ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+}
+
+/* override for highlight.js */
+code.hljs { overflow-x: visible !important; }
